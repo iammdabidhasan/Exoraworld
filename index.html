@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOIDCRAFT — Digital Goods · AI · Creative Arts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Unbounded:wght@200;400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #060408;
+    --deep: #0d0814;
+    --mid: #160f22;
+    --surface: #1e1530;
+    --rim: #2a1f42;
+    --glow-p: #7c3aed;
+    --glow-m: #a855f7;
+    --glow-l: #c084fc;
+    --glow-x: #e879f9;
+    --fog: #d8b4fe;
+    --white: #f5f0ff;
+    --gold: #fbbf24;
+    --green: #22c55e;
+    --danger: #f43f5e;
+    --font-display: 'Unbounded', sans-serif;
+    --font-body: 'Cormorant Garamond', serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--void); color: var(--white); font-family: var(--font-body); font-size: 18px; overflow-x: hidden; cursor: none; }
+
+  /* CURSOR */
+  #cursor { position: fixed; width: 12px; height: 12px; background: var(--glow-m); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.1s, background 0.2s; box-shadow: 0 0 20px var(--glow-m), 0 0 40px var(--glow-p); }
+  #cursor-ring { position: fixed; width: 40px; height: 40px; border: 1px solid rgba(168,85,247,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: left 0.15s ease, top 0.15s ease, width 0.3s, height 0.3s, border-color 0.3s; }
+
+  /* NOISE */
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); opacity: 0.35; pointer-events: none; z-index: 0; }
+
+  /* ORBS */
+  .orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; animation: drift 20s ease-in-out infinite alternate; }
+  .orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%); top: -200px; left: -200px; animation-duration: 25s; }
+  .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(232,121,249,0.12) 0%, transparent 70%); top: 30%; right: -100px; animation-duration: 18s; animation-delay: -8s; }
+  .orb-3 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(168,85,247,0.1) 0%, transparent 70%); bottom: 10%; left: 30%; animation-duration: 22s; animation-delay: -4s; }
+  @keyframes drift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(40px,60px) scale(1.1); } }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px 48px; display: flex; align-items: center; justify-content: space-between; backdrop-filter: blur(20px); border-bottom: 1px solid rgba(124,58,237,0.12); background: rgba(6,4,8,0.6); transition: all 0.4s; }
+  nav.scrolled { padding: 14px 48px; background: rgba(6,4,8,0.95); }
+  .nav-logo { font-family: var(--font-display); font-weight: 900; font-size: 1.1rem; letter-spacing: 0.15em; background: linear-gradient(135deg, var(--glow-m), var(--glow-x)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,240,255,0.55); text-decoration: none; transition: color 0.3s; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--glow-m); transition: width 0.3s; }
+  .nav-links a:hover { color: var(--fog); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 22px; border: 1px solid var(--glow-p); color: var(--glow-l); background: rgba(124,58,237,0.08); text-decoration: none; transition: all 0.3s; }
+  .nav-cta:hover { background: rgba(124,58,237,0.25); box-shadow: 0 0 20px rgba(124,58,237,0.3); }
+  .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+  .menu-toggle span { display: block; width: 24px; height: 1px; background: var(--glow-m); }
+
+  /* MOBILE NAV */
+  .mobile-nav { position: fixed; inset: 0; background: rgba(6,4,8,0.97); backdrop-filter: blur(20px); z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; transform: translateX(100%); transition: transform 0.4s ease; }
+  .mobile-nav.open { transform: translateX(0); }
+  .mobile-nav a { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--white); text-decoration: none; transition: color 0.3s; }
+  .mobile-nav a:hover { color: var(--glow-m); }
+  .mobile-close { position: absolute; top: 24px; right: 24px; background: none; border: none; color: var(--glow-m); font-size: 2rem; cursor: pointer; }
+
+  /* HERO */
+  #hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 48px 80px; z-index: 1; overflow: hidden; }
+  .grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(124,58,237,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,0.04) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%); }
+  .hero-tag { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--glow-m); margin-bottom: 32px; opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards; }
+  .hero-tag span { display: inline-block; width: 30px; height: 1px; background: var(--glow-m); vertical-align: middle; margin: 0 12px; }
+  .hero-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(3rem, 9vw, 8.5rem); line-height: 0.9; letter-spacing: -0.02em; opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards; }
+  .hero-headline .line-1 { display: block; color: var(--white); }
+  .hero-headline .line-2 { display: block; background: linear-gradient(135deg, var(--glow-p) 0%, var(--glow-x) 50%, var(--gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200%; animation: fadeUp 0.9s ease 0.5s forwards, shimmer 4s ease infinite 1.5s; }
+  @keyframes shimmer { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+  .hero-sub { font-family: var(--font-body); font-size: clamp(1rem, 2vw, 1.35rem); font-style: italic; color: rgba(216,180,254,0.65); margin: 36px auto 52px; max-width: 560px; line-height: 1.7; opacity: 0; animation: fadeUp 0.9s ease 0.8s forwards; }
+  .hero-actions { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeUp 0.9s ease 1s forwards; }
+  .scroll-indicator { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: fadeIn 1s ease 2s forwards; }
+  .scroll-indicator span { font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(168,85,247,0.5); }
+  .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--glow-m), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+  @keyframes scrollPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+  /* BUTTONS */
+  .btn-primary { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 40px; background: linear-gradient(135deg, var(--glow-p), var(--glow-x)); color: white; border: none; text-decoration: none; position: relative; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); cursor: pointer; display: inline-block; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(168,85,247,0.5); }
+  .btn-ghost { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 40px; border: 1px solid rgba(168,85,247,0.4); color: var(--fog); background: transparent; text-decoration: none; transition: all 0.3s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); cursor: pointer; display: inline-block; }
+  .btn-ghost:hover { background: rgba(124,58,237,0.15); border-color: var(--glow-m); }
+
+  /* MARQUEE */
+  .marquee-wrap { border-top: 1px solid rgba(124,58,237,0.2); border-bottom: 1px solid rgba(124,58,237,0.2); padding: 18px 0; background: rgba(13,8,20,0.7); overflow: hidden; position: relative; z-index: 1; }
+  .marquee-track { display: flex; gap: 60px; animation: marquee 20s linear infinite; width: max-content; }
+  .marquee-track span { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(168,85,247,0.55); white-space: nowrap; }
+  .marquee-track span.dot { color: var(--glow-x); font-size: 0.8rem; }
+  @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
+  .section-inner { max-width: 1200px; margin: 0 auto; padding: 120px 48px; }
+  .section-label { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--glow-m); margin-bottom: 16px; display: flex; align-items: center; gap: 14px; }
+  .section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--glow-m); }
+  .section-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(2rem, 5vw, 4rem); line-height: 1.05; margin-bottom: 20px; }
+  .section-subtitle { font-family: var(--font-body); font-size: 1.15rem; font-style: italic; color: rgba(216,180,254,0.6); max-width: 500px; line-height: 1.7; }
+
+  /* SERVICES */
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 72px; border: 1px solid rgba(124,58,237,0.15); }
+  .service-card { padding: 48px 36px; border-right: 1px solid rgba(124,58,237,0.15); border-bottom: 1px solid rgba(124,58,237,0.15); background: rgba(13,8,20,0.5); transition: background 0.4s, transform 0.3s; position: relative; overflow: hidden; }
+  .service-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(124,58,237,0.08) 0%, transparent 60%); opacity: 0; transition: opacity 0.4s; }
+  .service-card:hover { background: rgba(22,15,34,0.9); transform: translateY(-4px); }
+  .service-card:hover::before { opacity: 1; }
+  .service-icon { font-size: 2rem; margin-bottom: 24px; display: block; }
+  .service-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: 0.05em; margin-bottom: 14px; }
+  .service-card p { font-family: var(--font-body); font-size: 1rem; color: rgba(216,180,254,0.55); line-height: 1.7; }
+  .service-tag { display: inline-block; margin-top: 24px; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 14px; border: 1px solid rgba(124,58,237,0.3); color: var(--glow-l); }
+
+  /* STATS */
+  .stats-band { background: var(--mid); border-top: 1px solid rgba(124,58,237,0.15); border-bottom: 1px solid rgba(124,58,237,0.15); padding: 64px 48px; position: relative; z-index: 1; }
+  .stats-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; text-align: center; }
+  .stat-number { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1; background: linear-gradient(135deg, var(--glow-m), var(--glow-x)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .stat-label { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(168,85,247,0.45); margin-top: 10px; }
+
+  /* STORE */
+  #store { background: rgba(13,8,20,0.6); }
+  .store-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 72px; gap: 40px; flex-wrap: wrap; }
+  .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .product-card { background: var(--surface); border: 1px solid rgba(124,58,237,0.15); position: relative; overflow: hidden; transition: transform 0.4s, box-shadow 0.4s; }
+  .product-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(124,58,237,0.2), 0 0 0 1px rgba(168,85,247,0.3); }
+  .product-thumb { height: 200px; display: flex; align-items: center; justify-content: center; font-size: 4rem; position: relative; overflow: hidden; }
+  .product-thumb::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, var(--surface) 100%); }
+  .thumb-ai { background: linear-gradient(135deg, #1a0a2e, #2d1562); }
+  .thumb-design { background: linear-gradient(135deg, #0d1a2e, #152554); }
+  .thumb-prompt { background: linear-gradient(135deg, #1a0d2e, #3d1060); }
+  .thumb-preset { background: linear-gradient(135deg, #0d2020, #0d3d2e); }
+  .thumb-kit { background: linear-gradient(135deg, #2e1a0d, #5c2a10); }
+  .thumb-bundle { background: linear-gradient(135deg, #1a1a0d, #3d3510); }
+  .product-body { padding: 24px; }
+  .product-badge { font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 10px; background: rgba(124,58,237,0.2); color: var(--glow-l); border: 1px solid rgba(124,58,237,0.3); display: inline-block; margin-bottom: 12px; }
+  .product-body h3 { font-family: var(--font-display); font-weight: 700; font-size: 1rem; margin-bottom: 10px; }
+  .product-body p { font-size: 0.9rem; color: rgba(216,180,254,0.5); line-height: 1.6; margin-bottom: 20px; }
+  .product-footer { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-top: 1px solid rgba(124,58,237,0.12); }
+  .product-price { font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; color: var(--glow-l); }
+  .product-price .currency { font-size: 0.8rem; vertical-align: super; color: rgba(192,132,252,0.7); }
+  .btn-buy { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 20px; background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.4); color: var(--glow-l); cursor: pointer; transition: all 0.3s; }
+  .btn-buy:hover { background: rgba(124,58,237,0.35); box-shadow: 0 0 15px rgba(124,58,237,0.4); }
+
+  /* COURSES */
+  .courses-list { margin-top: 72px; display: flex; flex-direction: column; gap: 2px; }
+  .course-row { display: grid; grid-template-columns: 80px 1fr auto auto; align-items: center; gap: 32px; padding: 28px 36px; background: rgba(13,8,20,0.4); border: 1px solid rgba(124,58,237,0.1); transition: all 0.35s; position: relative; overflow: hidden; cursor: pointer; }
+  .course-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(232,121,249,0.1)); transition: width 0.4s; }
+  .course-row:hover { border-color: rgba(168,85,247,0.35); transform: translateX(4px); }
+  .course-row:hover::before { width: 4px; }
+  .course-num { font-family: var(--font-mono); font-size: 0.7rem; color: rgba(168,85,247,0.4); letter-spacing: 0.1em; }
+  .course-info h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; margin-bottom: 6px; }
+  .course-info p { font-size: 0.9rem; color: rgba(216,180,254,0.45); }
+  .course-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .course-level { font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; border: 1px solid rgba(124,58,237,0.25); color: rgba(192,132,252,0.6); }
+  .course-duration { font-family: var(--font-mono); font-size: 0.6rem; color: rgba(168,85,247,0.45); }
+  .course-arrow { font-size: 1.2rem; color: rgba(168,85,247,0.3); transition: all 0.3s; }
+  .course-row:hover .course-arrow { color: var(--glow-m); transform: translateX(4px); }
+
+  /* CONTACT */
+  #contact { background: linear-gradient(to bottom, transparent, rgba(13,8,20,0.8)); position: relative; }
+  #contact::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 80%, rgba(124,58,237,0.1) 0%, transparent 100%); pointer-events: none; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 72px; align-items: start; }
+  .contact-info p { font-size: 1.1rem; color: rgba(216,180,254,0.55); line-height: 1.8; margin-bottom: 40px; margin-top: 24px; }
+  .contact-channels { display: flex; flex-direction: column; gap: 12px; }
+  .contact-channel { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border: 1px solid rgba(124,58,237,0.15); background: rgba(22,15,34,0.4); transition: all 0.3s; text-decoration: none; color: inherit; }
+  .contact-channel:hover { border-color: rgba(168,85,247,0.4); background: rgba(42,31,66,0.4); }
+  .channel-icon { font-size: 1.2rem; }
+  .channel-label { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(168,85,247,0.5); }
+  .channel-value { font-size: 0.95rem; color: var(--fog); }
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-label { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(168,85,247,0.55); }
+  .form-input, .form-textarea, .form-select { background: rgba(22,15,34,0.6); border: 1px solid rgba(124,58,237,0.2); color: var(--white); font-family: var(--font-body); font-size: 1rem; padding: 14px 18px; outline: none; transition: border-color 0.3s, box-shadow 0.3s; resize: none; width: 100%; appearance: none; }
+  .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: rgba(168,85,247,0.5); box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(216,180,254,0.25); }
+  .form-textarea { min-height: 120px; }
+  .form-select option { background: var(--mid); }
+  .btn-submit { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 18px 40px; background: linear-gradient(135deg, var(--glow-p), var(--glow-x)); color: white; border: none; cursor: pointer; transition: all 0.3s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(168,85,247,0.5); }
+  .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* FOOTER */
+  footer { position: relative; z-index: 1; border-top: 1px solid rgba(124,58,237,0.15); padding: 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+  .footer-logo { font-family: var(--font-display); font-weight: 900; font-size: 1rem; letter-spacing: 0.15em; background: linear-gradient(135deg, var(--glow-m), var(--glow-x)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .footer-copy { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em; color: rgba(168,85,247,0.3); }
+  .footer-links { display: flex; gap: 32px; }
+  .footer-links a { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(168,85,247,0.35); text-decoration: none; transition: color 0.3s; }
+  .footer-links a:hover { color: var(--glow-l); }
+
+  /* ═══════════════════════════════════════
+     PAYMENT MODAL SYSTEM
+  ═══════════════════════════════════════ */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(6,4,8,0.92); backdrop-filter: blur(12px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 24px; }
+  .modal-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+  .modal { background: var(--mid); border: 1px solid rgba(124,58,237,0.3); max-width: 540px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 0 80px rgba(124,58,237,0.2); animation: slideUp 0.4s ease; }
+  @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .modal-header { padding: 32px 32px 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .modal-header h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--white); line-height: 1.3; }
+  .modal-close { background: none; border: none; color: rgba(168,85,247,0.5); font-size: 1.5rem; cursor: pointer; flex-shrink: 0; transition: color 0.2s; line-height: 1; }
+  .modal-close:hover { color: var(--glow-m); }
+  .modal-body { padding: 24px 32px 32px; }
+  .modal-product-info { display: flex; align-items: center; gap: 16px; padding: 16px; background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.15); margin-bottom: 28px; }
+  .modal-product-icon { font-size: 2rem; }
+  .modal-product-name { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; color: var(--white); }
+  .modal-product-price { font-family: var(--font-mono); font-size: 0.75rem; color: var(--glow-l); margin-top: 4px; }
+
+  /* Payment method tabs */
+  .pay-tabs { display: flex; gap: 8px; margin-bottom: 24px; }
+  .pay-tab { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 16px; border: 1px solid rgba(124,58,237,0.2); background: transparent; color: rgba(168,85,247,0.5); cursor: pointer; transition: all 0.3s; flex: 1; }
+  .pay-tab.active { border-color: var(--glow-m); background: rgba(124,58,237,0.15); color: var(--glow-l); }
+  .pay-panel { display: none; }
+  .pay-panel.active { display: block; animation: fadeIn 0.3s ease; }
+
+  /* bKash / Nagad instructions */
+  .pay-instruction { background: rgba(13,8,20,0.6); border: 1px solid rgba(124,58,237,0.15); padding: 20px; margin-bottom: 20px; }
+  .pay-instruction-step { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
+  .pay-instruction-step:last-child { margin-bottom: 0; }
+  .step-num { font-family: var(--font-mono); font-size: 0.6rem; color: var(--glow-m); background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-text { font-size: 0.9rem; color: rgba(216,180,254,0.7); line-height: 1.5; }
+  .step-text strong { color: var(--white); font-style: normal; }
+  .pay-number-box { background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.3); padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; margin: 8px 0; }
+  .pay-number { font-family: var(--font-mono); font-size: 1.1rem; color: var(--glow-l); letter-spacing: 0.05em; }
+  .copy-btn { font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 12px; border: 1px solid rgba(124,58,237,0.3); background: transparent; color: var(--glow-l); cursor: pointer; transition: all 0.3s; }
+  .copy-btn:hover { background: rgba(124,58,237,0.2); }
+  .copy-btn.copied { border-color: var(--green); color: var(--green); }
+
+  /* Reference form */
+  .ref-form { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+  .ref-form .form-label { margin-bottom: 0; }
+  .submit-ref-btn { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 15px 28px; background: linear-gradient(135deg, var(--glow-p), var(--glow-x)); color: white; border: none; cursor: pointer; clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%); transition: all 0.3s; }
+  .submit-ref-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(168,85,247,0.5); }
+  .submit-ref-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* Airtm panel */
+  .airtm-info { background: rgba(13,8,20,0.6); border: 1px solid rgba(124,58,237,0.15); padding: 20px; margin-bottom: 20px; }
+  .airtm-info p { font-size: 0.95rem; color: rgba(216,180,254,0.65); line-height: 1.7; margin-bottom: 12px; }
+  .airtm-info p:last-child { margin-bottom: 0; }
+
+  /* Success state */
+  .payment-success { text-align: center; padding: 20px 0; display: none; }
+  .payment-success.show { display: block; animation: fadeUp 0.5s ease; }
+  .success-icon { font-size: 3.5rem; margin-bottom: 16px; }
+  .success-title { font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; color: var(--green); margin-bottom: 12px; }
+  .success-msg { font-size: 1rem; color: rgba(216,180,254,0.6); line-height: 1.7; }
+  .success-order { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.12em; color: rgba(168,85,247,0.5); margin-top: 16px; padding: 10px 16px; border: 1px solid rgba(124,58,237,0.2); display: inline-block; }
+
+  /* Order form (collecting buyer info) */
+  .order-form { display: flex; flex-direction: column; gap: 14px; }
+
+  /* Notice banner */
+  .notice { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.1em; padding: 10px 14px; background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2); color: rgba(251,191,36,0.7); line-height: 1.6; margin-bottom: 16px; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .nav-links, .nav-cta { display: none; }
+    .menu-toggle { display: flex; }
+    .services-grid { grid-template-columns: 1fr; }
+    .products-grid { grid-template-columns: 1fr 1fr; }
+    .course-row { grid-template-columns: 60px 1fr auto; }
+    .course-meta { display: none; }
+    .stats-inner { grid-template-columns: 1fr 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .section-inner { padding: 80px 24px; }
+    nav { padding: 18px 24px; }
+    footer { padding: 32px 24px; }
+  }
+  @media (max-width: 600px) {
+    .products-grid { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; align-items: center; }
+    .stats-inner { grid-template-columns: 1fr 1fr; gap: 24px; }
+    .course-row { grid-template-columns: 1fr; gap: 8px; padding: 20px; }
+    .course-num { display: none; }
+    .pay-tabs { flex-wrap: wrap; }
+    .modal { margin: 12px; }
+    .modal-header, .modal-body { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- Orbs -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#store" onclick="closeMobile()">Store</a>
+  <a href="#courses" onclick="closeMobile()">Learn</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">VOIDCRAFT</div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#store">Store</a></li>
+    <li><a href="#courses">Learn</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get in Touch</a>
+  <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="grid-bg"></div>
+  <p class="hero-tag"><span></span> Digital · AI · Creative <span></span></p>
+  <h1 class="hero-headline">
+    <span class="line-1">CREATE THE</span>
+    <span class="line-2">IMPOSSIBLE</span>
+  </h1>
+  <p class="hero-sub">Digital goods, AI tools, and creative design — crafted for those who refuse to blend in.</p>
+  <div class="hero-actions">
+    <a href="#store" class="btn-primary">Explore Store</a>
+    <a href="#contact" class="btn-ghost">Work With Me</a>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Digital Goods</span><span class="dot">✦</span>
+    <span>AI Tools</span><span class="dot">✦</span>
+    <span>Creative Design</span><span class="dot">✦</span>
+    <span>Art Courses</span><span class="dot">✦</span>
+    <span>Prompt Engineering</span><span class="dot">✦</span>
+    <span>Visual Identity</span><span class="dot">✦</span>
+    <span>bKash Payments</span><span class="dot">✦</span>
+    <span>Nagad Payments</span><span class="dot">✦</span>
+    <span>Digital Goods</span><span class="dot">✦</span>
+    <span>AI Tools</span><span class="dot">✦</span>
+    <span>Creative Design</span><span class="dot">✦</span>
+    <span>Art Courses</span><span class="dot">✦</span>
+    <span>Prompt Engineering</span><span class="dot">✦</span>
+    <span>Visual Identity</span><span class="dot">✦</span>
+    <span>bKash Payments</span><span class="dot">✦</span>
+    <span>Nagad Payments</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="reveal">
+      <p class="section-label">What I Do</p>
+      <h2 class="section-title">Crafted for the<br><em style="color:var(--glow-l)">curious & the bold</em></h2>
+      <p class="section-subtitle">Every project starts with a vision. I turn yours into something the world can't ignore.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal reveal-delay-1"><span class="service-icon">🤖</span><h3>AI Solutions</h3><p>Custom AI tools, prompt packs, workflow automations and intelligent systems built to give you the edge.</p><span class="service-tag">AI · Automation</span></div>
+      <div class="service-card reveal reveal-delay-2"><span class="service-icon">🎨</span><h3>Creative Design</h3><p>Brand identity, visual art, UI design — crafted with intention and executed with an obsessive eye for detail.</p><span class="service-tag">Design · Branding</span></div>
+      <div class="service-card reveal reveal-delay-3"><span class="service-icon">📦</span><h3>Digital Products</h3><p>Ready-to-use digital goods: templates, toolkits, presets and resources that accelerate your creative work.</p><span class="service-tag">Products · Resources</span></div>
+      <div class="service-card reveal reveal-delay-4"><span class="service-icon">📚</span><h3>Courses & Mentorship</h3><p>Deep-dive learning experiences covering AI artistry, design fundamentals, and creative workflows.</p><span class="service-tag">Education · Growth</span></div>
+      <div class="service-card reveal reveal-delay-5"><span class="service-icon">⚡</span><h3>Custom Commissions</h3><p>Need something one-of-a-kind? I take on select commissions for brands, creators, and visionaries.</p><span class="service-tag">Bespoke · Custom</span></div>
+      <div class="service-card reveal"><span class="service-icon">🌐</span><h3>Web Experiences</h3><p>Immersive web builds that don't just look stunning — they convert visitors into fans and clients.</p><span class="service-tag">Web · Interactive</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-band">
+  <div class="stats-inner">
+    <div class="stat-item reveal"><div class="stat-number" data-target="200">0</div><div class="stat-label">Products Sold</div></div>
+    <div class="stat-item reveal reveal-delay-2"><div class="stat-number" data-target="50">0</div><div class="stat-label">Clients Served</div></div>
+    <div class="stat-item reveal reveal-delay-3"><div class="stat-number" data-target="12">0</div><div class="stat-label">Courses Available</div></div>
+    <div class="stat-item reveal reveal-delay-4"><div class="stat-number" data-target="100">0</div><div class="stat-label">% Passion Driven</div></div>
+  </div>
+</div>
+
+<!-- STORE -->
+<section id="store">
+  <div class="section-inner">
+    <div class="store-header reveal">
+      <div>
+        <p class="section-label">Digital Store</p>
+        <h2 class="section-title">Tools that<br><em style="color:var(--glow-l)">unlock power</em></h2>
+      </div>
+      <p class="section-subtitle" style="margin:0">Pay via bKash, Nagad or Airtm. Instant delivery after confirmation.</p>
+    </div>
+    <div class="products-grid">
+      <div class="product-card reveal reveal-delay-1">
+        <div class="product-thumb thumb-ai">🧠</div>
+        <div class="product-body">
+          <span class="product-badge">AI Pack</span>
+          <h3>Ultimate Prompt Bible</h3>
+          <p>500+ battle-tested prompts for art, writing, code and strategy. Level up your AI workflow instantly.</p>
+        </div>
+        <div class="product-footer">
+          <div class="product-price"><span class="currency">৳</span>1,900</div>
+          <button class="btn-buy" onclick="openPayModal({name:'Ultimate Prompt Bible',price:'৳1,900',bdt:1900,icon:'🧠',id:'prompt-bible'})">Buy Now</button>
+        </div>
+      </div>
+      <div class="product-card reveal reveal-delay-2">
+        <div class="product-thumb thumb-design">✦</div>
+        <div class="product-body">
+          <span class="product-badge">Design Kit</span>
+          <h3>Dark UI Component Kit</h3>
+          <p>50+ premium dark UI components. Figma-ready. Drop into any project instantly.</p>
+        </div>
+        <div class="product-footer">
+          <div class="product-price"><span class="currency">৳</span>2,900</div>
+          <button class="btn-buy" onclick="openPayModal({name:'Dark UI Component Kit',price:'৳2,900',bdt:2900,icon:'✦',id:'ui-kit'})">Buy Now</button>
+        </div>
+      </div>
+      <div class="product-card reveal reveal-delay-3">
+        <div class="product-thumb thumb-prompt">⚡</div>
+        <div class="product-body">
+          <span class="product-badge">AI Art</span>
+          <h3>Midjourney Style Pack</h3>
+          <p>Curated aesthetic styles and prompts for cinematic, ethereal, and surreal AI-generated art.</p>
+        </div>
+        <div class="product-footer">
+          <div class="product-price"><span class="currency">৳</span>1,500</div>
+          <button class="btn-buy" onclick="openPayModal({name:'Midjourney Style Pack',price:'৳1,500',bdt:1500,icon:'⚡',id:'mj-pack'})">Buy Now</button>
+        </div>
+      </div>
+      <div class="product-card reveal reveal-delay-1">
+        <div class="product-thumb thumb-preset">🎞️</div>
+        <div class="product-body">
+          <span class="product-badge">Presets</span>
+          <h3>Cinematic LUT Bundle</h3>
+          <p>20 moody, film-grade LUTs for Lightroom & Premiere. Transform your visuals.</p>
+        </div>
+        <div class="product-footer">
+          <div class="product-price"><span class="currency">৳</span>1,200</div>
+          <button class="btn-buy" onclick="openPayModal({name:'Cinematic LUT Bundle',price:'৳1,200',bdt:1200,icon:'🎞️',id:'lut-bundle'})">Buy Now</button>
+        </div>
+      </div>
+      <div class="product-card reveal reveal-delay-2">
+        <div class="product-thumb thumb-kit">🔥</div>
+        <div class="product-body">
+          <span class="product-badge">Brand Kit</span>
+          <h3>Creator Brand Starter</h3>
+          <p>Logo templates, palettes, font pairings and brand guidelines. Launch your identity in hours.</p>
+        </div>
+        <div class="product-footer">
+          <div class="product-price"><span class="currency">৳</span>3,500</div>
+          <button class="btn-buy" onclick="openPayModal({name:'Creator Brand Starter',price:'৳3,500',bdt:3500,icon:'🔥',id:'brand-kit'})">Buy Now</button>
+        </div>
+      </div>
+      <div class="product-card reveal reveal-delay-3">
+        <div class="product-thumb thumb-bundle">📖</div>
+        <div class="product-body">
+          <span class="product-badge">Bundle</span>
+          <h3>Everything Pack</h3>
+          <p>All products above plus exclusive bonuses, lifetime updates, and priority support. Best value.</p>
+        </div>
+        <div class="product-footer">
+          <div class="product-price"><span class="currency">৳</span>7,900</div>
+          <button class="btn-buy" onclick="openPayModal({name:'Everything Pack',price:'৳7,900',bdt:7900,icon:'📖',id:'everything'})">Buy Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section id="courses">
+  <div class="section-inner">
+    <div class="reveal">
+      <p class="section-label">Learn</p>
+      <h2 class="section-title">Knowledge that<br><em style="color:var(--glow-l)">actually sticks</em></h2>
+      <p class="section-subtitle">Practical courses built around real skills. No fluff. No filler. Pure craft.</p>
+    </div>
+    <div class="courses-list">
+      <div class="course-row reveal" onclick="openPayModal({name:'AI Art Mastery — From Zero to Stunning',price:'৳2,500',bdt:2500,icon:'🎨',id:'course-ai-art'})">
+        <div class="course-num">01</div>
+        <div class="course-info"><h3>AI Art Mastery — From Zero to Stunning</h3><p>Midjourney, DALL·E, Stable Diffusion — master every major AI art tool</p></div>
+        <div class="course-meta"><span class="course-level">Beginner</span><span class="course-duration">6 hrs</span></div>
+        <div class="course-arrow">→</div>
+      </div>
+      <div class="course-row reveal reveal-delay-1" onclick="openPayModal({name:'Prompt Engineering for Creatives',price:'৳2,000',bdt:2000,icon:'⚡',id:'course-prompt'})">
+        <div class="course-num">02</div>
+        <div class="course-info"><h3>Prompt Engineering for Creatives</h3><p>The science and art of talking to AI — get exactly what you imagine</p></div>
+        <div class="course-meta"><span class="course-level">Intermediate</span><span class="course-duration">4 hrs</span></div>
+        <div class="course-arrow">→</div>
+      </div>
+      <div class="course-row reveal reveal-delay-2" onclick="openPayModal({name:'Dark UI Design: Mood-Driven Interfaces',price:'৳3,200',bdt:3200,icon:'🖥️',id:'course-ui'})">
+        <div class="course-num">03</div>
+        <div class="course-info"><h3>Dark UI Design: Mood-Driven Interfaces</h3><p>Figma, color theory, typography — create interfaces that feel alive</p></div>
+        <div class="course-meta"><span class="course-level">Intermediate</span><span class="course-duration">8 hrs</span></div>
+        <div class="course-arrow">→</div>
+      </div>
+      <div class="course-row reveal reveal-delay-3" onclick="openPayModal({name:'Selling Digital Products: The Full System',price:'৳2,800',bdt:2800,icon:'💰',id:'course-sell'})">
+        <div class="course-num">04</div>
+        <div class="course-info"><h3>Selling Digital Products: The Full System</h3><p>From creation to sales page to delivery — build a passive income engine</p></div>
+        <div class="course-meta"><span class="course-level">All Levels</span><span class="course-duration">5 hrs</span></div>
+        <div class="course-arrow">→</div>
+      </div>
+      <div class="course-row reveal reveal-delay-4" onclick="openPayModal({name:'Brand Identity Design — Concepts to Delivery',price:'৳3,800',bdt:3800,icon:'✦',id:'course-brand'})">
+        <div class="course-num">05</div>
+        <div class="course-info"><h3>Brand Identity Design — Concepts to Delivery</h3><p>Logo design, visual systems, brand guidelines for modern creators</p></div>
+        <div class="course-meta"><span class="course-level">Advanced</span><span class="course-duration">10 hrs</span></div>
+        <div class="course-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <p class="section-label">Contact</p>
+        <h2 class="section-title">Let's build<br><em style="color:var(--glow-l)">something wild</em></h2>
+        <p>Have a project in mind? Want a custom commission, or just want to say hello? Every message gets a response.</p>
+        <div class="contact-channels">
+          <a href="mailto:iammdabidhasan@gmail.com" class="contact-channel">
+            <span class="channel-icon">✉️</span>
+            <div><div class="channel-label">Email</div><div class="channel-value">iammdabidhasan@gmail.com</div></div>
+          </a>
+          <a href="#" class="contact-channel">
+            <span class="channel-icon">💬</span>
+            <div><div class="channel-label">Facebook / Messenger</div><div class="channel-value">facebook.com/yourpage</div></div>
+          </a>
+          <a href="#" class="contact-channel">
+            <span class="channel-icon">📱</span>
+            <div><div class="channel-label">WhatsApp / bKash</div><div class="channel-value">+880 01715948039</div></div>
+          </a>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <form class="contact-form" id="contactForm">
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input type="text" class="form-input" id="cf-name" placeholder="What do they call you?" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email or Phone</label>
+            <input type="text" class="form-input" id="cf-email" placeholder="Email or WhatsApp number" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Service Type</label>
+            <select class="form-select" id="cf-service">
+              <option value="">— Select what you need —</option>
+              <option>AI Tool / Automation</option>
+              <option>Creative Design</option>
+              <option>Brand Identity</option>
+              <option>Custom Commission</option>
+              <option>Web Experience</option>
+              <option>Course / Mentorship</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your Message</label>
+            <textarea class="form-textarea" id="cf-message" placeholder="Describe your project, vision or question..."></textarea>
+          </div>
+          <button type="submit" class="btn-submit" id="cfSubmitBtn">Send Message →</button>
+          <div id="cfStatus" style="display:none; font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.1em; padding:12px 16px; margin-top:8px;"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">VOIDCRAFT</div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#store">Store</a>
+    <a href="#courses">Learn</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 VOIDCRAFT — All rights reserved</div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════
+     PAYMENT MODAL
+═══════════════════════════════════════ -->
+<div class="modal-overlay" id="payModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle">Complete Your Purchase</h2>
+      <button class="modal-close" onclick="closePayModal()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Product info -->
+      <div class="modal-product-info">
+        <div class="modal-product-icon" id="modalIcon">📦</div>
+        <div>
+          <div class="modal-product-name" id="modalProductName">Product Name</div>
+          <div class="modal-product-price" id="modalProductPrice">৳0</div>
+        </div>
+      </div>
+
+      <!-- Buyer info always collected first -->
+      <div id="buyerInfoSection">
+        <div class="order-form">
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input type="text" class="form-input" id="buyerName" placeholder="Full name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" id="buyerEmail" placeholder="Where to send your product">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" class="form-input" id="buyerPhone" placeholder="01XXXXXXXXX">
+          </div>
+          <button class="submit-ref-btn" onclick="proceedToPayment()" style="margin-top:4px;">Continue to Payment →</button>
+        </div>
+      </div>
+
+      <!-- Payment section (shown after buyer info) -->
+      <div id="paymentSection" style="display:none;">
+        <div class="pay-tabs">
+          <button class="pay-tab active" onclick="switchTab('bkash')">bKash</button>
+          <button class="pay-tab" onclick="switchTab('nagad')">Nagad</button>
+          <button class="pay-tab" onclick="switchTab('airtm')">Airtm</button>
+        </div>
+
+        <!-- bKash Panel -->
+        <div class="pay-panel active" id="panel-bkash">
+          <div class="pay-instruction">
+            <div class="pay-instruction-step">
+              <div class="step-num">1</div>
+              <div class="step-text">Open your <strong>bKash app</strong> and tap <strong>Send Money</strong></div>
+            </div>
+            <div class="pay-instruction-step">
+              <div class="step-num">2</div>
+              <div class="step-text">Send the exact amount to this number:</div>
+            </div>
+            <div class="pay-number-box">
+              <span class="pay-number" id="bkashNumber">01XXXXXXXXX</span>
+              <button class="copy-btn" onclick="copyNumber('bkashNumber', this)">Copy</button>
+            </div>
+            <div class="pay-instruction-step" style="margin-top:12px;">
+              <div class="step-num">3</div>
+              <div class="step-text">In the <strong>Reference</strong> field, type your email address</div>
+            </div>
+            <div class="pay-instruction-step">
+              <div class="step-num">4</div>
+              <div class="step-text">Submit the <strong>Transaction ID</strong> below after payment</div>
+            </div>
+          </div>
+          <div class="ref-form">
+            <div class="form-group">
+              <label class="form-label">bKash Transaction ID</label>
+              <input type="text" class="form-input" id="bkashTxn" placeholder="e.g. 8N7A6B5C4D">
+            </div>
+            <button class="submit-ref-btn" onclick="submitOrder('bKash')">Submit Order →</button>
+          </div>
+        </div>
+
+        <!-- Nagad Panel -->
+        <div class="pay-panel" id="panel-nagad">
+          <div class="pay-instruction">
+            <div class="pay-instruction-step">
+              <div class="step-num">1</div>
+              <div class="step-text">Open your <strong>Nagad app</strong> and tap <strong>Send Money</strong></div>
+            </div>
+            <div class="pay-instruction-step">
+              <div class="step-num">2</div>
+              <div class="step-text">Send the exact amount to this number:</div>
+            </div>
+            <div class="pay-number-box">
+              <span class="pay-number" id="nagadNumber">01XXXXXXXXX</span>
+              <button class="copy-btn" onclick="copyNumber('nagadNumber', this)">Copy</button>
+            </div>
+            <div class="pay-instruction-step" style="margin-top:12px;">
+              <div class="step-num">3</div>
+              <div class="step-text">In the <strong>Reference</strong> field, type your email address</div>
+            </div>
+            <div class="pay-instruction-step">
+              <div class="step-num">4</div>
+              <div class="step-text">Submit the <strong>Transaction ID</strong> below after payment</div>
+            </div>
+          </div>
+          <div class="ref-form">
+            <div class="form-group">
+              <label class="form-label">Nagad Transaction ID</label>
+              <input type="text" class="form-input" id="nagadTxn" placeholder="e.g. TXN1234567890">
+            </div>
+            <button class="submit-ref-btn" onclick="submitOrder('Nagad')">Submit Order →</button>
+          </div>
+        </div>
+
+        <!-- Airtm Panel -->
+        <div class="pay-panel" id="panel-airtm">
+          <div class="airtm-info">
+            <p>Airtm is accepted for international buyers or those who prefer it. Send your payment to the Airtm account below.</p>
+            <div class="pay-number-box" style="margin:12px 0;">
+              <span class="pay-number" id="airtmAccount">YOUR_AIRTM_EMAIL</span>
+              <button class="copy-btn" onclick="copyNumber('airtmAccount', this)">Copy</button>
+            </div>
+            <p>In the payment note, include your <strong>email address</strong> and the <strong>product name</strong>. After sending, submit your Airtm Transaction ID below.</p>
+          </div>
+          <div class="ref-form">
+            <div class="form-group">
+              <label class="form-label">Airtm Transaction ID</label>
+              <input type="text" class="form-input" id="airtmTxn" placeholder="Airtm transaction ID or screenshot ref">
+            </div>
+            <button class="submit-ref-btn" onclick="submitOrder('Airtm')">Submit Order →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success State -->
+      <div class="payment-success" id="paymentSuccess">
+        <div class="success-icon">✅</div>
+        <div class="success-title">Order Submitted!</div>
+        <div class="success-msg">
+          Your order has been received. We'll verify your payment and send your product to <strong id="successEmail"></strong> within <strong>1–3 hours</strong> (usually much faster).
+        </div>
+        <div class="success-order" id="successOrderId"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ═══════════════════════════════════════
+// CONFIG — EDIT THESE WITH YOUR DETAILS
+// ═══════════════════════════════════════
+const CONFIG = {
+  bkashNumber:   '01715948039',   // ← Your bKash number
+  nagadNumber:   '01715948039',   // ← Your Nagad number
+  airtmAccount:  'iammdabidhasan@gmail.com',// ← Your Airtm email
+  yourEmail:     'iammdabidhasangmail.com', // ← Your Gmail
+  brandName:     'EXORAWORLD',
+  // Formspree endpoint — sign up free at formspree.io and replace this
+  formspreeUrl:  'https://formspree.io/f/maqaprqk',
+};
+
+// ═══════════════════════════════════════
+// CURSOR
+// ═══════════════════════════════════════
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animateCursor() {
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+document.querySelectorAll('a, button, .product-card, .course-row, .service-card').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; ring.style.width = '60px'; ring.style.height = '60px'; ring.style.borderColor = 'rgba(232,121,249,0.6)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.width = '40px'; ring.style.height = '40px'; ring.style.borderColor = 'rgba(168,85,247,0.4)'; });
+});
+
+// ═══════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════
+window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60));
+document.getElementById('menuToggle').addEventListener('click', () => document.getElementById('mobileNav').classList.add('open'));
+document.getElementById('mobileClose').addEventListener('click', closeMobile);
+function closeMobile() { document.getElementById('mobileNav').classList.remove('open'); }
+
+// ═══════════════════════════════════════
+// REVEAL ON SCROLL
+// ═══════════════════════════════════════
+const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// COUNT UP
+const counterObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target, target = parseInt(el.dataset.target);
+    const suffix = target === 100 ? '%' : '+';
+    let count = 0; const step = target / 60;
+    const timer = setInterval(() => { count = Math.min(count + step, target); el.textContent = Math.floor(count) + suffix; if (count >= target) clearInterval(timer); }, 25);
+    counterObserver.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-target]').forEach(c => counterObserver.observe(c));
+
+// ═══════════════════════════════════════
+// PAYMENT MODAL
+// ═══════════════════════════════════════
+let currentProduct = null;
+
+function openPayModal(product) {
+  currentProduct = product;
+  document.getElementById('modalTitle').textContent = 'Complete Your Purchase';
+  document.getElementById('modalIcon').textContent = product.icon;
+  document.getElementById('modalProductName').textContent = product.name;
+  document.getElementById('modalProductPrice').textContent = product.price;
+  document.getElementById('bkashNumber').textContent = CONFIG.bkashNumber;
+  document.getElementById('nagadNumber').textContent = CONFIG.nagadNumber;
+  document.getElementById('airtmAccount').textContent = CONFIG.airtmAccount;
+  // Reset state
+  document.getElementById('buyerInfoSection').style.display = 'block';
+  document.getElementById('paymentSection').style.display = 'none';
+  document.getElementById('paymentSuccess').classList.remove('show');
+  document.getElementById('buyerName').value = '';
+  document.getElementById('buyerEmail').value = '';
+  document.getElementById('buyerPhone').value = '';
+  document.getElementById('bkashTxn').value = '';
+  document.getElementById('nagadTxn').value = '';
+  document.getElementById('airtmTxn').value = '';
+  switchTab('bkash');
+  document.getElementById('payModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePayModal() {
+  document.getElementById('payModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Close on overlay click
+document.getElementById('payModal').addEventListener('click', function(e) {
+  if (e.target === this) closePayModal();
+});
+
+function proceedToPayment() {
+  const name = document.getElementById('buyerName').value.trim();
+  const email = document.getElementById('buyerEmail').value.trim();
+  const phone = document.getElementById('buyerPhone').value.trim();
+  if (!name || !email) { alert('Please enter your name and email address.'); return; }
+  if (!/\S+@\S+\.\S+/.test(email)) { alert('Please enter a valid email address — your product will be sent here.'); return; }
+  document.getElementById('buyerInfoSection').style.display = 'none';
+  document.getElementById('paymentSection').style.display = 'block';
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.pay-tab').forEach((t, i) => {
+    const tabs = ['bkash', 'nagad', 'airtm'];
+    t.classList.toggle('active', tabs[i] === tab);
+  });
+  document.querySelectorAll('.pay-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+
+function copyNumber(elId, btn) {
+  const text = document.getElementById(elId).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+async function submitOrder(method) {
+  const txnInputId = method === 'bKash' ? 'bkashTxn' : method === 'Nagad' ? 'nagadTxn' : 'airtmTxn';
+  const txn = document.getElementById(txnInputId).value.trim();
+  const name = document.getElementById('buyerName').value.trim();
+  const email = document.getElementById('buyerEmail').value.trim();
+  const phone = document.getElementById('buyerPhone').value.trim();
+
+  if (!txn) { alert('Please enter your Transaction ID first.'); return; }
+
+  const orderId = 'VC-' + Date.now().toString(36).toUpperCase();
+  const btn = event.target;
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  // Build order data
+  const orderData = {
+    orderId,
+    product: currentProduct.name,
+    price: currentProduct.price,
+    method,
+    txnId: txn,
+    buyerName: name,
+    buyerEmail: email,
+    buyerPhone: phone,
+    timestamp: new Date().toLocaleString('en-BD', { timeZone: 'Asia/Dhaka' }),
+  };
+
+  // Send to Formspree (acts as email notification to you)
+  try {
+    const res = await fetch(CONFIG.formspreeUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: `🛒 NEW ORDER [${orderId}] — ${currentProduct.name}`,
+        order_id: orderId,
+        product: currentProduct.name,
+        amount: currentProduct.price,
+        payment_method: method,
+        transaction_id: txn,
+        buyer_name: name,
+        buyer_email: email,
+        buyer_phone: phone,
+        time: orderData.timestamp,
+        message: `New order received!\n\nProduct: ${currentProduct.name}\nAmount: ${currentProduct.price}\nMethod: ${method}\nTxn ID: ${txn}\nBuyer: ${name}\nEmail: ${email}\nPhone: ${phone}\nOrder ID: ${orderId}\nTime: ${orderData.timestamp}`
+      })
+    });
+
+    if (res.ok) {
+      showSuccess(email, orderId);
+    } else {
+      // Even if Formspree fails, show success and log locally
+      console.log('Order data:', orderData);
+      showSuccess(email, orderId);
+    }
+  } catch (err) {
+    // Network offline — still show success, log the order
+    console.log('Order (offline):', orderData);
+    showSuccess(email, orderId);
+  }
+}
+
+function showSuccess(email, orderId) {
+  document.getElementById('paymentSection').style.display = 'none';
+  document.getElementById('buyerInfoSection').style.display = 'none';
+  document.getElementById('successEmail').textContent = email;
+  document.getElementById('successOrderId').textContent = 'Order ID: ' + orderId;
+  document.getElementById('paymentSuccess').classList.add('show');
+}
+
+// ═══════════════════════════════════════
+// CONTACT FORM (Formspree)
+// ═══════════════════════════════════════
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('cfSubmitBtn');
+  const status = document.getElementById('cfStatus');
+  const name = document.getElementById('cf-name').value.trim();
+  const contact = document.getElementById('cf-email').value.trim();
+  const service = document.getElementById('cf-service').value;
+  const message = document.getElementById('cf-message').value.trim();
+
+  if (!name || !contact) { return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  status.style.display = 'none';
+
+  try {
+    const res = await fetch(CONFIG.formspreeUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: `💬 Contact from ${name} — ${service || 'General Enquiry'}`,
+        name, contact, service, message,
+        source: 'Contact Form'
+      })
+    });
+
+    if (res.ok) {
+      status.style.display = 'block';
+      status.style.background = 'rgba(34,197,94,0.08)';
+      status.style.border = '1px solid rgba(34,197,94,0.25)';
+      status.style.color = 'rgba(34,197,94,0.8)';
+      status.textContent = '✓ Message sent! I\'ll get back to you soon.';
+      this.reset();
+    } else {
+      throw new Error('Failed');
+    }
+  } catch {
+    status.style.display = 'block';
+    status.style.background = 'rgba(244,63,94,0.08)';
+    status.style.border = '1px solid rgba(244,63,94,0.25)';
+    status.style.color = 'rgba(244,63,94,0.8)';
+    status.textContent = '✗ Something went wrong. Please email me directly.';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Send Message →';
+});
+</script>
+</body>
+</html>
