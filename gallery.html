@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery — ExoraWorld</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@200;300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#05040a; --bg2:#090714; --bg3:#0f0b1e;
+    --surface:#1c1530; --surface2:#251d3d;
+    --border:rgba(139,92,246,0.14); --border2:rgba(255,255,255,0.08);
+    --text:#faf8f2; --text2:rgba(196,181,253,0.7); --text3:rgba(196,181,253,0.35);
+    --accent:#8b5cf6; --accent2:#a78bfa;
+    --accent-dim:rgba(139,92,246,0.12); --accent-glow:rgba(139,92,246,0.25);
+    --pink:#ec4899; --teal:#06b6d4; --gold:#f59e0b;
+    --red:#e05a5a;
+    --r:12px; --r2:20px;
+    --f-disp:'Bricolage Grotesque',sans-serif;
+    --f-serif:'Instrument Serif',serif;
+    --f-mono:'DM Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:var(--f-disp);font-size:15px;line-height:1.6;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.4;}
+  ::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-track{background:var(--bg);} ::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:3px;}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,4,10,0.85);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border);transition:all 0.3s;}
+  nav.scrolled{height:56px;background:rgba(5,4,10,0.97);}
+  .nav-logo{font-family:var(--f-disp);font-size:20px;font-weight:800;letter-spacing:-0.02em;color:var(--text);text-decoration:none;background:linear-gradient(135deg,var(--text) 30%,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .nav-logo span{background:linear-gradient(135deg,var(--accent),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .nav-back{font-family:var(--f-mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color 0.2s;}
+  .nav-back:hover{color:var(--accent2);}
+  .nav-links{display:flex;align-items:center;gap:4px;list-style:none;}
+  .nav-links a{font-family:var(--f-mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);text-decoration:none;padding:7px 14px;transition:all 0.25s;}
+  .nav-links a:hover{color:var(--text);}
+  .nav-btn{background:var(--accent)!important;color:#fff!important;padding:8px 20px;border-radius:2px;font-weight:500!important;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 40px 60px;position:relative;text-align:center;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;z-index:0;}
+  .orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.11;animation:float 8s ease-in-out infinite alternate;}
+  .o1{width:700px;height:700px;background:#6d28d9;top:-200px;left:-200px;animation-delay:0s;}
+  .o2{width:400px;height:400px;background:#ec4899;bottom:-50px;right:5%;animation-delay:-3s;}
+  .o3{width:300px;height:300px;background:#06b6d4;top:35%;right:-50px;animation-delay:-5s;}
+  @keyframes float{0%{transform:translate(0,0) scale(1);}100%{transform:translate(30px,40px) scale(1.08);}}
+  .hero-content{position:relative;z-index:1;max-width:780px;}
+  .hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-dim);border:1px solid rgba(139,92,246,0.3);border-radius:2px;padding:6px 16px;font-family:var(--f-mono);font-size:0.58rem;color:var(--accent2);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:28px;animation:fiu 0.6s ease both;}
+  h1.hero-title{font-family:var(--f-disp);font-size:clamp(48px,7vw,82px);font-weight:700;line-height:1.05;letter-spacing:-0.03em;margin-bottom:20px;animation:fiu 0.6s 0.1s ease both;}
+  h1.hero-title em{font-style:italic;font-family:var(--f-serif);font-weight:400;color:var(--accent2);}
+  .hero-sub{color:var(--text2);font-size:17px;font-weight:300;max-width:480px;margin:0 auto 40px;animation:fiu 0.6s 0.2s ease both;}
+  @keyframes fiu{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+  /* SEARCH */
+  .search-container{width:100%;max-width:660px;margin:0 auto 16px;animation:fiu 0.6s 0.3s ease both;}
+  .search-wrap{display:flex;align-items:center;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:2px;padding:6px 6px 6px 24px;transition:all 0.3s;backdrop-filter:blur(10px);}
+  .search-wrap:focus-within{border-color:rgba(139,92,246,0.5);background:rgba(255,255,255,0.06);box-shadow:0 0 0 4px var(--accent-dim);}
+  .si{color:var(--text3);margin-right:12px;flex-shrink:0;}
+  .search-input{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:var(--f-disp);font-size:15px;padding:10px 0;}
+  .search-input::placeholder{color:var(--text3);}
+  .search-btn{background:var(--accent);color:#fff;border:none;border-radius:2px;padding:12px 28px;font-family:var(--f-mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:all 0.2s;flex-shrink:0;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);}
+  .search-btn:hover{background:var(--accent2);}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px;animation:fiu 0.6s 0.4s ease both;}
+  .chip{background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:6px 14px;font-family:var(--f-mono);font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-block;}
+  .chip:hover{border-color:var(--accent);color:var(--accent2);background:var(--accent-dim);}
+
+  /* STATS */
+  .hero-stats{display:flex;gap:40px;margin-top:48px;justify-content:center;animation:fiu 0.6s 0.5s ease both;}
+  .stat{text-align:center;}
+  .stat-num{font-family:var(--f-disp);font-size:30px;font-weight:700;color:var(--accent2);display:block;line-height:1;}
+  .stat-label{font-family:var(--f-mono);font-size:0.55rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.12em;margin-top:4px;}
+  .stat-div{width:1px;background:var(--border);align-self:stretch;}
+
+  /* CDN BADGE — hidden, not used */
+  .cdn-badge{display:none;}
+
+  /* SECTION COMMON */
+  .sl{font-family:var(--f-mono);font-size:0.55rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:8px;}
+  .st{font-family:var(--f-disp);font-size:clamp(26px,3.5vw,38px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin-bottom:8px;}
+  .st em{font-style:italic;font-family:var(--f-serif);font-weight:400;color:var(--accent2);}
+
+  /* SLIDER */
+  .spotlight{padding:20px 0 60px;position:relative;overflow:hidden;}
+  .spotlight-hdr{padding:0 40px 28px;display:flex;align-items:flex-end;justify-content:space-between;}
+  .spmeta{display:flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);}
+  .spdot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pdot 2s ease-in-out infinite;}
+  @keyframes pdot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.7);}}
+  .slider-outer{overflow:hidden;position:relative;}
+  .slider-outer::before,.slider-outer::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:10;pointer-events:none;}
+  .slider-outer::before{left:0;background:linear-gradient(90deg,var(--bg) 0%,transparent 100%);}
+  .slider-outer::after{right:0;background:linear-gradient(270deg,var(--bg) 0%,transparent 100%);}
+  .slider-track{display:flex;gap:12px;padding:4px 40px;transition:transform 0.7s cubic-bezier(0.25,0.1,0.25,1);will-change:transform;}
+  .slide-card{flex-shrink:0;width:440px;height:280px;position:relative;overflow:hidden;cursor:pointer;border-radius:var(--r);}
+  .slide-card::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,0.9) 100%);z-index:1;}
+  .slide-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s cubic-bezier(0.25,0.1,0.25,1);}
+  .slide-card:hover img{transform:scale(1.06);}
+  .slide-ph{width:100%;height:100%;background-size:cover;background-position:center;transition:transform 0.6s cubic-bezier(0.25,0.1,0.25,1);}
+  .slide-card:hover .slide-ph{transform:scale(1.06);}
+  .slide-info{position:absolute;bottom:0;left:0;right:0;padding:20px;z-index:2;transform:translateY(6px);transition:transform 0.3s;}
+  .slide-card:hover .slide-info{transform:translateY(0);}
+  .slide-cat{font-family:var(--f-mono);font-size:0.55rem;color:var(--accent2);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:4px;}
+  .slide-name{font-family:var(--f-disp);font-size:18px;font-weight:600;color:#fff;}
+  .slide-meta{display:flex;align-items:center;gap:12px;margin-top:8px;font-size:12px;color:rgba(255,255,255,0.55);opacity:0;transform:translateY(4px);transition:all 0.3s 0.05s;}
+  .slide-card:hover .slide-meta{opacity:1;transform:translateY(0);}
+  .slide-dl{position:absolute;top:14px;right:14px;z-index:3;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px 12px;color:#fff;font-family:var(--f-mono);font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;opacity:0;transform:translateY(-4px);transition:all 0.25s;}
+  .slide-card:hover .slide-dl{opacity:1;transform:translateY(0);}
+  .slide-dl:hover{background:var(--accent);border-color:var(--accent);}
+  .slider-ctrl{display:flex;align-items:center;gap:12px;padding:20px 40px 0;justify-content:flex-end;}
+  .s-btn{width:38px;height:38px;border-radius:2px;background:var(--surface);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-size:16px;}
+  .s-btn:hover{background:var(--surface2);color:var(--accent2);border-color:var(--accent);}
+  .inds{display:flex;gap:5px;align-items:center;}
+  .ind{width:5px;height:5px;border-radius:50%;background:var(--border);transition:all 0.3s;cursor:pointer;}
+  .ind.active{background:var(--accent);width:20px;border-radius:2px;}
+
+  /* CATEGORIES */
+  .cat-section{padding:60px 40px;}
+  .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin-top:32px;}
+  .cat-item{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:1;cursor:pointer;}
+  .cat-bg{width:100%;height:100%;display:block;transition:transform 0.5s ease;background-size:cover;background-position:center;}
+  .cat-item:hover .cat-bg{transform:scale(1.08);}
+  .cat-ov{position:absolute;inset:0;background:linear-gradient(160deg,transparent 30%,rgba(0,0,0,0.78) 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:14px;transition:background 0.3s;}
+  .cat-item:hover .cat-ov{background:linear-gradient(160deg,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.88) 100%);}
+  .cat-name{font-family:var(--f-disp);font-size:13px;font-weight:600;color:#fff;line-height:1.2;}
+  .cat-count{font-family:var(--f-mono);font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;transition:color 0.2s;}
+  .cat-item:hover .cat-count{color:var(--accent2);}
+  .cat-icon{position:absolute;top:12px;left:12px;font-size:20px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.6));}
+
+  /* GALLERY */
+  .gallery-section{padding:20px 40px 80px;}
+  .gallery-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;}
+  .ftabs{display:flex;gap:6px;flex-wrap:wrap;}
+  .ftab{padding:7px 16px;border-radius:2px;font-family:var(--f-mono);font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;transition:all 0.2s;}
+  .ftab.active,.ftab:hover{background:var(--accent-dim);border-color:var(--accent);color:var(--accent2);}
+  .masonry{columns:5;column-gap:10px;}
+  @media(max-width:1200px){.masonry{columns:4;}}
+  @media(max-width:900px){.masonry{columns:3;}}
+  @media(max-width:600px){.masonry{columns:2;}}
+  .photo-card{break-inside:avoid;margin-bottom:10px;border-radius:var(--r);overflow:hidden;position:relative;cursor:pointer;display:block;background:var(--surface);}
+  .photo-card img{width:100%;display:block;transition:transform 0.5s cubic-bezier(0.25,0.1,0.25,1);}
+  .photo-card:hover img{transform:scale(1.04);}
+  .ph-ph{background:var(--surface2);background-size:cover;background-position:center;} /* placeholder */
+  .photo-ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,0.88) 100%);opacity:0;transition:opacity 0.3s;display:flex;flex-direction:column;justify-content:flex-end;padding:14px;}
+  .photo-card:hover .photo-ov{opacity:1;}
+  .photo-title{font-size:13px;font-weight:500;color:#fff;line-height:1.3;}
+  .photo-acts{display:flex;gap:8px;margin-top:10px;}
+  .pa{background:rgba(255,255,255,0.12);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.2);border-radius:4px;padding:7px 12px;color:#fff;font-family:var(--f-mono);font-size:0.55rem;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+  .pa:hover{background:var(--accent);border-color:var(--accent);}
+  .pa-main{flex:1;text-align:center;}
+  .res-badge{position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);border-radius:6px;padding:3px 8px;font-size:10px;color:var(--accent);letter-spacing:0.05em;opacity:0;transition:opacity 0.2s;}
+  .photo-card:hover .res-badge{opacity:1;}
+  .like-btn{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transform:scale(0.8);transition:all 0.2s;font-size:14px;}
+  .photo-card:hover .like-btn{opacity:1;transform:scale(1);}
+  .like-btn:hover,.like-btn.liked{background:rgba(224,90,90,0.8);border-color:var(--red);}
+  .like-btn.liked{opacity:1;transform:scale(1);}
+
+  /* SKELETON LOADING */
+  .skeleton{animation:shimmer 1.5s infinite linear;background:linear-gradient(90deg,var(--surface) 25%,var(--surface2) 50%,var(--surface) 75%);background-size:400% 100%;border-radius:var(--r);}
+  @keyframes shimmer{0%{background-position:100% 0;}100%{background-position:-100% 0;}}
+
+  /* EMPTY STATE */
+  .empty-state{text-align:center;padding:80px 40px;color:var(--text3);}
+  .empty-state h3{font-family:var(--f-disp);font-size:28px;font-weight:600;margin-bottom:12px;color:var(--text2);}
+  .empty-state p{font-size:14px;max-width:340px;margin:0 auto;}
+
+  /* LIGHTBOX */
+  .lightbox{display:none;position:fixed;inset:0;z-index:5000;background:rgba(5,4,10,0.97);align-items:center;justify-content:center;flex-direction:column;padding:20px;}
+  .lightbox.open{display:flex;animation:lbin 0.3s ease;}
+  @keyframes lbin{from{opacity:0;}to{opacity:1;}}
+  .lb-close{position:fixed;top:20px;right:24px;color:var(--text3);font-size:28px;cursor:pointer;transition:color 0.2s;z-index:5001;background:none;border:none;}
+  .lb-close:hover{color:var(--text);}
+  .lb-img-wrap{max-width:1100px;width:100%;max-height:78vh;position:relative;overflow:hidden;border-radius:var(--r2);}
+  .lb-img{width:100%;max-height:78vh;object-fit:contain;border-radius:var(--r2);display:block;}
+  .lb-img-ph{width:100%;border-radius:var(--r2);display:block;background-size:cover;background-position:center;}
+  .lb-foot{max-width:1100px;width:100%;display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding:0 4px;flex-wrap:wrap;gap:16px;}
+  .lb-info h3{font-family:var(--f-disp);font-size:20px;font-weight:600;}
+  .lb-info p{color:var(--text3);font-family:var(--f-mono);font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;margin-top:6px;}
+  .res-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+  .rpill{padding:5px 12px;border-radius:2px;background:var(--surface);border:1px solid var(--border);color:var(--text3);font-family:var(--f-mono);font-size:0.55rem;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+  .rpill:hover,.rpill.sel{background:var(--accent-dim);border-color:var(--accent);color:var(--accent2);}
+  .lb-btns{display:flex;gap:10px;}
+  .lb-btn{padding:10px 22px;border-radius:2px;font-family:var(--f-mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;border:none;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);}
+  .lb-hd{background:var(--accent);color:#fff;}
+  .lb-hd:hover{background:var(--accent2);}
+  .lb-4k{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
+  .lb-4k:hover{border-color:var(--accent);color:var(--accent2);}
+
+  /* TAGS */
+  .tags-section{padding:0 40px 60px;}
+  .tags-cloud{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+  .tag{padding:8px 16px;border-radius:2px;border:1px solid var(--border);color:var(--text3);font-family:var(--f-mono);font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-block;}
+  .tag:hover,.tag.hot{border-color:var(--accent);color:var(--accent2);background:var(--accent-dim);}
+  .tag.hot::after{content:'★';font-size:10px;margin-left:4px;}
+
+  /* FOOTER */
+  footer{background:var(--bg2);border-top:1px solid var(--border);padding:60px 40px 30px;}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;}
+  .fb h2{font-family:var(--f-disp);font-size:22px;font-weight:700;letter-spacing:-0.02em;background:linear-gradient(135deg,var(--text) 30%,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .fb p{color:var(--text3);font-size:13.5px;line-height:1.7;margin-top:12px;max-width:280px;}
+  .fc h4{font-family:var(--f-mono);font-size:0.55rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text3);margin-bottom:16px;}
+  .fc a{display:block;color:var(--text2);text-decoration:none;font-size:13.5px;margin-bottom:10px;transition:color 0.2s;}
+  .fc a:hover{color:var(--accent2);}
+  .footer-bot{border-top:1px solid var(--border);padding-top:28px;display:flex;align-items:center;justify-content:space-between;}
+  .footer-bot p{font-family:var(--f-mono);font-size:0.6rem;letter-spacing:0.06em;color:var(--text3);}
+  .flegal{display:flex;gap:20px;}
+  .flegal a{font-family:var(--f-mono);font-size:0.6rem;letter-spacing:0.06em;color:var(--text3);text-decoration:none;transition:color 0.2s;}
+  .flegal a:hover{color:var(--text2);}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:28px;right:28px;z-index:9000;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);padding:14px 20px;color:var(--text);font-size:14px;display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);backdrop-filter:blur(12px);max-width:320px;pointer-events:none;}
+  .toast.show{transform:translateY(0);opacity:1;}
+
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.65s ease,transform 0.65s ease;}
+  .reveal.visible{opacity:1;transform:none;}
+
+  .load-more-wrap{text-align:center;margin-top:40px;}
+  .load-more-btn{background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:14px 40px;color:var(--text2);font-family:var(--f-mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);}
+  .load-more-btn:hover{background:var(--surface2);border-color:var(--accent);color:var(--accent2);}
+  .load-more-btn:disabled{opacity:0.4;cursor:not-allowed;}
+
+  /* ERROR BANNER */
+  .err-banner{background:rgba(224,90,90,0.1);border:1px solid rgba(224,90,90,0.25);border-radius:var(--r);padding:16px 20px;color:#f0a0a0;font-size:13.5px;margin:16px 0;display:none;line-height:1.6;}
+  .err-banner.show{display:block;}
+</style>
+</head>
+<body>
+
+<!-- ═══ CONFIG — EDIT THESE TWO LINES ═══════════════════════════
+     1. Deploy your Cloudflare Worker (see README)
+     2. Paste your Worker URL and R2 public bucket URL below
+     ══════════════════════════════════════════════════════════ -->
+<script>
+  const WORKER_URL  = 'https://YOUR-WORKER.iammdabidhasan.workers.dev';
+  const R2_PUBLIC   = 'https://pub-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.r2.dev';
+</script>
+<!-- ════════════════════════════════════════════════════════════ -->
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="https://exoraworld.online" class="nav-back">← ExoraWorld</a>
+  <a href="#" class="nav-logo">Exora<span>Gallery</span></a>
+  <ul class="nav-links">
+    <li><a href="#categories">Browse</a></li>
+    <li><a href="#gallery">All Photos</a></li>
+    <li><a href="#trending">Trending</a></li>
+    <li><a href="https://exoraworld.online" class="nav-btn">Main Site</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <div class="orb o3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">ExoraWorld Visual Archive</div>
+    <h1 class="hero-title">Photos Worth<br><em>Exploring</em></h1>
+    <p class="hero-sub">A personal collection of high-resolution photos. Browse, explore, and download freely.</p>
+    <div class="search-container">
+      <div class="search-wrap">
+        <svg class="si" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="search-input" id="searchInput" type="text" placeholder="Search landscapes, portraits, nature...">
+        <button class="search-btn" onclick="doSearch()">Search</button>
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num" id="totalCount">—</span><div class="stat-label">Photos</div></div>
+      <div class="stat-div"></div>
+      <div class="stat"><span class="stat-num" id="catCount">—</span><div class="stat-label">Categories</div></div>
+      <div class="stat-div"></div>
+      <div class="stat"><span class="stat-num">4K</span><div class="stat-label">Max Quality</div></div>
+      <div class="stat-div"></div>
+      <div class="stat"><span class="stat-num">Free</span><div class="stat-label">Always</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SPOTLIGHT SLIDER -->
+<section class="spotlight">
+  <div class="spotlight-hdr reveal">
+    <div><p class="sl">Curated Picks</p><h2 class="st">Trending <em>Right Now</em></h2></div>
+    <div class="spmeta"><span class="spdot"></span><span>Most downloaded this week</span></div>
+  </div>
+  <div id="sliderErr" class="err-banner" style="margin:0 40px 16px;"></div>
+  <div class="slider-outer"><div class="slider-track" id="sliderTrack"></div></div>
+  <div class="slider-ctrl reveal">
+    <div class="inds" id="sliderInds"></div>
+    <button class="s-btn" onclick="slideDir(-1)">&#8592;</button>
+    <button class="s-btn" onclick="slideDir(1)">&#8594;</button>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="cat-section" id="categories">
+  <div class="reveal"><p class="sl">Explore Topics</p><h2 class="st">Browse by <em>Category</em></h2></div>
+  <div class="cat-grid reveal" id="catGrid"></div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="gallery">
+  <div class="gallery-hdr reveal">
+    <div><p class="sl">Latest Uploads</p><h2 class="st">The <em>Gallery</em></h2></div>
+    <div class="ftabs" id="filterTabs"></div>
+  </div>
+  <div id="galleryErr" class="err-banner"></div>
+  <div class="masonry" id="masonryGrid"></div>
+  <div class="load-more-wrap reveal">
+    <button class="load-more-btn" id="loadMoreBtn" onclick="loadMore()">Load More</button>
+  </div>
+</section>
+
+<!-- TRENDING TAGS -->
+<section class="tags-section" id="trending">
+  <div class="reveal"><p class="sl">Popular Searches</p><h2 class="st">Trending <em>Tags</em></h2></div>
+  <div class="tags-cloud reveal" id="tagsCloud"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="fb">
+      <h2>ExoraWorld Gallery</h2>
+      <p>A personal visual archive by Abid — high-resolution photos free to browse and download. Part of the ExoraWorld universe.</p>
+    </div>
+    <div class="fc"><h4>Explore</h4>
+      <a href="#categories">Browse Categories</a>
+      <a href="#gallery">All Photos</a>
+      <a href="#trending">Trending</a>
+      <a href="#">4K Collection</a>
+    </div>
+    <div class="fc"><h4>ExoraWorld</h4>
+      <a href="https://exoraworld.online">Main Site</a>
+      <a href="https://exoraworld.online/#store">Store</a>
+      <a href="https://exoraworld.online/#courses">Courses</a>
+      <a href="https://exoraworld.online/#about">About Abid</a>
+    </div>
+    <div class="fc"><h4>Legal</h4>
+      <a href="terms.html">Terms &amp; Conditions</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="#">Licenses</a>
+      <a href="#">DMCA</a>
+    </div>
+  </div>
+  <div class="footer-bot">
+    <p>© 2025 ExoraWorld. All photos by Abid — free for personal &amp; commercial use.</p>
+    <div class="flegal"><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="https://exoraworld.online">exoraworld.online</a></div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLb()">&times;</button>
+  <div class="lb-img-wrap" id="lbWrap"></div>
+  <div class="lb-foot">
+    <div class="lb-info">
+      <h3 id="lbTitle">—</h3>
+      <p id="lbMeta">—</p>
+      <div class="res-pills">
+        <button class="rpill sel">HD 1080p</button>
+        <button class="rpill">2K</button>
+        <button class="rpill">4K</button>
+        <button class="rpill">Original</button>
+      </div>
+    </div>
+    <div class="lb-btns">
+      <button class="lb-btn lb-hd" id="lbDlHd">Download HD</button>
+      <button class="lb-btn lb-4k" id="lbDl4k">Download 4K</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><span id="toastIcon">✅</span><span id="toastMsg">Done!</span></div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════════════
+let allPhotos     = [];
+let sliderPhotos  = [];
+let categories    = [];
+let sliderIdx     = 0;
+let sliderTimer   = null;
+let galleryPage   = 0;
+let galleryFilter = 'All';
+let currentLbUrl  = '';
+let toastTimer    = null;
+
+const PAGE_SIZE = 20;
+
+// Fallback gradient palettes (shown when no real photos loaded yet)
+const PALETTES = [
+  ['#1a3a2a','#2d6a4f'],['#1a2a3a','#2d4a6a'],['#3a1a2a','#6a2d4a'],
+  ['#3a2a1a','#6a4d2d'],['#1a1a3a','#2d2d6a'],['#2a3a1a','#4d6a2d'],
+  ['#3a1a1a','#6a2d2d'],['#1a3a3a','#2d6a6a'],['#2a1a3a','#4a2d6a'],
+  ['#3a3a1a','#6a6a2d'],
+];
+const CAT_META = {
+  'nature':       {icon:'🌿', bg:['#0d2a1a','#1a4a30']},
+  'couples':      {icon:'💑', bg:['#2a0d1a','#4a1a30']},
+  '4k':           {icon:'🖥️', bg:['#0d1a2a','#1a3050']},
+  'architecture': {icon:'🏛️', bg:['#1a1a1a','#303030']},
+  'ocean':        {icon:'🌊', bg:['#0d1e2a','#1a3a50']},
+  'mountains':    {icon:'⛰️', bg:['#1a1e1a','#2a342a']},
+  'city':         {icon:'🌃', bg:['#0d0d1a','#1a1a30']},
+  'portraits':    {icon:'🧑‍🎨', bg:['#2a1a0d','#503020']},
+  'aerial':       {icon:'🚁', bg:['#1a2a0d','#304a1a']},
+  'minimalist':   {icon:'◻️', bg:['#1a1a1a','#282828']},
+  'animals':      {icon:'🦁', bg:['#2a1e0d','#503c1a']},
+  'abstract':     {icon:'🎨', bg:['#1a0d2a','#301a50']},
+  'food':         {icon:'🍜', bg:['#2a1a0d','#50301a']},
+  'travel':       {icon:'✈️', bg:['#0d1a2a','#1a3050']},
+  'wallpaper':    {icon:'🖼️', bg:['#1a1a2a','#2a2a4a']},
+};
+const SEARCH_CHIPS = ['4K Sunset','Couple Portrait','Mountain','Underwater','City Night','Minimalist','Golden Hour','Wildlife'];
+const TAGS = [
+  {t:'4K Wallpaper',hot:true},{t:'Sunset',hot:true},{t:'Couple Goals',hot:false},
+  {t:'Mountain Views',hot:false},{t:'Ocean',hot:true},{t:'Night Photography',hot:false},
+  {t:'Minimalist',hot:false},{t:'Wildlife',hot:true},{t:'Golden Hour',hot:true},
+  {t:'Portraits',hot:false},{t:'Drone Aerial',hot:false},{t:'Forest',hot:false},
+  {t:'Urban',hot:false},{t:'Abstract',hot:false},{t:'Travel',hot:true},
+  {t:'Cinematic',hot:true},{t:'Architecture',hot:false},{t:'Food Photography',hot:false},
+];
+
+// ══════════════════════════════════════════════════════════════
+//  API — fetches from YOUR Cloudflare Worker
+// ══════════════════════════════════════════════════════════════
+async function apiFetch(path) {
+  const res = await fetch(WORKER_URL + path, {
+    headers: { 'Accept': 'application/json' }
+  });
+  if (!res.ok) throw new Error(`API ${res.status}: ${res.statusText}`);
+  return res.json();
+}
+
+// Load all photos (list from Worker)
+async function fetchPhotos(category = '', cursor = '') {
+  let url = `/api/photos?limit=${PAGE_SIZE}`;
+  if (category && category !== 'All') url += `&category=${encodeURIComponent(category.toLowerCase())}`;
+  if (cursor) url += `&cursor=${encodeURIComponent(cursor)}`;
+  return apiFetch(url);
+}
+
+// Load categories from Worker
+async function fetchCategories() {
+  return apiFetch('/api/categories');
+}
+
+// Track download on Worker
+async function trackDownload(key) {
+  try { await apiFetch(`/api/download?key=${encodeURIComponent(key)}`); } catch(_) {}
+}
+
+// ══════════════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════════════
+async function init() {
+  buildChips();
+  buildTags();
+  attachReveal();
+
+  // Load categories + photos in parallel
+  const [catResult, photoResult] = await Promise.allSettled([
+    fetchCategories(),
+    fetchPhotos()
+  ]);
+
+  // Categories
+  if (catResult.status === 'fulfilled') {
+    categories = catResult.value.categories || [];
+    document.getElementById('catCount').textContent = categories.length + '+';
+    buildCategories(categories);
+    buildFilterTabs(categories);
+  } else {
+    buildCategories([]); // fallback UI
+    buildFilterTabs([]);
+  }
+
+  // Photos
+  if (photoResult.status === 'fulfilled') {
+    allPhotos = photoResult.value.photos || [];
+    document.getElementById('totalCount').textContent =
+      photoResult.value.total ? formatCount(photoResult.value.total) : allPhotos.length + '+';
+    buildSlider(allPhotos.slice(0, 10));
+    buildGallery(allPhotos, false);
+  } else {
+    showGalleryError('Could not connect to Cloudflare Worker. Check your WORKER_URL in gallery.html.');
+    buildSlider([]); // empty slider
+    buildGallery([], false);
+  }
+}
+
+function formatCount(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1) + 'M+';
+  if (n >= 1000) return (n/1000).toFixed(0) + 'K+';
+  return n + '+';
+}
+
+// ══════════════════════════════════════════════════════════════
+//  SLIDER
+// ══════════════════════════════════════════════════════════════
+function buildSlider(photos) {
+  const track = document.getElementById('sliderTrack');
+  const inds  = document.getElementById('sliderInds');
+  track.innerHTML = '';
+  inds.innerHTML  = '';
+
+  if (photos.length === 0) {
+    // Show placeholder slides with gradient
+    const fallback = Array.from({length:6},(_,i)=>({
+      key:`slide-${i}`, title:`Featured Photo ${i+1}`, category:'Featured',
+      url: null, palette: PALETTES[i % PALETTES.length]
+    }));
+    photos = fallback;
+  }
+
+  sliderPhotos = photos;
+
+  photos.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'slide-card';
+    const imgEl = p.url
+      ? `<img src="${p.url}" alt="${p.title || ''}" loading="lazy">`
+      : `<div class="slide-ph" style="height:280px;background:linear-gradient(135deg,${p.palette[0]} 0%,${p.palette[1]} 100%);"></div>`;
+    card.innerHTML = `
+      ${imgEl}
+      <button class="slide-dl" onclick="event.stopPropagation();dlSlide(${i})">↓ Download</button>
+      <div class="slide-info">
+        <div class="slide-cat">${p.category || 'Featured'}</div>
+        <div class="slide-name">${p.title || 'Untitled'}</div>
+        <div class="slide-meta"><span>${p.resolution||'4K'}</span><span>·</span><span>${p.downloads||'0'} downloads</span></div>
+      </div>`;
+    card.onclick = () => openLb(p);
+    track.appendChild(card);
+
+    const ind = document.createElement('div');
+    ind.className = 'ind' + (i===0?' active':'');
+    ind.onclick = () => goSlide(i);
+    inds.appendChild(ind);
+  });
+
+  goSlide(0);
+  startSliderAuto();
+}
+
+function goSlide(idx) {
+  sliderIdx = ((idx % sliderPhotos.length) + sliderPhotos.length) % sliderPhotos.length;
+  document.getElementById('sliderTrack').style.transform =
+    `translateX(-${sliderIdx * (440 + 12)}px)`;
+  document.querySelectorAll('.ind').forEach((el,i) =>
+    el.classList.toggle('active', i===sliderIdx));
+}
+function slideDir(d) { clearInterval(sliderTimer); goSlide(sliderIdx+d); startSliderAuto(); }
+function startSliderAuto() { sliderTimer = setInterval(() => goSlide(sliderIdx+1), 4500); }
+function dlSlide(i) {
+  const p = sliderPhotos[i];
+  if (p && p.url) { triggerDownload(p.url, p.title || 'photo'); trackDownload(p.key); }
+  else toast('⬇️', 'No file attached yet');
+}
+
+// ══════════════════════════════════════════════════════════════
+//  CATEGORIES
+// ══════════════════════════════════════════════════════════════
+function buildCategories(cats) {
+  const grid = document.getElementById('catGrid');
+  grid.innerHTML = '';
+
+  const list = cats.length > 0 ? cats : Object.keys(CAT_META).map(k=>({
+    name: k.charAt(0).toUpperCase()+k.slice(1), slug:k, count:0
+  }));
+
+  list.forEach(c => {
+    const slug = (c.slug || c.name.toLowerCase()).replace(/\s+/g,'-');
+    const meta = CAT_META[slug] || CAT_META[c.name.toLowerCase()] || {icon:'📷',bg:['#1a1a2a','#2a2a3a']};
+    const div = document.createElement('div');
+    div.className = 'cat-item';
+    div.innerHTML = `
+      <div class="cat-bg" style="height:100%;background:linear-gradient(135deg,${meta.bg[0]} 0%,${meta.bg[1]} 100%);"></div>
+      <div class="cat-ov">
+        <div class="cat-name">${c.name}</div>
+        <div class="cat-count">${c.count ? formatCount(c.count)+' photos' : 'Browse'}</div>
+      </div>
+      <div class="cat-icon">${meta.icon}</div>`;
+    div.onclick = () => { galleryFilter = c.name; reloadGallery(); document.getElementById('gallery').scrollIntoView({behavior:'smooth'}); };
+    grid.appendChild(div);
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
+//  FILTER TABS
+// ══════════════════════════════════════════════════════════════
+function buildFilterTabs(cats) {
+  const tabs = document.getElementById('filterTabs');
+  tabs.innerHTML = '';
+  const names = ['All', ...cats.map(c=>c.name).slice(0,7)];
+  names.forEach(f => {
+    const btn = document.createElement('button');
+    btn.className = 'ftab' + (f==='All'?' active':'');
+    btn.textContent = f;
+    btn.onclick = () => {
+      galleryFilter = f;
+      tabs.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+      btn.classList.add('active');
+      reloadGallery();
+    };
+    tabs.appendChild(btn);
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
+//  GALLERY
+// ══════════════════════════════════════════════════════════════
+let galleryCursor = '';
+let galleryHasMore = true;
+
+async function reloadGallery() {
+  galleryPage  = 0;
+  galleryCursor = '';
+  galleryHasMore = true;
+  document.getElementById('masonryGrid').innerHTML = '';
+  document.getElementById('galleryErr').classList.remove('show');
+  try {
+    const data = await fetchPhotos(galleryFilter);
+    buildGallery(data.photos || [], false);
+    galleryCursor = data.cursor || '';
+    galleryHasMore = !!data.cursor;
+    document.getElementById('loadMoreBtn').disabled = !galleryHasMore;
+  } catch(e) {
+    showGalleryError('Failed to load photos. Check your Worker URL.');
+  }
+}
+
+async function loadMore() {
+  if (!galleryHasMore) return;
+  try {
+    const data = await fetchPhotos(galleryFilter, galleryCursor);
+    buildGallery(data.photos || [], true);
+    galleryCursor = data.cursor || '';
+    galleryHasMore = !!data.cursor;
+    document.getElementById('loadMoreBtn').disabled = !galleryHasMore;
+    toast('📸','More photos loaded!');
+  } catch(e) {
+    toast('❌','Could not load more photos');
+  }
+}
+
+function buildGallery(photos, append) {
+  const grid = document.getElementById('masonryGrid');
+  if (!append) grid.innerHTML = '';
+
+  if (photos.length === 0 && !append) {
+    grid.innerHTML = `<div class="empty-state" style="column-span:all;">
+      <h3>No photos yet</h3>
+      <p>Upload photos to your R2 bucket and they will appear here automatically.</p>
+    </div>`;
+    return;
+  }
+
+  photos.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'photo-card';
+    card.style.animationDelay = (i * 0.04) + 's';
+
+    const pal = PALETTES[i % PALETTES.length];
+    const imgContent = p.thumbnail_url || p.url
+      ? `<img src="${p.thumbnail_url || p.url}" alt="${p.title||''}" loading="lazy">`
+      : `<div class="ph-ph skeleton" style="height:${200 + (i%5)*60}px;"></div>`;
+
+    card.innerHTML = `
+      ${imgContent}
+      <span class="res-badge">${p.resolution||'HD'}</span>
+      <div class="like-btn" onclick="event.stopPropagation();toggleLike(this)">♡</div>
+      <div class="photo-ov">
+        <div class="photo-title">${p.title || p.key?.split('/').pop()?.replace(/\.\w+$/,'') || 'Untitled'}</div>
+        <div class="photo-acts">
+          <button class="pa pa-main" onclick="event.stopPropagation();startDl('${p.key||''}','${p.url||''}','${p.title||'photo'}')">↓ Download</button>
+          <button class="pa" onclick="event.stopPropagation();openLb(${JSON.stringify(p).replace(/"/g,'&quot;')})">🔍</button>
+        </div>
+      </div>`;
+    card.onclick = () => openLb(p);
+    grid.appendChild(card);
+  });
+}
+
+function showGalleryError(msg) {
+  const el = document.getElementById('galleryErr');
+  el.textContent = '⚠️ ' + msg;
+  el.classList.add('show');
+}
+
+// ══════════════════════════════════════════════════════════════
+//  LIGHTBOX
+// ══════════════════════════════════════════════════════════════
+function openLb(p) {
+  const wrap = document.getElementById('lbWrap');
+  wrap.innerHTML = p.url
+    ? `<img class="lb-img" src="${p.url}" alt="${p.title||''}">`
+    : `<div class="lb-img-ph" style="height:500px;background:linear-gradient(135deg,${PALETTES[0][0]},${PALETTES[0][1]});"></div>`;
+
+  document.getElementById('lbTitle').textContent = p.title || 'Untitled';
+  document.getElementById('lbMeta').textContent =
+    `${p.resolution||'HD'} · ${p.category||'General'} · Free Download`;
+  currentLbUrl = p.url || '';
+
+  document.getElementById('lbDlHd').onclick = () => {
+    startDl(p.key, p.url, p.title);
+    toast('⬇️','Downloading HD...');
+  };
+  document.getElementById('lbDl4k').onclick = () => {
+    startDl(p.key, p.url_4k || p.url, p.title);
+    toast('✨','Downloading 4K...');
+  };
+
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  document.querySelectorAll('.rpill').forEach((pill,i) => {
+    pill.classList.toggle('sel', i===0);
+    pill.onclick = () => { document.querySelectorAll('.rpill').forEach(x=>x.classList.remove('sel')); pill.classList.add('sel'); };
+  });
+}
+function closeLb() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('lightbox').addEventListener('click', e => { if(e.target===document.getElementById('lightbox')) closeLb(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeLb(); });
+
+// ══════════════════════════════════════════════════════════════
+//  DOWNLOAD
+// ══════════════════════════════════════════════════════════════
+function startDl(key, url, title) {
+  if (!url) { toast('⚠️','No file available'); return; }
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = (title||'photo').replace(/\s+/g,'-') + '.jpg';
+  a.target = '_blank';
+  a.click();
+  if (key) trackDownload(key);
+  toast('⬇️', 'Download started!');
+}
+function triggerDownload(url, title) { startDl('', url, title); }
+
+// ══════════════════════════════════════════════════════════════
+//  MISC UI
+// ══════════════════════════════════════════════════════════════
+function buildChips() {
+  const el = document.getElementById('chips');
+  SEARCH_CHIPS.forEach(c => {
+    const a = document.createElement('a');
+    a.className = 'chip'; a.textContent = c; a.href='#';
+    a.onclick = e => { e.preventDefault(); document.getElementById('searchInput').value = c; doSearch(); };
+    el.appendChild(a);
+  });
+}
+
+function buildTags() {
+  const el = document.getElementById('tagsCloud');
+  TAGS.forEach(t => {
+    const a = document.createElement('a');
+    a.className = 'tag' + (t.hot?' hot':'');
+    a.textContent = '#' + t.t; a.href='#';
+    a.onclick = e => { e.preventDefault(); document.getElementById('searchInput').value = t.t; doSearch(); };
+    el.appendChild(a);
+  });
+}
+
+function toggleLike(el) {
+  el.classList.toggle('liked');
+  el.textContent = el.classList.contains('liked') ? '♥' : '♡';
+  if(el.classList.contains('liked')) toast('❤️','Added to favorites!');
+}
+
+function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q) return;
+  galleryFilter = q;
+  reloadGallery();
+  document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
+}
+document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') doSearch(); });
+
+function toast(icon, msg) {
+  document.getElementById('toastIcon').textContent = icon;
+  document.getElementById('toastMsg').textContent = msg;
+  const el = document.getElementById('toast');
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+window.addEventListener('scroll', () =>
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60));
+
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); revObs.unobserve(e.target); } });
+}, {threshold:0.08});
+function attachReveal() { document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el)); }
+
+// ══════════════════════════════════════════════════════════════
+//  START
+// ══════════════════════════════════════════════════════════════
+init();
+</script>
+</body>
+</html>
