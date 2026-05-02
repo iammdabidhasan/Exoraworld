@@ -622,7 +622,7 @@ function buildGallery(photos, append) {
 
     // Attach events cleanly (avoids inline onclick encoding bugs)
     card.querySelector('.like-btn').addEventListener('click', e => { e.stopPropagation(); toggleLike(e.currentTarget); });
-    card.querySelector('.pa-main').addEventListener('click', e => { e.stopPropagation(); startDl(p.key, p.url, title); });
+    card.querySelector('.pa-main').addEventListener('click', e => { e.stopPropagation(); startDl(p.key, p.download_url||p.url, title); });
     card.querySelectorAll('.pa')[1].addEventListener('click', e => { e.stopPropagation(); openLb(p); });
     card.addEventListener('click', () => openLb(p));
 
@@ -703,7 +703,7 @@ function openLb(p) {
   document.getElementById('lbTitle').textContent = p.title||'Untitled';
   document.getElementById('lbMeta').textContent =
     `${p.resolution||'HD'} · ${p.category||'General'} · ${vid?'Video':'Photo'} · Free`;
-  document.getElementById('lbDlBtn').onclick = () => startDl(p.key, p.url, p.title);
+  document.getElementById('lbDlBtn').onclick = () => startDl(p.key, p.download_url||p.url, p.title);
   document.getElementById('lbOrigBtn').onclick = () => window.open(p.url, '_blank');
 
   document.getElementById('lightbox').classList.add('open');
@@ -730,32 +730,32 @@ document.addEventListener('keydown', e => { if (e.key==='Escape') closeLb(); });
 // ══════════════════════════════════════════════════════════════
 //  DOWNLOAD — blob then anchor, fallback to new tab
 // ══════════════════════════════════════════════════════════════
-function startDl(key, url, title) {
-  if (!url) { toast('⚠️','No file available'); return; }
-  const vid = isVideo(url)||isVideoKey(key);
-  const ext = (url.split('?')[0].split('.').pop()||(vid?'mp4':'jpg')).toLowerCase();
-  const name = ((title||'media').replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-_.]/g,'')||'media')+'.'+ext;
-  toast('⬇️','Preparing download...');
+function startDl(key, fallbackUrl, title) {
+  if (!key && !fallbackUrl) { toast('⚠️','No file available'); return; }
 
-  fetch(url, {mode:'cors'})
-    .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.blob(); })
-    .then(blob=>{
-      const bu = URL.createObjectURL(blob);
-      const a  = document.createElement('a');
-      a.href=bu; a.download=name;
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      setTimeout(()=>URL.revokeObjectURL(bu),10000);
-      toast('✅','Download started!');
-      if (key) trackDownload(key);
-    })
-    .catch(()=>{
-      // CORS blocked or fetch failed — open in new tab as fallback
-      const a = document.createElement('a');
-      a.href = url; a.download = name; a.target = '_blank'; a.rel = 'noopener';
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      toast('🔗','Opened — save with right-click or long-press');
-      if (key) trackDownload(key);
-    });
+  // Route through Worker /api/stream — it sets Content-Disposition: attachment
+  // so the browser always saves the file instead of opening it.
+  // We use a plain <a> click (NOT fetch) so there's zero CORS issue.
+  const streamUrl = key
+    ? WORKER_URL + '/api/stream?key=' + encodeURIComponent(key)
+    : fallbackUrl;
+
+  const srcRef  = fallbackUrl || key || '';
+  const vid     = isVideo(srcRef) || isVideoKey(key||'');
+  const rawExt  = (srcRef.split('?')[0].split('.').pop() || (vid?'mp4':'jpg')).toLowerCase();
+  const safeName = ((title||'media').replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-_.]/g,'')||'media') + '.' + rawExt;
+
+  const a = document.createElement('a');
+  a.href     = streamUrl;
+  a.download = safeName;   // hint for browser; server Content-Disposition overrides
+  a.target   = '_blank';   // open new tab if download header is missing (safe fallback)
+  a.rel      = 'noopener noreferrer';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  toast('⬇️','Download starting...');
+  if (key) trackDownload(key);
 }
 
 // ══════════════════════════════════════════════════════════════
