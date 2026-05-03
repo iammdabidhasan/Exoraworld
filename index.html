@@ -5,19 +5,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ExoraWorld — Explore the Impossible</title>
-<!-- Google AdSense — Replace ca-pub-XXXXXXXXXXXXXXXX with your Publisher ID -->
-<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
 <meta name="google-adsense-account" content="ca-pub-XXXXXXXXXXXXXXXX">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Bricolage+Grotesque:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════
-   EXORAWORLD v2 — Full Redesign
-   Aesthetic: Cosmic Editorial
-   Deep space blacks + ivory whites + 
-   violet accent + gold spark
-═══════════════════════════════════ */
 :root {
   --bg:     #05040a;
   --bg1:    #090714;
@@ -65,53 +57,68 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 @keyframes orb-drift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(60px,80px) scale(1.12)}}
 
 /* ══════════════════════════════
-   NAVIGATION
+   NAVIGATION — REDESIGNED
+   Primary row: Explore Store Gallery Games AI News + More
+   More row: slides down with extra links
 ══════════════════════════════ */
 nav{position:fixed;top:0;left:0;right:0;z-index:400;transition:all .4s}
-.nav-inner{max-width:1380px;margin:0 auto;padding:22px 56px;display:flex;align-items:center;gap:0;transition:padding .4s}
-nav.scrolled .nav-inner{padding:14px 56px}
-nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+nav.scrolled{background:rgba(5,4,10,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
 
-.nav-logo{font-family:var(--f-disp);font-weight:800;font-size:1.25rem;letter-spacing:-.02em;text-decoration:none;background:linear-gradient(135deg,var(--ivory) 30%,var(--v3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-right:auto}
+/* ── Primary nav row ── */
+.nav-primary{max-width:1380px;margin:0 auto;padding:18px 40px;display:flex;align-items:center;gap:0;transition:padding .4s}
+nav.scrolled .nav-primary{padding:12px 40px}
+
+.nav-logo{font-family:var(--f-disp);font-weight:800;font-size:1.2rem;letter-spacing:-.02em;text-decoration:none;background:linear-gradient(135deg,var(--ivory) 30%,var(--v3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-right:auto;flex-shrink:0}
 .nav-logo span{background:linear-gradient(135deg,var(--v2),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
-.nav-links{display:flex;gap:4px;align-items:center;margin-right:24px}
-.nav-links a{font-family:var(--f-mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmer);text-decoration:none;padding:7px 14px;border-radius:2px;transition:all .25s;position:relative}
-.nav-links a:hover{color:var(--ivory);background:rgba(255,255,255,.05)}
-.nav-links a.active{color:var(--v3)}
+/* Main links row */
+.nav-links-primary{display:flex;gap:2px;align-items:center;margin-right:16px}
+.nav-links-primary a,.nav-more-btn{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmer);text-decoration:none;padding:7px 13px;border-radius:2px;transition:all .25s;position:relative;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:4px}
+.nav-links-primary a:hover,.nav-more-btn:hover{color:var(--ivory);background:rgba(255,255,255,.05)}
+.nav-links-primary a.active{color:var(--v3)}
 
-/* ── DROPDOWN — fixed with padding bridge so cursor doesn't lose hover ── */
-.nav-has-drop{position:relative;list-style:none}
+/* Store dropdown */
+.nav-has-drop{position:relative;list-style:none;display:flex;align-items:center}
 .nav-has-drop > a{display:flex;align-items:center;gap:3px}
-.nav-has-drop > a::after{content:'▾';font-size:.5rem;opacity:.5;transition:transform .25s}
+.nav-has-drop > a::after{content:'▾';font-size:.48rem;opacity:.5;transition:transform .25s}
 .nav-has-drop:hover > a::after{transform:rotate(180deg)}
-
-/* invisible bridge stops the gap between trigger and panel */
-.nav-has-drop::before{content:'';position:absolute;top:100%;left:0;right:0;height:12px;z-index:500}
-
-.nav-drop{position:absolute;top:calc(100% + 12px);left:0;background:rgba(7,5,18,.97);border:1px solid rgba(139,92,246,.22);min-width:190px;padding:6px 0;z-index:600;opacity:0;pointer-events:none;transform:translateY(-4px);transition:opacity .2s ease,transform .2s ease;backdrop-filter:blur(24px);box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.nav-has-drop::before{content:'';position:absolute;top:100%;left:0;right:0;height:14px;z-index:500}
+.nav-drop{position:absolute;top:calc(100% + 14px);left:0;background:rgba(7,5,18,.97);border:1px solid rgba(139,92,246,.22);min-width:200px;padding:6px 0;z-index:600;opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .22s ease,transform .22s ease;backdrop-filter:blur(24px);box-shadow:0 16px 48px rgba(0,0,0,.55)}
 .nav-has-drop:hover .nav-drop{opacity:1;pointer-events:auto;transform:translateY(0)}
-.nav-drop a{display:flex;align-items:center;gap:9px;font-family:var(--f-mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(196,181,253,.5);text-decoration:none;padding:9px 16px;transition:all .2s;background:transparent;border-radius:0}
+.nav-drop a{display:flex;align-items:center;gap:9px;font-family:var(--f-mono);font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(196,181,253,.5);text-decoration:none;padding:9px 16px;transition:all .2s}
 .nav-drop a:hover{color:var(--ivory);background:rgba(139,92,246,.1)}
 .nav-drop .drop-sep{height:1px;background:rgba(139,92,246,.1);margin:4px 0}
 
-/* coming soon badge in dropdown */
-.drop-soon{font-family:var(--f-mono);font-size:.42rem;letter-spacing:.06em;background:rgba(139,92,246,.18);color:var(--v3);padding:2px 5px;margin-left:auto;flex-shrink:0}
+/* ── MORE button & expandable 2nd row ── */
+.nav-more-btn{color:var(--dimmer);font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 13px}
+.nav-more-btn .more-arrow{font-size:.5rem;transition:transform .3s;display:inline-block;opacity:.6}
+.nav-more-btn.open .more-arrow{transform:rotate(180deg)}
+.nav-more-btn:hover{color:var(--v3)}
 
-.nav-actions{display:flex;gap:10px;align-items:center}
-.btn-ghost-sm{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:8px 18px;border:1px solid rgba(139,92,246,.35);color:var(--v3);background:transparent;text-decoration:none;cursor:pointer;transition:all .3s}
+/* 2nd expandable row */
+.nav-more-row{max-width:1380px;margin:0 auto;padding:0 40px;overflow:hidden;max-height:0;transition:max-height .38s cubic-bezier(.4,0,.2,1),padding .38s,border-color .38s;border-bottom:1px solid transparent}
+.nav-more-row.open{max-height:64px;padding-top:4px;padding-bottom:10px;border-bottom-color:var(--border)}
+.nav-more-inner{display:flex;gap:3px;align-items:center;flex-wrap:wrap;padding-top:2px}
+.nav-more-inner a{font-family:var(--f-mono);font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(196,181,253,.4);text-decoration:none;padding:5px 12px;border:1px solid transparent;border-radius:2px;transition:all .22s;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.nav-more-inner a:hover{color:var(--v3);border-color:rgba(139,92,246,.2);background:rgba(139,92,246,.06)}
+.nav-more-inner .more-sep{width:1px;height:14px;background:rgba(139,92,246,.15);margin:0 4px}
+
+.nav-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.btn-ghost-sm{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 16px;border:1px solid rgba(139,92,246,.35);color:var(--v3);background:transparent;text-decoration:none;cursor:pointer;transition:all .3s}
 .btn-ghost-sm:hover{background:rgba(139,92,246,.12);border-color:var(--v3)}
-.btn-fill-sm{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:8px 20px;background:var(--v2);color:#fff;border:none;text-decoration:none;cursor:pointer;transition:all .3s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
+.btn-fill-sm{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 18px;background:var(--v2);color:#fff;border:none;text-decoration:none;cursor:pointer;transition:all .3s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
 .btn-fill-sm:hover{background:var(--v3);transform:translateY(-1px)}
 
-.nav-mob-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;margin-left:16px}
+.nav-mob-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;margin-left:12px}
 .nav-mob-toggle span{display:block;width:22px;height:1px;background:var(--v3);transition:all .3s}
 
 /* mobile nav */
-.mob-menu{position:fixed;inset:0;background:rgba(5,4,10,.97);backdrop-filter:blur(24px);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;transform:translateX(100%);transition:transform .45s cubic-bezier(.77,0,.18,1)}
+.mob-menu{position:fixed;inset:0;background:rgba(5,4,10,.97);backdrop-filter:blur(24px);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transform:translateX(100%);transition:transform .45s cubic-bezier(.77,0,.18,1);padding:60px 24px}
 .mob-menu.open{transform:translateX(0)}
-.mob-menu a{font-family:var(--f-disp);font-weight:700;font-size:2.2rem;color:var(--ivory);text-decoration:none;transition:color .3s}
+.mob-menu a{font-family:var(--f-disp);font-weight:700;font-size:1.8rem;color:var(--ivory);text-decoration:none;transition:color .3s}
 .mob-menu a:hover{color:var(--v3)}
+.mob-menu .mob-sep{width:40px;height:1px;background:rgba(139,92,246,.2)}
+.mob-menu .mob-sub{font-size:1rem;color:var(--dimmer);font-weight:400}
 .mob-close{position:absolute;top:24px;right:28px;font-size:2rem;background:none;border:none;color:var(--dimmer);cursor:pointer;transition:color .3s;font-family:var(--f-disp)}
 .mob-close:hover{color:var(--ivory)}
 
@@ -149,34 +156,24 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
    HERO SECTION
 ══════════════════════════════ */
 #hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:130px 48px 80px;z-index:2;overflow:hidden}
-
-/* Star field */
 .stars{position:absolute;inset:0;overflow:hidden}
 .star{position:absolute;border-radius:50%;background:white;animation:twinkle ease-in-out infinite}
 @keyframes twinkle{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:.9;transform:scale(1.4)}}
-
-/* Spinning globe ring */
 .hero-sphere{position:absolute;width:600px;height:600px;border-radius:50%;border:1px solid rgba(139,92,246,.1);top:50%;left:50%;transform:translate(-50%,-50%);animation:sphere-spin 60s linear infinite}
 .hero-sphere::before{content:'';position:absolute;inset:40px;border-radius:50%;border:1px dashed rgba(139,92,246,.08);animation:sphere-spin 40s linear infinite reverse}
 .hero-sphere::after{content:'';position:absolute;inset:100px;border-radius:50%;border:1px solid rgba(236,72,153,.06);animation:sphere-spin 25s linear infinite}
 @keyframes sphere-spin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
-
-/* Clock strip */
 .hero-clock{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.28em;color:rgba(139,92,246,.6);margin-bottom:20px;display:flex;align-items:center;gap:14px;justify-content:center;opacity:0;animation:fade-up .6s ease .2s forwards}
 .hc-time{font-size:.95rem;color:var(--v4);letter-spacing:.06em}
 .hc-sep{width:1px;height:10px;background:rgba(139,92,246,.3)}
-
 .hero-badge{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--v3);margin-bottom:24px;opacity:0;animation:fade-up .6s ease .35s forwards;display:flex;align-items:center;justify-content:center;gap:10px}
 .hero-badge::before,.hero-badge::after{content:'·····';color:rgba(139,92,246,.3);letter-spacing:.2em}
-
 .hero-title{font-family:var(--f-disp);font-weight:800;font-size:clamp(3rem,9vw,9.5rem);line-height:.88;letter-spacing:-.035em;opacity:0;animation:fade-up .9s ease .5s forwards;margin-bottom:0}
 .hero-title .row1{display:block;color:var(--ivory)}
 .hero-title .row2{display:block;background:linear-gradient(135deg,var(--v2) 0%,var(--pink) 40%,var(--gold) 75%,var(--ivory) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300%;animation:title-shimmer 6s ease-in-out infinite 2s}
 @keyframes title-shimmer{0%,100%{background-position:0%}50%{background-position:100%}}
 .hero-title .row3{display:block;color:rgba(255,255,255,.12);-webkit-text-stroke:1px rgba(139,92,246,.25);font-size:.7em;letter-spacing:-.01em}
-
 .hero-desc{font-family:var(--f-serif);font-size:clamp(.95rem,1.6vw,1.25rem);font-style:italic;color:var(--dim);margin:32px auto 48px;max-width:560px;line-height:1.85;opacity:0;animation:fade-up .9s ease .75s forwards}
-
 .hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fade-up .9s ease .95s forwards}
 .cta-main{font-family:var(--f-disp);font-weight:700;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;padding:16px 42px;background:linear-gradient(135deg,var(--v1),var(--v2));color:#fff;text-decoration:none;border:none;cursor:pointer;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:all .35s;display:inline-block;position:relative;overflow:hidden}
 .cta-main::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--pink),var(--v2));opacity:0;transition:opacity .35s}
@@ -185,8 +182,6 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 .cta-main span{position:relative;z-index:1}
 .cta-sec{font-family:var(--f-disp);font-weight:600;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;padding:16px 42px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.75);background:rgba(255,255,255,.03);text-decoration:none;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:all .35s;backdrop-filter:blur(8px);display:inline-block}
 .cta-sec:hover{border-color:rgba(139,92,246,.5);color:#fff;background:rgba(139,92,246,.08)}
-
-/* Scroll indicator */
 .scroll-down{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fade-in 1s ease 2.5s forwards}
 .scroll-down span{font-family:var(--f-mono);font-size:.5rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(139,92,246,.4)}
 .scroll-mouse{width:22px;height:34px;border:1px solid rgba(139,92,246,.3);border-radius:11px;display:flex;align-items:flex-start;justify-content:center;padding:4px}
@@ -208,7 +203,6 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 .section{position:relative;z-index:2}
 .wrap{max-width:1380px;margin:0 auto;padding:0 56px}
 .pad{padding-top:120px;padding-bottom:120px}
-
 .eyebrow{font-family:var(--f-mono);font-size:.55rem;letter-spacing:.38em;text-transform:uppercase;color:var(--v3);margin-bottom:14px;display:flex;align-items:center;gap:12px}
 .eyebrow::before{content:'';width:18px;height:1px;background:var(--v3)}
 .big-title{font-family:var(--f-disp);font-weight:800;font-size:clamp(2rem,5vw,4.2rem);line-height:1;letter-spacing:-.03em;margin-bottom:16px;color:var(--ivory)}
@@ -220,26 +214,12 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 ══════════════════════════════ */
 #features{background:linear-gradient(180deg,var(--bg),var(--bg1))}
 .bento{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:auto;gap:12px;margin-top:64px}
-
 .bento-card{background:var(--surface);border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s;padding:36px 32px}
 .bento-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(109,40,217,.06),transparent 60%);opacity:0;transition:opacity .4s}
 .bento-card:hover{transform:translateY(-5px);box-shadow:0 16px 56px rgba(109,40,217,.18)}
 .bento-card:hover::before{opacity:1}
-
-/* layout spans */
-.bc-wide{grid-column:span 8}
-.bc-narrow{grid-column:span 4}
-.bc-third{grid-column:span 4}
-.bc-half{grid-column:span 6}
-.bc-full{grid-column:span 12}
-.bc-five{grid-column:span 5}
-.bc-seven{grid-column:span 7}
-
-.bc-accent-v{border-top:2px solid var(--v2)}
-.bc-accent-p{border-top:2px solid var(--pink)}
-.bc-accent-g{border-top:2px solid var(--gold)}
-.bc-accent-c{border-top:2px solid var(--cyan)}
-
+.bc-wide{grid-column:span 8}.bc-narrow{grid-column:span 4}.bc-third{grid-column:span 4}.bc-half{grid-column:span 6}.bc-full{grid-column:span 12}.bc-five{grid-column:span 5}.bc-seven{grid-column:span 7}
+.bc-accent-v{border-top:2px solid var(--v2)}.bc-accent-p{border-top:2px solid var(--pink)}.bc-accent-g{border-top:2px solid var(--gold)}.bc-accent-c{border-top:2px solid var(--cyan)}
 .bento-icon{font-size:2.4rem;margin-bottom:20px;display:block}
 .bento-tag{font-family:var(--f-mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;padding:4px 10px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);color:var(--v3);display:inline-block;margin-bottom:14px}
 .bento-h{font-family:var(--f-disp);font-weight:700;font-size:1.15rem;letter-spacing:-.02em;color:var(--ivory);margin-bottom:10px}
@@ -249,15 +229,11 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 .bento-arrow{position:absolute;bottom:24px;right:24px;font-size:1.1rem;color:rgba(139,92,246,.3);transition:all .35s}
 .bento-card:hover .bento-arrow{color:var(--v3);transform:translate(3px,-3px)}
 .bento-link{text-decoration:none;color:inherit;cursor:pointer}
-
-/* big hero card */
 .bc-hero-inner{display:flex;flex-direction:column;justify-content:space-between;height:100%;min-height:280px}
 .bc-hero-inner .bento-h{font-size:1.8rem;max-width:320px}
 .bc-price-row{display:flex;align-items:baseline;gap:8px;margin-top:20px}
 .bc-usd{font-family:var(--f-disp);font-weight:800;font-size:2rem;color:var(--ivory)}
 .bc-bdt{font-family:var(--f-mono);font-size:.65rem;color:var(--dimmer);letter-spacing:.08em}
-
-/* stat mini */
 .mini-stats{display:flex;flex-direction:column;gap:16px}
 .mini-stat{padding-bottom:14px;border-bottom:1px solid var(--border)}
 .mini-stat:last-child{border-bottom:none;padding-bottom:0}
@@ -270,22 +246,13 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 .store-filter{display:flex;gap:8px;flex-wrap:wrap}
 .filter-btn{font-family:var(--f-mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;padding:7px 16px;background:transparent;border:1px solid var(--border);color:var(--dimmer);cursor:pointer;transition:all .25s}
 .filter-btn:hover,.filter-btn.on{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.4);color:var(--v3)}
-
 .products{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-
 .prod-card{background:var(--surface);border:1px solid var(--border);overflow:hidden;transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s;position:relative}
 .prod-card:hover{transform:translateY(-7px);box-shadow:0 24px 64px rgba(109,40,217,.22)}
 .prod-thumb{height:180px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
 .prod-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,var(--surface));pointer-events:none}
-.pt-ai{background:linear-gradient(135deg,#0d0522,#1e0945)}
-.pt-design{background:linear-gradient(135deg,#060d1a,#0d1f45)}
-.pt-web{background:linear-gradient(135deg,#01100f,#032524)}
-.pt-prompt{background:linear-gradient(135deg,#140522,#2e0849)}
-.pt-brand{background:linear-gradient(135deg,#150a01,#332003)}
-.pt-course{background:linear-gradient(135deg,#0d0d0d,#1a1a2e)}
-
+.pt-ai{background:linear-gradient(135deg,#0d0522,#1e0945)}.pt-design{background:linear-gradient(135deg,#060d1a,#0d1f45)}.pt-web{background:linear-gradient(135deg,#01100f,#032524)}.pt-prompt{background:linear-gradient(135deg,#140522,#2e0849)}.pt-brand{background:linear-gradient(135deg,#150a01,#332003)}.pt-course{background:linear-gradient(135deg,#0d0d0d,#1a1a2e)}
 .prod-badge{position:absolute;top:12px;left:12px;font-family:var(--f-mono);font-size:.48rem;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;background:rgba(5,4,10,.8);border:1px solid rgba(139,92,246,.3);color:var(--v3);backdrop-filter:blur(8px);z-index:1}
-
 .prod-body{padding:20px}
 .prod-name{font-family:var(--f-disp);font-weight:700;font-size:1rem;letter-spacing:-.01em;color:var(--ivory);margin-bottom:8px}
 .prod-desc{font-family:var(--f-serif);font-size:.88rem;color:var(--dim);line-height:1.6;margin-bottom:16px;font-style:italic}
@@ -305,11 +272,7 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 .tmpl-card{flex-shrink:0;width:320px;background:var(--surface);border:1px solid var(--border);overflow:hidden;transition:all .4s;cursor:pointer}
 .tmpl-card:hover{border-color:rgba(139,92,246,.4);transform:translateY(-4px);box-shadow:0 16px 40px rgba(109,40,217,.2)}
 .tmpl-preview{height:190px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
-.tp-1{background:linear-gradient(135deg,#0a0520,#1a0540)}
-.tp-2{background:linear-gradient(135deg,#030d1a,#071e3a)}
-.tp-3{background:linear-gradient(135deg,#100007,#280011)}
-.tp-4{background:linear-gradient(135deg,#030a04,#071a09)}
-.tp-5{background:linear-gradient(135deg,#0d0800,#251a00)}
+.tp-1{background:linear-gradient(135deg,#0a0520,#1a0540)}.tp-2{background:linear-gradient(135deg,#030d1a,#071e3a)}.tp-3{background:linear-gradient(135deg,#100007,#280011)}.tp-4{background:linear-gradient(135deg,#030a04,#071a09)}.tp-5{background:linear-gradient(135deg,#0d0800,#251a00)}
 .tmpl-info{padding:18px 20px}
 .tmpl-name{font-family:var(--f-disp);font-weight:700;font-size:.95rem;margin-bottom:6px;color:var(--ivory)}
 .tmpl-cat{font-family:var(--f-mono);font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dimmer);margin-bottom:14px}
@@ -334,7 +297,6 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 .svc-info p{font-family:var(--f-serif);font-size:.82rem;color:var(--dim);font-style:italic}
 .svc-p{font-family:var(--f-disp);font-weight:700;font-size:.85rem;color:var(--v3);white-space:nowrap;text-align:right}
 .svc-p span{display:block;font-family:var(--f-mono);font-size:.5rem;color:var(--dimmer);margin-top:2px;text-align:right}
-
 .svc-aside{position:sticky;top:100px}
 .svc-aside-card{background:var(--surface);border:1px solid var(--border);padding:36px;position:relative;overflow:hidden;margin-bottom:16px}
 .svc-aside-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(139,92,246,.08),transparent 60%)}
@@ -373,29 +335,49 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 .gallery-item:hover .gallery-img{transform:scale(1.05)}
 .gi-overlay{position:absolute;inset:0;background:rgba(5,4,10,.75);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .35s;backdrop-filter:blur(4px)}
 .gi-overlay span{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ivory);padding:8px 16px;border:1px solid rgba(255,255,255,.3)}
-.gi-tall{padding:80px 20px}
-.gi-short{padding:30px 20px}
-.gi-mid{padding:55px 20px}
+.gi-tall{padding:80px 20px}.gi-short{padding:30px 20px}.gi-mid{padding:55px 20px}
+.gp-card{position:relative;overflow:hidden}
+.gi-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;transition:transform .5s ease}
+.gallery-item:hover .gi-photo{transform:scale(1.06)}
+.gp-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;z-index:1;background:linear-gradient(135deg,var(--bg3),var(--surface))}
+.gp-icon{font-size:2rem;opacity:.4}
+.gp-hint{font-family:var(--f-mono);font-size:.38rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmer);text-align:center;padding:0 10px}
 
 /* ══════════════════════════════
-   CONTENT / BLOG
+   VIDEO / CONTENT
 ══════════════════════════════ */
 #content{background:var(--bg)}
 .content-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;margin-top:56px}
-.content-featured{background:var(--surface);border:1px solid var(--border);overflow:hidden;transition:all .35s;cursor:pointer}
-.content-featured:hover{border-color:rgba(139,92,246,.4);transform:translateY(-4px)}
-.cf-top{height:220px;display:flex;align-items:center;justify-content:center;font-size:4rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#0a0520,#1e0840)}
-.cf-body{padding:28px}
-.cf-cat{font-family:var(--f-mono);font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--v3);margin-bottom:12px}
-.cf-title{font-family:var(--f-disp);font-weight:700;font-size:1.4rem;color:var(--ivory);line-height:1.2;letter-spacing:-.02em;margin-bottom:12px}
-.cf-excerpt{font-family:var(--f-serif);font-size:.95rem;color:var(--dim);line-height:1.7;font-style:italic}
-.content-list{display:flex;flex-direction:column;gap:3px}
-.cl-item{display:flex;gap:16px;padding:18px 20px;background:var(--surface);border:1px solid var(--border);transition:all .3s;cursor:pointer;align-items:flex-start}
-.cl-item:hover{border-color:rgba(139,92,246,.35);background:rgba(22,16,48,.5);transform:translateX(3px)}
-.cli-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px}
-.cli-cat{font-family:var(--f-mono);font-size:.48rem;letter-spacing:.18em;text-transform:uppercase;color:var(--v3);margin-bottom:5px}
-.cli-title{font-family:var(--f-disp);font-weight:600;font-size:.9rem;color:var(--ivory);line-height:1.3}
-.cli-date{font-family:var(--f-mono);font-size:.48rem;color:var(--dimmer);margin-top:6px}
+.vid-hero{width:100%}
+.vid-hero-inner{display:grid;grid-template-columns:1fr 360px;gap:36px;align-items:center;background:rgba(15,11,30,.6);border:1px solid var(--border);padding:32px;position:relative;overflow:hidden}
+.vid-hero-inner::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(109,40,217,.06),rgba(236,72,153,.04));pointer-events:none}
+.vid-frame{position:relative;width:100%;padding-top:56.25%;overflow:hidden;background:#000}
+.vid-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.vid-live-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:var(--green);border:1px solid rgba(16,185,129,.25);padding:4px 10px;margin-bottom:16px}
+.vid-live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink-dot 1.5s ease-in-out infinite}
+.vid-hero-title{font-family:var(--f-disp);font-weight:700;font-size:1.5rem;letter-spacing:-.02em;color:var(--ivory);margin-bottom:12px;line-height:1.2}
+.vid-hero-desc{font-family:var(--f-serif);font-size:.92rem;color:var(--dim);line-height:1.7;font-style:italic;margin-bottom:22px}
+.vid-watch-btn{font-family:var(--f-mono);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ivory);text-decoration:none;padding:10px 20px;border:1px solid rgba(139,92,246,.4);background:rgba(109,40,217,.15);transition:all .3s;display:inline-block}
+.vid-watch-btn:hover{background:var(--v1);border-color:var(--v1)}
+.vid-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.vid-card{background:rgba(15,11,30,.7);border:1px solid var(--border);cursor:pointer;transition:all .3s;overflow:hidden}
+.vid-card:hover{border-color:rgba(139,92,246,.4);transform:translateY(-4px)}
+.vid-thumb{position:relative;width:100%;padding-top:56.25%;overflow:hidden}
+.vid-thumb-ai{background:linear-gradient(135deg,rgba(109,40,217,.3),rgba(5,4,10,.9))}
+.vid-thumb-design{background:linear-gradient(135deg,rgba(236,72,153,.25),rgba(5,4,10,.9))}
+.vid-thumb-story{background:linear-gradient(135deg,rgba(245,158,11,.22),rgba(5,4,10,.9))}
+.vid-thumb-crypto{background:linear-gradient(135deg,rgba(16,185,129,.2),rgba(5,4,10,.9))}
+.vid-play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15);transition:all .3s}
+.vid-card:hover .vid-play-btn{background:var(--v1);border-color:var(--v1);color:#fff;transform:translate(-50%,-50%) scale(1.1)}
+.vid-duration{position:absolute;bottom:8px;right:8px;font-family:var(--f-mono);font-size:.42rem;letter-spacing:.08em;color:rgba(255,255,255,.5);background:rgba(0,0,0,.5);padding:2px 6px}
+.vid-card-body{padding:14px}
+.vid-cat{font-family:var(--f-mono);font-size:.44rem;letter-spacing:.18em;text-transform:uppercase;color:var(--v3);margin-bottom:6px}
+.vid-title{font-family:var(--f-disp);font-size:.86rem;color:var(--ivory);line-height:1.35;font-weight:600;margin-bottom:6px}
+.vid-meta{font-family:var(--f-mono);font-size:.42rem;color:var(--dimmer)}
+.vid-subscribe-row{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;background:rgba(109,40,217,.06);border:1px solid rgba(139,92,246,.15)}
+.vid-sub-text{font-family:var(--f-serif);font-size:.92rem;color:var(--dim);font-style:italic}
+.vid-sub-btn{font-family:var(--f-mono);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ivory);text-decoration:none;padding:10px 20px;background:var(--v1);border:1px solid var(--v1);transition:all .3s;flex-shrink:0}
+.vid-sub-btn:hover{background:var(--v2)}
 
 /* ══════════════════════════════
    AI SECTION
@@ -411,9 +393,6 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 .ai-card-title{font-family:var(--f-disp);font-weight:700;font-size:.95rem;color:var(--ivory);margin-bottom:6px}
 .ai-card-text{font-family:var(--f-serif);font-size:.88rem;color:var(--dim);line-height:1.6;font-style:italic}
 .ai-card-price{font-family:var(--f-mono);font-size:.55rem;color:var(--v3);margin-top:8px;letter-spacing:.08em}
-
-/* AI Buyable package cards */
-.ai-card-buyable{cursor:pointer}
 .ai-card-buyable:hover{border-color:rgba(139,92,246,.45);background:rgba(28,21,48,.9);transform:translateX(5px)}
 .ai-pkg-footer{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid rgba(139,92,246,.12)}
 .ai-pkg-price{display:flex;flex-direction:column;gap:2px}
@@ -421,8 +400,6 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 .ai-bdt{font-family:var(--f-mono);font-size:.5rem;color:var(--v3);letter-spacing:.08em}
 .ai-pkg-btn{font-family:var(--f-mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.4);color:var(--v3);cursor:pointer;transition:all .3s;white-space:nowrap}
 .ai-pkg-btn:hover{background:rgba(139,92,246,.3);border-color:var(--v3);box-shadow:0 0 14px rgba(139,92,246,.3)}
-
-/* AI mini chat widget */
 .ai-chat{background:var(--surface);border:1px solid var(--border);overflow:hidden;position:sticky;top:100px}
 .ai-chat-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:rgba(0,0,0,.2)}
 .ai-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--v1),var(--pink));display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;animation:exo-float 3s ease-in-out infinite}
@@ -433,7 +410,7 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 .ai-msgs{height:240px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:rgba(139,92,246,.2) transparent}
 .msg{max-width:80%;font-family:var(--f-serif);font-size:.88rem;padding:10px 14px;line-height:1.5}
-.msg.bot{align-self:flex-start;background:rgba(109,40,217,.12);border:1px solid rgba(109,40,217,.2);color:var(--fog, #e9d5ff);border-radius:0 8px 8px 8px;font-style:italic}
+.msg.bot{align-self:flex-start;background:rgba(109,40,217,.12);border:1px solid rgba(109,40,217,.2);color:#e9d5ff;border-radius:0 8px 8px 8px;font-style:italic}
 .msg.user{align-self:flex-end;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--ivory);border-radius:8px 0 8px 8px}
 .ai-input-row{display:flex;gap:0;border-top:1px solid var(--border)}
 .ai-input{flex:1;background:rgba(0,0,0,.3);border:none;color:var(--ivory);font-family:var(--f-serif);font-size:.88rem;padding:14px 16px;outline:none;font-style:italic}
@@ -442,86 +419,49 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 .ai-send:hover{background:var(--v3)}
 
 /* ══════════════════════════════
-   ABOUT — Abid  (cinematic full-bleed)
+   ABOUT — Galaxy system
 ══════════════════════════════ */
 #about{background:var(--bg2);position:relative;overflow:hidden}
-/* full-bleed — no wrap container */
 .about-fullbleed{display:grid;grid-template-columns:1fr 1fr;min-height:88vh;position:relative}
-/* subtle diagonal divider line */
 .about-fullbleed::after{content:'';position:absolute;top:0;bottom:0;left:50%;width:1px;background:linear-gradient(180deg,transparent,rgba(139,92,246,.25) 20%,rgba(139,92,246,.35) 50%,rgba(139,92,246,.25) 80%,transparent);pointer-events:none;z-index:2}
-/* left panel — globe visual */
 .about-visual-panel{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 64px;position:relative;background:linear-gradient(135deg,rgba(0,0,0,.3),rgba(109,40,217,.04));overflow:hidden}
-/* animated bg rings behind globe */
 .about-visual-panel::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;border:1px solid rgba(139,92,246,.06);top:50%;left:50%;transform:translate(-50%,-50%);animation:ab-ring 30s linear infinite}
 .about-visual-panel::after{content:'';position:absolute;width:380px;height:380px;border-radius:50%;border:1px dashed rgba(139,92,246,.08);top:50%;left:50%;transform:translate(-50%,-50%);animation:ab-ring 20s linear infinite reverse}
 @keyframes ab-ring{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
-/* location chip */
 .about-chip{font-family:var(--f-mono);font-size:.52rem;letter-spacing:.3em;text-transform:uppercase;padding:7px 16px;border:1px solid rgba(139,92,246,.3);color:rgba(139,92,246,.6);background:rgba(9,7,20,.6);backdrop-filter:blur(8px);margin-bottom:40px;position:relative;z-index:3}
-
-/* ── GALAXY SYSTEM ── */
 .galaxy-system{position:relative;width:340px;height:340px;display:flex;align-items:center;justify-content:center;z-index:3}
-
-/* Central Earth */
 .galaxy-earth{position:absolute;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1a4a2e,#0a1f14);border:2px solid rgba(139,92,246,.4);display:flex;align-items:center;justify-content:center;font-size:2.6rem;box-shadow:0 0 60px rgba(109,40,217,.4),0 0 120px rgba(109,40,217,.15),inset 0 0 30px rgba(109,40,217,.1);z-index:10;animation:earth-breathe 6s ease-in-out infinite}
 @keyframes earth-breathe{0%,100%{box-shadow:0 0 60px rgba(109,40,217,.4),0 0 120px rgba(109,40,217,.15)}50%{box-shadow:0 0 100px rgba(139,92,246,.6),0 0 180px rgba(109,40,217,.25)}}
-
-/* Orbit rings */
 .orbit-ring{position:absolute;top:50%;left:50%;border-radius:50%;border:1px dashed rgba(139,92,246,.18);transform-origin:0 0}
-
-/* Exora orbit */
 .orbit-exora{width:200px;height:200px;margin-left:-100px;margin-top:-100px;animation:orbit-exora 20s linear infinite}
-/* Unexplored orbit */
 .orbit-unexplored{width:290px;height:290px;margin-left:-145px;margin-top:-145px;border-color:rgba(236,72,153,.12);animation:orbit-exora 34s linear infinite reverse}
-/* Void orbit */
 .orbit-void{width:330px;height:330px;margin-left:-165px;margin-top:-165px;border-color:rgba(6,182,212,.1);animation:orbit-exora 16s linear infinite}
-/* Nebula orbit */
 .orbit-nebula{width:160px;height:160px;margin-left:-80px;margin-top:-80px;border-color:rgba(245,158,11,.1);animation:orbit-exora 26s linear infinite reverse}
-
 @keyframes orbit-exora{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-
-/* Planet dot on orbit */
 .orb-planet{position:absolute;top:-1px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px}
-
-/* Exora planet — glowing */
 .orb-exora-planet{position:relative}
 .orb-glow-exora{position:absolute;width:36px;height:36px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.9),rgba(109,40,217,.4) 50%,transparent 75%);box-shadow:0 0 20px rgba(139,92,246,.8),0 0 40px rgba(109,40,217,.4),0 0 80px rgba(139,92,246,.2);animation:exora-pulse 2.8s ease-in-out infinite}
 @keyframes exora-pulse{0%,100%{box-shadow:0 0 20px rgba(139,92,246,.8),0 0 40px rgba(109,40,217,.4),0 0 80px rgba(139,92,246,.2);transform:scale(1)}50%{box-shadow:0 0 30px rgba(167,139,250,1),0 0 70px rgba(139,92,246,.6),0 0 120px rgba(109,40,217,.3);transform:scale(1.15)}}
-
 .orb-core{font-family:var(--f-mono);font-size:1.2rem;color:var(--v3);position:relative;z-index:2;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(109,40,217,.6),rgba(5,4,10,.9));border:1px solid rgba(139,92,246,.6)}
 .orb-core-sm{width:22px;height:22px;font-size:.8rem;background:radial-gradient(circle,rgba(236,72,153,.5),rgba(5,4,10,.9));border-color:rgba(236,72,153,.5);color:var(--pink)}
 .orb-core-xs{width:14px;height:14px;font-size:.55rem;background:radial-gradient(circle,rgba(6,182,212,.5),rgba(5,4,10,.9));border-color:rgba(6,182,212,.4);color:var(--cyan)}
-
-/* Label + line for Exora */
 .orb-label-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;animation:counter-orbit-exora 20s linear infinite}
 .orbit-unexplored .orb-label-wrap{animation:counter-orbit-exora 34s linear infinite reverse}
 @keyframes counter-orbit-exora{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
-
 .orb-label-text{font-family:var(--f-mono);font-size:.42rem;letter-spacing:.28em;text-transform:uppercase;color:var(--v3);white-space:nowrap;background:rgba(5,4,10,.75);padding:2px 7px;border:1px solid rgba(139,92,246,.4);animation:label-glow 2.8s ease-in-out infinite;text-shadow:0 0 8px rgba(139,92,246,.8)}
 @keyframes label-glow{0%,100%{color:var(--v3);text-shadow:0 0 8px rgba(139,92,246,.8)}50%{color:var(--v4);text-shadow:0 0 16px rgba(167,139,250,1)}}
-
 .orbit-unexplored .orb-label-text{color:var(--pink);border-color:rgba(236,72,153,.35);animation:none;text-shadow:0 0 8px rgba(236,72,153,.6)}
 .orb-label-line{width:1px;height:12px;background:linear-gradient(180deg,rgba(139,92,246,.6),transparent)}
 .orb-label-sm .orb-label-text{font-size:.38rem}
-
-/* Unexplored orb */
 .orb-unexplored-planet .orb-core-sm{animation:unexplored-spin 4s linear infinite}
 @keyframes unexplored-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-
-/* Void orb */
-.orb-void-planet .orb-core-xs{background:radial-gradient(circle,rgba(6,182,212,.5),rgba(5,4,10,.9))}
-/* Nebula orb */
 .orb-nebula-planet .orb-core-xs{background:radial-gradient(circle,rgba(245,158,11,.5),rgba(5,4,10,.9));border-color:rgba(245,158,11,.4);color:var(--gold)}
-
-/* building chip below */
 .about-building-chip{font-family:var(--f-mono);font-size:.5rem;letter-spacing:.25em;text-transform:uppercase;padding:8px 18px;border:1px solid rgba(139,92,246,.2);color:rgba(139,92,246,.45);background:rgba(9,7,20,.5);backdrop-filter:blur(8px);margin-top:40px;position:relative;z-index:3;display:flex;align-items:center;gap:8px}
 .about-building-chip::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink-dot 2s ease-in-out infinite;flex-shrink:0}
 @keyframes blink-dot{0%,100%{opacity:1}50%{opacity:.2}}
-/* right panel — text */
 .about-text-panel{display:flex;flex-direction:column;justify-content:center;padding:80px 72px 80px 80px;position:relative}
-/* THE CREATOR eyebrow */
 .about-creator-tag{font-family:var(--f-mono);font-size:.52rem;letter-spacing:.38em;text-transform:uppercase;color:var(--v3);margin-bottom:18px;display:flex;align-items:center;gap:14px;opacity:.7}
 .about-creator-tag::before{content:'';width:22px;height:1px;background:var(--v3)}
-/* big name */
 .about-name{font-family:var(--f-disp);font-weight:800;font-size:clamp(2.4rem,4.5vw,4.8rem);letter-spacing:-.04em;color:var(--ivory);line-height:.9;margin-bottom:12px}
 .about-role-tag{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--v3);margin-bottom:32px;display:flex;align-items:center;gap:10px}
 .about-role-tag::after{content:'';flex:1;max-width:40px;height:1px;background:var(--v3);opacity:.4}
@@ -531,20 +471,11 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 .about-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
 .about-pill{font-family:var(--f-mono);font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;padding:6px 14px;border:1px solid rgba(139,92,246,.2);color:rgba(139,92,246,.55);transition:all .3s;cursor:default}
 .about-pill:hover{border-color:rgba(139,92,246,.55);color:var(--v3);background:rgba(139,92,246,.06)}
-/* stats */
 .about-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
 .about-stat{padding:18px 20px;background:rgba(0,0,0,.2);border:1px solid var(--border);text-align:center;transition:border-color .3s}
 .about-stat:hover{border-color:rgba(139,92,246,.3)}
 .as-num{font-family:var(--f-disp);font-weight:800;font-size:2.2rem;color:var(--v3);letter-spacing:-.04em}
 .as-label{font-family:var(--f-mono);font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmer);margin-top:4px}
-/* responsive */
-@media(max-width:900px){
-  .about-fullbleed{grid-template-columns:1fr;min-height:auto}
-  .about-fullbleed::after{display:none}
-  .about-visual-panel{padding:64px 32px;border-bottom:1px solid var(--border)}
-  .about-text-panel{padding:56px 32px}
-  .about-name{font-size:clamp(2rem,8vw,3rem)}
-}
 
 /* ══════════════════════════════
    PLANS / PRICING
@@ -556,7 +487,7 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 .plans-header .eyebrow::before{display:none}
 .plans-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .plan{background:var(--surface);border:1px solid var(--border);padding:40px 32px;position:relative;overflow:hidden;transition:all .4s}
-.plan::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,transparent)}
+.plan::after{content:'';position:absolute;top:0;left:0;right:0;height:3px}
 .plan:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(109,40,217,.18)}
 .plan.pop{border-color:rgba(139,92,246,.45);background:linear-gradient(145deg,rgba(28,20,54,.95),rgba(20,14,42,.95))}
 .plan.pop::after{background:linear-gradient(90deg,var(--v1),var(--v2),var(--pink))}
@@ -591,14 +522,12 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 .faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .4s}
 .faq-item.open .faq-a{max-height:200px}
 .faq-a-inner{padding:0 20px 18px;font-family:var(--f-serif);font-size:.92rem;color:var(--dim);line-height:1.7;font-style:italic}
-
 .help-contact{display:flex;flex-direction:column;gap:10px;margin-top:24px}
 .hc-chan{display:flex;align-items:center;gap:16px;padding:18px 20px;background:var(--surface);border:1px solid var(--border);transition:all .3s;text-decoration:none;color:inherit;cursor:pointer}
 .hc-chan:hover{border-color:rgba(139,92,246,.4);transform:translateX(4px)}
 .hcc-icon{font-size:1.3rem}
 .hcc-label{font-family:var(--f-mono);font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(139,92,246,.45);margin-bottom:3px}
 .hcc-val{font-size:.9rem;color:var(--cream)}
-
 .help-form{background:var(--surface);border:1px solid var(--border);padding:32px}
 .hf-title{font-family:var(--f-disp);font-weight:700;font-size:1.1rem;color:var(--ivory);margin-bottom:20px}
 .hf-fields{display:flex;flex-direction:column;gap:12px}
@@ -615,14 +544,22 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
    EXO FLOATING GUIDE
 ══════════════════════════════ */
 #exo{position:fixed;bottom:28px;right:28px;z-index:800;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
-.exo-bubble{background:rgba(9,7,20,.96);border:1px solid rgba(139,92,246,.35);max-width:250px;padding:14px 18px;backdrop-filter:blur(16px);box-shadow:0 8px 32px rgba(109,40,217,.28);display:none;position:relative;animation:slide-up .3s ease}
+.exo-bubble{background:rgba(9,7,20,.97);border:1px solid rgba(139,92,246,.35);width:300px;padding:0;backdrop-filter:blur(16px);box-shadow:0 8px 40px rgba(109,40,217,.3);display:none;position:relative;animation:slide-up .3s ease;overflow:hidden}
 .exo-bubble.show{display:block}
-.exo-bubble::after{content:'';position:absolute;bottom:-8px;right:24px;width:14px;height:14px;background:rgba(9,7,20,.96);border-right:1px solid rgba(139,92,246,.35);border-bottom:1px solid rgba(139,92,246,.35);transform:rotate(45deg)}
-.eb-name{font-family:var(--f-mono);font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--v3);margin-bottom:6px}
-.eb-text{font-family:var(--f-serif);font-size:.88rem;color:var(--dim);line-height:1.55;font-style:italic}
-.eb-close{position:absolute;top:8px;right:10px;background:none;border:none;color:rgba(139,92,246,.4);cursor:pointer;font-size:.85rem;line-height:1}
-.eb-close:hover{color:var(--v3)}
-.exo-trigger{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--v1),var(--pink));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 24px rgba(109,40,217,.5);animation:exo-float 3.5s ease-in-out infinite;transition:transform .2s}
+.exo-bubble-header{padding:12px 16px;background:linear-gradient(135deg,rgba(109,40,217,.15),rgba(236,72,153,.08));border-bottom:1px solid rgba(139,92,246,.2);display:flex;align-items:center;justify-content:space-between}
+.exo-bubble-title{font-family:var(--f-mono);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--v3)}
+.exo-bubble-status{display:flex;align-items:center;gap:5px;font-family:var(--f-mono);font-size:.45rem;color:rgba(16,185,129,.6)}
+.exo-status-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:status-pulse 2s infinite}
+@keyframes status-pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.exo-msgs{height:180px;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;scrollbar-color:rgba(139,92,246,.2) transparent}
+.exo-msg{font-family:var(--f-serif);font-size:.82rem;color:var(--dim);line-height:1.5;font-style:italic;padding:8px 10px;background:rgba(139,92,246,.05);border-left:2px solid rgba(139,92,246,.3);border-radius:0 4px 4px 0;max-width:90%;animation:fade-up .3s ease}
+.exo-msg.user-msg{align-self:flex-end;background:rgba(255,255,255,.04);border-left:none;border-right:2px solid rgba(255,255,255,.15);text-align:right;color:rgba(250,248,242,.7);font-style:normal}
+.exo-input-row{display:flex;border-top:1px solid rgba(139,92,246,.15)}
+.exo-text-input{flex:1;background:rgba(0,0,0,.4);border:none;color:var(--ivory);font-family:var(--f-serif);font-size:.8rem;padding:10px 12px;outline:none;font-style:italic}
+.exo-text-input::placeholder{color:rgba(196,181,253,.2)}
+.exo-send-btn{font-family:var(--f-mono);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:10px 12px;background:var(--v1);color:#fff;border:none;cursor:pointer;transition:background .3s;flex-shrink:0}
+.exo-send-btn:hover{background:var(--v2)}
+.exo-trigger{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--v1),var(--pink));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 24px rgba(109,40,217,.5);animation:exo-float 3.5s ease-in-out infinite;transition:transform .2s;position:relative}
 .exo-trigger:hover{transform:scale(1.1)!important}
 .exo-ping{position:absolute;top:-2px;right:-2px;width:12px;height:12px;border-radius:50%;background:var(--gold);animation:ping-anim 2s infinite}
 @keyframes ping-anim{0%,100%{transform:scale(1);opacity:1}60%{transform:scale(1.8);opacity:0}}
@@ -643,16 +580,12 @@ nav.scrolled{background:rgba(5,4,10,.88);backdrop-filter:blur(24px);border-botto
 .pp-icon{font-size:1.8rem}
 .pp-name{font-family:var(--f-disp);font-weight:700;font-size:.9rem;color:var(--ivory)}
 .pp-price{font-family:var(--f-mono);font-size:.6rem;color:var(--v3);margin-top:2px}
-
-/* buyer form */
 .buyer-section{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
 .pay-field label{display:block;font-family:var(--f-mono);font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmer);margin-bottom:6px}
 .pay-field input{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(139,92,246,.18);color:var(--ivory);font-family:var(--f-disp);font-size:.88rem;padding:11px 14px;outline:none;transition:border-color .3s}
 .pay-field input:focus{border-color:rgba(139,92,246,.45)}
 .pay-field input::placeholder{color:rgba(196,181,253,.2)}
-
-/* method tabs */
-.pay-tabs{display:flex;gap:6px;margin-bottom:18px}
+.pay-tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
 .ptab{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:8px 14px;border:1px solid rgba(139,92,246,.18);background:transparent;color:var(--dimmer);cursor:pointer;transition:all .25s;flex:1;text-align:center}
 .ptab.on{border-color:var(--v3);background:rgba(139,92,246,.12);color:var(--v3)}
 .ppanel{display:none}.ppanel.on{display:block;animation:fade-in .25s ease}
@@ -693,84 +626,17 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
 .ft-col a:hover{color:var(--ivory)}
 .footer-bottom{max-width:1380px;margin:0 auto;padding:24px 56px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .fb-copy{font-family:var(--f-mono);font-size:.52rem;letter-spacing:.14em;color:rgba(139,92,246,.2)}
-.fb-links{display:flex;gap:20px}
+.fb-links{display:flex;gap:20px;flex-wrap:wrap}
 .fb-links a{font-family:var(--f-mono);font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(139,92,246,.25);text-decoration:none;transition:color .3s}
 .fb-links a:hover{color:var(--v3)}
-
-
-/* ── SOCIAL MEDIA FOOTER BUTTONS ── */
 .ft-social{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .ft-social-btn{width:36px;height:36px;border:1px solid rgba(139,92,246,.2);color:rgba(139,92,246,.45);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .3s;border-radius:0}
 .ft-social-btn:hover{border-color:var(--v3);color:var(--v3);background:rgba(139,92,246,.08);transform:translateY(-2px);box-shadow:0 4px 12px rgba(109,40,217,.2)}
 
-/* ── UPGRADE EXO BUBBLE to chat panel ── */
-.exo-bubble{background:rgba(9,7,20,.97);border:1px solid rgba(139,92,246,.35);width:300px;padding:0;backdrop-filter:blur(16px);box-shadow:0 8px 40px rgba(109,40,217,.3);display:none;position:relative;animation:slide-up .3s ease;overflow:hidden}
-.exo-bubble.show{display:block}
-.exo-bubble-header{padding:12px 16px;background:linear-gradient(135deg,rgba(109,40,217,.15),rgba(236,72,153,.08));border-bottom:1px solid rgba(139,92,246,.2);display:flex;align-items:center;justify-content:space-between}
-.exo-bubble-title{font-family:var(--f-mono);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--v3)}
-.exo-bubble-status{display:flex;align-items:center;gap:5px;font-family:var(--f-mono);font-size:.45rem;color:rgba(16,185,129,.6)}
-.exo-status-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:status-pulse 2s infinite}
-@keyframes status-pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.exo-msgs{height:180px;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;scrollbar-color:rgba(139,92,246,.2) transparent}
-.exo-msg{font-family:var(--f-serif);font-size:.82rem;color:var(--dim);line-height:1.5;font-style:italic;padding:8px 10px;background:rgba(139,92,246,.05);border-left:2px solid rgba(139,92,246,.3);border-radius:0 4px 4px 0;max-width:90%;animation:fade-up .3s ease}
-.exo-msg.user-msg{align-self:flex-end;background:rgba(255,255,255,.04);border-left:none;border-right:2px solid rgba(255,255,255,.15);text-align:right;color:rgba(250,248,242,.7);font-style:normal}
-.exo-input-row{display:flex;border-top:1px solid rgba(139,92,246,.15)}
-.exo-text-input{flex:1;background:rgba(0,0,0,.4);border:none;color:var(--ivory);font-family:var(--f-serif);font-size:.8rem;padding:10px 12px;outline:none;font-style:italic}
-.exo-text-input::placeholder{color:rgba(196,181,253,.2)}
-.exo-send-btn{font-family:var(--f-mono);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:10px 12px;background:var(--v1);color:#fff;border:none;cursor:pointer;transition:background .3s;flex-shrink:0}
-.exo-send-btn:hover{background:var(--v2)}
-
-/* ── ADS PLACEHOLDER ── */
+/* ── AD SLOT ── */
 .ad-slot{width:100%;background:rgba(255,255,255,.01);border:1px dashed rgba(139,92,246,.1);display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:.48rem;letter-spacing:.2em;color:rgba(139,92,246,.15);text-transform:uppercase;min-height:90px;position:relative;z-index:2}
 .ad-slot-banner{min-height:60px}
 
-/* ── VIDEO SHOWCASE ── */
-.vid-hero{width:100%}
-.vid-hero-inner{display:grid;grid-template-columns:1fr 360px;gap:36px;align-items:center;background:rgba(15,11,30,.6);border:1px solid var(--border);padding:32px;position:relative;overflow:hidden}
-.vid-hero-inner::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(109,40,217,.06),rgba(236,72,153,.04));pointer-events:none}
-.vid-frame{position:relative;width:100%;padding-top:56.25%;overflow:hidden;background:#000}
-.vid-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-.vid-live-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:var(--green);border:1px solid rgba(16,185,129,.25);padding:4px 10px;margin-bottom:16px}
-.vid-live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink-dot 1.5s ease-in-out infinite}
-.vid-hero-title{font-family:var(--f-disp);font-weight:700;font-size:1.5rem;letter-spacing:-.02em;color:var(--ivory);margin-bottom:12px;line-height:1.2}
-.vid-hero-desc{font-family:var(--f-serif);font-size:.92rem;color:var(--dim);line-height:1.7;font-style:italic;margin-bottom:22px}
-.vid-watch-btn{font-family:var(--f-mono);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ivory);text-decoration:none;padding:10px 20px;border:1px solid rgba(139,92,246,.4);background:rgba(109,40,217,.15);transition:all .3s;display:inline-block}
-.vid-watch-btn:hover{background:var(--v1);border-color:var(--v1)}
-.vid-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.vid-card{background:rgba(15,11,30,.7);border:1px solid var(--border);cursor:pointer;transition:all .3s;overflow:hidden}
-.vid-card:hover{border-color:rgba(139,92,246,.4);transform:translateY(-4px)}
-.vid-thumb{position:relative;width:100%;padding-top:56.25%;overflow:hidden}
-.vid-thumb-ai{background:linear-gradient(135deg,rgba(109,40,217,.3),rgba(5,4,10,.9))}
-.vid-thumb-design{background:linear-gradient(135deg,rgba(236,72,153,.25),rgba(5,4,10,.9))}
-.vid-thumb-story{background:linear-gradient(135deg,rgba(245,158,11,.22),rgba(5,4,10,.9))}
-.vid-thumb-crypto{background:linear-gradient(135deg,rgba(16,185,129,.2),rgba(5,4,10,.9))}
-.vid-play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15);transition:all .3s}
-.vid-card:hover .vid-play-btn{background:var(--v1);border-color:var(--v1);color:#fff;transform:translate(-50%,-50%) scale(1.1)}
-.vid-duration{position:absolute;bottom:8px;right:8px;font-family:var(--f-mono);font-size:.42rem;letter-spacing:.08em;color:rgba(255,255,255,.5);background:rgba(0,0,0,.5);padding:2px 6px}
-.vid-card-body{padding:14px}
-.vid-cat{font-family:var(--f-mono);font-size:.44rem;letter-spacing:.18em;text-transform:uppercase;color:var(--v3);margin-bottom:6px}
-.vid-title{font-family:var(--f-disp);font-size:.86rem;color:var(--ivory);line-height:1.35;font-weight:600;margin-bottom:6px}
-.vid-meta{font-family:var(--f-mono);font-size:.42rem;color:var(--dimmer)}
-.vid-subscribe-row{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;background:rgba(109,40,217,.06);border:1px solid rgba(139,92,246,.15)}
-.vid-sub-text{font-family:var(--f-serif);font-size:.92rem;color:var(--dim);font-style:italic}
-.vid-sub-btn{font-family:var(--f-mono);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ivory);text-decoration:none;padding:10px 20px;background:var(--v1);border:1px solid var(--v1);transition:all .3s;flex-shrink:0}
-.vid-sub-btn:hover{background:var(--v2)}
-@media(max-width:900px){.vid-hero-inner{grid-template-columns:1fr}.vid-grid{grid-template-columns:repeat(2,1fr)}.vid-subscribe-row{flex-direction:column;gap:14px;text-align:center}}
-@media(max-width:540px){.vid-grid{grid-template-columns:1fr}}
-
-/* ── GALLERY PHOTO CARDS ── */
-.gp-card{position:relative;overflow:hidden}
-.gi-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;transition:transform .5s ease}
-.gallery-item:hover .gi-photo{transform:scale(1.06)}
-.gp-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;z-index:1;background:linear-gradient(135deg,var(--bg3),var(--surface))}
-.gp-icon{font-size:2rem;opacity:.4}
-.gp-hint{font-family:var(--f-mono);font-size:.38rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmer);text-align:center;padding:0 10px}
-
-/* ── SPEED ANIMATION override for JS galaxy ── */
-@keyframes speed-burst{0%{animation-duration:6s}100%{animation-duration:18s}}
-.orb, .hero-sphere, .about-globe, .exo-trigger { will-change: transform; }
-.bento-card, .prod-card, .course-card, .tmpl-card, .ai-card, .svc-row { will-change: transform; contain: layout style; }
-img { loading: lazy; }
 /* ══════════════════════════════
    ANIMATIONS
 ══════════════════════════════ */
@@ -780,10 +646,17 @@ img { loading: lazy; }
 .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s ease,transform .8s ease}
 .reveal.vis{opacity:1;transform:none}
 .rv1{transition-delay:.08s}.rv2{transition-delay:.16s}.rv3{transition-delay:.24s}.rv4{transition-delay:.32s}.rv5{transition-delay:.40s}
+.orb,.hero-sphere,.exo-trigger{will-change:transform}
+.bento-card,.prod-card,.course-card,.tmpl-card,.ai-card,.svc-row{will-change:transform;contain:layout style}
+img{loading:lazy}
 
 /* ══════════════════════════════
    RESPONSIVE
 ══════════════════════════════ */
+@media(max-width:1200px){
+  .nav-links-primary{gap:0}
+  .nav-links-primary a,.nav-more-btn{padding:7px 10px;font-size:.58rem}
+}
 @media(max-width:1100px){
   .bento{grid-template-columns:1fr 1fr}
   .bc-wide,.bc-narrow,.bc-five,.bc-seven,.bc-third,.bc-half{grid-column:span 1}
@@ -793,15 +666,17 @@ img { loading: lazy; }
   .services-layout{grid-template-columns:1fr}
   .svc-aside{position:relative;top:0}
   .gallery-masonry{columns:2}
-  .content-grid{grid-template-columns:1fr}
   .help-layout{grid-template-columns:1fr}
   .plans-row{grid-template-columns:1fr}
   .footer-top{grid-template-columns:1fr 1fr}
+  .vid-hero-inner{grid-template-columns:1fr}
+  .vid-grid{grid-template-columns:repeat(2,1fr)}
+  .vid-subscribe-row{flex-direction:column;gap:14px;text-align:center}
 }
 @media(max-width:768px){
   .wrap{padding:0 24px}
-  .nav-inner{padding:16px 24px!important}
-  .nav-links,.nav-actions .btn-ghost-sm,.nav-actions .btn-fill-sm{display:none}
+  .nav-primary{padding:14px 20px!important}
+  .nav-links-primary,.nav-more-btn,.nav-actions .btn-ghost-sm,.nav-actions .btn-fill-sm{display:none}
   .nav-mob-toggle{display:flex}
   #hero{padding:110px 24px 70px}
   .products{grid-template-columns:1fr}
@@ -812,6 +687,13 @@ img { loading: lazy; }
   footer .footer-bottom,.footer-top{padding-left:24px;padding-right:24px}
   .bento{display:flex;flex-direction:column}
   .hero-title{font-size:clamp(2.6rem,13vw,4.5rem)}
+  .about-fullbleed{grid-template-columns:1fr;min-height:auto}
+  .about-fullbleed::after{display:none}
+  .about-visual-panel{padding:64px 32px;border-bottom:1px solid var(--border)}
+  .about-text-panel{padding:56px 32px}
+  .about-name{font-size:clamp(2rem,8vw,3rem)}
+  .nav-more-row{display:none}
+  .vid-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -832,15 +714,22 @@ img { loading: lazy; }
 <div class="mob-menu" id="mobMenu">
   <button class="mob-close" id="mobClose">✕</button>
   <a href="#features" onclick="closeMob()">Explore</a>
-  <a href="store.html">Store</a>
-  <a href="services.html">Services</a>
-  <a href="courses.html">Courses</a>
-  <a href="games.html">🎮 Games</a>
-  <a href="ai.html">AI & Dev</a>
-  <a href="vlog.html">Vlog</a>
-  <a href="gallery.html">Gallery</a>
-  <a href="stories.html">Stories</a>
-  <a href="help.html">Help</a>
+  <a href="store.html" onclick="closeMob()">Store</a>
+  <a href="gallery.html" onclick="closeMob()">Gallery</a>
+  <a href="games.html" onclick="closeMob()">🎮 Games</a>
+  <a href="ai.html" onclick="closeMob()">AI & Dev</a>
+  <a href="news.html" onclick="closeMob()">News</a>
+  <div class="mob-sep"></div>
+  <a href="services.html" class="mob-sub" onclick="closeMob()">Services</a>
+  <a href="courses.html" class="mob-sub" onclick="closeMob()">Courses</a>
+  <a href="vlog.html" class="mob-sub" onclick="closeMob()">Vlog</a>
+  <a href="stories.html" class="mob-sub" onclick="closeMob()">Stories</a>
+  <a href="songs.html" class="mob-sub" onclick="closeMob()">Songs</a>
+  <a href="anime.html" class="mob-sub" onclick="closeMob()">Anime</a>
+  <a href="help.html" class="mob-sub" onclick="closeMob()">Help</a>
+  <div class="mob-sep"></div>
+  <a href="terms.html" class="mob-sub" onclick="closeMob()">Terms</a>
+  <a href="privacy.html" class="mob-sub" onclick="closeMob()">Privacy</a>
 </div>
 
 <!-- Auth Modal -->
@@ -852,7 +741,6 @@ img { loading: lazy; }
       <button class="modal-tab" onclick="switchAuth('register')">Create Account</button>
     </div>
     <div class="modal-body">
-      <!-- Login -->
       <div class="m-panel active" id="panel-login">
         <div class="modal-title">Welcome back</div>
         <div class="modal-sub">Sign in to your ExoraWorld account</div>
@@ -865,7 +753,6 @@ img { loading: lazy; }
           <button class="social-btn">💙 Facebook</button>
         </div>
       </div>
-      <!-- Register -->
       <div class="m-panel" id="panel-register">
         <div class="modal-title">Join ExoraWorld</div>
         <div class="modal-sub">Create your free explorer account</div>
@@ -895,16 +782,14 @@ img { loading: lazy; }
         <div class="pp-icon" id="pm-icon">📦</div>
         <div><div class="pp-name" id="pm-name">Product</div><div class="pp-price" id="pm-price">$0</div></div>
       </div>
-      <!-- Buyer info -->
       <div id="pm-buyer" class="buyer-section">
         <div class="pay-field"><label>Your Name</label><input type="text" id="pm-bname" placeholder="Full name"></div>
         <div class="pay-field"><label>Email (for delivery)</label><input type="email" id="pm-bemail" placeholder="your@email.com"></div>
         <div class="pay-field"><label>Phone</label><input type="tel" id="pm-bphone" placeholder="01XXXXXXXXX"></div>
         <button class="pay-submit" onclick="toPayStep()">Continue to Payment →</button>
       </div>
-      <!-- Payment methods -->
       <div id="pm-payment" style="display:none">
-        <div class="pay-tabs" style="flex-wrap:wrap;gap:5px">
+        <div class="pay-tabs">
           <button class="ptab on" onclick="switchPay('bkash')">bKash</button>
           <button class="ptab" onclick="switchPay('nagad')">Nagad</button>
           <button class="ptab" onclick="switchPay('airtm')">Airtm</button>
@@ -914,7 +799,6 @@ img { loading: lazy; }
           <button class="ptab" onclick="switchPay('sol')">◎ SOL</button>
           <button class="ptab" onclick="switchPay('bnb')">⬡ BNB</button>
         </div>
-        <!-- bKash -->
         <div class="ppanel on" id="pp-bkash">
           <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Open <strong>bKash app</strong> → Send Money</div></div>
           <div class="pay-num-box"><span class="pnb-num" id="bkash-num">01715948039</span><button class="copy-btn" onclick="copyN('bkash-num',this)">Copy</button></div>
@@ -923,7 +807,6 @@ img { loading: lazy; }
           <div class="txn-field"><label>bKash Transaction ID</label><input type="text" class="txn-input" id="txn-bkash" placeholder="e.g. 8N7A6B5C4D"></div>
           <button class="pay-submit" onclick="submitOrder('bKash')">Submit Order →</button>
         </div>
-        <!-- Nagad -->
         <div class="ppanel" id="pp-nagad">
           <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Open <strong>Nagad app</strong> → Send Money</div></div>
           <div class="pay-num-box"><span class="pnb-num" id="nagad-num">01715948039</span><button class="copy-btn" onclick="copyN('nagad-num',this)">Copy</button></div>
@@ -931,7 +814,6 @@ img { loading: lazy; }
           <div class="txn-field"><label>Nagad Transaction ID</label><input type="text" class="txn-input" id="txn-nagad" placeholder="Transaction ID"></div>
           <button class="pay-submit" onclick="submitOrder('Nagad')">Submit Order →</button>
         </div>
-        <!-- Airtm -->
         <div class="ppanel" id="pp-airtm">
           <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send payment to Airtm account below</div></div>
           <div class="pay-num-box"><span class="pnb-num" id="airtm-acc">iammdabidhasan@gmail.com</span><button class="copy-btn" onclick="copyN('airtm-acc',this)">Copy</button></div>
@@ -939,17 +821,14 @@ img { loading: lazy; }
           <div class="txn-field"><label>Airtm Reference</label><input type="text" class="txn-input" id="txn-airtm" placeholder="Transaction reference"></div>
           <button class="pay-submit" onclick="submitOrder('Airtm')">Submit Order →</button>
         </div>
-        <!-- Bitcoin -->
         <div class="ppanel" id="pp-btc">
           <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);color:var(--gold);margin-bottom:14px;display:inline-block">₿ Bitcoin (BTC) — On-chain</div>
           <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send <strong>exact USD amount in BTC</strong> to address below</div></div>
           <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="btc-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_BTC_WALLET_ADDRESS</span><button class="copy-btn" onclick="copyN('btc-addr',this)">Copy</button></div>
           <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Wait for <strong>1 confirmation</strong>, then paste your TX hash below</div></div>
-          <div class="pay-step"><div class="ps-num">3</div><div class="ps-text">Screenshot your transaction and email it to us with your order details</div></div>
           <div class="txn-field"><label>Bitcoin TX Hash</label><input type="text" class="txn-input" id="txn-btc" placeholder="0x... or bc1..."></div>
           <button class="pay-submit" onclick="submitOrder('Bitcoin')">Submit Proof →</button>
         </div>
-        <!-- Ethereum -->
         <div class="ppanel" id="pp-eth">
           <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);color:var(--v3);margin-bottom:14px;display:inline-block">Ξ Ethereum (ETH) — ERC-20</div>
           <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send ETH to the address below (ERC-20 network)</div></div>
@@ -958,7 +837,6 @@ img { loading: lazy; }
           <div class="txn-field"><label>ETH Transaction Hash</label><input type="text" class="txn-input" id="txn-eth" placeholder="0x..."></div>
           <button class="pay-submit" onclick="submitOrder('Ethereum')">Submit Proof →</button>
         </div>
-        <!-- USDT -->
         <div class="ppanel" id="pp-usdt">
           <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);color:var(--green);margin-bottom:14px;display:inline-block">💲 USDT — TRC-20 / ERC-20</div>
           <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Choose network: <strong>TRC-20 (Tron)</strong> recommended for low fees</div></div>
@@ -967,7 +845,6 @@ img { loading: lazy; }
           <div class="txn-field"><label>USDT Transaction Hash</label><input type="text" class="txn-input" id="txn-usdt" placeholder="Txn hash or ID"></div>
           <button class="pay-submit" onclick="submitOrder('USDT')">Submit Proof →</button>
         </div>
-        <!-- Solana -->
         <div class="ppanel" id="pp-sol">
           <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.25);color:var(--cyan);margin-bottom:14px;display:inline-block">◎ Solana (SOL)</div>
           <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send SOL equivalent of the product price</div></div>
@@ -976,7 +853,6 @@ img { loading: lazy; }
           <div class="txn-field"><label>Solana Signature</label><input type="text" class="txn-input" id="txn-sol" placeholder="Signature hash..."></div>
           <button class="pay-submit" onclick="submitOrder('Solana')">Submit Proof →</button>
         </div>
-        <!-- BNB -->
         <div class="ppanel" id="pp-bnb">
           <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);color:var(--gold);margin-bottom:14px;display:inline-block">⬡ BNB — BSC Network</div>
           <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send BNB via <strong>Binance Smart Chain (BSC)</strong></div></div>
@@ -986,7 +862,6 @@ img { loading: lazy; }
           <button class="pay-submit" onclick="submitOrder('BNB')">Submit Proof →</button>
         </div>
       </div>
-      <!-- Success -->
       <div class="pay-success" id="pm-success">
         <div class="ps-icon">✅</div>
         <div class="ps-title">Order Received!</div>
@@ -999,9 +874,11 @@ img { loading: lazy; }
 
 <!-- ══════ NAV ══════ -->
 <nav id="nav">
-  <div class="nav-inner">
+  <!-- Primary Row -->
+  <div class="nav-primary">
     <a href="index.html" class="nav-logo">Exora<span>World</span></a>
-    <ul class="nav-links">
+
+    <ul class="nav-links-primary" style="list-style:none;display:flex;gap:2px;align-items:center;margin-right:16px">
       <li><a href="#features">Explore</a></li>
       <li class="nav-has-drop">
         <a href="store.html">Store</a>
@@ -1014,26 +891,38 @@ img { loading: lazy; }
           <a href="store.html#bundles">📦 Bundles</a>
         </div>
       </li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="courses.html">Courses</a></li>
-      <li class="nav-has-drop">
-        <a href="#">Content</a>
-        <div class="nav-drop">
-          <a href="vlog.html">🎬 Vlog <span class="drop-soon">Soon</span></a>
-          <a href="stories.html">📖 Short Stories <span class="drop-soon">Soon</span></a>
-          <a href="gallery.html">🖼️ Gallery <span class="drop-soon">Soon</span></a>
-          <a href="songs.html">🎵 Songs <span class="drop-soon">Soon</span></a>
-          <a href="anime.html">⛩️ Anime <span class="drop-soon">Soon</span></a>
-        </div>
-      </li>
+      <li><a href="gallery.html">Gallery</a></li>
       <li><a href="games.html">🎮 Games</a></li>
-      <li><a href="ai.html">AI & Dev</a></li>
-      <li><a href="help.html">Help</a></li>
+      <li><a href="ai.html">AI &amp; Dev</a></li>
+      <li><a href="news.html">News</a></li>
+      <li style="list-style:none">
+        <button class="nav-more-btn" id="moreBtn" onclick="toggleMore()" aria-expanded="false" aria-controls="moreRow">
+          More <span class="more-arrow">▾</span>
+        </button>
+      </li>
     </ul>
+
     <div class="nav-actions">
       <button class="btn-ghost-sm" onclick="openAuth('login')">Sign In</button>
       <button class="btn-fill-sm" onclick="openAuth('register')">Get Started</button>
       <div class="nav-mob-toggle" id="mobToggle"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+
+  <!-- Secondary "More" Row — animated slide-down -->
+  <div class="nav-more-row" id="moreRow" role="region" aria-label="More navigation">
+    <div class="nav-more-inner">
+      <a href="services.html">⚡ Services</a>
+      <a href="courses.html">📚 Courses</a>
+      <div class="more-sep"></div>
+      <a href="vlog.html">🎬 Vlog</a>
+      <a href="stories.html">📖 Short Stories</a>
+      <a href="songs.html">🎵 Songs</a>
+      <a href="anime.html">⛩️ Anime</a>
+      <div class="more-sep"></div>
+      <a href="help.html">❓ Help Center</a>
+      <a href="terms.html">📄 Terms of Service</a>
+      <a href="privacy.html">🔒 Privacy Policy</a>
     </div>
   </div>
 </nav>
@@ -1097,10 +986,6 @@ img { loading: lazy; }
   <div class="ticker-item"><div class="t-dot"></div>ExoraWorld</div>
 </div></div>
 
-<!-- AD SLOT — Banner (activate after Google AdSense approval) -->
-<!-- Replace with your actual AdSense ad unit code: -->
-<!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
-<!-- <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
 <div class="ad-slot ad-slot-banner" style="display:none" id="adBanner1">Advertisement</div>
 
 <!-- ══════ FEATURES BENTO ══════ -->
@@ -1327,14 +1212,6 @@ img { loading: lazy; }
       <p class="body-text">A selection of creative work, projects and experiments from ExoraWorld.</p>
     </div>
     <div class="gallery-masonry" style="margin-top:48px">
-      <!--
-        HOW TO ADD YOUR PHOTOS (Cloudflare Images):
-        1. Go to Cloudflare Dashboard → Images → Upload an image
-        2. Copy the "Delivery URL" (looks like: https://imagedelivery.net/YOUR_ACCOUNT_HASH/IMAGE_ID/public)
-        3. Replace src="YOUR_CLOUDFLARE_IMAGE_URL" below with your real URL
-        4. Remove the style="display:none" from <img> and remove the placeholder div
-        Cloudflare Images free tier: 100k images served/month free
-      -->
       <div class="gallery-item">
         <div class="gallery-img gi-tall gp-card">
           <img src="https://imagedelivery.net/YOURHASH/IMAGE1/public" alt="Brand Identity" class="gi-photo" onerror="this.style.display='none'" loading="lazy">
@@ -1403,20 +1280,10 @@ img { loading: lazy; }
       <h2 class="big-title">Watch. <em>Experience.</em></h2>
       <p class="body-text">Behind the builds, tutorials, experiments and stories from ExoraWorld — new content dropping regularly.</p>
     </div>
-
-    <!-- Featured Video Hero -->
     <div class="vid-hero reveal" style="margin-top:56px">
       <div class="vid-hero-inner">
         <div class="vid-frame" id="featuredVid">
-          <!-- Replace src with your YouTube embed or Cloudflare Stream embed URL -->
-          <iframe
-            src="https://www.youtube.com/embed/videoseries?list=PLbpi6ZahtOH6Ar_3GPy3workSY9FEDGkv&autoplay=1&mute=1&loop=1&controls=1&rel=0&modestbranding=1"
-            title="ExoraWorld Featured Video"
-            frameborder="0"
-            allow="autoplay; encrypted-media; picture-in-picture"
-            allowfullscreen
-            loading="lazy"
-          ></iframe>
+          <iframe src="https://www.youtube.com/embed/videoseries?list=PLbpi6ZahtOH6Ar_3GPy3workSY9FEDGkv&autoplay=1&mute=1&loop=1&controls=1&rel=0&modestbranding=1" title="ExoraWorld Featured Video" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>
         </div>
         <div class="vid-hero-meta">
           <div class="vid-live-badge"><span class="vid-live-dot"></span>Latest Drop</div>
@@ -1426,66 +1293,28 @@ img { loading: lazy; }
         </div>
       </div>
     </div>
-
-    <!-- Video Cards Row -->
     <div class="vid-grid reveal rv2" style="margin-top:40px">
-
       <div class="vid-card" onclick="window.open('https://www.youtube.com/@ExoraWorld','_blank')">
-        <div class="vid-thumb vid-thumb-ai">
-          <div class="vid-play-btn">▶</div>
-          <div class="vid-duration">Coming Soon</div>
-        </div>
-        <div class="vid-card-body">
-          <div class="vid-cat">AI & Tools</div>
-          <div class="vid-title">5 AI tools that changed how I create</div>
-          <div class="vid-meta">ExoraWorld · YouTube</div>
-        </div>
+        <div class="vid-thumb vid-thumb-ai"><div class="vid-play-btn">▶</div><div class="vid-duration">Coming Soon</div></div>
+        <div class="vid-card-body"><div class="vid-cat">AI & Tools</div><div class="vid-title">5 AI tools that changed how I create</div><div class="vid-meta">ExoraWorld · YouTube</div></div>
       </div>
-
       <div class="vid-card" onclick="window.open('https://www.youtube.com/@ExoraWorld','_blank')">
-        <div class="vid-thumb vid-thumb-design">
-          <div class="vid-play-btn">▶</div>
-          <div class="vid-duration">Coming Soon</div>
-        </div>
-        <div class="vid-card-body">
-          <div class="vid-cat">Design</div>
-          <div class="vid-title">Building a dark UI that feels alive</div>
-          <div class="vid-meta">ExoraWorld · YouTube</div>
-        </div>
+        <div class="vid-thumb vid-thumb-design"><div class="vid-play-btn">▶</div><div class="vid-duration">Coming Soon</div></div>
+        <div class="vid-card-body"><div class="vid-cat">Design</div><div class="vid-title">Building a dark UI that feels alive</div><div class="vid-meta">ExoraWorld · YouTube</div></div>
       </div>
-
       <div class="vid-card" onclick="window.open('https://www.youtube.com/@ExoraWorld','_blank')">
-        <div class="vid-thumb vid-thumb-story">
-          <div class="vid-play-btn">▶</div>
-          <div class="vid-duration">Coming Soon</div>
-        </div>
-        <div class="vid-card-body">
-          <div class="vid-cat">My Story</div>
-          <div class="vid-title">Growing up in Bangladesh and building online</div>
-          <div class="vid-meta">ExoraWorld · YouTube</div>
-        </div>
+        <div class="vid-thumb vid-thumb-story"><div class="vid-play-btn">▶</div><div class="vid-duration">Coming Soon</div></div>
+        <div class="vid-card-body"><div class="vid-cat">My Story</div><div class="vid-title">Growing up in Bangladesh and building online</div><div class="vid-meta">ExoraWorld · YouTube</div></div>
       </div>
-
       <div class="vid-card" onclick="window.open('https://www.youtube.com/@ExoraWorld','_blank')">
-        <div class="vid-thumb vid-thumb-crypto">
-          <div class="vid-play-btn">▶</div>
-          <div class="vid-duration">Coming Soon</div>
-        </div>
-        <div class="vid-card-body">
-          <div class="vid-cat">Crypto & Web3</div>
-          <div class="vid-title">How I set up crypto payments on my website</div>
-          <div class="vid-meta">ExoraWorld · YouTube</div>
-        </div>
+        <div class="vid-thumb vid-thumb-crypto"><div class="vid-play-btn">▶</div><div class="vid-duration">Coming Soon</div></div>
+        <div class="vid-card-body"><div class="vid-cat">Crypto & Web3</div><div class="vid-title">How I set up crypto payments on my website</div><div class="vid-meta">ExoraWorld · YouTube</div></div>
       </div>
-
     </div>
-
-    <!-- Subscribe CTA -->
     <div class="vid-subscribe-row reveal" style="margin-top:40px">
       <div class="vid-sub-text">New videos, tutorials and behind-the-scenes dropping regularly.</div>
       <a href="https://www.youtube.com/@ExoraWorld" target="_blank" rel="noopener" class="vid-sub-btn">Subscribe on YouTube ↗</a>
     </div>
-
   </div>
 </section>
 
@@ -1499,7 +1328,6 @@ img { loading: lazy; }
     </div>
     <div class="ai-layout">
       <div class="ai-cards reveal">
-
         <div class="ai-card ai-card-buyable" onclick="openPay({name:'Custom Prompt Pack',price:'$15 · ৳1,650',icon:'📝',id:'ai-prompts'})">
           <div class="ai-card-icon">📝</div>
           <div style="flex:1">
@@ -1511,7 +1339,6 @@ img { loading: lazy; }
             </div>
           </div>
         </div>
-
         <div class="ai-card ai-card-buyable" onclick="openPay({name:'AI Chatbot Integration',price:'$80 · ৳8,800',icon:'🤖',id:'ai-chatbot'})">
           <div class="ai-card-icon">🤖</div>
           <div style="flex:1">
@@ -1523,7 +1350,6 @@ img { loading: lazy; }
             </div>
           </div>
         </div>
-
         <div class="ai-card ai-card-buyable" onclick="openPay({name:'Custom Code & Automation',price:'$40 · ৳4,400',icon:'💻',id:'ai-code'})">
           <div class="ai-card-icon">💻</div>
           <div style="flex:1">
@@ -1535,7 +1361,6 @@ img { loading: lazy; }
             </div>
           </div>
         </div>
-
         <div class="ai-card ai-card-buyable" onclick="openPay({name:'Private AI Consultation (1hr)',price:'$20 · ৳2,200',icon:'🔮',id:'ai-consult'})">
           <div class="ai-card-icon">🔮</div>
           <div style="flex:1">
@@ -1547,7 +1372,6 @@ img { loading: lazy; }
             </div>
           </div>
         </div>
-
         <div class="ai-card ai-card-buyable" onclick="openPay({name:'AI Content Strategy Pack',price:'$35 · ৳3,850',icon:'📊',id:'ai-content'})">
           <div class="ai-card-icon">📊</div>
           <div style="flex:1">
@@ -1559,8 +1383,6 @@ img { loading: lazy; }
             </div>
           </div>
         </div>
-
-      </div>
       </div>
       <div class="reveal rv2">
         <div class="ai-chat">
@@ -1584,14 +1406,10 @@ img { loading: lazy; }
 <!-- ══════ ABOUT ══════ -->
 <section class="section" id="about">
   <div class="about-fullbleed reveal">
-
-    <!-- LEFT: Visual Panel — Galaxy System -->
     <div class="about-visual-panel">
       <div class="about-chip">Bangladesh 🇧🇩</div>
       <div class="galaxy-system">
-        <!-- Central Earth -->
         <div class="galaxy-earth" id="galaxyEarth">🌍</div>
-        <!-- Exora Orb — main orbiting planet -->
         <div class="orbit-ring orbit-exora" id="orbitExora">
           <div class="orb-planet orb-exora-planet" id="exoraOrb">
             <div class="orb-glow-exora"></div>
@@ -1602,7 +1420,6 @@ img { loading: lazy; }
             </div>
           </div>
         </div>
-        <!-- Unexplored Orb -->
         <div class="orbit-ring orbit-unexplored" id="orbitUnexplored">
           <div class="orb-planet orb-unexplored-planet">
             <div class="orb-core orb-core-sm">◎</div>
@@ -1612,7 +1429,6 @@ img { loading: lazy; }
             </div>
           </div>
         </div>
-        <!-- Void Orb -->
         <div class="orbit-ring orbit-void" id="orbitVoid">
           <div class="orb-planet orb-void-planet">
             <div class="orb-core orb-core-xs">·</div>
@@ -1621,7 +1437,6 @@ img { loading: lazy; }
             </div>
           </div>
         </div>
-        <!-- Nebula Orb tiny -->
         <div class="orbit-ring orbit-nebula" id="orbitNebula">
           <div class="orb-planet orb-nebula-planet">
             <div class="orb-core orb-core-xs">★</div>
@@ -1630,8 +1445,6 @@ img { loading: lazy; }
       </div>
       <div class="about-building-chip">Building for the World 🏙️</div>
     </div>
-
-    <!-- RIGHT: Text Panel -->
     <div class="about-text-panel">
       <div class="about-stats">
         <div class="about-stat"><div class="as-num" data-target="200">0</div><div class="as-label">Products Sold</div></div>
@@ -1656,7 +1469,6 @@ img { loading: lazy; }
         <span class="about-pill">Bangladesh 🇧🇩</span>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -1749,7 +1561,6 @@ img { loading: lazy; }
     <div class="ft-brand">
       <a href="#" class="logo">Exora<span>World</span></a>
       <p>A universe of digital experiences — built from Bangladesh, designed for everyone, everywhere.</p>
-      <!-- Social Media -->
       <div class="ft-social">
         <a href="https://facebook.com/exoraworld" target="_blank" rel="noopener" class="ft-social-btn" title="Facebook" aria-label="Facebook">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -1786,8 +1597,8 @@ img { loading: lazy; }
       <a href="#store">Digital Store</a>
       <a href="#templates">Templates</a>
       <a href="games.html">Games & Fun</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#content">Blog</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="news.html">News</a>
     </div>
     <div class="ft-col">
       <h4>Services</h4>
@@ -1804,6 +1615,8 @@ img { loading: lazy; }
       <a href="#about">About Abid</a>
       <a href="mailto:theexoraworld@gmail.com">Email</a>
       <a href="#" onclick="openAuth('register');return false">Create Account</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="privacy.html">Privacy Policy</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -1816,11 +1629,13 @@ img { loading: lazy; }
       <a href="https://instagram.com/theexoraworld" target="_blank" rel="noopener">IG</a>
       <a href="https://x.com/Exoraworld" target="_blank" rel="noopener">𝕏</a>
       <a href="https://discord.gg/f84dEvu2q" target="_blank" rel="noopener">Discord</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
     </div>
   </div>
 </footer>
 
-<!-- ══════ EXO GUIDE — Chat Widget ══════ -->
+<!-- ══════ EXO GUIDE ══════ -->
 <div id="exo">
   <div class="exo-bubble" id="exoBubble">
     <div class="exo-bubble-header">
@@ -1845,16 +1660,16 @@ img { loading: lazy; }
 </div>
 
 <script>
-// ── CONFIG (EDIT THESE)
+// ── CONFIG
 const CFG = {
   bkash:  '01715948039',
   nagad:  '01715948039',
   airtm:  'iammdabidhasanmail.com',
-  btc:    '134WpYQ2qKSQ9hdbgVYm7JZneRnBEuchPL', // Network : BTC
-  eth:    '0x18554a980ff6445989de841a602f7cfdb897a275', // Network : ERC-20
-  usdt:   '0x18554a980ff6445989de841a602f7cfdb897a275', //network : BEP-20
-  sol:    'AdYq6r68TbsRuygcvuHwq4hWjsfoytvdWewc1TdNSkyK', // NETWORK : SOL
-  bnb:    '0x18554a980ff6445989de841a602f7cfdb897a275',  // network : BEP-20
+  btc:    '134WpYQ2qKSQ9hdbgVYm7JZneRnBEuchPL',
+  eth:    '0x18554a980ff6445989de841a602f7cfdb897a275',
+  usdt:   '0x18554a980ff6445989de841a602f7cfdb897a275',
+  sol:    'AdYq6r68TbsRuygcvuHwq4hWjsfoytvdWewc1TdNSkyK',
+  bnb:    '0x18554a980ff6445989de841a602f7cfdb897a275',
   formspree: 'https://formspree.io/f/maqaprqk',
 };
 
@@ -1863,15 +1678,60 @@ const cur=document.getElementById('cur'),trail=document.getElementById('cur-trai
 let mx=0,my=0,tx=0,ty=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
 (function loop(){cur.style.left=mx+'px';cur.style.top=my+'px';tx+=(mx-tx)*.1;ty+=(my-ty)*.1;trail.style.left=tx+'px';trail.style.top=ty+'px';requestAnimationFrame(loop)})();
-document.querySelectorAll('a,button,.prod-card,.tmpl-card,.course-card,.ai-card,.svc-row,.cl-item,.content-featured,.faq-q').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'))});
+document.querySelectorAll('a,button,.prod-card,.tmpl-card,.course-card,.ai-card,.svc-row,.faq-q').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
 document.addEventListener('mousedown',()=>document.body.classList.add('clicking'));
 document.addEventListener('mouseup',()=>document.body.classList.remove('clicking'));
 
 // ── STARS
-(function(){const s=document.getElementById('stars');for(let i=0;i<120;i++){const el=document.createElement('div');el.classList.add('star');const sz=Math.random()*2.5+.5;el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*-6}s`;s.appendChild(el);}})();
+(function(){
+  const s=document.getElementById('stars');
+  for(let i=0;i<120;i++){
+    const el=document.createElement('div');
+    el.classList.add('star');
+    const sz=Math.random()*2.5+.5;
+    el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*-6}s`;
+    s.appendChild(el);
+  }
+})();
 
-// ── NAV
-window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>60));
+// ── NAV SCROLL
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',scrollY>60);
+});
+
+// ── MORE ROW TOGGLE
+let moreOpen=false;
+function toggleMore(){
+  moreOpen=!moreOpen;
+  const btn=document.getElementById('moreBtn');
+  const row=document.getElementById('moreRow');
+  btn.classList.toggle('open',moreOpen);
+  row.classList.toggle('open',moreOpen);
+  btn.setAttribute('aria-expanded',moreOpen);
+}
+
+// Close more row when clicking outside
+document.addEventListener('click',function(e){
+  if(moreOpen && !e.target.closest('#moreBtn') && !e.target.closest('#moreRow')){
+    moreOpen=false;
+    document.getElementById('moreBtn').classList.remove('open');
+    document.getElementById('moreRow').classList.remove('open');
+  }
+});
+
+// Close more row on nav link click
+document.querySelectorAll('.nav-more-inner a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    moreOpen=false;
+    document.getElementById('moreBtn').classList.remove('open');
+    document.getElementById('moreRow').classList.remove('open');
+  });
+});
+
+// ── MOBILE NAV
 document.getElementById('mobToggle').onclick=()=>document.getElementById('mobMenu').classList.add('open');
 document.getElementById('mobClose').onclick=()=>document.getElementById('mobMenu').classList.remove('open');
 function closeMob(){document.getElementById('mobMenu').classList.remove('open')}
@@ -1885,7 +1745,7 @@ function tick(){
 }
 tick();setInterval(tick,1000);
 
-// ── REVEAL
+// ── REVEAL ON SCROLL
 const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
@@ -1911,7 +1771,11 @@ function switchAuth(tab){
 function handleAuth(type){
   const btn=document.querySelector('#panel-'+type+' .modal-submit');
   btn.textContent='Loading...';btn.disabled=true;
-  setTimeout(()=>{btn.textContent=type==='login'?'Sign In →':'Create Account →';btn.disabled=false;alert(type==='login'?'Sign-in functionality coming soon! For now contact Abid directly.':'Account creation coming soon! For now contact Abid to get started.');},1200);
+  setTimeout(()=>{
+    btn.textContent=type==='login'?'Sign In →':'Create Account →';
+    btn.disabled=false;
+    alert(type==='login'?'Sign-in functionality coming soon! For now contact Abid directly.':'Account creation coming soon! For now contact Abid to get started.');
+  },1200);
 }
 
 // ── PAYMENT MODAL
@@ -1935,13 +1799,16 @@ function openPay(prod){
   document.getElementById('pm-bname').value='';
   document.getElementById('pm-bemail').value='';
   document.getElementById('pm-bphone').value='';
-  ['bkash','nagad','airtm'].forEach(m=>{const el=document.getElementById('txn-'+m);if(el)el.value=''});
+  ['bkash','nagad','airtm','btc','eth','usdt','sol','bnb'].forEach(m=>{
+    const el=document.getElementById('txn-'+m);if(el)el.value='';
+  });
   switchPay('bkash');
   document.getElementById('pay-modal').classList.add('open');
   document.body.style.overflow='hidden';
 }
 function closePay(){document.getElementById('pay-modal').classList.remove('open');document.body.style.overflow='';}
 document.getElementById('pay-modal').addEventListener('click',function(e){if(e.target===this)closePay()});
+
 function toPayStep(){
   const name=document.getElementById('pm-bname').value.trim();
   const email=document.getElementById('pm-bemail').value.trim();
@@ -1950,18 +1817,31 @@ function toPayStep(){
   document.getElementById('pm-buyer').style.display='none';
   document.getElementById('pm-payment').style.display='block';
 }
+
+const allPayMethods=['bkash','nagad','airtm','btc','eth','usdt','sol','bnb'];
 function switchPay(m){
-  const allMethods=['bkash','nagad','airtm','btc','eth','usdt','sol','bnb'];
-  document.querySelectorAll('.ptab').forEach((t,i)=>t.classList.toggle('on',allMethods[i]===m));
+  document.querySelectorAll('.ptab').forEach((t,i)=>t.classList.toggle('on',allPayMethods[i]===m));
   document.querySelectorAll('.ppanel').forEach(p=>p.classList.remove('on'));
-  document.getElementById('pp-'+m).classList.add('on');
+  const panel=document.getElementById('pp-'+m);
+  if(panel)panel.classList.add('on');
 }
+
 function copyN(id,btn){
-  navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>{
+  const el=document.getElementById(id);
+  if(!el)return;
+  navigator.clipboard.writeText(el.textContent).then(()=>{
+    btn.textContent='Copied!';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied')},2000);
+  }).catch(()=>{
+    // Fallback for older browsers
+    const ta=document.createElement('textarea');
+    ta.value=el.textContent;document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
     btn.textContent='Copied!';btn.classList.add('copied');
     setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied')},2000);
   });
 }
+
 async function submitOrder(method){
   const txnMap={bKash:'txn-bkash',Nagad:'txn-nagad',Airtm:'txn-airtm',Bitcoin:'txn-btc',Ethereum:'txn-eth',USDT:'txn-usdt',Solana:'txn-sol',BNB:'txn-bnb'};
   const txnEl=document.getElementById(txnMap[method]);
@@ -1969,9 +1849,17 @@ async function submitOrder(method){
   if(!txn){alert('Please enter your Transaction ID / Hash.');return;}
   const orderId='EW-'+Date.now().toString(36).toUpperCase();
   const email=document.getElementById('pm-bemail').value.trim();
-  const body={_subject:`🛒 Order [${orderId}] — ${curProd.name}`,order_id:orderId,product:curProd.name,price:curProd.price,method,txn,name:document.getElementById('pm-bname').value,email,phone:document.getElementById('pm-bphone').value,time:new Date().toLocaleString('en-BD',{timeZone:'Asia/Dhaka'})};
+  const body={
+    _subject:`🛒 Order [${orderId}] — ${curProd.name}`,
+    order_id:orderId,product:curProd.name,price:curProd.price,
+    method,txn,name:document.getElementById('pm-bname').value,
+    email,phone:document.getElementById('pm-bphone').value,
+    time:new Date().toLocaleString('en-BD',{timeZone:'Asia/Dhaka'})
+  };
   const btn=event.target;btn.disabled=true;btn.textContent='Submitting...';
-  try{await fetch(CFG.formspree,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)})}catch(e){}
+  try{
+    await fetch(CFG.formspree,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)});
+  }catch(e){}
   document.getElementById('pm-payment').style.display='none';
   document.getElementById('success-email').textContent=email;
   document.getElementById('success-oid').textContent='Order ID: '+orderId;
@@ -1992,10 +1880,7 @@ document.querySelectorAll('.filter-btn').forEach(btn=>{
 });
 
 // ── FAQ
-function toggleFaq(el){
-  const item=el.parentElement;
-  item.classList.toggle('open');
-}
+function toggleFaq(el){el.parentElement.classList.toggle('open')}
 
 // ── HELP FORM
 document.getElementById('helpForm').addEventListener('submit',async function(e){
@@ -2005,175 +1890,112 @@ document.getElementById('helpForm').addEventListener('submit',async function(e){
   if(!name||!contact)return;
   btn.disabled=true;btn.textContent='Sending...';
   try{
-    const res=await fetch(CFG.formspree,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:`💬 [${document.getElementById('hf-topic').value||'Enquiry'}] from ${name}`,name,contact,topic:document.getElementById('hf-topic').value,msg:document.getElementById('hf-msg').value})});
-    if(res.ok){status.style.cssText='display:block;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);color:rgba(16,185,129,.8);padding:10px 12px;font-family:var(--f-mono);font-size:.6rem;letter-spacing:.1em;margin-top:8px';status.textContent='✓ Message sent! Abid will reply soon.';this.reset();}
-    else throw new Error();
-  }catch{status.style.cssText='display:block;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:rgba(239,68,68,.75);padding:10px 12px;font-family:var(--f-mono);font-size:.6rem;letter-spacing:.1em;margin-top:8px';status.textContent='✗ Error. Please email directly.'}
+    const res=await fetch(CFG.formspree,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({
+      _subject:`💬 [${document.getElementById('hf-topic').value||'Enquiry'}] from ${name}`,
+      name,contact,topic:document.getElementById('hf-topic').value,msg:document.getElementById('hf-msg').value
+    })});
+    if(res.ok){
+      status.style.cssText='display:block;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);color:rgba(16,185,129,.8);padding:10px 12px;font-family:var(--f-mono);font-size:.6rem;letter-spacing:.1em;margin-top:8px';
+      status.textContent='✓ Message sent! Abid will reply soon.';
+      this.reset();
+    }else throw new Error();
+  }catch{
+    status.style.cssText='display:block;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:rgba(239,68,68,.75);padding:10px 12px;font-family:var(--f-mono);font-size:.6rem;letter-spacing:.1em;margin-top:8px';
+    status.textContent='✗ Error. Please email directly.';
+  }
   btn.disabled=false;btn.textContent='Send Message →';
 });
 
-
-// ── ABOUT GLOBE PARALLAX
-(function(){
-  const globe = document.querySelector('.about-globe');
-  if(!globe) return;
-  window.addEventListener('scroll', () => {
-    const section = document.getElementById('about');
-    if(!section) return;
-    const rect = section.getBoundingClientRect();
-    const center = rect.top + rect.height / 2 - window.innerHeight / 2;
-    const offset = center * 0.08;
-    globe.style.transform = 'translateY(' + offset + 'px)';
-  }, {passive: true});
-})();
-
-// ── HOVER MAGNETIC EFFECT on CTA buttons
-document.querySelectorAll('.cta-main, .cta-sec, .modal-submit, .pay-submit').forEach(btn => {
-  btn.addEventListener('mousemove', e => {
-    const r = btn.getBoundingClientRect();
-    const x = e.clientX - r.left - r.width / 2;
-    const y = e.clientY - r.top - r.height / 2;
-    btn.style.transform = 'translateY(-3px) translate(' + x * 0.12 + 'px,' + y * 0.12 + 'px)';
-  });
-  btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
-});
-
-// ── SMART EXO AI ENGINE — powers BOTH chat boxes
-const exoKnowledge = {
-  greet: {
-    keys: ['hello','hi','hey','sup','yo','greetings','good morning','good evening','good afternoon','wassup','hiya'],
-    replies: ["Hey! 👋 Welcome to ExoraWorld. I'm Exo — Abid's AI guide. What can I help you with today?","Hello! 🌌 Good to see you here. Ask me anything about ExoraWorld — store, services, courses, payments, whatever you need.","Hi there! I'm Exo, ExoraWorld's AI. Feel free to ask me about our products, services, crypto payments or anything else!"]
-  },
-  store: {
-    keys: ['store','buy','purchase','product','shop','digital','item','sell','selling','marketplace'],
-    replies: ["The ExoraWorld Store has digital goods from $5! 🛒 We have AI prompt packs, UI design kits, brand kits, Midjourney style packs and more. All priced in both USD and BDT. Want me to point you to something specific?","You can find everything from AI prompt packs ($17) to full brand kits. Click 'Buy Now' on any product — we'll walk you through payment step by step. bKash, Nagad, Airtm and all major crypto accepted!","Our store has 6+ products live right now. Highlights: Ultimate Prompt Bible ($17), Dark UI Kit ($26), Midjourney Style Pack ($13). All delivered to your email within 1–3 hours. 🔥"]
-  },
-  course: {
-    keys: ['course','learn','academy','tutorial','lesson','class','study','education','training','enroll','enrol'],
-    replies: ["We have 6 live courses! 📚 AI Art Mastery ($22), Prompt Engineering ($18), Dark UI Design ($28), Selling Digital Products ($25), Brand Identity ($34) and Web Dev for Creatives ($38). All practical, no fluff — Abid teaches exactly what works.","Courses range from $18 to $38 — or about ৳2,000–৳4,200 BDT. You can pay with bKash, Nagad or crypto. Once your payment is confirmed, course access is delivered to your email.","Looking to level up? Our most popular course is AI Art Mastery — it covers Midjourney, DALL·E and Stable Diffusion. The Dark UI Design course is also a fan favourite. Which sounds most interesting to you?"]
-  },
-  payment: {
-    keys: ['pay','payment','bkash','nagad','airtm','money','how to pay','transaction','send money','purchase'],
-    replies: ["We accept bKash, Nagad, Airtm (international) and all major crypto: Bitcoin (BTC), Ethereum (ETH), USDT (TRC-20), Solana (SOL) and BNB (BSC)! 💳 Just click Buy Now on any product and follow the steps.","For local payments: bKash or Nagad — send to the number shown, enter your transaction ID and we'll deliver within 1–3 hours. For international: Airtm or crypto. Super easy either way!","bKash number: 01715948039 — but the easiest way is to click 'Buy Now' on any product, enter your name and email, then choose your payment method. Everything is guided step by step. 😊"]
-  },
-  crypto: {
-    keys: ['crypto','bitcoin','btc','ethereum','eth','usdt','solana','sol','bnb','binance','blockchain','web3','wallet','trc20','erc20','bep20'],
-    replies: ["We accept 5 cryptocurrencies: Bitcoin (BTC), Ethereum (ETH), USDT on TRC-20, Solana (SOL) and BNB on BSC! ✦ Click Buy on any product → choose your crypto → send to our wallet address shown → paste your TX hash. Done!","Crypto payments: BTC wallet: 134WpYQ2qKSQ9hdbgVYm7JZneRnBEuchPL | ETH/BNB/USDT: 0x18554a980ff6445989de841a602f7cfdb897a275 | SOL: AdYq6r68TbsRuygcvuHwq4hWjsfoytvdWewc1TdNSkyK. Always verify on the checkout screen!","Love that you're paying with crypto! 🔐 We recommend USDT (TRC-20) for low fees and fast confirmation. Send the exact USD amount equivalent, then paste your TX hash in the form. We'll verify and deliver within a few hours."]
-  },
-  service: {
-    keys: ['service','design','branding','brand','logo','website','web dev','consultation','consult','hire','work','project','build','create'],
-    replies: ["Abid offers: Creative Design ($30), AI & Automation ($25), Web Development ($50), Private Consultation ($20/hr), Custom Digital Products (quote) and Social Media Kits ($18)! ⚡ Use the contact form or message on Facebook to get started.","Need something custom built? Describe your project to Abid via the Help Center contact form or Facebook Messenger — he responds fast and gives honest quotes. No project is too small!","Private consultation with Abid is $20/hr (৳2,200). You can book directly by sending a message on Facebook or via the contact form at the bottom of the page. 🔮"]
-  },
-  games: {
-    keys: ['game','play','fun','snake','tetris','gravity','void runner','memory','free'],
-    replies: ["We have 5 FREE web games — Snake, Void Runner, Gravity Bird, Tetris and Memory Orbs! 🎮 No download, no signup — just head to games.html and play right now. There's also a public live chat while you play!","All games are free forever — that's part of the Explorer tier. Just click 'Games & Fun' in the nav or go to games.html. Community live chat is available too!"]
-  },
-  plans: {
-    keys: ['plan','subscription','member','membership','price','tier','voyager','pioneer','explorer','subscribe'],
-    replies: ["ExoraWorld has 3 tiers: Explorer (Free forever) · Voyager ($9/mo, ≈৳990) · Pioneer ($22/mo, ≈৳2,400). 🌌 Pioneer gets unlimited course access, private 1-on-1 consults, custom AI requests and 20% off everything!","The free Explorer tier gets you all 5 games, public chat and store browsing. Upgrade to Voyager for course downloads and priority support. Go Pioneer for the full unlimited experience. Worth every penny!"]
-  },
-  about: {
-    keys: ['who','abid','founder','creator','about','bangladesh','story','background','exoraworld','built','made'],
-    replies: ["Abid is the founder of ExoraWorld — a creator, designer and builder from Bangladesh 🇧🇩 who genuinely loves making things that feel like an adventure. ExoraWorld started as an idea and became a whole universe of digital experiences.","MD Abid Hasan — designer, AI enthusiast, web developer and the mind behind ExoraWorld. Born and based in Bangladesh, building for the whole world. You can read his full story in the About section!"]
-  },
-  contact: {
-    keys: ['contact','reach','email','message','support','help','talk','facebook','messenger','discord','social','instagram','twitter','youtube'],
-    replies: ["You can reach Abid at theexoraworld@gmail.com or on Facebook at facebook.com/exoraworld! 💬 For quick answers, use the Help Center contact form at the bottom of this page. Discord: discord.gg/f84dEvu2q","Social channels: Facebook · Instagram (@theexoraworld) · X/Twitter (@Exoraworld) · YouTube (@ExoraWorld) · Discord (discord.gg/f84dEvu2q). Email: theexoraworld@gmail.com. Pick whatever works for you! 📬"]
-  },
-  gallery: {
-    keys: ['gallery','photo','picture','image','work','portfolio','show','showcase'],
-    replies: ["The Gallery section showcases Abid's creative work — brand identities, AI art, UI designs and more. Photos are coming soon as they're uploaded via Cloudflare Images. Check back! 🎨","We're building out the gallery with real project photos. All images are hosted on Cloudflare for fast global delivery. Keep an eye on the Gallery section — it'll be full of fire soon 🔥"]
-  },
-  video: {
-    keys: ['video','youtube','watch','stream','vlog','content','channel'],
-    replies: ["ExoraWorld has a YouTube channel — @ExoraWorld! 🎬 Subscribe for behind-the-scenes builds, AI tutorials, design breakdowns and Abid's personal story. New videos dropping regularly.","Subscribe at youtube.com/@ExoraWorld for tutorials, vlogs and creative content from Abid. The video section on this page will auto-update with the latest uploads!"]
-  },
-  delivery: {
-    keys: ['deliver','delivery','how long','receive','get','when','wait','time','fast'],
-    replies: ["Digital products are delivered to your email within 1–3 hours after payment verification — often much faster! ⚡ Make sure to enter a valid email when buying.","Usually within 1–3 hours, often within 30 minutes. We verify manually so it's human-checked, not automated. If it takes longer, just message on Facebook or email theexoraworld@gmail.com."]
-  },
-  refund: {
-    keys: ['refund','return','money back','cancel','dispute','issue','problem'],
-    replies: ["We stand behind every product! If you have an issue, reach out within 7 days and Abid will make it right. Contact via theexoraworld@gmail.com or Facebook Messenger. We don't do disappearing acts. 🤝","Issues with your order? Email theexoraworld@gmail.com within 7 days. No drama, no gatekeeping — if there's a genuine problem, it gets fixed. Abid handles this personally."]
-  },
-  default: {
-    replies: ["Hmm, I'm not sure about that one — but Abid is! Message him directly at theexoraworld@gmail.com or on Facebook (facebook.com/exoraworld) and he'll sort you out. 😊","I didn't quite catch that — could you rephrase? Or ask me about the store, courses, services, payments, crypto, games or anything on ExoraWorld. I know this place well! 🌌","That's a bit outside what I know — but the Help Center at the bottom of the page has a contact form where Abid can answer anything you need personally. Worth a shot!"]
-  }
+// ── EXO AI ENGINE
+const exoKnowledge={
+  greet:{keys:['hello','hi','hey','sup','yo','greetings','good morning','good evening','good afternoon','wassup','hiya'],replies:["Hey! 👋 Welcome to ExoraWorld. I'm Exo — Abid's AI guide. What can I help you with today?","Hello! 🌌 Good to see you here. Ask me anything about ExoraWorld — store, services, courses, payments, whatever you need.","Hi there! I'm Exo, ExoraWorld's AI. Feel free to ask me about our products, services, crypto payments or anything else!"]},
+  store:{keys:['store','buy','purchase','product','shop','digital','item','sell','selling','marketplace'],replies:["The ExoraWorld Store has digital goods from $5! 🛒 We have AI prompt packs, UI design kits, brand kits, Midjourney style packs and more. All priced in both USD and BDT. Want me to point you to something specific?","You can find everything from AI prompt packs ($17) to full brand kits. Click 'Buy Now' on any product — we'll walk you through payment step by step. bKash, Nagad, Airtm and all major crypto accepted!","Our store has 6+ products live right now. Highlights: Ultimate Prompt Bible ($17), Dark UI Kit ($26), Midjourney Style Pack ($13). All delivered to your email within 1–3 hours. 🔥"]},
+  course:{keys:['course','learn','academy','tutorial','lesson','class','study','education','training','enroll','enrol'],replies:["We have 6 live courses! 📚 AI Art Mastery ($22), Prompt Engineering ($18), Dark UI Design ($28), Selling Digital Products ($25), Brand Identity ($34) and Web Dev for Creatives ($38). All practical, no fluff — Abid teaches exactly what works.","Courses range from $18 to $38 — or about ৳2,000–৳4,200 BDT. You can pay with bKash, Nagad or crypto. Once your payment is confirmed, course access is delivered to your email.","Looking to level up? Our most popular course is AI Art Mastery — it covers Midjourney, DALL·E and Stable Diffusion. The Dark UI Design course is also a fan favourite. Which sounds most interesting to you?"]},
+  payment:{keys:['pay','payment','bkash','nagad','airtm','money','how to pay','transaction','send money'],replies:["We accept bKash, Nagad, Airtm (international) and all major crypto: Bitcoin (BTC), Ethereum (ETH), USDT (TRC-20), Solana (SOL) and BNB (BSC)! 💳 Just click Buy Now on any product and follow the steps.","For local payments: bKash or Nagad — send to the number shown, enter your transaction ID and we'll deliver within 1–3 hours. For international: Airtm or crypto. Super easy either way!","bKash number: 01715948039 — but the easiest way is to click 'Buy Now' on any product, enter your name and email, then choose your payment method. Everything is guided step by step. 😊"]},
+  crypto:{keys:['crypto','bitcoin','btc','ethereum','eth','usdt','solana','sol','bnb','binance','blockchain','web3','wallet'],replies:["We accept 5 cryptocurrencies: Bitcoin (BTC), Ethereum (ETH), USDT on TRC-20, Solana (SOL) and BNB on BSC! ✦ Click Buy on any product → choose your crypto → send to our wallet address → paste your TX hash. Done!","Crypto payments: BTC: 134WpYQ2qKSQ9hdbgVYm7JZneRnBEuchPL | ETH/BNB/USDT: 0x18554a980ff6445989de841a602f7cfdb897a275 | SOL: AdYq6r68TbsRuygcvuHwq4hWjsfoytvdWewc1TdNSkyK","Love that you're paying with crypto! 🔐 We recommend USDT (TRC-20) for low fees and fast confirmation. Send the exact USD amount equivalent, then paste your TX hash in the form."]},
+  service:{keys:['service','design','branding','brand','logo','website','web dev','consultation','consult','hire','work','project','build'],replies:["Abid offers: Creative Design ($30), AI & Automation ($25), Web Development ($50), Private Consultation ($20/hr), Custom Digital Products (quote) and Social Media Kits ($18)! ⚡ Use the contact form or message on Facebook to get started.","Need something custom built? Describe your project to Abid via the Help Center contact form or Facebook Messenger — he responds fast and gives honest quotes.","Private consultation with Abid is $20/hr (৳2,200). You can book by sending a message on Facebook or via the contact form. 🔮"]},
+  games:{keys:['game','play','fun','snake','tetris','gravity','void runner','memory','free'],replies:["We have 5 FREE web games — Snake, Void Runner, Gravity Bird, Tetris and Memory Orbs! 🎮 No download, no signup — just head to games.html and play right now.","All games are free forever — that's part of the Explorer tier. Just click 'Games & Fun' in the nav or go to games.html. Community live chat is available too!"]},
+  plans:{keys:['plan','subscription','member','membership','price','tier','voyager','pioneer','explorer','subscribe'],replies:["ExoraWorld has 3 tiers: Explorer (Free forever) · Voyager ($9/mo, ≈৳990) · Pioneer ($22/mo, ≈৳2,400). 🌌 Pioneer gets unlimited course access, private 1-on-1 consults, custom AI requests and 20% off everything!","The free Explorer tier gets you all 5 games, public chat and store browsing. Upgrade to Voyager for course downloads and priority support. Go Pioneer for the full unlimited experience."]},
+  about:{keys:['who','abid','founder','creator','about','bangladesh','story','background','exoraworld','built','made'],replies:["Abid is the founder of ExoraWorld — a creator, designer and builder from Bangladesh 🇧🇩 who genuinely loves making things that feel like an adventure.","MD Abid Hasan — designer, AI enthusiast, web developer and the mind behind ExoraWorld. Born and based in Bangladesh, building for the whole world."]},
+  contact:{keys:['contact','reach','email','message','support','help','talk','facebook','messenger','discord','social'],replies:["You can reach Abid at theexoraworld@gmail.com or on Facebook at facebook.com/exoraworld! 💬 Discord: discord.gg/f84dEvu2q","Social channels: Facebook · Instagram (@theexoraworld) · X/Twitter (@Exoraworld) · YouTube (@ExoraWorld) · Discord (discord.gg/f84dEvu2q). Email: theexoraworld@gmail.com. 📬"]},
+  legal:{keys:['terms','privacy','policy','legal','gdpr','rights','data','refund policy'],replies:["You can read our Terms of Service at terms.html and our Privacy Policy at privacy.html. Two separate pages — fully readable by any visitor. 📄 If you have specific questions about a policy, contact Abid directly at theexoraworld@gmail.com.","Our Terms of Service and Privacy Policy are available on separate pages — check the footer links or the More menu in the navigation. 🔒"]},
+  gallery:{keys:['gallery','photo','picture','image','work','portfolio','show','showcase'],replies:["The Gallery at gallery.html showcases Abid's creative work — brand identities, AI art, UI designs and more. Check it out! 🎨"]},
+  video:{keys:['video','youtube','watch','stream','vlog','content','channel'],replies:["ExoraWorld has a YouTube channel — @ExoraWorld! 🎬 Subscribe for behind-the-scenes builds, AI tutorials, design breakdowns and Abid's personal story. New videos dropping regularly."]},
+  delivery:{keys:['deliver','delivery','how long','receive','get','when','wait','time','fast'],replies:["Digital products are delivered to your email within 1–3 hours after payment verification — often much faster! ⚡ Make sure to enter a valid email when buying."]},
+  refund:{keys:['refund','return','money back','cancel','dispute','issue','problem'],replies:["We stand behind every product! If you have an issue, reach out within 7 days and Abid will make it right. Contact via theexoraworld@gmail.com or Facebook Messenger. 🤝"]},
+  default:{replies:["Hmm, I'm not sure about that one — but Abid is! Message him at theexoraworld@gmail.com or on Facebook (facebook.com/exoraworld). 😊","I didn't quite catch that — could you rephrase? Ask me about the store, courses, services, payments, crypto, games, Terms/Privacy or anything on ExoraWorld. I know this place well! 🌌","That's a bit outside what I know — try the Help Center contact form at the bottom of the page where Abid can answer anything personally."]}
 };
 
-function exoReply(text) {
-  const t = text.toLowerCase();
-  for (const [, group] of Object.entries(exoKnowledge)) {
-    if (!group.keys) continue;
-    if (group.keys.some(k => t.includes(k))) {
-      const r = group.replies;
-      return r[Math.floor(Math.random() * r.length)];
+function exoReply(text){
+  const t=text.toLowerCase();
+  for(const[,group]of Object.entries(exoKnowledge)){
+    if(!group.keys)continue;
+    if(group.keys.some(k=>t.includes(k))){
+      const r=group.replies;
+      return r[Math.floor(Math.random()*r.length)];
     }
   }
-  const d = exoKnowledge.default.replies;
-  return d[Math.floor(Math.random() * d.length)];
+  const d=exoKnowledge.default.replies;
+  return d[Math.floor(Math.random()*d.length)];
 }
 
-function appendMsg(container, text, isUser) {
-  const div = document.createElement('div');
-  div.className = isUser ? 'msg user' : 'msg bot';
-  div.textContent = text;
+function appendMsg(container,text,isUser){
+  const div=document.createElement('div');
+  div.className=isUser?'msg user':'msg bot';
+  div.textContent=text;
   container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
+  container.scrollTop=container.scrollHeight;
 }
 
-// Homepage AI chat (in AI section)
-function sendChat() {
-  const input = document.getElementById('chatInput');
-  const msgs = document.getElementById('chatMsgs');
-  const text = input.value.trim();
-  if (!text) return;
-  appendMsg(msgs, text, true);
-  input.value = '';
-  const typing = document.createElement('div');
-  typing.className = 'msg bot';
-  typing.textContent = '···';
-  typing.id = 'typing-indicator';
+// Homepage AI chat
+function sendChat(){
+  const input=document.getElementById('chatInput');
+  const msgs=document.getElementById('chatMsgs');
+  const text=input.value.trim();
+  if(!text)return;
+  appendMsg(msgs,text,true);
+  input.value='';
+  const typing=document.createElement('div');
+  typing.className='msg bot';
+  typing.textContent='···';
+  typing.id='typing-indicator';
   msgs.appendChild(typing);
-  msgs.scrollTop = msgs.scrollHeight;
-  setTimeout(() => {
-    typing.remove();
-    appendMsg(msgs, exoReply(text), false);
-  }, 800);
+  msgs.scrollTop=msgs.scrollHeight;
+  setTimeout(()=>{typing.remove();appendMsg(msgs,exoReply(text),false);},800);
 }
 
 // Floating Exo widget chat
-function sendExoChat() {
-  const input = document.getElementById('exoChatInput');
-  const msgs = document.getElementById('exoChatMsgs');
-  const text = input.value.trim();
-  if (!text) return;
-  const uMsg = document.createElement('div');
-  uMsg.className = 'exo-msg user-msg';
-  uMsg.textContent = text;
+function sendExoChat(){
+  const input=document.getElementById('exoChatInput');
+  const msgs=document.getElementById('exoChatMsgs');
+  const text=input.value.trim();
+  if(!text)return;
+  const uMsg=document.createElement('div');
+  uMsg.className='exo-msg user-msg';
+  uMsg.textContent=text;
   msgs.appendChild(uMsg);
-  input.value = '';
-  msgs.scrollTop = msgs.scrollHeight;
-  setTimeout(() => {
-    const bMsg = document.createElement('div');
-    bMsg.className = 'exo-msg';
-    bMsg.textContent = exoReply(text);
+  input.value='';
+  msgs.scrollTop=msgs.scrollHeight;
+  setTimeout(()=>{
+    const bMsg=document.createElement('div');
+    bMsg.className='exo-msg';
+    bMsg.textContent=exoReply(text);
     msgs.appendChild(bMsg);
-    msgs.scrollTop = msgs.scrollHeight;
-  }, 750);
+    msgs.scrollTop=msgs.scrollHeight;
+  },750);
 }
 
 // ── EXO GUIDE TOGGLE
-let exoOpen = false;
-function toggleExo() {
-  exoOpen = !exoOpen;
-  const b = document.getElementById('exoBubble');
-  b.classList.toggle('show', exoOpen);
-  document.getElementById('exoPing').style.display = exoOpen ? 'none' : 'block';
-  if (exoOpen) document.getElementById('exoChatMsgs').scrollTop = 99999;
+let exoOpen=false;
+function toggleExo(){
+  exoOpen=!exoOpen;
+  const b=document.getElementById('exoBubble');
+  b.classList.toggle('show',exoOpen);
+  document.getElementById('exoPing').style.display=exoOpen?'none':'block';
+  if(exoOpen)document.getElementById('exoChatMsgs').scrollTop=99999;
 }
-function closeExo() { exoOpen = false; document.getElementById('exoBubble').classList.remove('show'); }
-setTimeout(() => { if (!exoOpen) toggleExo(); }, 3500);
+function closeExo(){exoOpen=false;document.getElementById('exoBubble').classList.remove('show');}
+setTimeout(()=>{if(!exoOpen)toggleExo();},3500);
 
 // ── MAGNETIC EFFECT on primary CTAs
 document.querySelectorAll('.cta-main,.cta-sec,.modal-submit,.pay-submit,.hf-submit').forEach(btn=>{
