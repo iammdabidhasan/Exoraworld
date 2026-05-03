@@ -260,18 +260,18 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
 </style>
 </head>
 <body>
-
+ 
 <div id="cur"></div>
 <div id="cur-r"></div>
 <canvas id="bgc"></canvas>
 <div id="toast"></div>
-
+ 
 <div id="mnav">
   <a href="#hero" onclick="cMnav()">🎮 VoidRunner X</a>
   <a href="#leaderboard" onclick="cMnav()">Leaderboard</a>
   <a href="#contact" onclick="cMnav()">Contact</a>
 </div>
-
+ 
 <nav>
   <a href="#" class="nav-logo">Exora<span>World</span></a>
   <ul class="nav-links">
@@ -285,7 +285,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
     <button class="ham" onclick="tMnav()"><span></span><span></span><span></span></button>
   </div>
 </nav>
-
+ 
 <div id="search-row">
   <div id="s-wrap">
     <span class="s-ico">🔍</span>
@@ -297,7 +297,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
     <div id="s-drop"></div>
   </div>
 </div>
-
+ 
 <div id="banner">
   <div class="scanline"></div>
   <div class="banner-slide active">
@@ -315,15 +315,15 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
     <div class="banner-emoji-wrap"><div class="banner-emoji">🏃</div></div>
   </div>
 </div>
-
+ 
 <div id="page">
-
+ 
 <!-- HERO + GAME -->
 <section id="hero">
   <div class="hero-eyebrow">⚡ ExoraWorld Exclusive · Browser Game · Free to Play</div>
   <h1 class="hero-title">VOIDRUNNER X</h1>
   <p class="hero-sub">Survive the Void. Collect power-ups. Dominate the leaderboard.</p>
-
+ 
   <div id="gw">
     <div id="g-hud">
       <div class="g-title">◈ VOIDRUNNER X</div>
@@ -334,6 +334,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
         <span>LIVES <span class="gv" id="g-lives">❤️❤️❤️</span></span>
       </div>
       <button id="g-fs-btn" onclick="enterFS()">⛶ Fullscreen</button>
+      <button class="mute-btn" onclick="SFX.toggleMute()" style="padding:5px 13px;background:rgba(0,220,255,.07);border:1px solid rgba(0,220,255,.3);border-radius:6px;color:var(--cyan);font-family:var(--fM);font-size:.58rem;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:1px;white-space:nowrap">🔊 Sound</button>
     </div>
     <canvas id="gc"></canvas>
     <div id="g-ov">
@@ -370,7 +371,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
     </div>
   </div>
 </section>
-
+ 
 <!-- LEADERBOARD -->
 <section id="leaderboard" class="section" style="background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)">
   <div class="container">
@@ -384,7 +385,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
     </div>
   </div>
 </section>
-
+ 
 <!-- CONTACT -->
 <section id="contact" class="section">
   <div class="container">
@@ -413,7 +414,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
     </div>
   </div>
 </section>
-
+ 
 <footer>
   <div class="foot-grid">
     <div>
@@ -443,9 +444,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
     <span><a href="#" onclick="openTerms()">Terms</a> · <a href="#" onclick="openPriv()">Privacy</a> · <a href="https://discord.gg/ExoraWorld" target="_blank">Discord</a></span>
   </div>
 </footer>
-
+ 
 </div><!-- /page -->
-
+ 
 <!-- FULLSCREEN GAME -->
 <div id="fso">
   <div id="fs-wrap">
@@ -458,6 +459,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
         <span>LIVES <span class="gv" id="fs-lives">❤️❤️❤️</span></span>
       </div>
       <button id="fs-exit" onclick="exitFS()">✕ Exit</button>
+      <button class="mute-btn" onclick="SFX.toggleMute()" style="padding:5px 14px;background:rgba(0,220,255,.07);border:1px solid rgba(0,220,255,.3);border-radius:6px;color:var(--cyan);font-family:var(--fM);font-size:.6rem;cursor:pointer;letter-spacing:1px;text-transform:uppercase">🔊 Sound</button>
     </div>
     <canvas id="fs-c"></canvas>
     <div id="fs-pu">
@@ -493,7 +495,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
     </div>
   </div>
 </div>
-
+ 
 <!-- PAYMENT MODAL -->
 <div class="modal" id="pay-modal">
   <div class="modal-box">
@@ -515,7 +517,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
     <button class="pay-go" onclick="confirmPay()">Confirm & Pay</button>
   </div>
 </div>
-
+ 
 <div class="modal" id="terms-modal">
   <div class="modal-box wide leg-box">
     <div class="m-hdr"><div class="m-title">Terms & Conditions</div><button class="m-close" onclick="this.closest('.modal').classList.remove('on')">✕</button></div>
@@ -531,7 +533,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
     <button class="leg-close" onclick="this.closest('.modal').classList.remove('on')">Close</button>
   </div>
 </div>
-
+ 
 <div class="modal" id="priv-modal">
   <div class="modal-box wide leg-box">
     <div class="m-hdr"><div class="m-title">Privacy Policy</div><button class="m-close" onclick="this.closest('.modal').classList.remove('on')">✕</button></div>
@@ -546,7 +548,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
     <button class="leg-close" onclick="this.closest('.modal').classList.remove('on')">Close</button>
   </div>
 </div>
-
+ 
 <script>
 'use strict';
 /* ══════════════════════════════════════════════
@@ -564,7 +566,7 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
     this.closePath(); return this;
   };
 }
-
+ 
 // Custom cursor
 const $cur = document.getElementById('cur');
 const $curR = document.getElementById('cur-r');
@@ -577,7 +579,7 @@ document.addEventListener('mousemove', e => { curX=e.clientX; curY=e.clientY; $c
 })();
 document.addEventListener('mouseover', e => { if (e.target.closest('a,button,[onclick],canvas')) document.body.classList.add('hov'); });
 document.addEventListener('mouseout',  e => { if (e.target.closest('a,button,[onclick],canvas')) document.body.classList.remove('hov'); });
-
+ 
 // BG particles
 const bgC = document.getElementById('bgc');
 const bgX = bgC.getContext('2d');
@@ -599,11 +601,11 @@ const bgPts = Array.from({length:70}, () => ({
   });
   requestAnimationFrame(animBG);
 })();
-
+ 
 // Mobile nav
 function tMnav() { document.getElementById('mnav').classList.toggle('open'); }
 function cMnav() { document.getElementById('mnav').classList.remove('open'); }
-
+ 
 // Toast
 let toastTimer;
 function toast(msg) {
@@ -612,12 +614,12 @@ function toast(msg) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
 }
-
+ 
 // Modals
 document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if (e.target===m) m.classList.remove('on'); }));
 function openTerms() { document.getElementById('terms-modal').classList.add('on'); }
 function openPriv()  { document.getElementById('priv-modal').classList.add('on'); }
-
+ 
 // Banner
 let bannerOpen = false;
 function openBanner() {
@@ -634,7 +636,7 @@ function closeBanner() {
 setTimeout(() => { openBanner(); setTimeout(closeBanner, 4200); }, 900);
 document.getElementById('s-input').addEventListener('focus', openBanner);
 document.getElementById('s-input').addEventListener('blur', () => setTimeout(closeBanner, 1200));
-
+ 
 // Search
 const GAME_DB = [{ name:'VoidRunner X', genre:'Endless Runner · Play Now', icon:'🏃' }];
 function handleSearch(v) {
@@ -648,7 +650,7 @@ function handleSearch(v) {
 }
 function clrSearch() { document.getElementById('s-input').value=''; document.getElementById('s-drop').classList.remove('open'); }
 document.addEventListener('click', e => { if (!e.target.closest('#s-wrap')) document.getElementById('s-drop').classList.remove('open'); });
-
+ 
 // Leaderboard (localStorage)
 function getLB() { try { return JSON.parse(localStorage.getItem('vx_lb4')||'[]'); } catch(e) { return []; } }
 function saveLB(lb) { localStorage.setItem('vx_lb4', JSON.stringify(lb)); }
@@ -672,7 +674,7 @@ function renderLB(lb) {
 }
 function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 renderLB(getLB());
-
+ 
 // Payment
 let _selPM = '';
 function openPay(n,p,ic) {
@@ -702,7 +704,7 @@ function confirmPay() {
   if (!document.getElementById('py-ck').checked) { toast('⚠️ Please accept the terms.'); return; }
   closePay(); toast('✅ Payment initiated via '+_selPM+'. Check your email!');
 }
-
+ 
 // Contact form
 function submitContact() {
   const n=document.getElementById('cf-n').value.trim();
@@ -714,8 +716,8 @@ function submitContact() {
   toast('✅ Message sent! We\'ll reply to '+e);
   ['cf-n','cf-e','cf-s','cf-m'].forEach(id => document.getElementById(id).value='');
 }
-
-
+ 
+ 
 /* ══════════════════════════════════════════════
    VOIDRUNNER X — PROFESSIONAL GAME ENGINE v4
    Clean architecture, zero variable collisions
@@ -728,16 +730,16 @@ const VR = (() => {
   let gameOver = false;
   let frame = 0;
   let pendingScore = 0, pendingCoins = 0;
-
+ 
   // ── Score & persistence ────────────────────
   let score = 0;
   let best = parseInt(localStorage.getItem('vx4_best')||'0', 10);
   let coinCount = 0;
   let speed = 0;
-
+ 
   // ── Canvas dimensions ──────────────────────
   let W = 0, H = 0, GROUND = 0;
-
+ 
   // ── Object pools ───────────────────────────
   let obstacles = [];
   let powerups  = [];
@@ -746,17 +748,17 @@ const VR = (() => {
   let bgStars   = [];
   let bgGrid    = [];
   let screenShake = 0;
-
+ 
   // ── Spawn timers ───────────────────────────
   let obsTimer = 0, obsInterval = 100;
   let puTimer  = 0;
   let coinTimer= 0;
   let comboTimer = 0, combo = 0;
-
+ 
   // ── Blast wave ─────────────────────────────
   let blastWave = null;
   let blastCooldown = 0;
-
+ 
   // ── Player object ──────────────────────────
   const P = {
     // physics
@@ -786,7 +788,7 @@ const VR = (() => {
     get right()  { return this.x + this.cW; },
     get bottom() { return this.y + this.cH; }
   };
-
+ 
   // ── Obstacle templates ─────────────────────
   const OBS_TEMPLATES = [
     { id:'wall',    w:24, h:55, color:'#7c3aed', float:false },
@@ -797,7 +799,7 @@ const VR = (() => {
     { id:'double',  w:20, h:38, color:'#ef4444', float:false, pair:true },
     { id:'tall',    w:18, h:72, color:'#6d28d9', float:false },
   ];
-
+ 
   // ── Power-up templates ─────────────────────
   const PU_TEMPLATES = [
     { kind:'shield',  color:'#7c3aed', icon:'🛡️',  label:'Shield'   },
@@ -807,10 +809,10 @@ const VR = (() => {
     { kind:'tiny',    color:'#60a5fa', icon:'🔵',  label:'Tiny'     },
     { kind:'blast',   color:'#ef4444', icon:'💥',  label:'Blast'    },
   ];
-
+ 
   // ── HUD element refs ───────────────────────
   function hudEl(id) { return document.getElementById(fsMode ? 'fs-'+id : 'g-'+id) || document.getElementById(id); }
-
+ 
   // ── Resize canvas ──────────────────────────
   function resize() {
     if (fsMode) {
@@ -832,7 +834,7 @@ const VR = (() => {
     canvas.style.width  = '100%';
     GROUND = H - 60;
   }
-
+ 
   // ── Build star field ──────────────────────
   function buildStars() {
     bgStars = Array.from({length: 90}, () => ({
@@ -842,7 +844,7 @@ const VR = (() => {
       brightness: Math.random()
     }));
   }
-
+ 
   // ── Reset all game state ───────────────────
   function reset() {
     score = 0; coinCount = 0; speed = 5.5; frame = 0;
@@ -866,7 +868,7 @@ const VR = (() => {
     P.lives = 3;
     P.runCycle = 0;
   }
-
+ 
   // ── SPAWN FUNCTIONS ────────────────────────
   function spawnObs() {
     const tpl = OBS_TEMPLATES[Math.floor(Math.random() * OBS_TEMPLATES.length)];
@@ -879,7 +881,7 @@ const VR = (() => {
       obstacles.push({ x: W+30+tpl.w+48, y, w: tpl.w, h, color: tpl.color, id: tpl.id, anim: 0 });
     }
   }
-
+ 
   function spawnPU() {
     const tpl = PU_TEMPLATES[Math.floor(Math.random() * PU_TEMPLATES.length)];
     powerups.push({
@@ -888,7 +890,7 @@ const VR = (() => {
       kind: tpl.kind, color: tpl.color, icon: tpl.icon
     });
   }
-
+ 
   function spawnCoinRow() {
     const y = GROUND - 78 - Math.random()*55;
     const count = 4 + Math.floor(Math.random()*5);
@@ -898,7 +900,7 @@ const VR = (() => {
       coinObjs.push({ x: W+30+i*30, y: y+dy, r: 7, anim: Math.random()*Math.PI*2, collected: false });
     }
   }
-
+ 
   function spawnParticle(x, y, color, count=6, speed=4) {
     for (let i = 0; i < count; i++) {
       const angle = Math.random()*Math.PI*2;
@@ -906,11 +908,11 @@ const VR = (() => {
       particles.push({ x, y, vx:Math.cos(angle)*s, vy:Math.sin(angle)*s-1, life:1, maxLife:35+Math.random()*20, color, size:2+Math.random()*3 });
     }
   }
-
+ 
   function spawnTextPop(x, y, text, color) {
     particles.push({ x, y, vx:0, vy:-1.5, life:1, maxLife:50, text, color, isText:true });
   }
-
+ 
   // ── APPLY POWERUP ──────────────────────────
   function applyPowerup(kind) {
     switch (kind) {
@@ -940,9 +942,10 @@ const VR = (() => {
         fireBlast();
         break;
     }
+    SFX.sndPowerup(kind);
     updatePUDisplay();
   }
-
+ 
   // ── BLAST ──────────────────────────────────
   function fireBlast() {
     if (blastCooldown > 0) { toast('💥 Blast on cooldown!'); return; }
@@ -951,8 +954,9 @@ const VR = (() => {
     screenShake = 12;
     spawnParticle(P.right, P.cy, '#ef4444', 16, 7);
     toast('💥 Blast!');
+    SFX.sndBlast();
   }
-
+ 
   // ── UPDATE POWERUP BAR ─────────────────────
   function updatePUDisplay() {
     const prefix = fsMode ? 'fs-pu-' : 'pu-';
@@ -975,7 +979,7 @@ const VR = (() => {
       } else if (timerEl) timerEl.remove();
     });
   }
-
+ 
   // ── UPDATE HUD ─────────────────────────────
   function updateHUD() {
     const sc = Math.floor(score).toLocaleString();
@@ -993,7 +997,7 @@ const VR = (() => {
     }
     updatePUDisplay();
   }
-
+ 
   // ── COLLISION (AABB) ──────────────────────
   function hits(o) {
     const margin = 4; // forgiving hitbox
@@ -1004,15 +1008,15 @@ const VR = (() => {
       P.y + P.cH - margin  > o.y
     );
   }
-
+ 
   // ── MAIN LOOP ──────────────────────────────
   function loop() {
     if (!running) return;
     frame++;
-
+ 
     // Speed increase
     if (frame % 350 === 0) speed = Math.min(speed + 0.4, 22);
-
+ 
     // Spawn timers
     obsTimer++;
     if (obsTimer >= obsInterval) {
@@ -1024,7 +1028,7 @@ const VR = (() => {
     if (puTimer >= 300) { puTimer = 0; if (Math.random() < 0.75) spawnPU(); }
     coinTimer++;
     if (coinTimer >= 140) { coinTimer = 0; spawnCoinRow(); }
-
+ 
     // ── Player physics ──────────────────────
     if (P.fly) {
       P.vy += -0.3; P.vy = Math.max(P.vy, -3.8);
@@ -1033,18 +1037,20 @@ const VR = (() => {
       P.vy += 0.6; // gravity
     }
     P.y += P.vy;
-
+ 
     // Ground clamp
     if (P.y >= GROUND - P.cH) {
+      const wasAirborne = P.jumping || P.doubleJumped;
       P.y = GROUND - P.cH;
       P.vy = 0;
+      if (wasAirborne) SFX.sndLand();
       P.jumping = false;
       P.doubleJumped = false;
     }
-
+ 
     // Slide timer
     if (P.slideTimer > 0) { P.slideTimer--; if (P.slideTimer <= 0) P.sliding = false; }
-
+ 
     // Power-up countdowns
     if (P.shieldTimer  > 0) { P.shieldTimer--;  P.shield  = P.shieldTimer  > 0; }
     if (P.flyTimer     > 0) { P.flyTimer--;      P.fly     = P.flyTimer     > 0; }
@@ -1056,17 +1062,17 @@ const VR = (() => {
     if (comboTimer     > 0) comboTimer--;
     else combo = 0;
     if (screenShake    > 0) screenShake *= 0.8;
-
+ 
     // Run animation
     if (P.y >= GROUND - P.cH - 1) P.runCycle += 0.28;
-
+ 
     // ── Move objects ────────────────────────
     const spd = speed;
     obstacles.forEach(o => { o.x -= spd; o.anim += 0.04; });
     powerups.forEach(p  => { p.x -= spd * 0.88; p.anim += 0.06; });
     coinObjs.forEach(c  => { if (!c.collected) c.x -= spd * 0.94; c.anim += 0.1; });
     if (blastWave) { blastWave.r += 35; if (blastWave.r >= blastWave.maxR) blastWave = null; }
-
+ 
     // Magnet pull
     if (P.magnet) {
       coinObjs.forEach(c => {
@@ -1076,12 +1082,12 @@ const VR = (() => {
         if (d < 130) { c.x += dx*0.12; c.y += dy*0.12; }
       });
     }
-
+ 
     // ── Cleanup off-screen ─────────────────
     obstacles = obstacles.filter(o => o.x + o.w > -80);
     powerups  = powerups.filter(p  => p.x + p.w > -80);
     coinObjs  = coinObjs.filter(c  => c.x + c.r > -80 && !c.collected);
-
+ 
     // ── Collisions — Blast wave ────────────
     if (blastWave) {
       obstacles.forEach(o => {
@@ -1093,12 +1099,12 @@ const VR = (() => {
         }
       });
     }
-
+ 
     // ── Collisions — Player vs obstacles ──
     for (let i = obstacles.length-1; i >= 0; i--) {
       const o = obstacles[i];
       if (!hits(o)) continue;
-
+ 
       if (P.shield) {
         P.shield = false; P.shieldTimer = 0;
         P.invincible = 80;
@@ -1106,10 +1112,11 @@ const VR = (() => {
         spawnTextPop(P.cx, P.y-10, 'BLOCKED!', '#7c3aed');
         obstacles.splice(i, 1);
         screenShake = 6;
+        SFX.sndShieldBlock();
         continue;
       }
       if (P.invincible > 0) { obstacles.splice(i, 1); continue; }
-
+ 
       // Hit!
       P.lives--;
       P.invincible = 100;
@@ -1118,10 +1125,11 @@ const VR = (() => {
       spawnTextPop(P.cx, P.y-10, '-1 LIFE', '#ef4444');
       obstacles.splice(i, 1);
       combo = 0; comboTimer = 0;
-
+      SFX.sndHit();
+ 
       if (P.lives <= 0) { endGame(); return; }
     }
-
+ 
     // ── Collisions — Player vs powerups ──
     for (let i = powerups.length-1; i >= 0; i--) {
       const pu = powerups[i];
@@ -1130,7 +1138,7 @@ const VR = (() => {
       applyPowerup(pu.kind);
       powerups.splice(i, 1);
     }
-
+ 
     // ── Collisions — Player vs coins ──────
     const coinRange = P.magnet ? 120 : 30;
     coinObjs.forEach(c => {
@@ -1139,22 +1147,27 @@ const VR = (() => {
       if (Math.sqrt(dx*dx+dy*dy) < coinRange + c.r) {
         c.collected = true;
         coinCount++;
-        // combo
         combo++; comboTimer = 90;
         const pts = (P.dScore ? 20 : 10) * Math.min(combo, 8);
         score += pts;
         spawnParticle(c.x, c.y, '#f59e0b', 5, 4);
-        if (combo > 1) spawnTextPop(c.x, c.y-14, 'x'+combo+'!', '#f59e0b');
+        SFX.sndCoin();
+        if (combo > 1) {
+          spawnTextPop(c.x, c.y-14, 'x'+combo+'!', '#f59e0b');
+          SFX.sndCombo(combo);
+        }
+        // Milestone every 50 coins
+        if (coinCount % 50 === 0) SFX.sndMilestone();
       }
     });
-
+ 
     // ── Score tick ─────────────────────────
     score += (P.dScore ? 0.24 : 0.12) * (speed / 5.5);
     if (score > best) {
       best = score;
       localStorage.setItem('vx4_best', Math.floor(best));
     }
-
+ 
     // ── Particles ──────────────────────────
     particles.forEach(p => {
       p.x += p.vx; p.y += p.vy;
@@ -1162,9 +1175,9 @@ const VR = (() => {
       p.life -= 1/p.maxLife;
     });
     particles = particles.filter(p => p.life > 0);
-
+ 
     updateHUD();
-
+ 
     // ── DRAW ──────────────────────────────
     ctx.save();
     if (screenShake > 0.5) {
@@ -1174,10 +1187,10 @@ const VR = (() => {
     }
     drawScene();
     ctx.restore();
-
+ 
     animId = requestAnimationFrame(loop);
   }
-
+ 
   // ══════════════════════════════════════════
   //  DRAW FUNCTIONS
   // ══════════════════════════════════════════
@@ -1191,7 +1204,7 @@ const VR = (() => {
     particles.forEach(drawParticle);
     drawCombo();
   }
-
+ 
   function drawBackground() {
     // Deep space gradient
     const grad = ctx.createLinearGradient(0, 0, 0, H);
@@ -1199,7 +1212,7 @@ const VR = (() => {
     grad.addColorStop(0.6, '#040818');
     grad.addColorStop(1, '#080c20');
     ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
-
+ 
     // Nebula glow
     ctx.save();
     const ng1 = ctx.createRadialGradient(W*0.7, H*0.3, 0, W*0.7, H*0.3, 250);
@@ -1209,7 +1222,7 @@ const VR = (() => {
     ng2.addColorStop(0, 'rgba(0,220,255,.04)'); ng2.addColorStop(1, 'transparent');
     ctx.fillStyle = ng2; ctx.fillRect(0,0,W,H);
     ctx.restore();
-
+ 
     // Stars
     bgStars.forEach(s => {
       s.x -= s.speed;
@@ -1218,7 +1231,7 @@ const VR = (() => {
       ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
       ctx.fillStyle = `rgba(255,255,255,${twinkle})`; ctx.fill();
     });
-
+ 
     // Ground platform
     ctx.save();
     // Grid lines
@@ -1242,12 +1255,12 @@ const VR = (() => {
     ctx.beginPath(); ctx.moveTo(0, GROUND); ctx.lineTo(W, GROUND); ctx.stroke();
     ctx.restore();
   }
-
+ 
   function drawPlayer() {
     const px = P.x, py = P.y;
     const pw = P.cW, ph = P.cH;
     ctx.save();
-
+ 
     // Shield bubble
     if (P.shield) {
       const pulse = 1 + Math.sin(frame*0.15)*0.08;
@@ -1258,26 +1271,26 @@ const VR = (() => {
       ctx.strokeStyle = `rgba(124,58,237,${0.6+Math.sin(frame*0.2)*0.3})`;
       ctx.lineWidth = 2; ctx.stroke();
     }
-
+ 
     // Magnet radius
     if (P.magnet) {
       ctx.beginPath(); ctx.arc(px+pw/2, py+ph/2, 120, 0, Math.PI*2);
       ctx.strokeStyle = `rgba(245,158,11,${0.12+Math.sin(frame*0.1)*0.06})`;
       ctx.lineWidth = 1.5; ctx.setLineDash([5,5]); ctx.stroke(); ctx.setLineDash([]);
     }
-
+ 
     // Invincibility flash
     if (P.invincible > 0 && Math.floor(P.invincible/5) % 2 === 0) {
       ctx.globalAlpha = 0.25;
     }
-
+ 
     // ── Body color based on powerup ──────────
     let bodyColor = '#00dcff';
     if (P.fly)    bodyColor = '#f59e0b';
     if (P.shield) bodyColor = '#7c3aed';
     if (P.dScore) bodyColor = '#10b981';
     if (P.tiny)   bodyColor = '#60a5fa';
-
+ 
     if (P.sliding) {
       // Sliding form — compact body
       ctx.shadowColor = bodyColor; ctx.shadowBlur = 10;
@@ -1327,20 +1340,20 @@ const VR = (() => {
       ctx.beginPath(); ctx.roundRect(px+pw-15, py+ph-18, 10, 18-legSwing,  5); ctx.fill();
       ctx.shadowBlur = 0;
     }
-
+ 
     // Fly trail particles (drawn continuously)
     if (P.fly && frame % 3 === 0) {
       spawnParticle(px+pw/2, py+ph, '#f59e0b', 2, 2);
     }
-
+ 
     ctx.restore();
   }
-
+ 
   function drawObstacle(o) {
     ctx.save();
     ctx.shadowColor = o.color; ctx.shadowBlur = 12;
     ctx.fillStyle = o.color;
-
+ 
     if (o.id === 'spike') {
       // Triangle spike
       ctx.beginPath();
@@ -1390,7 +1403,7 @@ const VR = (() => {
     if (o.id !== 'spike') { ctx.beginPath(); ctx.roundRect(o.x,o.y,o.w,o.h,4); ctx.stroke(); }
     ctx.restore();
   }
-
+ 
   function drawPowerup(pu) {
     const cx = pu.x+pu.w/2;
     const cy = pu.y + Math.sin(pu.anim)*6;
@@ -1417,7 +1430,7 @@ const VR = (() => {
     ctx.fillText(pu.icon, 0, 1);
     ctx.restore();
   }
-
+ 
   function drawCoin(c) {
     if (c.collected) return;
     const cy = c.y + Math.sin(c.anim)*3;
@@ -1441,7 +1454,7 @@ const VR = (() => {
     ctx.fillText('✦', 0, 1);
     ctx.restore();
   }
-
+ 
   function drawParticle(p) {
     ctx.save();
     ctx.globalAlpha = p.life;
@@ -1459,7 +1472,7 @@ const VR = (() => {
     }
     ctx.restore();
   }
-
+ 
   function drawBlast() {
     if (!blastWave) return;
     const alpha = Math.max(0, 1 - blastWave.r/blastWave.maxR);
@@ -1471,7 +1484,7 @@ const VR = (() => {
     ctx.beginPath(); ctx.arc(blastWave.x, blastWave.y, blastWave.r+12, 0, Math.PI*2); ctx.stroke();
     ctx.restore();
   }
-
+ 
   function drawCombo() {
     if (combo < 2 || comboTimer <= 0) return;
     const alpha = Math.min(1, comboTimer/20);
@@ -1484,12 +1497,12 @@ const VR = (() => {
     ctx.fillText('COMBO x'+combo, W-16, 28);
     ctx.restore();
   }
-
+ 
   // ── DRAW STATIC FRAME (idle) ──────────────
   function drawIdleFrame() {
     drawBackground();
   }
-
+ 
   // ── OVERLAY HELPERS ───────────────────────
   function showOverlay(opts) {
     const ov = document.getElementById(fsMode ? 'fs-ov' : 'g-ov');
@@ -1499,7 +1512,7 @@ const VR = (() => {
     const scoreEl = document.getElementById(fsMode ? 'fs-ov-score-info' : 'ov-score-info');
     const saveEl  = document.getElementById(fsMode ? 'fs-lb-save-wrap' : 'lb-save-wrap');
     const startBt = document.getElementById(fsMode ? 'fs-start' : 'g-start');
-
+ 
     if (logoEl)  logoEl.textContent  = opts.logo  || 'VOIDRUNNER X';
     if (subEl)   subEl.textContent   = opts.sub   || '';
     if (bestEl)  bestEl.textContent  = best > 0 ? '🏆 Best: '+Math.floor(best).toLocaleString() : '';
@@ -1508,16 +1521,18 @@ const VR = (() => {
     if (startBt) { startBt.textContent = opts.btnText || 'LAUNCH'; startBt.style.display = opts.showSave ? 'none' : ''; }
     ov.classList.remove('hide');
   }
-
+ 
   function hideOverlay() {
     const ov = document.getElementById(fsMode ? 'fs-ov' : 'g-ov');
     if (ov) ov.classList.add('hide');
   }
-
+ 
   // ── END GAME ─────────────────────────────
   function endGame() {
     running = false; gameOver = true;
     cancelAnimationFrame(animId);
+    SFX.setRunning(false);
+    SFX.sndGameOver();
     pendingScore = Math.floor(score);
     pendingCoins = coinCount;
     const scoreStr = `Score: ${pendingScore.toLocaleString()}  ·  Best: ${Math.floor(best).toLocaleString()}  ·  Coins: ${coinCount}`;
@@ -1529,7 +1544,7 @@ const VR = (() => {
       btnText: 'RETRY'
     });
   }
-
+ 
   // ── LEADERBOARD SAVE ──────────────────────
   function saveLBScore() {
     const inEl = document.getElementById(fsMode ? 'fs-lb-name-in' : 'lb-name-in');
@@ -1538,11 +1553,11 @@ const VR = (() => {
     toast('🏆 Score saved as "'+name+'"!');
     showOverlay({ logo:'GAME OVER', sub:'', score:'Score: '+pendingScore.toLocaleString()+'  ·  Coins: '+pendingCoins, showSave:false, btnText:'RETRY' });
   }
-
+ 
   function skipLB() {
     showOverlay({ logo:'GAME OVER', sub:'', score:'Score: '+pendingScore.toLocaleString()+'  ·  Coins: '+pendingCoins, showSave:false, btnText:'RETRY' });
   }
-
+ 
   // ── PUBLIC: START ─────────────────────────
   function start(fullscreen) {
     // If switching modes, update canvas reference
@@ -1556,9 +1571,13 @@ const VR = (() => {
     hideOverlay();
     running = true; gameOver = false;
     updateHUD();
+    SFX.boot(); SFX.resume();
+    SFX.sndGameStart();
+    SFX.setRunning(true);
+    SFX.startMusic();
     loop();
   }
-
+ 
   // ── PUBLIC: ENTER / EXIT FULLSCREEN ──────
   function enterFullscreen() {
     if (running && !fsMode) { cancelAnimationFrame(animId); running = false; }
@@ -1572,7 +1591,7 @@ const VR = (() => {
       showOverlay({ logo:'VOIDRUNNER X', sub:'Jump · Slide · Blast · Survive the Void', showSave:false, btnText:'LAUNCH FULLSCREEN' });
     });
   }
-
+ 
   function exitFullscreen() {
     cancelAnimationFrame(animId); running = false;
     document.getElementById('fso').classList.remove('open');
@@ -1583,16 +1602,18 @@ const VR = (() => {
     updateHUD();
     showOverlay({ logo:'VOIDRUNNER X', sub:'Jump · Slide · Blast your way through the Void', showSave:false, btnText:'LAUNCH' });
   }
-
+ 
   // ── INPUT ────────────────────────────────
   function jump() {
     if (!running) return;
     if (!P.jumping) {
       P.vy = -15; P.jumping = true; P.sliding = false;
       spawnParticle(P.cx, P.bottom, 'rgba(0,220,255,.8)', 5, 4);
+      SFX.sndJump();
     } else if (!P.doubleJumped && !P.fly) {
       P.vy = -13; P.doubleJumped = true;
       spawnParticle(P.cx, P.bottom, 'rgba(124,58,237,.8)', 5, 4);
+      SFX.sndDoubleJump();
     }
   }
   function slide() {
@@ -1600,22 +1621,24 @@ const VR = (() => {
     P.sliding = true; P.slideTimer = 38;
   }
   function blast() { if (running) fireBlast(); }
-
+ 
   // Key input
   document.addEventListener('keydown', e => {
+    SFX.boot(); SFX.resume(); // wake AudioContext on any key
     if (e.code === 'Escape' && fsMode) { exitFullscreen(); return; }
     if (e.code === 'Space' || e.code === 'ArrowUp')   { e.preventDefault(); jump(); }
     if (e.code === 'ArrowDown' || e.code === 'ShiftLeft' || e.code === 'ShiftRight') { e.preventDefault(); slide(); }
     if (e.code === 'KeyR') { e.preventDefault(); blast(); }
+    if (e.code === 'KeyM') { SFX.toggleMute(); }
   });
-
+ 
   // Touch/click on canvases (jump)
   ['gc','fs-c'].forEach(id => {
     const el = document.getElementById(id);
-    el.addEventListener('touchstart', e => { e.preventDefault(); jump(); }, { passive:false });
-    el.addEventListener('click', () => { if (running) jump(); });
+    el.addEventListener('touchstart', e => { e.preventDefault(); SFX.boot(); SFX.resume(); jump(); }, { passive:false });
+    el.addEventListener('click', () => { SFX.boot(); SFX.resume(); if (running) jump(); });
   });
-
+ 
   // Mobile buttons — using pointer events to prevent ghost clicks
   function bindMB(btnId, fn) {
     const el = document.getElementById(btnId);
@@ -1629,28 +1652,317 @@ const VR = (() => {
   bindMB('fs-btn-jump', jump);
   bindMB('fs-btn-slide',slide);
   bindMB('fs-btn-blast',blast);
-
+ 
   // Resize handler
   window.addEventListener('resize', () => {
     if (canvas) { resize(); if (!running) { buildStars(); drawIdleFrame(); } }
   });
-
+ 
   // ── INIT ────────────────────────────────
   canvas = document.getElementById('gc');
   ctx    = canvas.getContext('2d');
   resize(); buildStars(); reset(); drawIdleFrame();
   showOverlay({ logo:'VOIDRUNNER X', sub:'Jump · Slide · Blast your way through the Void', showSave:false, btnText:'LAUNCH' });
   updateHUD();
-
+ 
   // Expose public API
   return { start, enterFullscreen, exitFullscreen, jump, slide, blast, saveLBScore, skipLB };
 })();
-
+ 
 // Wire up global function names used in HTML onclick
 function enterFS()   { VR.enterFullscreen(); }
 function exitFS()    { VR.exitFullscreen(); }
 function saveLBScore(){ VR.saveLBScore(); }
 function skipLB()    { VR.skipLB(); }
+ 
+/* ══════════════════════════════════════════════
+   VOIDRUNNER X — AUDIO ENGINE
+   100% Web Audio API — zero external files
+   All sounds synthesized in real time
+══════════════════════════════════════════════ */
+const SFX = (() => {
+  let AC = null;          // AudioContext
+  let masterGain = null;  // master volume node
+  let musicGain = null;   // separate gain for BGM
+  let sfxGain = null;     // separate gain for SFX
+  let muted = false;
+  let musicNodes = [];    // running music oscillators so we can stop them
+  let musicStarted = false;
+  let musicInterval = null;
+ 
+  // ── Boot AudioContext on first user gesture ──
+  function boot() {
+    if (AC) return true;
+    try {
+      AC = new (window.AudioContext || window.webkitAudioContext)();
+      masterGain = AC.createGain(); masterGain.gain.value = 1; masterGain.connect(AC.destination);
+      musicGain  = AC.createGain(); musicGain.gain.value  = 0.18; musicGain.connect(masterGain);
+      sfxGain    = AC.createGain(); sfxGain.gain.value    = 0.55; sfxGain.connect(masterGain);
+      return true;
+    } catch(e) { return false; }
+  }
+ 
+  // ── Resume context if suspended (browser autoplay policy) ──
+  function resume() {
+    if (AC && AC.state === 'suspended') AC.resume();
+  }
+ 
+  // ── Core synth helpers ──────────────────────
+  function playTone(freq, type, duration, gainPeak, destination, delay=0, detune=0) {
+    if (!AC) return null;
+    const osc  = AC.createOscillator();
+    const gain = AC.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, AC.currentTime + delay);
+    osc.detune.value = detune;
+    gain.gain.setValueAtTime(0, AC.currentTime + delay);
+    gain.gain.linearRampToValueAtTime(gainPeak, AC.currentTime + delay + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + delay + duration);
+    osc.connect(gain); gain.connect(destination);
+    osc.start(AC.currentTime + delay);
+    osc.stop(AC.currentTime + delay + duration + 0.05);
+    return { osc, gain };
+  }
+ 
+  function playNoise(duration, gainPeak, destination, delay=0, filterFreq=2000) {
+    if (!AC) return;
+    const bufLen = AC.sampleRate * duration;
+    const buf    = AC.createBuffer(1, bufLen, AC.sampleRate);
+    const data   = buf.getChannelData(0);
+    for (let i = 0; i < bufLen; i++) data[i] = Math.random()*2 - 1;
+    const src    = AC.createBufferSource();
+    const filt   = AC.createBiquadFilter();
+    const gain   = AC.createGain();
+    src.buffer   = buf;
+    filt.type    = 'bandpass';
+    filt.frequency.value = filterFreq;
+    filt.Q.value = 0.8;
+    gain.gain.setValueAtTime(gainPeak, AC.currentTime + delay);
+    gain.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + delay + duration);
+    src.connect(filt); filt.connect(gain); gain.connect(destination);
+    src.start(AC.currentTime + delay);
+    src.stop(AC.currentTime + delay + duration + 0.05);
+  }
+ 
+  // ── SFX LIBRARY ────────────────────────────
+ 
+  function sndJump() {
+    if (!boot()) return; resume();
+    // Quick upward sweep
+    const osc = AC.createOscillator();
+    const gain = AC.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(220, AC.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(660, AC.currentTime + 0.12);
+    gain.gain.setValueAtTime(0.5, AC.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + 0.18);
+    osc.connect(gain); gain.connect(sfxGain);
+    osc.start(); osc.stop(AC.currentTime + 0.22);
+  }
+ 
+  function sndDoubleJump() {
+    if (!boot()) return; resume();
+    // Two-tone flourish
+    playTone(330, 'sine', 0.09, 0.45, sfxGain, 0);
+    playTone(550, 'sine', 0.12, 0.5,  sfxGain, 0.07);
+    playTone(880, 'sine', 0.1,  0.35, sfxGain, 0.13);
+  }
+ 
+  function sndLand() {
+    if (!boot()) return; resume();
+    playNoise(0.08, 0.3, sfxGain, 0, 300);
+    playTone(80, 'sine', 0.08, 0.4, sfxGain, 0);
+  }
+ 
+  function sndCoin() {
+    if (!boot()) return; resume();
+    // Bright ding
+    playTone(1047, 'sine',   0.08, 0.4,  sfxGain, 0);
+    playTone(1319, 'sine',   0.12, 0.35, sfxGain, 0.04);
+    playTone(1568, 'triangle',0.1, 0.3,  sfxGain, 0.08);
+  }
+ 
+  function sndCombo(level) {
+    if (!boot()) return; resume();
+    const freqs = [523, 659, 784, 988, 1047, 1319, 1568, 2093];
+    const f = freqs[Math.min(level-2, freqs.length-1)];
+    playTone(f,       'sine', 0.12, 0.5,  sfxGain, 0);
+    playTone(f*1.5,   'sine', 0.1,  0.35, sfxGain, 0.06);
+  }
+ 
+  function sndPowerup(kind) {
+    if (!boot()) return; resume();
+    const configs = {
+      shield:  [[220,440,880],  'square',  [0,0.06,0.12]],
+      fly:     [[330,660,990],  'sawtooth',[0,0.08,0.16]],
+      magnet:  [[440,550,660],  'sine',    [0,0.05,0.1 ]],
+      double:  [[523,784,1047], 'triangle',[0,0.07,0.14]],
+      tiny:    [[880,1320,1760],'sine',    [0,0.04,0.08]],
+      blast:   [[110,220,330],  'sawtooth',[0,0.03,0.06]],
+    };
+    const [freqs, type, delays] = configs[kind] || configs.shield;
+    freqs.forEach((f,i) => playTone(f, type, 0.15, 0.45, sfxGain, delays[i]));
+  }
+ 
+  function sndShieldBlock() {
+    if (!boot()) return; resume();
+    // Metallic clang
+    playTone(440, 'square',   0.05, 0.6, sfxGain, 0);
+    playTone(220, 'sawtooth', 0.12, 0.4, sfxGain, 0.02);
+    playNoise(0.12, 0.25, sfxGain, 0, 1200);
+  }
+ 
+  function sndHit() {
+    if (!boot()) return; resume();
+    // Impact thud + noise burst
+    playTone(80, 'sine',  0.18, 0.7,  sfxGain, 0);
+    playTone(55, 'sine',  0.22, 0.5,  sfxGain, 0.02);
+    playNoise(0.15, 0.5,  sfxGain, 0, 500);
+  }
+ 
+  function sndBlast() {
+    if (!boot()) return; resume();
+    // Explosion — sub bass + noise + high crack
+    playTone(60,  'sine',     0.3,  0.9, sfxGain, 0);
+    playTone(80,  'sawtooth', 0.25, 0.7, sfxGain, 0.01);
+    playNoise(0.35, 0.8, sfxGain, 0, 800);
+    playNoise(0.15, 0.5, sfxGain, 0.05, 3000);
+    playTone(220, 'sine', 0.15, 0.4, sfxGain, 0.02);
+  }
+ 
+  function sndGameOver() {
+    if (!boot()) return; resume();
+    stopMusic();
+    // Descending doom sequence
+    const seq = [440, 330, 262, 196, 147];
+    seq.forEach((f,i) => {
+      playTone(f,     'sawtooth', 0.28, 0.5, sfxGain, i*0.18);
+      playTone(f*0.5, 'sine',     0.28, 0.3, sfxGain, i*0.18);
+    });
+    // Final low boom
+    playTone(55, 'sine', 0.6, 0.8, sfxGain, seq.length*0.18);
+    playNoise(0.4, 0.4, sfxGain, seq.length*0.18, 200);
+  }
+ 
+  function sndGameStart() {
+    if (!boot()) return; resume();
+    // Ascending fanfare
+    const seq = [262, 330, 392, 523, 659, 784];
+    seq.forEach((f,i) => {
+      playTone(f,   'sine',     0.12, 0.55, sfxGain, i*0.07);
+      playTone(f*2, 'triangle', 0.08, 0.3,  sfxGain, i*0.07 + 0.03);
+    });
+  }
+ 
+  function sndMilestone() {
+    if (!boot()) return; resume();
+    // Short triumphant sting
+    [523,659,784,1047].forEach((f,i) => playTone(f,'sine',0.18,0.5,sfxGain,i*0.06));
+  }
+ 
+  // ── BACKGROUND MUSIC ────────────────────────
+  // Procedural chiptune — plays a looping melodic pattern
+  // using oscillators scheduled slightly ahead of time
+ 
+  const SCALE = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25];
+  const BASS  = [65.41, 73.42, 82.41, 87.31, 98.00, 110.00, 123.47, 130.81];
+ 
+  // Melody patterns (indices into SCALE)
+  const MELODY_PATTERNS = [
+    [0,2,4,5,4,2,0,2, 4,5,7,5,4,2,4,0],
+    [4,5,7,5,4,2,0,2, 4,2,0,2,4,5,4,2],
+    [7,5,4,2,4,5,7,5, 4,2,0,2,4,5,4,7],
+    [0,4,2,5,4,7,5,4, 2,0,2,4,5,4,2,0],
+  ];
+  const BASS_PATTERN = [0,0,4,4, 5,5,2,2, 4,4,0,0, 5,5,2,4];
+ 
+  let beatIdx = 0;
+  let patIdx  = 0;
+  let bpm     = 128;
+  let beatSec = 60/bpm/4; // 16th note duration
+ 
+  function scheduleBeat(time) {
+    if (!AC || muted) return;
+    const pat = MELODY_PATTERNS[patIdx % MELODY_PATTERNS.length];
+    const noteIdx = pat[beatIdx % pat.length];
+    const bassIdx = BASS_PATTERN[beatIdx % BASS_PATTERN.length];
+ 
+    // Melody note
+    const melFreq = SCALE[noteIdx];
+    playTone(melFreq,   'square',  beatSec*0.7, 0.12, musicGain, time - AC.currentTime);
+    playTone(melFreq*2, 'sine',    beatSec*0.5, 0.06, musicGain, time - AC.currentTime);
+ 
+    // Bass note (every 2 beats)
+    if (beatIdx % 2 === 0) {
+      playTone(BASS[bassIdx], 'sawtooth', beatSec*1.5, 0.18, musicGain, time - AC.currentTime);
+    }
+ 
+    // Hi-hat (every beat)
+    playNoise(0.04, 0.08, musicGain, time - AC.currentTime, 8000);
+ 
+    // Kick drum (every 4 beats)
+    if (beatIdx % 4 === 0) {
+      playTone(55, 'sine', 0.12, 0.4, musicGain, time - AC.currentTime);
+      playNoise(0.06, 0.15, musicGain, time - AC.currentTime, 200);
+    }
+ 
+    // Snare (beats 2 and 4 in every group of 4)
+    if (beatIdx % 4 === 2) {
+      playNoise(0.08, 0.2, musicGain, time - AC.currentTime, 1500);
+      playTone(220, 'square', 0.05, 0.1, musicGain, time - AC.currentTime);
+    }
+ 
+    beatIdx++;
+    if (beatIdx % 16 === 0) patIdx++;
+  }
+ 
+  function startMusic() {
+    if (!boot() || musicStarted) return;
+    resume();
+    musicStarted = true;
+    beatIdx = 0; patIdx = 0;
+ 
+    let nextBeat = AC.currentTime + 0.1;
+    // Schedule slightly ahead to avoid glitches
+    function scheduleAhead() {
+      while (nextBeat < AC.currentTime + 0.25) {
+        scheduleBeat(nextBeat);
+        nextBeat += beatSec;
+      }
+    }
+    scheduleAhead();
+    musicInterval = setInterval(scheduleAhead, 80);
+  }
+ 
+  function stopMusic() {
+    musicStarted = false;
+    if (musicInterval) { clearInterval(musicInterval); musicInterval = null; }
+  }
+ 
+  // ── MUTE TOGGLE ────────────────────────────
+  function toggleMute() {
+    if (!AC) boot();
+    muted = !muted;
+    if (masterGain) masterGain.gain.setTargetAtTime(muted ? 0 : 1, AC.currentTime, 0.05);
+    if (muted) stopMusic();
+    else if (/* game running check via flag */ _gameRunning) startMusic();
+    updateMuteBtn();
+    return muted;
+  }
+ 
+  function updateMuteBtn() {
+    document.querySelectorAll('.mute-btn').forEach(btn => {
+      btn.textContent = muted ? '🔇 Muted' : '🔊 Sound';
+      btn.style.borderColor = muted ? 'rgba(239,68,68,.4)' : 'rgba(0,220,255,.3)';
+      btn.style.color = muted ? '#f87171' : 'var(--cyan)';
+    });
+  }
+ 
+  let _gameRunning = false;
+  function setRunning(v) { _gameRunning = v; }
+ 
+  return { sndJump, sndDoubleJump, sndLand, sndCoin, sndCombo, sndPowerup, sndShieldBlock, sndHit, sndBlast, sndGameOver, sndGameStart, sndMilestone, startMusic, stopMusic, toggleMute, updateMuteBtn, setRunning, boot, resume };
+})();
 </script>
 </body>
 </html>
