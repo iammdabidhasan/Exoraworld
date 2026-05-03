@@ -102,7 +102,7 @@ body:not(.banner-open) #page{padding-top:calc(60px + 52px)}
 #g-fs-btn:hover{background:rgba(0,220,255,.2);box-shadow:var(--glow)}
 #gc{display:block;width:100%;touch-action:none;background:#020309;image-rendering:pixelated}
 /* OVERLAY */
-#g-ov{position:absolute;top:42px;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(2,3,9,.9);backdrop-filter:blur(14px);z-index:10;transition:opacity .4s,visibility .4s}
+#g-ov{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(2,3,9,.9);backdrop-filter:blur(14px);z-index:10;transition:opacity .4s,visibility .4s}
 #g-ov.hide{opacity:0;visibility:hidden;pointer-events:none}
 .ov-logo{font-family:var(--fH);font-size:clamp(2rem,6vw,3.5rem);font-weight:900;background:linear-gradient(135deg,#fff,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px;animation:logoPulse 3s ease-in-out infinite}
 @keyframes logoPulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,220,255,.6))}50%{filter:drop-shadow(0 0 40px rgba(0,220,255,1))}}
@@ -143,7 +143,7 @@ body:not(.banner-open) #page{padding-top:calc(60px + 52px)}
 #fs-stats{display:flex;gap:14px;font-family:var(--fM);font-size:.66rem;color:var(--text2);flex-wrap:wrap}
 #fs-exit{padding:5px 14px;background:rgba(239,68,68,.14);border:1px solid rgba(239,68,68,.38);border-radius:6px;color:#f87171;font-family:var(--fM);font-size:.6rem;cursor:pointer;letter-spacing:1px;text-transform:uppercase}
 #fs-exit:hover{background:rgba(239,68,68,.28)}
-#fs-c{display:block;width:100%;flex:1;touch-action:none;background:#020309;min-height:0}
+#fs-c{display:block;width:100%;flex:1;min-height:0;touch-action:none;background:#020309}
 #fs-pu{display:flex;gap:6px;padding:5px 14px;background:rgba(0,0,0,.6);flex-shrink:0;flex-wrap:wrap;align-items:center}
 #fs-ctrl{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;padding:7px 14px;background:rgba(0,0,0,.7);flex-shrink:0}
 #fs-mob-ctrl{display:none;gap:5px}
@@ -814,21 +814,22 @@ const VR = (() => {
   // ── Resize canvas ──────────────────────────
   function resize() {
     if (fsMode) {
-      const wrap = document.getElementById('fs-wrap');
-      const topH  = document.getElementById('fs-top').offsetHeight;
-      const puH   = document.getElementById('fs-pu').offsetHeight;
-      const ctrlH = document.getElementById('fs-ctrl').offsetHeight;
-      W = wrap.clientWidth;
-      H = Math.max(wrap.clientHeight - topH - puH - ctrlH, 200);
+      W = window.innerWidth;
+      // Measure chrome heights with fallbacks in case layout hasn't settled
+      const topH  = document.getElementById('fs-top').offsetHeight  || 44;
+      const puH   = document.getElementById('fs-pu').offsetHeight   || 34;
+      const ctrlH = document.getElementById('fs-ctrl').offsetHeight || 44;
+      H = Math.max(window.innerHeight - topH - puH - ctrlH, 200);
     } else {
       const wrap = document.getElementById('gw');
-      W = wrap.clientWidth;
+      W = wrap.clientWidth || window.innerWidth;
       const vhFrac = window.innerWidth < 600 ? 0.45 : 0.48;
       H = Math.min(Math.max(window.innerHeight * vhFrac, 220), 440);
     }
     canvas.width  = W;
     canvas.height = H;
     canvas.style.height = H + 'px';
+    canvas.style.width  = '100%';
     GROUND = H - 60;
   }
 
@@ -1509,7 +1510,8 @@ const VR = (() => {
   }
 
   function hideOverlay() {
-    document.getElementById(fsMode ? 'fs-ov' : 'g-ov').classList.add('hide');
+    const ov = document.getElementById(fsMode ? 'fs-ov' : 'g-ov');
+    if (ov) ov.classList.add('hide');
   }
 
   // ── END GAME ─────────────────────────────
@@ -1543,37 +1545,43 @@ const VR = (() => {
 
   // ── PUBLIC: START ─────────────────────────
   function start(fullscreen) {
-    fsMode = fullscreen;
-    canvas = document.getElementById(fsMode ? 'fs-c' : 'gc');
-    ctx    = canvas.getContext('2d');
+    // If switching modes, update canvas reference
+    if (fullscreen !== fsMode) {
+      fsMode = fullscreen;
+      canvas = document.getElementById(fsMode ? 'fs-c' : 'gc');
+      ctx    = canvas.getContext('2d');
+    }
+    cancelAnimationFrame(animId);
     resize(); buildStars(); reset();
     hideOverlay();
     running = true; gameOver = false;
-    cancelAnimationFrame(animId);
     updateHUD();
     loop();
   }
 
   // ── PUBLIC: ENTER / EXIT FULLSCREEN ──────
   function enterFullscreen() {
-    document.getElementById('fso').classList.add('open');
-    // Stop inline if running
     if (running && !fsMode) { cancelAnimationFrame(animId); running = false; }
-    showOverlay({ logo:'VOIDRUNNER X', sub:'Jump · Slide · Blast · Survive the Void', showSave:false, btnText:'LAUNCH FULLSCREEN' });
-    // init fs canvas idle
-    canvas = document.getElementById('fs-c'); ctx = canvas.getContext('2d');
-    fsMode = true; resize(); buildStars(); reset(); drawIdleFrame();
-    updateHUD();
+    fsMode = true;
+    canvas = document.getElementById('fs-c');
+    ctx    = canvas.getContext('2d');
+    document.getElementById('fso').classList.add('open');
+    // Defer sizing until DOM is painted and flex layout resolved
+    requestAnimationFrame(() => {
+      resize(); buildStars(); reset(); drawIdleFrame(); updateHUD();
+      showOverlay({ logo:'VOIDRUNNER X', sub:'Jump · Slide · Blast · Survive the Void', showSave:false, btnText:'LAUNCH FULLSCREEN' });
+    });
   }
 
   function exitFullscreen() {
-    cancelAnimationFrame(animId); running = false; fsMode = false;
+    cancelAnimationFrame(animId); running = false;
     document.getElementById('fso').classList.remove('open');
-    // Reinit inline canvas
-    canvas = document.getElementById('gc'); ctx = canvas.getContext('2d');
+    fsMode = false;
+    canvas = document.getElementById('gc');
+    ctx    = canvas.getContext('2d');
     resize(); buildStars(); reset(); drawIdleFrame();
-    showOverlay({ logo:'VOIDRUNNER X', sub:'Jump · Slide · Blast your way through the Void', showSave:false, btnText:'LAUNCH' });
     updateHUD();
+    showOverlay({ logo:'VOIDRUNNER X', sub:'Jump · Slide · Blast your way through the Void', showSave:false, btnText:'LAUNCH' });
   }
 
   // ── INPUT ────────────────────────────────
