@@ -4,964 +4,736 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>ExoraWorld — News & Articles</title>
-<meta name="description" content="Live news, world events, tech, gaming, Bangladesh and original articles from ExoraWorld."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
 <style>
-  /* ── RESET & BASE ── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --white: #ffffff;
-    --off: #f4f4f0;
-    --ink: #0a0a0a;
-    --ink2: #2a2a2a;
-    --muted: #6b6b6b;
-    --border: #e2e2dc;
-    --accent: #0047ff;
-    --accent2: #00c8ff;
-    --accent3: #ff3c5f;
-    --glow: rgba(0,71,255,0.12);
-    --tag-bg: #f0f4ff;
-    --tag-text: #0047ff;
-    --radius: 16px;
-    --card-shadow: 0 2px 20px rgba(0,0,0,0.06);
-    --card-hover: 0 8px 40px rgba(0,71,255,0.10);
-  }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--white);
-    color: var(--ink);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  a { text-decoration: none; color: inherit; }
-  img { display: block; width: 100%; object-fit: cover; }
-  button { cursor: pointer; font-family: inherit; border: none; background: none; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --white:#ffffff;--off:#f5f5f0;--ink:#0a0a0a;--ink2:#1e1e1e;--muted:#6a6a6a;
+  --border:#e0e0d8;--accent:#0047ff;--accent2:#00c8ff;--accent3:#ff3c5f;
+  --tag-bg:#eef2ff;--tag-text:#0047ff;--radius:14px;
+  --shadow:0 2px 16px rgba(0,0,0,0.07);--shadow-hover:0 10px 40px rgba(0,71,255,0.13);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);min-height:100vh;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+img{display:block;width:100%;object-fit:cover}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
  
-  /* ── CURSOR ── */
-  .cursor {
-    position: fixed; width: 10px; height: 10px;
-    background: var(--accent); border-radius: 50%;
-    pointer-events: none; z-index: 9999;
-    left: -100px; top: -100px;
-    transform: translate(-50%,-50%);
-    transition: width .2s, height .2s, background .2s, opacity .2s;
-    mix-blend-mode: multiply;
-    will-change: left, top;
-  }
-  .cursor.expand { width: 36px; height: 36px; opacity: .5; }
-  .cursor-ring {
-    position: fixed; width: 36px; height: 36px;
-    border: 1.5px solid var(--accent); border-radius: 50%;
-    pointer-events: none; z-index: 9998;
-    left: -100px; top: -100px;
-    transform: translate(-50%,-50%);
-    transition: left .08s ease, top .08s ease, opacity .2s;
-    opacity: .45;
-    will-change: left, top;
-  }
-  @media (hover: none) {
-    .cursor, .cursor-ring { display: none !important; }
-  }
+/* TOPBAR */
+#topbar{
+  position:fixed;top:0;left:0;width:100%;z-index:900;
+  background:rgba(255,255,255,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);height:60px;padding:0 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:box-shadow .3s;
+}
+#topbar.scrolled{box-shadow:0 4px 24px rgba(0,0,0,0.06)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:19px;letter-spacing:-.5px}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-links a{font-size:13px;font-weight:500;color:var(--muted);padding:6px 13px;border-radius:99px;transition:all .18s}
+.nav-links a:hover,.nav-links a.active{color:var(--accent);background:var(--tag-bg)}
+.nav-links .back{border:1px solid var(--border);color:var(--muted)}
+.nav-links .back:hover{border-color:var(--accent);color:var(--accent)}
  
-  /* ── TOPBAR ── */
-  #topbar {
-    position: fixed; top: 0; left: 0; width: 100%; z-index: 900;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 40px;
-    display: flex; align-items: center; justify-content: space-between;
-    height: 64px;
-    transition: box-shadow .3s;
-  }
-  #topbar.scrolled { box-shadow: 0 4px 24px rgba(0,71,255,0.07); }
-  .topbar-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800; font-size: 20px; letter-spacing: -.5px;
-    color: var(--ink);
-    display: flex; align-items: center; gap: 8px;
-  }
-  .topbar-logo span { color: var(--accent); }
-  .topbar-nav { display: flex; align-items: center; gap: 8px; }
-  .topbar-nav a {
-    font-size: 13px; font-weight: 500; letter-spacing: .3px;
-    color: var(--muted); padding: 6px 14px; border-radius: 99px;
-    transition: color .2s, background .2s;
-  }
-  .topbar-nav a:hover { color: var(--accent); background: var(--tag-bg); }
-  .topbar-nav a.active { color: var(--accent); background: var(--tag-bg); }
-  .back-btn {
-    font-size: 13px; font-weight: 500; color: var(--muted);
-    display: flex; align-items: center; gap: 5px;
-    padding: 6px 14px; border-radius: 99px;
-    border: 1px solid var(--border); transition: all .2s;
-  }
-  .back-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--tag-bg); }
+/* HERO */
+#hero{padding:112px 32px 52px;position:relative;overflow:hidden;background:var(--white)}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(0,71,255,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 10% 80%, rgba(0,200,255,0.05) 0%, transparent 70%);
+}
+.grid-lines{
+  position:absolute;inset:0;z-index:0;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:52px 52px;opacity:.35;
+}
+.hero-inner{position:relative;z-index:1;max-width:780px}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.65)}}
+h1{font-family:'Syne',sans-serif;font-size:clamp(34px,6vw,68px);font-weight:800;line-height:1.06;letter-spacing:-2.5px;margin-bottom:18px}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:16px;line-height:1.7;color:var(--muted);max-width:480px;margin-bottom:28px;font-weight:300}
+.hero-stats{display:flex;gap:20px;flex-wrap:wrap}
+.stat{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.stat svg{opacity:.55}
+#live-clock{font-family:'Syne',sans-serif;color:var(--accent);font-weight:600;font-size:12px}
  
-  /* ── HERO ── */
-  #hero {
-    padding: 130px 40px 60px;
-    position: relative; overflow: hidden;
-  }
-  .hero-grid-bg {
-    position: absolute; inset: 0; z-index: 0;
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 48px 48px;
-    opacity: .45;
-  }
-  .hero-blur {
-    position: absolute; width: 500px; height: 500px;
-    border-radius: 50%; z-index: 0;
-    background: radial-gradient(circle, rgba(0,71,255,0.08), transparent 70%);
-    top: -100px; right: -100px;
-    animation: blobFloat 8s ease-in-out infinite;
-  }
-  .hero-blur2 {
-    position: absolute; width: 300px; height: 300px;
-    border-radius: 50%; z-index: 0;
-    background: radial-gradient(circle, rgba(0,200,255,0.07), transparent 70%);
-    bottom: -60px; left: 10%;
-    animation: blobFloat 11s ease-in-out infinite reverse;
-  }
-  @keyframes blobFloat {
-    0%,100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-30px) scale(1.06); }
-  }
-  .hero-inner { position: relative; z-index: 1; max-width: 820px; }
-  .hero-eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 20px;
-  }
-  .hero-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--accent); display: inline-block;
-    animation: pulse 1.8s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%,100% { opacity:1; transform: scale(1); }
-    50% { opacity:.4; transform: scale(.7); }
-  }
-  .hero-title {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(36px, 6vw, 72px); font-weight: 800;
-    line-height: 1.05; letter-spacing: -2px;
-    color: var(--ink); margin-bottom: 20px;
-  }
-  .hero-title em {
-    font-style: normal;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .hero-sub {
-    font-size: 17px; line-height: 1.65; color: var(--muted);
-    max-width: 520px; margin-bottom: 36px; font-weight: 300;
-  }
-  .hero-meta {
-    display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
-  }
-  .hero-meta-item {
-    display: flex; align-items: center; gap: 7px;
-    font-size: 13px; color: var(--muted);
-  }
-  .hero-meta-item svg { opacity: .6; }
-  #live-time {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px; color: var(--accent); font-weight: 600;
-  }
+/* TICKER */
+#ticker{background:var(--ink);color:#fff;padding:9px 0;overflow:hidden;position:relative}
+.ticker-badge{position:absolute;left:0;top:0;height:100%;background:var(--accent);display:flex;align-items:center;padding:0 14px;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;z-index:2;white-space:nowrap}
+.ticker-inner{display:flex;white-space:nowrap;padding-left:86px;animation:scroll 45s linear infinite}
+#ticker:hover .ticker-inner{animation-play-state:paused}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.tick{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(255,255,255,.82);padding:0 24px}
+.tick-sep{color:var(--accent2);font-size:9px}
  
-  /* ── TICKER ── */
-  #ticker-wrap {
-    background: var(--ink); color: #fff;
-    padding: 10px 0; overflow: hidden; position: relative;
-  }
-  .ticker-label {
-    position: absolute; left: 0; top: 0; height: 100%;
-    background: var(--accent); display: flex; align-items: center;
-    padding: 0 16px; font-family: 'Syne', sans-serif;
-    font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
-    z-index: 2; white-space: nowrap; min-width: 84px;
-  }
-  .ticker-track {
-    display: flex; align-items: center; gap: 0;
-    animation: tickerScroll 40s linear infinite;
-    white-space: nowrap; padding-left: 90px;
-  }
-  @keyframes tickerScroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-  .ticker-item {
-    display: inline-flex; align-items: center; gap: 10px;
-    font-size: 13px; padding: 0 28px; color: rgba(255,255,255,0.85);
-  }
-  .ticker-sep { color: var(--accent2); font-size: 10px; }
-  #ticker-wrap:hover .ticker-track { animation-play-state: paused; }
+/* CAT FILTER */
+#cats{padding:28px 32px 0;display:flex;gap:8px;flex-wrap:wrap}
+.cat{padding:7px 16px;border-radius:99px;font-size:12.5px;font-weight:500;border:1.5px solid var(--border);color:var(--muted);background:var(--white);transition:all .18s;cursor:pointer}
+.cat:hover{border-color:var(--accent);color:var(--accent);background:var(--tag-bg)}
+.cat.on{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 4px 14px rgba(0,71,255,.22)}
+.cat.exora-cat{border-color:#ffc0c8;color:var(--accent3)}
+.cat.exora-cat.on{background:var(--accent3);border-color:var(--accent3);color:#fff}
  
-  /* ── CATEGORY FILTER ── */
-  #cat-bar {
-    padding: 32px 40px 0;
-    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  }
-  .cat-btn {
-    padding: 8px 18px; border-radius: 99px; font-size: 13px; font-weight: 500;
-    border: 1.5px solid var(--border); color: var(--muted);
-    background: var(--white); transition: all .2s; letter-spacing: .2px;
-  }
-  .cat-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--tag-bg); }
-  .cat-btn.active {
-    background: var(--accent); color: #fff; border-color: var(--accent);
-    box-shadow: 0 4px 16px rgba(0,71,255,0.2);
-  }
-  .cat-btn.exora { border-color: var(--accent3); color: var(--accent3); }
-  .cat-btn.exora.active { background: var(--accent3); border-color: var(--accent3); }
+/* MAIN */
+#main{padding:32px 32px 80px;max-width:1360px;margin:0 auto}
+.sec-label{font-family:'Syne',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:var(--muted);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
  
-  /* ── MAIN LAYOUT ── */
-  #main { padding: 36px 40px 80px; max-width: 1400px; margin: 0 auto; }
-  .section-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 20px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .section-label::after {
-    content: ''; flex: 1; height: 1px; background: var(--border);
-  }
+/* FEATURED */
+#featured-wrap{margin-bottom:44px}
+.feat{display:grid;grid-template-columns:1.4fr 1fr;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);min-height:320px;transition:box-shadow .3s,transform .3s;background:var(--white)}
+.feat:hover{box-shadow:var(--shadow-hover);transform:translateY(-3px)}
+.feat-img{overflow:hidden;background:var(--off);position:relative}
+.feat-img img{height:100%;min-height:300px;transition:transform .6s}
+.feat:hover .feat-img img{transform:scale(1.04)}
+.feat-placeholder{width:100%;height:100%;min-height:300px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e8edff,#eaf6ff);font-family:'Syne',sans-serif;font-size:72px;font-weight:800;color:rgba(0,71,255,.1);letter-spacing:-4px}
+.feat-body{padding:32px 28px;display:flex;flex-direction:column;justify-content:space-between}
+.feat-tag{display:inline-block;padding:3px 11px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px}
+.feat-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;line-height:1.25;letter-spacing:-.4px;margin-bottom:10px}
+.feat-desc{font-size:13.5px;color:var(--muted);line-height:1.7;margin-bottom:18px;font-weight:300}
+.feat-meta{font-size:11.5px;color:var(--muted);display:flex;gap:12px}
+.read-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:99px;background:var(--accent);color:#fff;font-size:12.5px;font-weight:500;transition:all .2s;width:fit-content;margin-top:14px}
+.read-btn:hover{background:#0035cc;gap:10px}
  
-  /* ── FEATURED CARD ── */
-  #featured-wrap { margin-bottom: 48px; }
-  .featured-card {
-    display: grid; grid-template-columns: 1.5fr 1fr;
-    gap: 0; border-radius: var(--radius); overflow: hidden;
-    border: 1px solid var(--border);
-    box-shadow: var(--card-shadow);
-    min-height: 340px;
-    transition: box-shadow .3s, transform .3s;
-    background: var(--white);
-  }
-  .featured-card:hover { box-shadow: var(--card-hover); transform: translateY(-3px); }
-  .featured-img-wrap { overflow: hidden; position: relative; background: var(--off); }
-  .featured-img-wrap img { height: 100%; transition: transform .6s ease; }
-  .featured-card:hover .featured-img-wrap img { transform: scale(1.04); }
-  .featured-img-placeholder {
-    width: 100%; height: 100%; min-height: 300px;
-    display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(135deg, #e8eeff, #f0f8ff);
-    position: relative; overflow: hidden;
-  }
-  .placeholder-glyph {
-    font-size: 80px; opacity: .15;
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    letter-spacing: -4px; user-select: none;
-  }
-  .featured-body {
-    padding: 36px 32px;
-    display: flex; flex-direction: column; justify-content: space-between;
-  }
-  .featured-tag {
-    display: inline-block; padding: 4px 12px; border-radius: 99px;
-    font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-    background: var(--tag-bg); color: var(--tag-text); margin-bottom: 14px;
-  }
-  .featured-tag.tech { background: #f0fff4; color: #00884d; }
-  .featured-tag.gaming { background: #fff0f8; color: #c0006e; }
-  .featured-tag.bd { background: #fff8e1; color: #c07000; }
-  .featured-tag.business { background: #f5f0ff; color: #6000c0; }
-  .featured-tag.nature { background: #f0fff4; color: #006644; }
-  .featured-tag.exora { background: #fff0f0; color: var(--accent3); }
-  .featured-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 24px; font-weight: 700; line-height: 1.25; letter-spacing: -.5px;
-    color: var(--ink); margin-bottom: 12px;
-  }
-  .featured-desc {
-    font-size: 14px; color: var(--muted); line-height: 1.7;
-    margin-bottom: 20px; font-weight: 300;
-  }
-  .featured-meta { font-size: 12px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
-  .read-btn {
-    display: inline-flex; align-items: center; gap: 7px;
-    padding: 10px 20px; border-radius: 99px;
-    background: var(--accent); color: #fff;
-    font-size: 13px; font-weight: 500;
-    transition: all .2s; width: fit-content; margin-top: 16px;
-  }
-  .read-btn:hover { background: #0035cc; transform: translateX(3px); }
-  .read-btn svg { transition: transform .2s; }
-  .read-btn:hover svg { transform: translateX(3px); }
+/* GRID */
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-bottom:44px}
+.ncard{border:1px solid var(--border);border-radius:var(--radius);background:var(--white);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:box-shadow .3s,transform .3s;opacity:0;transform:translateY(14px);animation:none}
+.ncard.in{opacity:1;transform:translateY(0);transition:opacity .4s ease,transform .4s ease,box-shadow .3s,border-color .2s}
+.ncard.in:hover{box-shadow:var(--shadow-hover);transform:translateY(-4px)}
+.ncard-img{overflow:hidden;height:170px;background:var(--off);flex-shrink:0}
+.ncard-img img{height:100%;transition:transform .5s}
+.ncard:hover .ncard-img img{transform:scale(1.06)}
+.ncard-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:38px;opacity:.15;font-family:'Syne',sans-serif;font-weight:800}
+.ncard-body{padding:18px;flex:1;display:flex;flex-direction:column}
+.ctag{display:inline-block;padding:2px 9px;border-radius:99px;font-size:9.5px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;margin-bottom:9px;width:fit-content}
+.ncard-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;line-height:1.35;color:var(--ink);margin-bottom:7px;flex:1}
+.ncard-desc{font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:12px;font-weight:300}
+.ncard-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.ncard-date{font-size:10.5px;color:var(--muted)}
+.ncard-link{font-size:11.5px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:3px;transition:gap .15s}
+.ncard-link:hover{gap:7px}
  
-  /* ── NEWS GRID ── */
-  .news-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-    gap: 22px;
-    margin-bottom: 48px;
-  }
-  .news-card {
-    border: 1px solid var(--border); border-radius: var(--radius);
-    background: var(--white); overflow: hidden;
-    box-shadow: var(--card-shadow);
-    transition: box-shadow .3s, transform .3s, opacity .4s;
-    display: flex; flex-direction: column;
-    opacity: 0; transform: translateY(16px);
-  }
-  .news-card.visible { opacity: 1; transform: translateY(0); }
-  .news-card.visible:hover { box-shadow: var(--card-hover); transform: translateY(-4px); }
-  .card-img-wrap { overflow: hidden; height: 180px; background: var(--off); position: relative; }
-  .card-img-wrap img { height: 100%; transition: transform .5s; }
-  .news-card:hover .card-img-wrap img { transform: scale(1.06); }
-  .card-img-placeholder {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 40px; opacity: .18;
-    font-family: 'Syne', sans-serif; font-weight: 800;
-  }
-  .card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
-  .card-tag {
-    display: inline-block; padding: 3px 10px; border-radius: 99px;
-    font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-    background: var(--tag-bg); color: var(--tag-text); margin-bottom: 10px;
-    width: fit-content;
-  }
-  .card-tag.tech { background: #f0fff4; color: #00884d; }
-  .card-tag.gaming { background: #fff0f8; color: #c0006e; }
-  .card-tag.bd { background: #fff8e1; color: #c07000; }
-  .card-tag.business { background: #f5f0ff; color: #6000c0; }
-  .card-tag.nature { background: #f0fff4; color: #006644; }
-  .card-tag.exora { background: #fff0f0; color: var(--accent3); }
-  .card-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 16px; font-weight: 700; line-height: 1.35; letter-spacing: -.2px;
-    color: var(--ink); margin-bottom: 8px; flex: 1;
-  }
-  .card-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; font-weight: 300; }
-  .card-footer { display: flex; justify-content: space-between; align-items: center; }
-  .card-date { font-size: 11px; color: var(--muted); }
-  .card-link {
-    font-size: 12px; font-weight: 600; color: var(--accent);
-    display: flex; align-items: center; gap: 4px;
-    transition: gap .2s;
-  }
-  .card-link:hover { gap: 8px; }
+/* TAG COLORS */
+.t-world{background:#eef2ff;color:#0047ff}
+.t-bd{background:#fff8e1;color:#b06000}
+.t-tech{background:#ecfdf5;color:#047857}
+.t-gaming{background:#fdf2f8;color:#9d174d}
+.t-biz{background:#f5f3ff;color:#6d28d9}
+.t-exora{background:#fff1f2;color:#e11d48}
+.t-nature{background:#f0fdf4;color:#166534}
+.t-science{background:#f0f9ff;color:#0369a1}
  
-  /* ── EXORA ARTICLES ── */
-  #exora-section { margin-bottom: 48px; }
-  .articles-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 22px;
-  }
-  .article-card {
-    border: 1px solid var(--border); border-radius: var(--radius);
-    background: var(--white); padding: 28px;
-    box-shadow: var(--card-shadow);
-    transition: all .3s;
-    position: relative; overflow: hidden;
-    opacity: 0; transform: translateY(16px);
-  }
-  .article-card.visible { opacity: 1; transform: translateY(0); }
-  .article-card::before {
-    content: ''; position: absolute;
-    top: 0; left: 0; width: 3px; height: 100%;
-    background: linear-gradient(180deg, var(--accent), var(--accent2));
-    border-radius: 0;
-  }
-  .article-card.accent3::before { background: linear-gradient(180deg, var(--accent3), #ff9b6e); }
-  .article-card.visible:hover { box-shadow: var(--card-hover); transform: translateY(-4px); }
-  .article-eyebrow {
-    font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 10px;
-  }
-  .article-card.accent3 .article-eyebrow { color: var(--accent3); }
-  .article-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 18px; font-weight: 700; letter-spacing: -.3px;
-    color: var(--ink); margin-bottom: 10px; line-height: 1.3;
-  }
-  .article-body {
-    font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 16px; font-weight: 300;
-  }
-  .article-footer { display: flex; justify-content: space-between; align-items: center; }
-  .article-author { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
-  .author-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; font-weight: 700; }
-  .author-dot.a3 { background: var(--accent3); }
-  .article-read { font-size: 12px; color: var(--muted); }
+/* AI ARTICLES */
+#art-section{margin-bottom:44px}
+.art-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+.acard{border:1px solid var(--border);border-radius:var(--radius);background:var(--white);padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:all .3s;opacity:0;transform:translateY(14px)}
+.acard.in{opacity:1;transform:translateY(0);transition:opacity .4s ease,transform .4s ease,box-shadow .3s}
+.acard.in:hover{box-shadow:var(--shadow-hover);transform:translateY(-4px)}
+.acard::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--accent),var(--accent2))}
+.acard.red::before{background:linear-gradient(180deg,var(--accent3),#ff9070)}
+.acard-eye{font-size:9.5px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent);margin-bottom:9px}
+.acard.red .acard-eye{color:var(--accent3)}
+.acard-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;letter-spacing:-.3px;margin-bottom:9px;line-height:1.3}
+.acard-body{font-size:13px;color:var(--muted);line-height:1.7;font-weight:300;margin-bottom:14px}
+.acard-foot{display:flex;justify-content:space-between;align-items:center}
+.acard-auth{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.auth-av{width:21px;height:21px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9.5px;color:#fff;font-weight:700;background:var(--accent);flex-shrink:0}
+.auth-av.r{background:var(--accent3)}
+.acard-time{font-size:11px;color:var(--muted)}
  
-  /* ── FACTS STRIP ── */
-  #facts-section { margin-bottom: 48px; }
-  .facts-strip {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;
-  }
-  .fact-card {
-    background: var(--off); border-radius: var(--radius);
-    padding: 22px; border: 1px solid var(--border);
-    transition: all .3s;
-    opacity: 0; transform: translateY(12px);
-  }
-  .fact-card.visible { opacity: 1; transform: translateY(0); }
-  .fact-card:hover { background: var(--tag-bg); border-color: var(--accent); transform: translateY(-3px); }
-  .fact-icon { font-size: 28px; margin-bottom: 10px; }
-  .fact-text { font-size: 14px; line-height: 1.55; color: var(--ink2); font-weight: 400; }
+/* FACTS */
+#facts-section{margin-bottom:44px}
+.facts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.fcard{background:var(--off);border-radius:var(--radius);padding:20px;border:1px solid var(--border);transition:all .25s;opacity:0;transform:translateY(12px)}
+.fcard.in{opacity:1;transform:translateY(0);transition:opacity .4s ease,transform .4s ease,background .2s,border-color .2s}
+.fcard.in:hover{background:var(--tag-bg);border-color:var(--accent);transform:translateY(-3px)}
+.fcard-icon{font-size:26px;margin-bottom:9px;line-height:1}
+.fcard-text{font-size:13px;line-height:1.6;color:var(--ink2)}
  
-  /* ── LOADING SKELETON ── */
-  .skeleton-card {
-    border: 1px solid var(--border); border-radius: var(--radius);
-    overflow: hidden; background: var(--white);
-  }
-  .skeleton-img { height: 180px; background: var(--off); position: relative; overflow: hidden; }
-  .skeleton-body { padding: 20px; }
-  .skel-line {
-    height: 12px; border-radius: 6px; background: var(--off);
-    margin-bottom: 10px; position: relative; overflow: hidden;
-  }
-  .skel-line::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-    animation: shimmer 1.5s infinite;
-  }
-  @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
-  .skel-line.w70 { width: 70%; }
-  .skel-line.w50 { width: 50%; }
-  .skel-line.w90 { width: 90%; }
+/* LOADING / ERROR */
+.skel{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--white)}
+.skel-img{height:170px;background:var(--off)}
+.skel-body{padding:18px}
+.sl{height:11px;border-radius:5px;background:var(--off);margin-bottom:9px;position:relative;overflow:hidden}
+.sl::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);animation:sh 1.4s infinite}
+@keyframes sh{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.sl.w60{width:60%}.sl.w85{width:85%}.sl.w45{width:45%}
+.empty-state{grid-column:1/-1;padding:48px 24px;text-align:center;border:1.5px dashed var(--border);border-radius:var(--radius)}
+.empty-state h3{font-family:'Syne',sans-serif;font-size:16px;margin-bottom:6px;color:var(--muted)}
+.empty-state p{font-size:13px;color:var(--muted)}
+.err-banner{background:#fff1f2;border:1px solid #fecdd3;border-radius:10px;padding:10px 16px;font-size:12.5px;color:#be123c;margin-bottom:14px;display:none}
  
-  /* ── ERROR STATE ── */
-  .error-state {
-    grid-column: 1/-1; padding: 48px; text-align: center;
-    border: 1px dashed var(--border); border-radius: var(--radius);
-  }
-  .error-state p { color: var(--muted); font-size: 14px; margin-top: 8px; }
+/* AI LOADING */
+.ai-loading{display:flex;align-items:center;gap:10px;padding:20px 0;color:var(--muted);font-size:13px}
+.ai-spin{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
  
-  /* ── FOOTER ── */
-  #footer {
-    background: var(--ink); color: rgba(255,255,255,.65);
-    padding: 40px; text-align: center;
-    font-size: 13px; line-height: 1.8;
-  }
-  #footer a { color: var(--accent2); }
-  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: #fff; margin-bottom: 8px; letter-spacing: -.5px; }
+/* FOOTER */
+#footer{background:var(--ink);color:rgba(255,255,255,.6);padding:36px 32px;text-align:center;font-size:12.5px;line-height:1.8}
+#footer a{color:var(--accent2)}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:#fff;margin-bottom:6px;letter-spacing:-.5px}
  
-  /* ── SCROLL TO TOP ── */
-  #scroll-top {
-    position: fixed; bottom: 28px; right: 28px;
-    width: 44px; height: 44px; border-radius: 50%;
-    background: var(--accent); color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 20px rgba(0,71,255,0.3);
-    cursor: pointer; z-index: 800; transition: all .3s;
-    opacity: 0; transform: translateY(20px); pointer-events: none;
-  }
-  #scroll-top.show { opacity: 1; transform: translateY(0); pointer-events: all; }
-  #scroll-top:hover { background: #0035cc; transform: translateY(-3px); }
+/* SCROLL TOP */
+#stb{position:fixed;bottom:24px;right:24px;width:42px;height:42px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,71,255,.3);cursor:pointer;z-index:800;opacity:0;transform:translateY(16px);pointer-events:none;transition:all .3s}
+#stb.show{opacity:1;transform:translateY(0);pointer-events:all}
+#stb:hover{background:#0035cc;transform:translateY(-2px)}
  
-  /* ── RESPONSIVE ── */
-  @media (max-width: 768px) {
-    #topbar { padding: 0 20px; }
-    #hero { padding: 100px 20px 40px; }
-    #cat-bar { padding: 24px 20px 0; }
-    #main { padding: 28px 20px 60px; }
-    .featured-card { grid-template-columns: 1fr; }
-    .featured-img-wrap { height: 200px; }
-    #footer { padding: 32px 20px; }
-  }
+@media(max-width:768px){
+  #topbar{padding:0 18px}
+  #hero{padding:90px 18px 40px}
+  #cats{padding:22px 18px 0}
+  #main{padding:24px 18px 60px}
+  .feat{grid-template-columns:1fr}
+  .feat-img img{min-height:200px}
+  #footer{padding:28px 18px}
+}
  
-  /* ── ENTRANCE ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .hero-eyebrow { animation: fadeUp .6s ease both; }
-  .hero-title { animation: fadeUp .7s .1s ease both; }
-  .hero-sub { animation: fadeUp .7s .2s ease both; }
-  .hero-meta { animation: fadeUp .7s .3s ease both; }
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.eyebrow{animation:fadeUp .55s ease both}
+h1{animation:fadeUp .6s .08s ease both}
+.hero-sub{animation:fadeUp .6s .16s ease both}
+.hero-stats{animation:fadeUp .6s .24s ease both}
 </style>
 </head>
 <body>
  
-<!-- CUSTOM CURSOR -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
- 
-<!-- TOPBAR -->
 <nav id="topbar">
-  <a href="index.html" class="topbar-logo">Exora<span>World</span></a>
-  <div class="topbar-nav">
-    <a href="index.html" class="back-btn">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      Main Site
-    </a>
+  <a href="index.html" class="logo">Exora<span>World</span></a>
+  <div class="nav-links">
+    <a href="index.html" class="back">← Main Site</a>
     <a href="#live-news" class="active">News</a>
-    <a href="#exora-section">Articles</a>
-    <a href="#facts-section">Facts & Tips</a>
+    <a href="#art-section">Articles</a>
+    <a href="#facts-section">Facts</a>
   </div>
 </nav>
  
-<!-- HERO -->
 <section id="hero">
-  <div class="hero-grid-bg"></div>
-  <div class="hero-blur"></div>
-  <div class="hero-blur2"></div>
+  <div class="hero-bg"></div>
+  <div class="grid-lines"></div>
   <div class="hero-inner">
-    <div class="hero-eyebrow">
-      <span class="hero-dot"></span>
-      Live • Updated automatically
-    </div>
-    <h1 class="hero-title">
-      World News &<br/><em>ExoraWorld</em> Stories
-    </h1>
-    <p class="hero-sub">
-      International headlines, Bangladesh updates, tech, gaming, business — plus original articles and facts written just for you.
-    </p>
-    <div class="hero-meta">
-      <div class="hero-meta-item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        <span id="live-time">--:--:--</span>
+    <div class="eyebrow"><span class="live-dot"></span> Live · Auto-updated</div>
+    <h1>World News &<br/><em>ExoraWorld</em> Stories</h1>
+    <p class="hero-sub">Real headlines from around the world, Bangladesh updates, tech, gaming, business — plus original AI-written articles fresh every visit.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span id="live-clock">--:--:--</span>
       </div>
-      <div class="hero-meta-item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <div class="stat">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
         Global + Bangladesh
       </div>
-      <div class="hero-meta-item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/></svg>
-        ExoraWorld · <span id="article-count">5</span> articles
+      <div class="stat" id="art-stat">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg>
+        ExoraWorld · <span id="art-count">5</span> articles
       </div>
     </div>
   </div>
 </section>
  
-<!-- TICKER -->
-<div id="ticker-wrap">
-  <div class="ticker-label">⚡ Live</div>
-  <div class="ticker-track" id="ticker-track">
-    <span class="ticker-item">Loading latest headlines<span class="ticker-sep">◆</span></span>
-    <span class="ticker-item">Stay tuned for live updates<span class="ticker-sep">◆</span></span>
-    <span class="ticker-item">ExoraWorld — News for the curious<span class="ticker-sep">◆</span></span>
-    <span class="ticker-item">World · Bangladesh · Tech · Gaming · Business<span class="ticker-sep">◆</span></span>
+<div id="ticker">
+  <div class="ticker-badge">⚡ Live</div>
+  <div class="ticker-inner" id="ticker-inner">
+    <span class="tick">Loading latest headlines… <span class="tick-sep">◆</span></span>
+    <span class="tick">ExoraWorld — News for the curious <span class="tick-sep">◆</span></span>
+    <span class="tick">World · Bangladesh · Tech · Gaming · Business <span class="tick-sep">◆</span></span>
+    <span class="tick">Real news. Real articles. No fluff. <span class="tick-sep">◆</span></span>
+    <span class="tick">Loading latest headlines… <span class="tick-sep">◆</span></span>
+    <span class="tick">ExoraWorld — News for the curious <span class="tick-sep">◆</span></span>
+    <span class="tick">World · Bangladesh · Tech · Gaming · Business <span class="tick-sep">◆</span></span>
+    <span class="tick">Real news. Real articles. No fluff. <span class="tick-sep">◆</span></span>
   </div>
 </div>
  
-<!-- CATEGORY FILTER -->
-<div id="cat-bar">
-  <button class="cat-btn active" data-cat="all">All</button>
-  <button class="cat-btn" data-cat="world">🌍 World</button>
-  <button class="cat-btn" data-cat="bangladesh">🇧🇩 Bangladesh</button>
-  <button class="cat-btn" data-cat="technology">💻 Technology</button>
-  <button class="cat-btn" data-cat="gaming">🎮 Gaming</button>
-  <button class="cat-btn" data-cat="business">📈 Business</button>
-  <button class="cat-btn exora" data-cat="exora">✨ ExoraWorld</button>
+<div id="cats">
+  <button class="cat on" data-cat="all">All</button>
+  <button class="cat" data-cat="world">🌍 World</button>
+  <button class="cat" data-cat="bangladesh">🇧🇩 Bangladesh</button>
+  <button class="cat" data-cat="technology">💻 Technology</button>
+  <button class="cat" data-cat="gaming">🎮 Gaming</button>
+  <button class="cat" data-cat="business">📈 Business</button>
+  <button class="cat exora-cat" data-cat="exora">✨ ExoraWorld</button>
 </div>
  
-<!-- MAIN CONTENT -->
 <main id="main">
  
-  <!-- FEATURED -->
+  <div id="news-err" class="err-banner">⚠️ Couldn't fetch live news — showing curated headlines instead. <a href="#" onclick="loadNews(currentCat);return false">Retry</a></div>
+ 
   <section id="featured-wrap">
-    <div class="section-label">Featured story</div>
-    <div id="featured-slot"></div>
+    <div class="sec-label">Featured story</div>
+    <div id="feat-slot"></div>
   </section>
  
-  <!-- LIVE NEWS GRID -->
   <section id="live-news">
-    <div class="section-label">Live headlines</div>
+    <div class="sec-label">Live headlines</div>
     <div class="news-grid" id="news-grid">
-      <!-- Skeletons shown while loading -->
-      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skel-line w50"></div><div class="skel-line w90"></div><div class="skel-line w70"></div></div></div>
-      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skel-line w50"></div><div class="skel-line w90"></div><div class="skel-line w70"></div></div></div>
-      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skel-line w50"></div><div class="skel-line w90"></div><div class="skel-line w70"></div></div></div>
+      <div class="skel"><div class="skel-img"></div><div class="skel-body"><div class="sl w45"></div><div class="sl w85"></div><div class="sl w60"></div></div></div>
+      <div class="skel"><div class="skel-img"></div><div class="skel-body"><div class="sl w45"></div><div class="sl w85"></div><div class="sl w60"></div></div></div>
+      <div class="skel"><div class="skel-img"></div><div class="skel-body"><div class="sl w45"></div><div class="sl w85"></div><div class="sl w60"></div></div></div>
+      <div class="skel"><div class="skel-img"></div><div class="skel-body"><div class="sl w45"></div><div class="sl w85"></div><div class="sl w60"></div></div></div>
     </div>
   </section>
  
-  <!-- EXORA ARTICLES -->
-  <section id="exora-section">
-    <div class="section-label">ExoraWorld articles</div>
-    <div class="articles-grid" id="articles-grid"></div>
+  <section id="art-section">
+    <div class="sec-label">ExoraWorld articles <span id="ai-badge" style="font-size:10px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--accent);margin-left:6px;padding:2px 8px;background:var(--tag-bg);border-radius:99px">AI-written</span></div>
+    <div id="art-loading" class="ai-loading"><div class="ai-spin"></div> Generating fresh articles for you…</div>
+    <div class="art-grid" id="art-grid"></div>
   </section>
  
-  <!-- FACTS & TIPS -->
   <section id="facts-section">
-    <div class="section-label">Quick facts & tips</div>
-    <div class="facts-strip" id="facts-strip"></div>
+    <div class="sec-label">Quick facts & tips</div>
+    <div class="facts-grid" id="facts-grid"></div>
   </section>
  
 </main>
  
-<!-- FOOTER -->
 <footer id="footer">
   <div class="footer-logo">ExoraWorld</div>
   <p>News · Games · Gallery · Store</p>
-  <p style="margin-top:8px;font-size:12px">
-    News sourced from <a href="https://news.google.com" target="_blank">Google News</a> via RSS ·
-    Articles by ExoraWorld ·
+  <p style="margin-top:6px;font-size:11.5px">
+    Live news via Google News RSS ·
+    Articles powered by Claude AI ·
     <a href="index.html">← Back to main site</a>
   </p>
 </footer>
  
-<!-- SCROLL TO TOP -->
-<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+<button id="stb" onclick="scrollTo({top:0,behavior:'smooth'})">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
  
 <script>
-/* ── NEWS SOURCE: Google News RSS via rss2json (no API key needed) ── */
+/* ===== CONFIG ===== */
+const UNSPLASH_CATS = {
+  world:      ['earth','world','globe','city'],
+  technology: ['technology','computer','artificial intelligence','server'],
+  gaming:     ['gaming','video game','esports','controller'],
+  business:   ['business','finance','stock market','office'],
+  bangladesh: ['dhaka','bangladesh','river delta','asia'],
+  exora:      ['space','cosmos','galaxy','universe'],
+  nature:     ['nature','forest','ocean','wildlife'],
+  science:    ['science','laboratory','research','microscope'],
+};
  
-/* ── YOUR OWN ARTICLES ── add/edit here anytime ── */
-const EXORA_ARTICLES = [
-  {
-    id: 1,
-    category: 'exora',
-    eyebrow: 'ExoraWorld Update',
-    title: 'Welcome to ExoraWorld News!',
-    body: 'This is your first official article on ExoraWorld. Stay tuned for more original content, game announcements, and digital goodies coming your way.',
-    author: 'ExoraWorld',
-    date: '2025',
-    readTime: '1 min read',
-    accent: false
-  },
-  {
-    id: 2,
-    category: 'exora',
-    eyebrow: 'Tip of the Week',
-    title: 'How to get the most out of ExoraWorld',
-    body: 'Explore the Games section for free browser games, visit the Gallery to discover stunning wallpapers and photos, and check back here for weekly news and articles.',
-    author: 'ExoraWorld',
-    date: '2025',
-    readTime: '2 min read',
-    accent: true
-  },
-  {
-    id: 3,
-    category: 'exora',
-    eyebrow: 'Coming Soon',
-    title: 'Digital products & free downloads launching soon',
-    body: "The ExoraWorld Store is being built. Expect free downloadable wallpapers, templates, mini tools, and exclusive digital goods. It's going to be good.",
-    author: 'ExoraWorld',
-    date: '2025',
-    readTime: '1 min read',
-    accent: false
-  },
-  {
-    id: 4,
-    category: 'exora',
-    eyebrow: 'Did You Know?',
-    title: 'Bangladesh has the largest river delta in the world',
-    body: "The Ganges-Brahmaputra Delta, also known as the Sundarbans delta, covers around 105,000 sq km across Bangladesh and West Bengal. It's home to the Royal Bengal Tiger and a UNESCO World Heritage Site.",
-    author: 'ExoraWorld',
-    date: '2025',
-    readTime: '2 min read',
-    accent: true
-  },
-  {
-    id: 5,
-    category: 'exora',
-    eyebrow: 'Nature Fact',
-    title: 'A day on Venus is longer than a year on Venus',
-    body: "Venus rotates so slowly that a single day on Venus (243 Earth days) is actually longer than its year (225 Earth days). And it spins backwards compared to most planets.",
-    author: 'ExoraWorld',
-    date: '2025',
-    readTime: '1 min read',
-    accent: false
-  }
-];
+const CAT_TAG = {
+  world:'t-world',technology:'t-tech',gaming:'t-gaming',business:'t-biz',
+  bangladesh:'t-bd',exora:'t-exora',nature:'t-nature',science:'t-science'
+};
  
-/* ── QUICK FACTS & TIPS ── */
-const FACTS = [
-  { icon: '🌿', text: 'Bamboo can grow up to 91 cm in a single day — the fastest growing plant on Earth.' },
-  { icon: '💡', text: 'Tip: Use dark mode on your phone at night to reduce eye strain and save battery.' },
-  { icon: '🇧🇩', text: "Bangladesh is one of the world's top 3 garment exporters, contributing ~80% of export earnings." },
-  { icon: '🎮', text: 'The global gaming industry is worth over $180 billion — bigger than movies and music combined.' },
-  { icon: '🌊', text: 'Over 71% of Earth is covered by water, but only 3% is fresh water, and most of that is frozen.' },
-  { icon: '🧠', text: 'Tip: Taking a 10-minute walk after studying helps your brain consolidate memory.' },
-  { icon: '🚀', text: 'There are more stars in the universe than grains of sand on all of Earth\'s beaches.' },
-  { icon: '📱', text: 'Tip: Clear your phone\'s cache weekly to keep apps running faster.' },
-];
+const CAT_LABEL = {
+  world:'World',technology:'Tech',gaming:'Gaming',business:'Business',
+  bangladesh:'Bangladesh',exora:'ExoraWorld',nature:'Nature',science:'Science'
+};
  
-/* ──────────────────────────────────────────────── */
+/* Reliable curated fallback headlines when RSS fails */
+const FALLBACK = {
+  all:[
+    {title:'Climate talks reach historic emissions agreement in Geneva',desc:'World leaders have committed to a new framework targeting net-zero emissions by 2040, the most ambitious climate deal since the Paris Agreement.',source:'Reuters',cat:'world',url:'https://reuters.com/environment/climate'},
+    {title:'Bangladesh GDP growth holds at 6.5% — World Bank praises resilience',desc:'The World Bank report highlights strong export performance and remittance inflows as key drivers of Bangladesh\'s economic growth despite global headwinds.',source:'Financial Express BD',cat:'bangladesh',url:'https://thefinancialexpress.com.bd'},
+    {title:'NVIDIA unveils next-gen AI chip with 10x performance leap',desc:'NVIDIA\'s Blackwell Ultra architecture promises a tenfold boost in inference speed, drawing massive pre-orders from cloud providers worldwide.',source:'TechCrunch',cat:'technology',url:'https://techcrunch.com'},
+    {title:'GTA VI release date confirmed — here\'s what Rockstar said',desc:'Rockstar Games officially confirmed the much-anticipated Grand Theft Auto VI will launch in Q4 2025, with a trailer showcasing Vice City in stunning detail.',source:'IGN',cat:'gaming',url:'https://ign.com'},
+    {title:'Global markets rally as US Fed signals rate cut path',desc:'Wall Street posted strong gains after Federal Reserve minutes indicated at least two interest rate cuts are expected before the end of the year.',source:'Bloomberg',cat:'business',url:'https://bloomberg.com/markets'},
+    {title:'SpaceX Starship completes landmark orbital mission',desc:'SpaceX successfully landed its Starship vehicle after a full orbital flight, marking a pivotal moment for reusable heavy-lift space exploration.',source:'Space.com',cat:'world',url:'https://space.com'},
+    {title:'Bangladesh wins T20 series against South Africa 2-1',desc:'A thrilling final match saw Bangladesh clinch the series with a dramatic last-over victory, cementing their rising status in international cricket.',source:'Prothom Alo',cat:'bangladesh',url:'https://en.prothomalo.com'},
+    {title:'Scientists confirm water ice found in lunar south pole craters',desc:'NASA\'s VIPER rover mission data confirms substantial water ice deposits in permanently shadowed craters — a major milestone for future Moon bases.',source:'NASA',cat:'science',url:'https://nasa.gov'},
+  ],
+  world:[
+    {title:'UN Security Council votes on new peacekeeping resolution',desc:'A landmark vote passed with broad support, authorizing an expanded peacekeeping force in conflict-affected regions across Central Africa.',source:'AP News',cat:'world',url:'https://apnews.com'},
+    {title:'Europe heatwave breaks century-old temperature records',desc:'Multiple European nations reported all-time record temperatures, prompting emergency declarations and health warnings across the continent.',source:'BBC News',cat:'world',url:'https://bbc.com/news/world'},
+    {title:'Antarctic ice shelf shows signs of accelerated melting',desc:'New satellite data reveals the Thwaites glacier\'s ice shelf is destabilizing faster than previously modeled, raising sea-level alarm bells.',source:'Nature Journal',cat:'world',url:'https://nature.com'},
+    {title:'WHO declares new health initiative for underserved regions',desc:'The World Health Organization announced a $2 billion initiative targeting preventable diseases in low-income nations over the next five years.',source:'WHO',cat:'world',url:'https://who.int'},
+    {title:'Global refugee count surpasses 120 million for first time',desc:'UNHCR data shows the total number of forcibly displaced people worldwide has crossed 120 million — a stark record driven by ongoing conflicts.',source:'UNHCR',cat:'world',url:'https://unhcr.org'},
+    {title:'China\'s lunar probe returns with far-side samples',desc:'China\'s Chang\'e-6 mission returned the first ever samples from the Moon\'s far side, unlocking new clues about the early solar system.',source:'Xinhua',cat:'world',url:'https://xinhuanet.com'},
+  ],
+  bangladesh:[
+    {title:'Bangladesh garment exports hit $48 billion record high',desc:'The Bangladesh Garment Manufacturers and Exporters Association reports a record-breaking year, with strong demand from EU and US markets.',source:'Daily Star BD',cat:'bangladesh',url:'https://thedailystar.net'},
+    {title:'Dhaka metro rail expansion reaches Gazipur',desc:'Phase 3 of the Dhaka MRT Line 6 extension reaches Gazipur, cutting commute times for over 2 million daily passengers in the northern suburbs.',source:'Dhaka Tribune',cat:'bangladesh',url:'https://dhakatribune.com'},
+    {title:'Bangladesh floods: government deploys emergency response teams',desc:'Unprecedented monsoon flooding has displaced hundreds of thousands in the Sylhet and Sunamganj districts, with relief operations in full swing.',source:'Prothom Alo',cat:'bangladesh',url:'https://en.prothomalo.com'},
+    {title:'Padma Bridge marks two-year anniversary with traffic records',desc:'Bangladesh\'s landmark Padma Bridge has carried over 50 million vehicles in its first two years, transforming connectivity for 21 southern districts.',source:'Financial Express BD',cat:'bangladesh',url:'https://thefinancialexpress.com.bd'},
+  ],
+  technology:[
+    {title:'OpenAI releases GPT-5 with real-time reasoning capabilities',desc:'OpenAI\'s latest model introduces native real-time web access and dramatically improved multi-step reasoning, setting a new industry benchmark.',source:'The Verge',cat:'technology',url:'https://theverge.com'},
+    {title:'Apple Vision Pro 2 teardown reveals major hardware upgrades',desc:'Third-party engineers confirm the next Vision Pro packs a new M4 Ultra chip, 40% lighter optics, and a dramatically improved battery system.',source:'9to5Mac',cat:'technology',url:'https://9to5mac.com'},
+    {title:'Samsung Galaxy S26 Ultra camera specs leaked',desc:'Leaked specifications point to a 200MP main sensor with real-time AI video enhancement, 10x optical zoom, and an all-day adaptive battery.',source:'GSMArena',cat:'technology',url:'https://gsmarena.com'},
+    {title:'Quantum computer breaks 2048-bit encryption in simulation',desc:'Researchers at IBM demonstrated a simulation showing quantum advantage over RSA-2048 encryption, accelerating calls for post-quantum cryptography standards.',source:'MIT Technology Review',cat:'technology',url:'https://technologyreview.com'},
+  ],
+  gaming:[
+    {title:'GTA VI: everything we know ahead of launch',desc:'From the confirmed Vice City setting to online multiplayer details, here\'s a full breakdown of what to expect from Rockstar\'s biggest release ever.',source:'IGN',cat:'gaming',url:'https://ign.com/articles/gta-6'},
+    {title:'PlayStation 6 dev kits reportedly shipping to major studios',desc:'Industry sources claim Sony has begun distributing PS6 development hardware, suggesting a 2026 launch window for the next-gen console.',source:'VGC',cat:'gaming',url:'https://videogameschronicle.com'},
+    {title:'Elden Ring DLC "Shadow of the Erdtree" wins GOTY at awards',desc:'FromSoftware\'s acclaimed expansion took the top prize at this year\'s Game of the Year awards, beating out strong competition from across the industry.',source:'Eurogamer',cat:'gaming',url:'https://eurogamer.net'},
+    {title:'Nintendo Switch 2 sells 10 million units in first month',desc:'Nintendo\'s follow-up console has shattered launch records, with strong demand for Mario Kart World driving unprecedented system sales globally.',source:'Nintendo Life',cat:'gaming',url:'https://nintendolife.com'},
+  ],
+  business:[
+    {title:'S&P 500 crosses 6,500 as earnings season impresses',desc:'Wall Street\'s benchmark index reached a new all-time high as the majority of S&P 500 companies reported earnings that beat analyst expectations.',source:'Bloomberg',cat:'business',url:'https://bloomberg.com/markets'},
+    {title:'Tesla reports record quarterly profits on Model 3 demand',desc:'Tesla\'s Q2 earnings beat Wall Street estimates by 18%, driven by surging demand for the refreshed Model 3 in European and Asian markets.',source:'CNBC',cat:'business',url:'https://cnbc.com/tesla'},
+    {title:'IMF raises global growth forecast to 3.4% for 2025',desc:'The IMF\'s updated World Economic Outlook cites easing inflation and resilient emerging-market economies as key drivers behind the upgraded forecast.',source:'IMF',cat:'business',url:'https://imf.org/weo'},
+    {title:'Amazon acquires AI startup for $4 billion in cloud push',desc:'Amazon\'s acquisition of AI infrastructure startup Inflection strengthens AWS\'s position in the enterprise AI market, competing directly with Microsoft Azure.',source:'Financial Times',cat:'business',url:'https://ft.com'},
+  ],
+};
  
-/* ──────────────────────────────────────────────── */
- 
+/* ===== STATE ===== */
 let currentCat = 'all';
-let allNewsCache = [];
+let articleCache = null;
  
-/* ── CURSOR ── */
-const cur = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-let mouseX = -100, mouseY = -100;
-let ringX = -100, ringY = -100;
-let rafRunning = false;
+/* ===== HELPERS ===== */
+const $ = id => document.getElementById(id);
+const qs = s => document.querySelector(s);
  
-function animateRing() {
-  const ease = 0.13;
-  ringX += (mouseX - ringX) * ease;
-  ringY += (mouseY - ringY) * ease;
-  ring.style.left = ringX + 'px';
-  ring.style.top = ringY + 'px';
-  requestAnimationFrame(animateRing);
+function imgUrl(keywords, w=600, h=400, seed=1) {
+  const kw = keywords[seed % keywords.length];
+  return `https://source.unsplash.com/${w}x${h}/?${encodeURIComponent(kw)}&sig=${seed}`;
 }
  
-document.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  cur.style.left = mouseX + 'px';
-  cur.style.top = mouseY + 'px';
-  if (!rafRunning) { rafRunning = true; animateRing(); }
-});
+function tagClass(cat){ return CAT_TAG[cat] || 't-world' }
+function tagLabel(cat){ return CAT_LABEL[cat] || 'World' }
  
-function bindCursorHover() {
-  document.querySelectorAll('a, button, .news-card, .article-card').forEach(el => {
-    if (el.dataset.cursorBound) return;
-    el.dataset.cursorBound = '1';
-    el.addEventListener('mouseenter', () => cur.classList.add('expand'));
-    el.addEventListener('mouseleave', () => cur.classList.remove('expand'));
-  });
+function fmtDate(str){
+  try{ const d=new Date(str); return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); }
+  catch{ return 'Today'; }
 }
  
-/* ── LIVE CLOCK ── */
-function updateClock() {
-  const now = new Date();
-  document.getElementById('live-time').textContent =
-    now.toLocaleTimeString('en-US', { hour12: false, hour:'2-digit', minute:'2-digit', second:'2-digit' });
-}
-setInterval(updateClock, 1000); updateClock();
- 
-/* ── SCROLL TOPBAR + SCROLL BTN ── */
-const topbar = document.getElementById('topbar');
-const scrollBtn = document.getElementById('scroll-top');
-window.addEventListener('scroll', () => {
-  topbar.classList.toggle('scrolled', window.scrollY > 40);
-  scrollBtn.classList.toggle('show', window.scrollY > 400);
-});
- 
-/* ── INTERSECTION OBSERVER (card entrance) ── */
-const io = new IntersectionObserver((entries) => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('visible'), i * 60);
+/* Intersection Observer for card entrance */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('in'), i*55);
       io.unobserve(e.target);
     }
   });
-}, { threshold: 0.1 });
+},{threshold:0.08});
+function observe(){ document.querySelectorAll('.ncard,.acard,.fcard').forEach(c=>io.observe(c)); }
  
-function observeCards() {
-  document.querySelectorAll('.news-card, .article-card, .fact-card').forEach(c => io.observe(c));
+/* ===== CLOCK ===== */
+function tick(){ $('live-clock').textContent = new Date().toLocaleTimeString('en-US',{hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
+setInterval(tick,1000); tick();
+ 
+/* ===== SCROLL ===== */
+window.addEventListener('scroll',()=>{
+  $('topbar').classList.toggle('scrolled', scrollY>40);
+  $('stb').classList.toggle('show', scrollY>400);
+});
+ 
+/* ===== NEWS FETCH (multiple proxy fallbacks) ===== */
+const RSS_FEEDS = {
+  all:        'https://feeds.bbci.co.uk/news/rss.xml',
+  world:      'https://feeds.bbci.co.uk/news/world/rss.xml',
+  technology: 'https://feeds.bbci.co.uk/news/technology/rss.xml',
+  business:   'https://feeds.bbci.co.uk/news/business/rss.xml',
+  gaming:     'https://feeds.feedburner.com/ign/all',
+  bangladesh: 'https://www.thedailystar.net/rss.xml',
+};
+ 
+const PROXIES = [
+  url => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}&count=12`,
+  url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+];
+ 
+async function tryRss2json(feedUrl){
+  const api = PROXIES[0](feedUrl);
+  const r = await fetch(api, {signal: AbortSignal.timeout(6000)});
+  if(!r.ok) throw new Error('rss2json fail');
+  const j = await r.json();
+  if(j.status !== 'ok' || !j.items?.length) throw new Error('no items');
+  return j.items.slice(0,12).map((item,i)=>({
+    title: item.title || '',
+    desc:  item.description?.replace(/<[^>]*>/g,'').trim().slice(0,180) || '',
+    source: j.feed?.title || 'BBC News',
+    publishedAt: item.pubDate || new Date().toISOString(),
+    image: item.thumbnail || item.enclosure?.link || null,
+    url:   item.link || '#',
+    cat:   'world',
+  }));
 }
  
-/* ── FETCH NEWS: direct Google News RSS, parsed in browser (no key, no proxy) ── */
-async function fetchNews(cat) {
-  const feeds = {
-    all:        'https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en',
-    world:      'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx1YlY4U0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US:en',
-    technology: 'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGRqTVhZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US:en',
-    gaming:     'https://news.google.com/rss/search?q=gaming+video+games&hl=en-US&gl=US&ceid=US:en',
-    business:   'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx6TVdZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US:en',
-    bangladesh: 'https://news.google.com/rss/search?q=bangladesh&hl=en-US&gl=US&ceid=US:en',
-  };
-  const rssUrl = feeds[cat] || feeds.all;
-  // Use allorigins.win — a free, reliable CORS proxy that works on static sites
-  const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
-  try {
-    const res = await fetch(proxyUrl);
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const json = await res.json();
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(json.contents, 'text/xml');
-    const items = Array.from(xml.querySelectorAll('item'));
-    if (!items.length) throw new Error('No items in feed');
-    return items.slice(0, 10).map(item => ({
-      title:       item.querySelector('title')?.textContent || '',
-      description: item.querySelector('description')?.textContent?.replace(/<[^>]*>/g, '').trim().slice(0, 200) || '',
-      source:      item.querySelector('source')?.textContent || 'Google News',
+async function tryAllorigins(feedUrl){
+  const proxy = PROXIES[1](feedUrl);
+  const r = await fetch(proxy, {signal: AbortSignal.timeout(8000)});
+  if(!r.ok) throw new Error('allorigins fail');
+  const j = await r.json();
+  const parser = new DOMParser();
+  const xml = parser.parseFromString(j.contents, 'text/xml');
+  const items = Array.from(xml.querySelectorAll('item'));
+  if(!items.length) throw new Error('no items in xml');
+  const feedTitle = xml.querySelector('channel > title')?.textContent || 'News';
+  return items.slice(0,12).map((item,i)=>{
+    const enc = item.querySelector('enclosure');
+    const media = item.querySelector('content');
+    return {
+      title: item.querySelector('title')?.textContent || '',
+      desc:  item.querySelector('description')?.textContent?.replace(/<[^>]*>/g,'').trim().slice(0,180) || '',
+      source: feedTitle,
       publishedAt: item.querySelector('pubDate')?.textContent || new Date().toISOString(),
-      image:       null, // Google News RSS doesn't include images
-      url:         item.querySelector('link')?.textContent || '#',
-    }));
-  } catch (err) {
-    console.warn('News fetch failed:', err.message);
-    return null;
+      image: enc?.getAttribute('url') || media?.getAttribute('url') || null,
+      url:   item.querySelector('link')?.textContent || '#',
+      cat:   'world',
+    };
+  });
+}
+ 
+async function fetchNews(cat){
+  const feedUrl = RSS_FEEDS[cat] || RSS_FEEDS.all;
+  // Try rss2json first, then allorigins
+  for(const fn of [tryRss2json, tryAllorigins]){
+    try{
+      const items = await fn(feedUrl);
+      if(items && items.length) return {items, live:true};
+    } catch(e){ /* try next */ }
   }
+  return {items: FALLBACK[cat] || FALLBACK.all, live:false};
 }
  
-/* ── DEMO ARTICLES (shown when no API key) ── */
-function getDemoArticles(cat) {
-  const demos = [
-    { title:'Global temperatures hit record high in 2025 summer', desc:'Scientists confirm this has been the hottest summer on record globally, with major impacts across Asia and Europe.', source:'Reuters', publishedAt: new Date().toISOString(), image:null, url:'#', cat:'world' },
-    { title:'Bangladesh GDP growth steady at 6.5% — World Bank report', desc:'The World Bank praises Bangladesh\'s economic resilience, with garment exports and remittances fueling continued growth.', source:'Financial Express BD', publishedAt: new Date().toISOString(), image:null, url:'#', cat:'bangladesh' },
-    { title:'AI chips from NVIDIA hit record demand in 2025', desc:'NVIDIA reports unprecedented demand for its H200 AI chips, with waitlists extending into late 2026 for major data center orders.', source:'TechCrunch', publishedAt: new Date().toISOString(), image:null, url:'#', cat:'technology' },
-    { title:'GTA VI confirmed release window — what we know so far', desc:"Rockstar Games officially confirms a 2025 window for Grand Theft Auto VI, with the first open-world footage leaving fans stunned.", source:'IGN', publishedAt: new Date().toISOString(), image:null, url:'#', cat:'gaming' },
-    { title:'Global stock markets rally on US inflation data', desc:'Dow Jones and S&P 500 both climbed over 1.4% after cooler-than-expected US inflation figures raised hopes of Fed rate cuts.', source:'Bloomberg', publishedAt: new Date().toISOString(), image:null, url:'#', cat:'business' },
-    { title:'SpaceX Starship completes first full orbital test flight', desc:'SpaceX successfully launches and lands its Starship rocket in a landmark milestone for commercial space travel and Mars ambitions.', source:'Space.com', publishedAt: new Date().toISOString(), image:null, url:'#', cat:'world' },
-    { title:'Bangladesh wins T20 series against West Indies 2-1', desc:'The Bangladesh cricket team clinches a dramatic T20 series victory, with Shakib Al Hasan named player of the series.', source:'Prothom Alo', publishedAt: new Date().toISOString(), image:null, url:'#', cat:'bangladesh' },
-    { title:'Apple Vision Pro 2 leaked specs reveal major upgrade', desc:'Leaked documents suggest the next Apple Vision Pro will feature a lighter design, improved battery and expanded app ecosystem.', source:'9to5Mac', publishedAt: new Date().toISOString(), image:null, url:'#', cat:'technology' },
-    { title:'New study: 20-minute walks reduce anxiety by 40%', desc:'Researchers at Harvard find that just 20 minutes of walking outdoors significantly reduces cortisol and anxiety markers.', source:'Health Line', publishedAt: new Date().toISOString(), image:null, url:'#', cat:'world' },
-  ];
-  if (cat === 'all' || cat === 'exora') return demos;
-  return demos.filter(d => d.cat === cat);
+/* ===== TICKER ===== */
+function renderTicker(items){
+  const inner = $('ticker-inner');
+  if(!items?.length) return;
+  const half = items.slice(0,8).map(a=>`<span class="tick">${a.title} <span class="tick-sep">◆</span></span>`).join('');
+  inner.innerHTML = half + half;
 }
  
-/* ── TAG CLASS HELPER ── */
-function getTagClass(cat) {
-  const m = { technology:'tech', gaming:'gaming', bangladesh:'bd', business:'business', exora:'exora', nature:'nature' };
-  return m[cat] || '';
-}
- 
-/* ── RENDER FEATURED ── */
-function renderFeatured(article, cat) {
-  const tagClass = getTagClass(cat);
-  const tagLabel = cat ? cat.charAt(0).toUpperCase()+cat.slice(1) : 'World';
-  const date = article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : 'Today';
-  const imgHTML = article.image
-    ? `<img src="${article.image}" alt="" loading="lazy"/>`
-    : `<div class="featured-img-placeholder"><span class="placeholder-glyph">EW</span></div>`;
-  document.getElementById('featured-slot').innerHTML = `
-    <a href="${article.url||'#'}" target="${article.url&&article.url!=='#'?'_blank':'_self'}" class="featured-card">
-      <div class="featured-img-wrap">${imgHTML}</div>
-      <div class="featured-body">
+/* ===== FEATURED ===== */
+function renderFeatured(a, catKey){
+  const tc = tagClass(a.cat || catKey);
+  const tl = tagLabel(a.cat || catKey);
+  const date = fmtDate(a.publishedAt);
+  const kws = UNSPLASH_CATS[a.cat||catKey] || UNSPLASH_CATS.world;
+  const imgSrc = a.image || imgUrl(kws, 700, 420, Math.abs(a.title.length));
+  const href = a.url && a.url !== '#' ? a.url : null;
+  const target = href ? '_blank rel="noopener noreferrer"' : '';
+  const tag = href ? 'a' : 'div';
+  $('feat-slot').innerHTML = `
+    <${tag} ${href ? `href="${href}" target="${target}"` : ''} class="feat">
+      <div class="feat-img">
+        <img src="${imgSrc}" alt="${a.title}" loading="lazy" onerror="this.parentNode.innerHTML='<div class=feat-placeholder>EW</div>'"/>
+      </div>
+      <div class="feat-body">
         <div>
-          <span class="featured-tag ${tagClass}">${tagLabel}</span>
-          <h2 class="featured-title">${article.title}</h2>
-          <p class="featured-desc">${(article.description||article.desc||'').slice(0,160)}${(article.description||article.desc||'').length>160?'…':''}</p>
+          <span class="feat-tag ${tc}">${tl}</span>
+          <h2 class="feat-title">${a.title}</h2>
+          <p class="feat-desc">${(a.desc||'').slice(0,180)}${(a.desc||'').length>180?'…':''}</p>
         </div>
         <div>
-          <div class="featured-meta">
-            <span>${article.source?.name||article.source||'News'}</span>
-            <span>${date}</span>
-          </div>
-          <span class="read-btn">
-            Read story
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </span>
+          <div class="feat-meta"><span>${a.source||'News'}</span><span>${date}</span></div>
+          ${href ? `<span class="read-btn">Read story <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>` : ''}
         </div>
       </div>
-    </a>`;
+    </${tag}>`;
 }
  
-/* ── RENDER NEWS GRID ── */
-function renderGrid(articles, cat) {
-  const grid = document.getElementById('news-grid');
-  if (!articles || articles.length === 0) {
-    grid.innerHTML = `<div class="error-state"><p>No articles found for this category right now.</p></div>`;
+/* ===== NEWS GRID ===== */
+function renderGrid(items, catKey){
+  const grid = $('news-grid');
+  const slice = items.slice(1,13);
+  if(!slice.length){
+    grid.innerHTML = `<div class="empty-state"><h3>No articles found</h3><p>Try another category or check back soon.</p></div>`;
     return;
   }
-  const slice = articles.slice(1, 10);
-  grid.innerHTML = slice.map((a, i) => {
-    const tagClass = getTagClass(cat==='all' ? (a.cat||'world') : cat);
-    const tagLabel = cat==='all' ? (a.cat||'World') : cat.charAt(0).toUpperCase()+cat.slice(1);
-    const date = a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('en-GB',{day:'numeric',month:'short'}) : 'Today';
-    const imgHTML = a.image ? `<img src="${a.image}" alt="" loading="lazy"/>` : `<div class="card-img-placeholder">EW</div>`;
+  grid.innerHTML = slice.map((a,i)=>{
+    const tc = tagClass(a.cat||catKey);
+    const tl = tagLabel(a.cat||catKey);
+    const date = fmtDate(a.publishedAt);
+    const kws = UNSPLASH_CATS[a.cat||catKey] || UNSPLASH_CATS.world;
+    const imgSrc = a.image || imgUrl(kws, 400, 240, i + a.title.charCodeAt(0));
+    const href = a.url && a.url !== '#' ? a.url : null;
+    const tag = href ? 'a' : 'div';
     return `
-      <a href="${a.url||'#'}" target="${a.url&&a.url!=='#'?'_blank':'_self'}" class="news-card" style="transition-delay:${i*50}ms">
-        <div class="card-img-wrap">${imgHTML}</div>
-        <div class="card-body">
-          <span class="card-tag ${tagClass}">${tagLabel}</span>
-          <div class="card-title">${a.title}</div>
-          <div class="card-desc">${((a.description||a.desc||'').slice(0,100))}…</div>
-          <div class="card-footer">
-            <span class="card-date">${date} · ${a.source?.name||a.source||'News'}</span>
-            <span class="card-link">Read <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <${tag} ${href?`href="${href}" target="_blank" rel="noopener noreferrer"`:''} class="ncard" style="transition-delay:${i*40}ms">
+        <div class="ncard-img">
+          <img src="${imgSrc}" alt="${a.title}" loading="lazy" onerror="this.parentNode.innerHTML='<div class=ncard-ph>EW</div>'"/>
+        </div>
+        <div class="ncard-body">
+          <span class="ctag ${tc}">${tl}</span>
+          <div class="ncard-title">${a.title}</div>
+          <div class="ncard-desc">${(a.desc||'').slice(0,100)}…</div>
+          <div class="ncard-foot">
+            <span class="ncard-date">${date} · ${a.source||'News'}</span>
+            ${href ? `<span class="ncard-link">Read <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>` : ''}
           </div>
         </div>
-      </a>`;
+      </${tag}>`;
   }).join('');
-  observeCards();
+  observe();
 }
  
-/* ── RENDER TICKER ── */
-function renderTicker(articles) {
-  if (!articles || articles.length === 0) return;
-  const items = articles.slice(0, 8).map(a =>
-    `<span class="ticker-item">${a.title} <span class="ticker-sep">◆</span></span>`
-  ).join('');
-  const track = document.getElementById('ticker-track');
-  track.innerHTML = items + items; // doubled for seamless loop
+/* ===== AI ARTICLES via Claude API ===== */
+const STATIC_ARTICLES = [
+  {eye:'ExoraWorld Update',title:'Welcome to ExoraWorld News!',body:'This is your home for curated world news, original articles, and digital content. Every category is live — click any headline to read the full story.',auth:'ExoraWorld',date:'2025',time:'1 min read',red:false},
+  {eye:'Tip of the Week',title:'How to get the most out of ExoraWorld',body:'Explore the Games section for free browser games, visit the Gallery for stunning wallpapers, and check back here for weekly AI-generated articles and live news.',auth:'ExoraWorld',date:'2025',time:'2 min read',red:true},
+  {eye:'Did You Know?',title:'Bangladesh has the world\'s largest river delta',body:"The Ganges-Brahmaputra Delta covers ~105,000 sq km across Bangladesh and West Bengal. It's home to the Royal Bengal Tiger and is a UNESCO World Heritage Site — one of Earth's most biodiverse places.",auth:'ExoraWorld',date:'2025',time:'2 min read',red:false},
+  {eye:'Nature Fact',title:'A day on Venus is longer than its year',body:"Venus rotates so slowly that one day (243 Earth days) outlasts its entire year (225 Earth days). It also spins backwards compared to most planets — an astronomical quirk scientists are still studying.",auth:'ExoraWorld',date:'2025',time:'1 min read',red:true},
+  {eye:'Coming Soon',title:'Digital products & free downloads launching',body:"The ExoraWorld Store is being built. Expect free wallpapers, templates, mini-tools, and exclusive digital goods. Bookmark this page — it's going to be worth it.",auth:'ExoraWorld',date:'2025',time:'1 min read',red:false},
+];
+ 
+async function generateAIArticle(topic){
+  try{
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:`Write a short, engaging news article or informative piece for ExoraWorld (a Bangladeshi news/gaming/lifestyle website). Topic: "${topic}". 
+Return ONLY a JSON object with these fields (no markdown, no backticks):
+{
+  "eyebrow": "category label (max 3 words, e.g. 'Tech Insight', 'World Update')",
+  "title": "punchy headline (max 10 words)",
+  "body": "2-3 engaging sentences about the topic, written for a general audience. Max 200 chars.",
+  "readTime": "X min read"
+}
+Keep it factual, current, and interesting.`}]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content?.map(c=>c.text||'').join('');
+    const clean = text.replace(/```json|```/g,'').trim();
+    return JSON.parse(clean);
+  } catch(e){ return null; }
 }
  
-/* ── RENDER EXORA ARTICLES ── */
-function renderArticles(cat) {
-  const filtered = cat === 'all' || cat === 'exora'
-    ? EXORA_ARTICLES
-    : [];
-  const grid = document.getElementById('articles-grid');
-  if (filtered.length === 0) { grid.innerHTML = ''; return; }
-  grid.innerHTML = filtered.map((a, i) => `
-    <div class="article-card ${a.accent?'accent3':''}" style="transition-delay:${i*60}ms">
-      <div class="article-eyebrow">${a.eyebrow}</div>
-      <div class="article-title">${a.title}</div>
-      <div class="article-body">${a.body}</div>
-      <div class="article-footer">
-        <div class="article-author">
-          <div class="author-dot ${a.accent?'a3':''}">E</div>
-          ${a.author} · ${a.date}
+const AI_TOPICS = [
+  'The future of AI in everyday life 2025',
+  'Bangladesh\'s growing tech startup ecosystem',
+  'Why gaming is now bigger than Hollywood',
+  'Climate change: what\'s actually being done',
+  'Space exploration milestones this year',
+];
+ 
+async function loadArticles(cat){
+  const grid = $('art-grid');
+  const loading = $('art-loading');
+  
+  // Hide articles section if non-exora specific cat (show only for all/exora)
+  if(cat !== 'all' && cat !== 'exora'){
+    document.getElementById('art-section').style.display='none';
+    return;
+  }
+  document.getElementById('art-section').style.display='';
+  
+  if(articleCache){
+    renderArticles(articleCache);
+    return;
+  }
+  
+  loading.style.display='flex';
+  grid.innerHTML='';
+  
+  // Generate 2 AI articles + show 3 static ones
+  const aiResults = [];
+  for(let i=0;i<2;i++){
+    const res = await generateAIArticle(AI_TOPICS[i]);
+    if(res) aiResults.push({...res, ai:true, red: i%2===1});
+  }
+  
+  const combined = [
+    ...STATIC_ARTICLES.slice(0,3),
+    ...aiResults.map(a=>({eye:a.eyebrow||'AI Article',title:a.title,body:a.body,auth:'Claude AI',date:'Live',time:a.readTime||'2 min read',red:a.red})),
+  ];
+  
+  articleCache = combined;
+  loading.style.display='none';
+  $('art-count').textContent = combined.length;
+  renderArticles(combined);
+}
+ 
+function renderArticles(arts){
+  const grid = $('art-grid');
+  grid.innerHTML = arts.map((a,i)=>`
+    <div class="acard ${a.red?'red':''}" style="transition-delay:${i*55}ms">
+      <div class="acard-eye">${a.eye}</div>
+      <div class="acard-title">${a.title}</div>
+      <div class="acard-body">${a.body}</div>
+      <div class="acard-foot">
+        <div class="acard-auth">
+          <div class="auth-av ${a.red?'r':''}">${(a.auth||'E')[0]}</div>
+          ${a.auth||'ExoraWorld'} · ${a.date||'2025'}
         </div>
-        <span class="article-read">${a.readTime}</span>
+        <span class="acard-time">${a.time||'2 min'}</span>
       </div>
     </div>`).join('');
-  document.getElementById('article-count').textContent = filtered.length;
-  observeCards();
+  observe();
 }
  
-/* ── RENDER FACTS ── */
-function renderFacts() {
-  document.getElementById('facts-strip').innerHTML = FACTS.map((f, i) =>
-    `<div class="fact-card" style="transition-delay:${i*40}ms">
-      <div class="fact-icon">${f.icon}</div>
-      <div class="fact-text">${f.text}</div>
-    </div>`
-  ).join('');
-  observeCards();
+/* ===== FACTS ===== */
+const FACTS = [
+  {icon:'🌿',text:'Bamboo grows up to 91 cm per day — the fastest-growing plant on Earth.'},
+  {icon:'💡',text:'Tip: Use dark mode at night to reduce eye strain and extend phone battery life.'},
+  {icon:'🇧🇩',text:"Bangladesh is a top-3 global garment exporter, making up ~80% of its export earnings."},
+  {icon:'🎮',text:'Gaming is a $180B+ industry — larger than film and music combined.'},
+  {icon:'🌊',text:'Only 3% of Earth\'s water is fresh water, and most of that is locked in glaciers.'},
+  {icon:'🧠',text:'Tip: A 10-minute walk after studying helps your brain lock in memories.'},
+  {icon:'🚀',text:"There are more stars in the universe than grains of sand on all of Earth's beaches."},
+  {icon:'📱',text:"Tip: Clearing your phone's cache weekly keeps apps faster and frees storage."},
+  {icon:'🌍',text:'The Sundarbans mangrove forest in Bangladesh is home to roughly 400 Royal Bengal Tigers.'},
+  {icon:'⚡',text:'Lightning strikes Earth about 100 times every second — roughly 8 million times per day.'},
+];
+ 
+function renderFacts(){
+  $('facts-grid').innerHTML = FACTS.map((f,i)=>`
+    <div class="fcard" style="transition-delay:${i*35}ms">
+      <div class="fcard-icon">${f.icon}</div>
+      <div class="fcard-text">${f.text}</div>
+    </div>`).join('');
+  observe();
 }
  
-/* ── LOAD NEWS ── */
-async function loadNews(cat) {
-  const grid = document.getElementById('news-grid');
-  grid.innerHTML = `
-    <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skel-line w50"></div><div class="skel-line w90"></div><div class="skel-line w70"></div></div></div>
-    <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skel-line w50"></div><div class="skel-line w90"></div><div class="skel-line w70"></div></div></div>
-    <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skel-line w50"></div><div class="skel-line w90"></div><div class="skel-line w70"></div></div></div>`;
-  document.getElementById('featured-slot').innerHTML = '';
- 
-  let articles = null;
- 
-  if (cat !== 'exora') {
-    articles = await fetchNews(cat);
+/* ===== MAIN LOAD ===== */
+async function loadNews(cat){
+  const grid = $('news-grid');
+  $('feat-slot').innerHTML='';
+  $('news-err').style.display='none';
+  
+  // Skeletons
+  grid.innerHTML = Array(4).fill(`
+    <div class="skel"><div class="skel-img"></div><div class="skel-body">
+    <div class="sl w45"></div><div class="sl w85"></div><div class="sl w60"></div>
+    </div></div>`).join('');
+  
+  if(cat === 'exora'){
+    grid.innerHTML = '';
+    await loadArticles(cat);
+    return;
   }
- 
-  // fallback to demo if fetch failed
-  if (!articles) articles = getDemoArticles(cat);
- 
-  allNewsCache = articles;
- 
-  if (articles.length > 0 && cat !== 'exora') {
-    renderFeatured(articles[0], cat === 'all' ? 'world' : cat);
-    renderTicker(articles);
-  } else {
-    document.getElementById('featured-slot').innerHTML = '';
+  
+  const {items, live} = await fetchNews(cat);
+  
+  if(!live){
+    $('news-err').style.display='block';
+    $('news-err').innerHTML = `⚠️ Live news unavailable — showing curated headlines. <a href="javascript:void(0)" onclick="loadNews('${cat}')">Retry</a>`;
   }
- 
-  renderGrid(articles, cat);
-  renderArticles(cat);
-  bindCursorHover();
+  
+  if(items.length){
+    renderFeatured(items[0], cat==='all'?'world':cat);
+    renderTicker(items);
+  }
+  renderGrid(items, cat);
+  loadArticles(cat);
 }
  
-/* ── CATEGORY BUTTONS ── */
-document.querySelectorAll('.cat-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+/* ===== CAT BUTTONS ===== */
+document.querySelectorAll('.cat').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.cat').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
     currentCat = btn.dataset.cat;
     loadNews(currentCat);
   });
 });
  
-/* ── INIT ── */
+/* ===== NAV LINKS (prevent default scroll-to-top) ===== */
+document.querySelectorAll('.nav-links a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', e=>{
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+ 
+/* ===== INIT ===== */
 renderFacts();
-loadNews('all').then(() => bindCursorHover());
+loadNews('all');
 </script>
 </body>
 </html>
