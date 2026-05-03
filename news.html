@@ -38,7 +38,7 @@
   a { text-decoration: none; color: inherit; }
   img { display: block; width: 100%; object-fit: cover; }
   button { cursor: pointer; font-family: inherit; border: none; background: none; }
-
+ 
   /* ── CURSOR ── */
   .cursor {
     position: fixed; width: 10px; height: 10px;
@@ -64,7 +64,7 @@
   @media (hover: none) {
     .cursor, .cursor-ring { display: none !important; }
   }
-
+ 
   /* ── TOPBAR ── */
   #topbar {
     position: fixed; top: 0; left: 0; width: 100%; z-index: 900;
@@ -100,7 +100,7 @@
     border: 1px solid var(--border); transition: all .2s;
   }
   .back-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--tag-bg); }
-
+ 
   /* ── HERO ── */
   #hero {
     padding: 130px 40px 60px;
@@ -175,7 +175,7 @@
     font-family: 'Syne', sans-serif;
     font-size: 13px; color: var(--accent); font-weight: 600;
   }
-
+ 
   /* ── TICKER ── */
   #ticker-wrap {
     background: var(--ink); color: #fff;
@@ -203,7 +203,7 @@
   }
   .ticker-sep { color: var(--accent2); font-size: 10px; }
   #ticker-wrap:hover .ticker-track { animation-play-state: paused; }
-
+ 
   /* ── CATEGORY FILTER ── */
   #cat-bar {
     padding: 32px 40px 0;
@@ -221,7 +221,7 @@
   }
   .cat-btn.exora { border-color: var(--accent3); color: var(--accent3); }
   .cat-btn.exora.active { background: var(--accent3); border-color: var(--accent3); }
-
+ 
   /* ── MAIN LAYOUT ── */
   #main { padding: 36px 40px 80px; max-width: 1400px; margin: 0 auto; }
   .section-label {
@@ -233,7 +233,7 @@
   .section-label::after {
     content: ''; flex: 1; height: 1px; background: var(--border);
   }
-
+ 
   /* ── FEATURED CARD ── */
   #featured-wrap { margin-bottom: 48px; }
   .featured-card {
@@ -295,7 +295,7 @@
   .read-btn:hover { background: #0035cc; transform: translateX(3px); }
   .read-btn svg { transition: transform .2s; }
   .read-btn:hover svg { transform: translateX(3px); }
-
+ 
   /* ── NEWS GRID ── */
   .news-grid {
     display: grid;
@@ -349,7 +349,7 @@
     transition: gap .2s;
   }
   .card-link:hover { gap: 8px; }
-
+ 
   /* ── EXORA ARTICLES ── */
   #exora-section { margin-bottom: 48px; }
   .articles-grid {
@@ -392,7 +392,7 @@
   .author-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; font-weight: 700; }
   .author-dot.a3 { background: var(--accent3); }
   .article-read { font-size: 12px; color: var(--muted); }
-
+ 
   /* ── FACTS STRIP ── */
   #facts-section { margin-bottom: 48px; }
   .facts-strip {
@@ -408,7 +408,7 @@
   .fact-card:hover { background: var(--tag-bg); border-color: var(--accent); transform: translateY(-3px); }
   .fact-icon { font-size: 28px; margin-bottom: 10px; }
   .fact-text { font-size: 14px; line-height: 1.55; color: var(--ink2); font-weight: 400; }
-
+ 
   /* ── LOADING SKELETON ── */
   .skeleton-card {
     border: 1px solid var(--border); border-radius: var(--radius);
@@ -432,14 +432,14 @@
   .skel-line.w70 { width: 70%; }
   .skel-line.w50 { width: 50%; }
   .skel-line.w90 { width: 90%; }
-
+ 
   /* ── ERROR STATE ── */
   .error-state {
     grid-column: 1/-1; padding: 48px; text-align: center;
     border: 1px dashed var(--border); border-radius: var(--radius);
   }
   .error-state p { color: var(--muted); font-size: 14px; margin-top: 8px; }
-
+ 
   /* ── FOOTER ── */
   #footer {
     background: var(--ink); color: rgba(255,255,255,.65);
@@ -448,7 +448,7 @@
   }
   #footer a { color: var(--accent2); }
   .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: #fff; margin-bottom: 8px; letter-spacing: -.5px; }
-
+ 
   /* ── SCROLL TO TOP ── */
   #scroll-top {
     position: fixed; bottom: 28px; right: 28px;
@@ -461,7 +461,7 @@
   }
   #scroll-top.show { opacity: 1; transform: translateY(0); pointer-events: all; }
   #scroll-top:hover { background: #0035cc; transform: translateY(-3px); }
-
+ 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
     #topbar { padding: 0 20px; }
@@ -472,7 +472,7 @@
     .featured-img-wrap { height: 200px; }
     #footer { padding: 32px 20px; }
   }
-
+ 
   /* ── ENTRANCE ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
@@ -485,11 +485,11 @@
 </style>
 </head>
 <body>
-
+ 
 <!-- CUSTOM CURSOR -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursor-ring"></div>
-
+ 
 <!-- TOPBAR -->
 <nav id="topbar">
   <a href="index.html" class="topbar-logo">Exora<span>World</span></a>
@@ -503,7 +503,7 @@
     <a href="#facts-section">Facts & Tips</a>
   </div>
 </nav>
-
+ 
 <!-- HERO -->
 <section id="hero">
   <div class="hero-grid-bg"></div>
@@ -536,7 +536,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- TICKER -->
 <div id="ticker-wrap">
   <div class="ticker-label">⚡ Live</div>
@@ -547,7 +547,7 @@
     <span class="ticker-item">World · Bangladesh · Tech · Gaming · Business<span class="ticker-sep">◆</span></span>
   </div>
 </div>
-
+ 
 <!-- CATEGORY FILTER -->
 <div id="cat-bar">
   <button class="cat-btn active" data-cat="all">All</button>
@@ -558,16 +558,16 @@
   <button class="cat-btn" data-cat="business">📈 Business</button>
   <button class="cat-btn exora" data-cat="exora">✨ ExoraWorld</button>
 </div>
-
+ 
 <!-- MAIN CONTENT -->
 <main id="main">
-
+ 
   <!-- FEATURED -->
   <section id="featured-wrap">
     <div class="section-label">Featured story</div>
     <div id="featured-slot"></div>
   </section>
-
+ 
   <!-- LIVE NEWS GRID -->
   <section id="live-news">
     <div class="section-label">Live headlines</div>
@@ -578,21 +578,21 @@
       <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skel-line w50"></div><div class="skel-line w90"></div><div class="skel-line w70"></div></div></div>
     </div>
   </section>
-
+ 
   <!-- EXORA ARTICLES -->
   <section id="exora-section">
     <div class="section-label">ExoraWorld articles</div>
     <div class="articles-grid" id="articles-grid"></div>
   </section>
-
+ 
   <!-- FACTS & TIPS -->
   <section id="facts-section">
     <div class="section-label">Quick facts & tips</div>
     <div class="facts-strip" id="facts-strip"></div>
   </section>
-
+ 
 </main>
-
+ 
 <!-- FOOTER -->
 <footer id="footer">
   <div class="footer-logo">ExoraWorld</div>
@@ -603,15 +603,15 @@
     <a href="index.html">← Back to main site</a>
   </p>
 </footer>
-
+ 
 <!-- SCROLL TO TOP -->
 <button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
-
+ 
 <script>
 /* ── NEWS SOURCE: Google News RSS via rss2json (no API key needed) ── */
-
+ 
 /* ── YOUR OWN ARTICLES ── add/edit here anytime ── */
 const EXORA_ARTICLES = [
   {
@@ -670,7 +670,7 @@ const EXORA_ARTICLES = [
     accent: false
   }
 ];
-
+ 
 /* ── QUICK FACTS & TIPS ── */
 const FACTS = [
   { icon: '🌿', text: 'Bamboo can grow up to 91 cm in a single day — the fastest growing plant on Earth.' },
@@ -682,21 +682,21 @@ const FACTS = [
   { icon: '🚀', text: 'There are more stars in the universe than grains of sand on all of Earth\'s beaches.' },
   { icon: '📱', text: 'Tip: Clear your phone\'s cache weekly to keep apps running faster.' },
 ];
-
+ 
 /* ──────────────────────────────────────────────── */
-
+ 
 /* ──────────────────────────────────────────────── */
-
+ 
 let currentCat = 'all';
 let allNewsCache = [];
-
+ 
 /* ── CURSOR ── */
 const cur = document.getElementById('cursor');
 const ring = document.getElementById('cursor-ring');
 let mouseX = -100, mouseY = -100;
 let ringX = -100, ringY = -100;
 let rafRunning = false;
-
+ 
 function animateRing() {
   const ease = 0.13;
   ringX += (mouseX - ringX) * ease;
@@ -705,7 +705,7 @@ function animateRing() {
   ring.style.top = ringY + 'px';
   requestAnimationFrame(animateRing);
 }
-
+ 
 document.addEventListener('mousemove', e => {
   mouseX = e.clientX;
   mouseY = e.clientY;
@@ -713,7 +713,7 @@ document.addEventListener('mousemove', e => {
   cur.style.top = mouseY + 'px';
   if (!rafRunning) { rafRunning = true; animateRing(); }
 });
-
+ 
 function bindCursorHover() {
   document.querySelectorAll('a, button, .news-card, .article-card').forEach(el => {
     if (el.dataset.cursorBound) return;
@@ -722,7 +722,7 @@ function bindCursorHover() {
     el.addEventListener('mouseleave', () => cur.classList.remove('expand'));
   });
 }
-
+ 
 /* ── LIVE CLOCK ── */
 function updateClock() {
   const now = new Date();
@@ -730,7 +730,7 @@ function updateClock() {
     now.toLocaleTimeString('en-US', { hour12: false, hour:'2-digit', minute:'2-digit', second:'2-digit' });
 }
 setInterval(updateClock, 1000); updateClock();
-
+ 
 /* ── SCROLL TOPBAR + SCROLL BTN ── */
 const topbar = document.getElementById('topbar');
 const scrollBtn = document.getElementById('scroll-top');
@@ -738,7 +738,7 @@ window.addEventListener('scroll', () => {
   topbar.classList.toggle('scrolled', window.scrollY > 40);
   scrollBtn.classList.toggle('show', window.scrollY > 400);
 });
-
+ 
 /* ── INTERSECTION OBSERVER (card entrance) ── */
 const io = new IntersectionObserver((entries) => {
   entries.forEach((e, i) => {
@@ -748,11 +748,11 @@ const io = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.1 });
-
+ 
 function observeCards() {
   document.querySelectorAll('.news-card, .article-card, .fact-card').forEach(c => io.observe(c));
 }
-
+ 
 /* ── FETCH NEWS: direct Google News RSS, parsed in browser (no key, no proxy) ── */
 async function fetchNews(cat) {
   const feeds = {
@@ -787,7 +787,7 @@ async function fetchNews(cat) {
     return null;
   }
 }
-
+ 
 /* ── DEMO ARTICLES (shown when no API key) ── */
 function getDemoArticles(cat) {
   const demos = [
@@ -804,13 +804,13 @@ function getDemoArticles(cat) {
   if (cat === 'all' || cat === 'exora') return demos;
   return demos.filter(d => d.cat === cat);
 }
-
+ 
 /* ── TAG CLASS HELPER ── */
 function getTagClass(cat) {
   const m = { technology:'tech', gaming:'gaming', bangladesh:'bd', business:'business', exora:'exora', nature:'nature' };
   return m[cat] || '';
 }
-
+ 
 /* ── RENDER FEATURED ── */
 function renderFeatured(article, cat) {
   const tagClass = getTagClass(cat);
@@ -841,7 +841,7 @@ function renderFeatured(article, cat) {
       </div>
     </a>`;
 }
-
+ 
 /* ── RENDER NEWS GRID ── */
 function renderGrid(articles, cat) {
   const grid = document.getElementById('news-grid');
@@ -871,7 +871,7 @@ function renderGrid(articles, cat) {
   }).join('');
   observeCards();
 }
-
+ 
 /* ── RENDER TICKER ── */
 function renderTicker(articles) {
   if (!articles || articles.length === 0) return;
@@ -881,7 +881,7 @@ function renderTicker(articles) {
   const track = document.getElementById('ticker-track');
   track.innerHTML = items + items; // doubled for seamless loop
 }
-
+ 
 /* ── RENDER EXORA ARTICLES ── */
 function renderArticles(cat) {
   const filtered = cat === 'all' || cat === 'exora'
@@ -905,7 +905,7 @@ function renderArticles(cat) {
   document.getElementById('article-count').textContent = filtered.length;
   observeCards();
 }
-
+ 
 /* ── RENDER FACTS ── */
 function renderFacts() {
   document.getElementById('facts-strip').innerHTML = FACTS.map((f, i) =>
@@ -916,7 +916,7 @@ function renderFacts() {
   ).join('');
   observeCards();
 }
-
+ 
 /* ── LOAD NEWS ── */
 async function loadNews(cat) {
   const grid = document.getElementById('news-grid');
@@ -925,30 +925,30 @@ async function loadNews(cat) {
     <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skel-line w50"></div><div class="skel-line w90"></div><div class="skel-line w70"></div></div></div>
     <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skel-line w50"></div><div class="skel-line w90"></div><div class="skel-line w70"></div></div></div>`;
   document.getElementById('featured-slot').innerHTML = '';
-
+ 
   let articles = null;
-
+ 
   if (cat !== 'exora') {
     articles = await fetchNews(cat);
   }
-
+ 
   // fallback to demo if fetch failed
   if (!articles) articles = getDemoArticles(cat);
-
+ 
   allNewsCache = articles;
-
+ 
   if (articles.length > 0 && cat !== 'exora') {
     renderFeatured(articles[0], cat === 'all' ? 'world' : cat);
     renderTicker(articles);
   } else {
     document.getElementById('featured-slot').innerHTML = '';
   }
-
+ 
   renderGrid(articles, cat);
   renderArticles(cat);
   bindCursorHover();
 }
-
+ 
 /* ── CATEGORY BUTTONS ── */
 document.querySelectorAll('.cat-btn').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -958,7 +958,7 @@ document.querySelectorAll('.cat-btn').forEach(btn => {
     loadNews(currentCat);
   });
 });
-
+ 
 /* ── INIT ── */
 renderFacts();
 loadNews('all').then(() => bindCursorHover());
