@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="description" content="ExoraWorld Terms and Conditions — Read our terms of service before using the platform.">
+<meta name="theme-color" content="#080c14">
+<title>Terms & Conditions — ExoraWorld</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: #080c14;
+  color: #e8eaf0;
+  overflow-x: hidden;
+  cursor: none;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+button { cursor: none; font-family: inherit; border: none; background: none; }
+ul { list-style: none; }
+::selection { background: #00f0c820; color: #00f0c8; }
+
+:root {
+  --accent: #00f0c8;
+  --accent2: #7b5cfa;
+  --bg: #080c14;
+  --bg2: #0d1220;
+  --surface: #151d2e;
+  --surface2: #1a2340;
+  --border: rgba(255,255,255,0.07);
+  --text: #e8eaf0;
+  --text2: #8892a4;
+  --text3: #4a5568;
+  --font-display: 'Syne', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --font-body: 'Outfit', sans-serif;
+  --nav-h: 72px;
+  --radius: 12px;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Noise */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 9990;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025; pointer-events: none;
+}
+
+/* Cursor */
+#cursor-dot {
+  position: fixed; top: 0; left: 0; z-index: 9999;
+  width: 8px; height: 8px; background: var(--accent);
+  border-radius: 50%; pointer-events: none;
+  transform: translate(-50%,-50%);
+  transition: width .2s, height .2s, background .2s;
+  mix-blend-mode: screen;
+}
+#cursor-ring {
+  position: fixed; top: 0; left: 0; z-index: 9998;
+  width: 36px; height: 36px;
+  border: 1.5px solid rgba(0,240,200,0.5);
+  border-radius: 50%; pointer-events: none;
+  transform: translate(-50%,-50%);
+  transition: width .25s, height .25s, border-color .25s;
+}
+body.cursor-hover #cursor-dot { width: 14px; height: 14px; }
+body.cursor-hover #cursor-ring { width: 52px; height: 52px; border-color: var(--accent); }
+body.cursor-click #cursor-dot { transform: translate(-50%,-50%) scale(0.5); }
+@media (pointer: coarse) {
+  #cursor-dot, #cursor-ring { display: none; }
+  body { cursor: auto; }
+  a, button { cursor: pointer; }
+}
+
+/* Scroll progress */
+#scroll-progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  transform-origin: left; transform: scaleX(0);
+  z-index: 9997; transition: transform .1s;
+}
+
+/* Navbar */
+#navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: var(--nav-h);
+  display: flex; align-items: center;
+  padding: 0 clamp(16px,5vw,60px);
+  background: rgba(8,12,20,0.92);
+  backdrop-filter: blur(20px) saturate(1.4);
+  box-shadow: 0 1px 0 var(--border);
+}
+.nav-logo {
+  font-family: var(--font-display); font-size: 20px; font-weight: 800;
+  letter-spacing: -0.02em; color: var(--text);
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-logo span { color: var(--accent); }
+.nav-logo-mark {
+  width: 26px; height: 26px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: #080c14;
+}
+.nav-back {
+  margin-left: auto;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; color: var(--text2);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  border: 1px solid var(--border); padding: 7px 14px; border-radius: 8px;
+  transition: all var(--transition);
+}
+.nav-back:hover { border-color: var(--accent); color: var(--accent); }
+.nav-back svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* Page hero */
+.page-hero {
+  padding: calc(var(--nav-h) + 60px) clamp(16px,5vw,60px) 0;
+  max-width: 900px; margin: 0 auto;
+  text-align: center;
+}
+.page-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 11px; color: var(--accent);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  border: 1px solid rgba(0,240,200,0.2); background: rgba(0,240,200,0.05);
+  padding: 5px 14px; border-radius: 100px; margin-bottom: 22px;
+}
+.page-title {
+  font-family: var(--font-display); font-size: clamp(32px,6vw,58px);
+  font-weight: 800; letter-spacing: -0.03em; color: var(--text);
+  line-height: 1.05; margin-bottom: 16px;
+}
+.page-title em { font-style: normal; color: var(--accent); }
+.page-meta {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text3);
+  letter-spacing: 0.06em; margin-bottom: 10px;
+}
+.page-desc {
+  font-size: 15px; color: var(--text2); line-height: 1.7; max-width: 600px; margin: 0 auto;
+}
+
+/* Divider */
+.divider-line {
+  border: none; border-top: 1px solid var(--border);
+  max-width: 900px; margin: 50px auto 0;
+}
+
+/* Main layout */
+.legal-layout {
+  max-width: 1100px; margin: 0 auto;
+  padding: 60px clamp(16px,5vw,60px) 100px;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 60px; align-items: start;
+}
+@media (max-width: 800px) {
+  .legal-layout { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* Sidebar TOC */
+.toc {
+  position: sticky; top: calc(var(--nav-h) + 20px);
+}
+.toc-title {
+  font-family: var(--font-mono); font-size: 10px; color: var(--text3);
+  letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 14px;
+}
+.toc-list { display: flex; flex-direction: column; gap: 2px; }
+.toc-item {
+  font-size: 13px; color: var(--text2); padding: 7px 12px; border-radius: 7px;
+  transition: all 0.2s; border-left: 2px solid transparent;
+  display: flex; align-items: center; gap: 8px;
+  line-height: 1.4;
+}
+.toc-item:hover { color: var(--text); background: rgba(255,255,255,0.04); border-left-color: var(--accent); }
+.toc-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(0,240,200,0.05); }
+.toc-num { font-family: var(--font-mono); font-size: 10px; color: var(--text3); flex-shrink: 0; }
+
+@media (max-width: 800px) {
+  .toc { display: none; }
+}
+
+/* Legal content */
+.legal-content { }
+.legal-section {
+  margin-bottom: 56px;
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.legal-section.visible { opacity: 1; transform: none; }
+
+.section-anchor { scroll-margin-top: calc(var(--nav-h) + 30px); }
+
+.legal-section-num {
+  font-family: var(--font-mono); font-size: 10px; color: var(--accent);
+  letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.legal-section-num::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.legal-section h2 {
+  font-family: var(--font-display); font-size: clamp(18px,3vw,24px);
+  font-weight: 700; color: var(--text); letter-spacing: -0.015em;
+  margin-bottom: 18px; line-height: 1.2;
+}
+.legal-section p {
+  font-size: 14.5px; color: var(--text2); line-height: 1.8; margin-bottom: 14px;
+}
+.legal-section p:last-child { margin-bottom: 0; }
+.legal-section ul {
+  margin: 12px 0 14px 0; display: flex; flex-direction: column; gap: 8px;
+}
+.legal-section ul li {
+  font-size: 14px; color: var(--text2); line-height: 1.7;
+  padding-left: 18px; position: relative;
+}
+.legal-section ul li::before {
+  content: '—'; position: absolute; left: 0;
+  color: var(--accent); font-family: var(--font-mono); font-size: 11px;
+}
+.legal-section strong { color: var(--text); font-weight: 600; }
+.legal-section a { color: var(--accent); transition: opacity 0.2s; }
+.legal-section a:hover { opacity: 0.75; }
+
+.callout {
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius); padding: 18px 20px; margin: 20px 0;
+}
+.callout.warn { border-left-color: #f05060; }
+.callout.info { border-left-color: #38bdf8; }
+.callout p { font-size: 13.5px; margin: 0; }
+
+/* Footer */
+footer {
+  background: var(--bg); border-top: 1px solid var(--border);
+  padding: 40px clamp(16px,5vw,60px);
+}
+.footer-bottom {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+}
+.footer-copy { font-family: var(--font-mono); font-size: 11px; color: var(--text3); letter-spacing: 0.05em; }
+.footer-legal { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-legal a { font-family: var(--font-mono); font-size: 11px; color: var(--text3); transition: color 0.2s; }
+.footer-legal a:hover { color: var(--text2); }
+.footer-legal a.active-page { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<nav id="navbar">
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-mark">E</div>
+    Exora<span>World</span>
+  </a>
+  <a href="/" class="nav-back">
+    <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Back to Home
+  </a>
+</nav>
+
+<div class="page-hero">
+  <div class="page-label">Legal Document</div>
+  <h1 class="page-title">Terms &amp; <em>Conditions</em></h1>
+  <p class="page-meta">Last updated: May 2, 2025 &nbsp;·&nbsp; Effective immediately</p>
+  <p class="page-desc">Please read these Terms and Conditions carefully before using ExoraWorld. By accessing or using our platform, you agree to be bound by these terms.</p>
+</div>
+<hr class="divider-line">
+
+<div class="legal-layout">
+
+  <!-- Sidebar TOC -->
+  <aside class="toc">
+    <div class="toc-title">Contents</div>
+    <ul class="toc-list" id="toc-list">
+      <li><a href="#s1" class="toc-item"><span class="toc-num">01</span>Acceptance of Terms</a></li>
+      <li><a href="#s2" class="toc-item"><span class="toc-num">02</span>About ExoraWorld</a></li>
+      <li><a href="#s3" class="toc-item"><span class="toc-num">03</span>Eligibility</a></li>
+      <li><a href="#s4" class="toc-item"><span class="toc-num">04</span>User Accounts</a></li>
+      <li><a href="#s5" class="toc-item"><span class="toc-num">05</span>Products &amp; Orders</a></li>
+      <li><a href="#s6" class="toc-item"><span class="toc-num">06</span>Payments</a></li>
+      <li><a href="#s7" class="toc-item"><span class="toc-num">07</span>Delivery &amp; Fulfillment</a></li>
+      <li><a href="#s8" class="toc-item"><span class="toc-num">08</span>Refunds &amp; Disputes</a></li>
+      <li><a href="#s9" class="toc-item"><span class="toc-num">09</span>Gallery &amp; Downloads</a></li>
+      <li><a href="#s10" class="toc-item"><span class="toc-num">10</span>Intellectual Property</a></li>
+      <li><a href="#s11" class="toc-item"><span class="toc-num">11</span>Prohibited Conduct</a></li>
+      <li><a href="#s12" class="toc-item"><span class="toc-num">12</span>Data Collection &amp; Consent</a></li>
+      <li><a href="#s12b" class="toc-item"><span class="toc-num">13</span>Advertising &amp; Partners</a></li>
+      <li><a href="#s12c" class="toc-item"><span class="toc-num">14</span>Third-Party Liability</a></li>
+      <li><a href="#s13" class="toc-item"><span class="toc-num">15</span>Disclaimers</a></li>
+      <li><a href="#s14" class="toc-item"><span class="toc-num">16</span>Limitation of Liability</a></li>
+      <li><a href="#s15" class="toc-item"><span class="toc-num">17</span>Changes to Terms</a></li>
+      <li><a href="#s16" class="toc-item"><span class="toc-num">18</span>Governing Law</a></li>
+      <li><a href="#s17" class="toc-item"><span class="toc-num">19</span>Contact Us</a></li>
+    </ul>
+  </aside>
+
+  <!-- Content -->
+  <main class="legal-content">
+
+    <div class="legal-section section-anchor" id="s1">
+      <div class="legal-section-num">01 &nbsp; Acceptance of Terms</div>
+      <h2>Acceptance of Terms</h2>
+      <div class="callout">
+        <p><strong>By accessing or using ExoraWorld in any way</strong> — including browsing, purchasing, downloading, or creating an account — you confirm that you have read, understood, and agree to be legally bound by these Terms and Conditions and our Privacy Policy.</p>
+      </div>
+      <p>If you do not agree with any part of these terms, you must not use ExoraWorld. These Terms constitute a legally binding agreement between you ("User," "Customer," or "you") and ExoraWorld ("we," "us," or "our").</p>
+      <p>We reserve the right to update or modify these Terms at any time. Continued use of the platform after changes are posted constitutes your acceptance of the revised Terms.</p>
+    </div>
+
+    <div class="legal-section section-anchor" id="s2">
+      <div class="legal-section-num">02 &nbsp; About ExoraWorld</div>
+      <h2>About ExoraWorld</h2>
+      <p>ExoraWorld is a digital platform offering a variety of services including but not limited to:</p>
+      <ul>
+        <li>A digital product store where customers can browse and purchase digital goods</li>
+        <li>A photo gallery where users can browse and download images</li>
+        <li>A content hub featuring articles, guides, and resources</li>
+        <li>News and updates related to the platform and community</li>
+        <li>Application listings and recommendations (coming soon)</li>
+      </ul>
+      <p>ExoraWorld operates as an independent digital marketplace. All products and services are provided "as described" on individual listing pages. We are not affiliated with any payment processors, third-party services, or platforms beyond stated partnerships.</p>
+    </div>
+
+    <div class="legal-section section-anchor" id="s3">
+      <div class="legal-section-num">03 &nbsp; Eligibility</div>
+      <h2>Eligibility</h2>
+      <p>By using ExoraWorld, you represent and warrant that:</p>
+      <ul>
+        <li>You are at least 13 years of age. Users under 18 must have parental or guardian consent</li>
+        <li>You have the legal capacity to enter into a binding agreement</li>
+        <li>You are not prohibited by any applicable law from using this platform</li>
+        <li>You will provide accurate and complete information when making purchases or creating an account</li>
+        <li>You will use the platform only for lawful purposes</li>
+      </ul>
+      <p>We reserve the right to refuse service, terminate accounts, or cancel orders at our sole discretion if we believe eligibility requirements are not met.</p>
+    </div>
+
+    <div class="legal-section section-anchor" id="s4">
+      <div class="legal-section-num">04 &nbsp; User Accounts</div>
+      <h2>User Accounts</h2>
+      <p>Certain features of ExoraWorld may require you to provide contact information such as an email address or phone number for order processing and delivery. By providing this information, you agree to:</p>
+      <ul>
+        <li>Provide truthful, accurate, current, and complete information</li>
+        <li>Keep your contact information up to date</li>
+        <li>Not impersonate any person or entity or misrepresent your identity</li>
+        <li>Accept responsibility for all activity conducted through your contact details</li>
+      </ul>
+      <p>If you believe your account information has been compromised or misused, notify us immediately at our contact email. We reserve the right to suspend or terminate any account that we determine has been used fraudulently or in violation of these Terms.</p>
+    </div>
+
+    <div class="legal-section section-anchor" id="s5">
+      <div class="legal-section-num">05 &nbsp; Products &amp; Orders</div>
+      <h2>Products &amp; Orders</h2>
+      <p>All products listed on ExoraWorld are digital goods unless explicitly stated otherwise. Product descriptions, prices, and availability are subject to change without notice.</p>
+      <ul>
+        <li><strong>Product Listings:</strong> Each listing includes a description, price, and available stock at the time of display. We make every effort to ensure accuracy, but we do not guarantee that all information is error-free</li>
+        <li><strong>Order Acceptance:</strong> Placing an order does not constitute a confirmed sale. Orders are considered accepted only after payment verification and our explicit confirmation</li>
+        <li><strong>Stock Availability:</strong> We do not guarantee stock availability at the time of payment. If a product becomes unavailable after your payment is received, we will offer a substitute or full refund</li>
+        <li><strong>Order Cancellation:</strong> We reserve the right to cancel any order for reasons including pricing errors, suspected fraud, or technical issues</li>
+        <li><strong>Digital Nature:</strong> All digital products are non-tangible. Once delivered, the product cannot be "returned" in the traditional sense. Please review our Refund Policy before purchasing</li>
+      </ul>
+    </div>
+
+    <div class="legal-section section-anchor" id="s6">
+      <div class="legal-section-num">06 &nbsp; Payments</div>
+      <h2>Payments</h2>
+      <p>ExoraWorld accepts payments through multiple methods including Bkash, Nagad, Cellfin, Bank Transfer, AirTM, Skrill, Payoneer, and other methods as listed. Payment account details are provided on product listing pages.</p>
+      <p>By making a payment, you agree to the following:</p>
+      <ul>
+        <li><strong>Manual Verification:</strong> All payments are manually verified by our team. This process typically takes 1–6 hours during business hours</li>
+        <li><strong>Proof of Payment:</strong> You are required to submit a clear screenshot or proof of your transaction after sending payment. Proof must include the transaction ID, amount, date, and sender details</li>
+        <li><strong>Accurate Amounts:</strong> You must send the exact amount stated on the listing. Under or over payments may delay or cancel your order</li>
+        <li><strong>Currency:</strong> Prices may be listed in BDT (Bangladeshi Taka) or USD. Ensure you confirm the currency and exchange rate before transacting through international payment methods</li>
+        <li><strong>Transaction Fees:</strong> Any fees charged by the payment method (transaction fees, conversion fees) are the responsibility of the buyer unless explicitly stated otherwise</li>
+        <li><strong>Fraudulent Payments:</strong> Any attempt to submit false payment proof or initiate chargebacks fraudulently will result in permanent account ban and may be reported to relevant authorities</li>
+      </ul>
+      <div class="callout warn">
+        <p><strong>Warning:</strong> Never share your payment passwords or PINs with us. We will never ask for them. Only send payment to the accounts listed on official ExoraWorld product pages.</p>
+      </div>
+    </div>
+
+    <div class="legal-section section-anchor" id="s7">
+      <div class="legal-section-num">07 &nbsp; Delivery &amp; Fulfillment</div>
+      <h2>Delivery &amp; Fulfillment</h2>
+      <p>Digital products are delivered electronically — typically via email or phone number — after your payment has been verified.</p>
+      <ul>
+        <li><strong>Delivery Time:</strong> Most orders are fulfilled within 1–12 hours of payment confirmation. Complex or high-volume orders may take longer</li>
+        <li><strong>Delivery Method:</strong> Products are delivered to the email address or phone number you provided when placing your order</li>
+        <li><strong>Non-Delivery:</strong> If you have not received your product within 24 hours of payment confirmation, contact us immediately with your order reference and payment proof</li>
+        <li><strong>Accuracy of Contact Info:</strong> We are not responsible for non-delivery caused by incorrect contact information provided by the customer. Redelivery due to customer error may incur additional handling charges</li>
+        <li><strong>Download Links:</strong> Some products may be delivered as download links. These links may be time-limited or single-use. Download promptly and store your files securely</li>
+      </ul>
+    </div>
+
+    <div class="legal-section section-anchor" id="s8">
+      <div class="legal-section-num">08 &nbsp; Refunds &amp; Disputes</div>
+      <h2>Refunds &amp; Disputes</h2>
+      <p>Due to the digital nature of our products, all sales are generally final. However, we handle disputes fairly and on a case-by-case basis.</p>
+      <ul>
+        <li><strong>Eligible for Refund:</strong> Product was never delivered after payment was confirmed; product delivered is significantly different from the description; duplicate payment made in error</li>
+        <li><strong>Not Eligible for Refund:</strong> You changed your mind after purchase; you provided incorrect contact information; the product was delivered correctly but does not meet personal expectations; partial use of a digital product</li>
+        <li><strong>Dispute Window:</strong> Refund or dispute requests must be submitted within 72 hours of order confirmation. We cannot process claims submitted after this window</li>
+        <li><strong>Dispute Process:</strong> Contact us with your order details, payment proof, and a description of the issue. We aim to resolve all disputes within 5 business days</li>
+        <li><strong>Refund Method:</strong> Approved refunds are issued through the same payment method used during purchase, or an agreed alternative if that is not feasible</li>
+      </ul>
+    </div>
+
+    <div class="legal-section section-anchor" id="s9">
+      <div class="legal-section-num">09 &nbsp; Gallery &amp; Downloads</div>
+      <h2>Gallery &amp; Downloads</h2>
+      <p>ExoraWorld's photo gallery allows users to browse and download images. By using the gallery, you agree to the following:</p>
+      <ul>
+        <li><strong>Free Downloads:</strong> Images marked as "Free Download" may be downloaded for personal and non-commercial use unless otherwise stated</li>
+        <li><strong>Premium Downloads:</strong> Some images or collections may require purchase. Usage rights will be specified on the listing</li>
+        <li><strong>Attribution:</strong> Where required, you must credit ExoraWorld or the original creator when using downloaded content</li>
+        <li><strong>Prohibited Use:</strong> You may not redistribute, resell, or sublicense downloaded images without explicit written permission from ExoraWorld</li>
+        <li><strong>Ownership:</strong> Downloading an image does not transfer copyright or ownership to you. ExoraWorld or respective creators retain all rights to uploaded content</li>
+        <li><strong>Content Standards:</strong> All gallery content is moderated. We reserve the right to remove any content that violates our standards or applicable laws</li>
+      </ul>
+    </div>
+
+    <div class="legal-section section-anchor" id="s10">
+      <div class="legal-section-num">10 &nbsp; Intellectual Property</div>
+      <h2>Intellectual Property</h2>
+      <p>All content on ExoraWorld — including but not limited to text, graphics, logos, icons, images, audio, video, and software — is the property of ExoraWorld or its respective content owners and is protected by applicable intellectual property laws.</p>
+      <ul>
+        <li>You may not copy, reproduce, modify, distribute, or create derivative works from any content on ExoraWorld without explicit written permission</li>
+        <li>The ExoraWorld name, logo, and branding are our trademarks and may not be used without authorization</li>
+        <li>Users who upload content to ExoraWorld grant us a non-exclusive, royalty-free license to display, distribute, and promote that content on the platform</li>
+        <li>If you believe any content on ExoraWorld infringes your intellectual property rights, contact us with full details and we will investigate promptly</li>
+      </ul>
+    </div>
+
+    <div class="legal-section section-anchor" id="s11">
+      <div class="legal-section-num">11 &nbsp; Prohibited Conduct</div>
+      <h2>Prohibited Conduct</h2>
+      <p>The following activities are strictly prohibited on ExoraWorld:</p>
+      <ul>
+        <li>Submitting false, fraudulent, or misleading payment proofs</li>
+        <li>Initiating unauthorized chargebacks or payment reversals</li>
+        <li>Attempting to access, tamper with, or disrupt platform systems or servers</li>
+        <li>Scraping, crawling, or data-harvesting from the platform without permission</li>
+        <li>Impersonating ExoraWorld staff, other users, or any entity</li>
+        <li>Using the platform for any unlawful purpose or in violation of any regulations</li>
+        <li>Distributing malware, viruses, or harmful code through the platform</li>
+        <li>Attempting to reverse-engineer any part of the platform</li>
+        <li>Reselling purchased digital products without written authorization</li>
+        <li>Harassing, abusing, or threatening other users or staff</li>
+      </ul>
+      <p>Violations may result in immediate account suspension, order cancellation, and reporting to relevant legal authorities.</p>
+    </div>
+
+    <div class="legal-section section-anchor" id="s12">
+      <div class="legal-section-num">12 &nbsp; Data Collection &amp; User Consent</div>
+      <h2>Data Collection &amp; User Consent</h2>
+      <div class="callout">
+        <p><strong>By accessing or using ExoraWorld in any capacity</strong> — including browsing, downloading, making a purchase, or simply visiting any page — you expressly acknowledge and agree that ExoraWorld may collect, store, process, and use your data as described in these Terms and our <a href="privacy.html">Privacy Policy</a>. Continued use of the platform constitutes your ongoing, affirmative consent to these practices.</p>
+      </div>
+      <p>ExoraWorld collects a range of data from users for legitimate business, operational, technological, and commercial purposes. The categories of data we collect include, but are not limited to:</p>
+      <ul>
+        <li><strong>Identity &amp; Contact Data:</strong> Name, email address, phone number, and any other identifiers you provide when placing orders, contacting us, or interacting with the platform</li>
+        <li><strong>Behavioral &amp; Usage Data:</strong> Pages visited, content interacted with, time spent, clicks, scroll patterns, search queries, gallery views, downloads, and navigation paths across all ExoraWorld pages and services</li>
+        <li><strong>Technical &amp; Device Data:</strong> IP address, browser type and version, operating system, device type, screen resolution, language settings, referring URLs, and connection data</li>
+        <li><strong>Transaction &amp; Payment Data:</strong> Order history, product selections, payment method used, transaction reference numbers, payment amounts, and payment proof submissions</li>
+        <li><strong>Communication Data:</strong> All messages, inquiries, support requests, and correspondence sent to ExoraWorld through any channel, including email and social media</li>
+        <li><strong>Cookie &amp; Tracking Data:</strong> Persistent and session cookies, pixel data, local storage tokens, analytics identifiers, and advertising-related identifiers placed on your device during your visit</li>
+        <li><strong>Inferred &amp; Derived Data:</strong> Interests, preferences, and behavioral profiles inferred from your interactions with our platform and content</li>
+      </ul>
+      <p>We collect this data through direct interaction (when you provide it), automated means (when you browse or use the platform), and through trusted third-party tools including analytics platforms, advertising networks, and service providers integrated into ExoraWorld.</p>
+      <p>You grant ExoraWorld a broad, irrevocable, worldwide, royalty-free license to collect, store, process, analyze, and use your data — including aggregated, anonymized, or pseudonymized forms thereof — to operate, maintain, improve, and expand ExoraWorld's services, technology, artificial intelligence systems, content recommendations, and commercial offerings, for as long as reasonably necessary for those purposes.</p>
+      <div class="callout warn">
+        <p><strong>Important:</strong> If you do not consent to data collection and use as described in these Terms, you must immediately cease using ExoraWorld. Continued use of any part of the platform constitutes irrevocable consent to these practices.</p>
+      </div>
+    </div>
+
+    <div class="legal-section section-anchor" id="s12b">
+      <div class="legal-section-num">13 &nbsp; Advertising, Sponsors &amp; Commercial Partners</div>
+      <h2>Advertising, Sponsors &amp; Commercial Partners</h2>
+      <p>ExoraWorld operates in a commercial environment and may now or in the future display advertisements, sponsored content, affiliate links, and promotional materials from third-party partners. By using ExoraWorld, you acknowledge and agree to the following:</p>
+      <ul>
+        <li><strong>Advertising Networks:</strong> ExoraWorld may integrate advertising platforms including but not limited to Google AdSense, Google Ad Manager, Meta Audience Network, and other programmatic advertising networks. These networks may serve ads based on your interests, browsing history, location, and other behavioral signals</li>
+        <li><strong>Data Shared with Advertising Partners:</strong> To facilitate relevant advertising, ExoraWorld may share or make accessible certain data — including usage behavior, device identifiers, cookie data, and inferred interests — with advertising partners, demand-side platforms, and ad exchanges. This data sharing enables personalized and contextual advertising</li>
+        <li><strong>Sponsors &amp; Brand Partners:</strong> ExoraWorld may enter into sponsorship or promotional agreements with companies, brands, or individuals. Sponsored content will be clearly labeled where required by law. Your data may be shared with sponsors in aggregated, non-personally-identifiable form unless you provide explicit consent for more specific sharing</li>
+        <li><strong>Affiliate Relationships:</strong> ExoraWorld may earn commission from products or services recommended through affiliate links. Clicking such links may result in third-party cookies being placed on your device, enabling those companies to track conversions</li>
+        <li><strong>Technology &amp; AI Partners:</strong> We may share aggregated behavioral and usage data with technology partners to improve artificial intelligence systems, recommendation engines, content classification models, and platform optimization tools — all in service of improving ExoraWorld's products and services</li>
+        <li><strong>Analytics &amp; Measurement Partners:</strong> We use third-party analytics tools such as Google Analytics, Cloudflare Analytics, and similar services to measure platform performance. These tools may independently collect certain data about your visit under their own privacy policies</li>
+      </ul>
+      <div class="callout info">
+        <p>You may opt out of personalized advertising by adjusting your browser's cookie settings, using your Google ad preferences at <strong>adssettings.google.com</strong>, or through the Network Advertising Initiative opt-out at <strong>optout.networkadvertising.org</strong>. Note that opting out of personalized ads does not mean you will see no ads — you may still see non-personalized advertisements.</p>
+      </div>
+      <p>ExoraWorld reserves the right to introduce, modify, expand, or remove advertising integrations, sponsorships, and commercial partnerships at any time without prior notice to users. Your continued use of the platform after such changes constitutes acceptance of those changes.</p>
+    </div>
+
+    <div class="legal-section section-anchor" id="s12c">
+      <div class="legal-section-num">14 &nbsp; Third-Party Data Responsibility &amp; Liability</div>
+      <h2>Third-Party Data Responsibility &amp; Liability</h2>
+      <p>ExoraWorld may share, transmit, or make accessible certain user data to third-party partners, advertising networks, service providers, sponsors, and technology companies as described in these Terms. By using ExoraWorld, you expressly acknowledge and agree to the following terms regarding third-party data handling:</p>
+      <ul>
+        <li><strong>Independent Controllers:</strong> Third parties who receive your data from ExoraWorld — including advertising networks, analytics providers, sponsors, and affiliates — operate as independent data controllers. Once data is transmitted to or accessed by these third parties, it is governed by their own privacy policies, terms of service, and applicable legal obligations</li>
+        <li><strong>No Control Over Third-Party Use:</strong> ExoraWorld does not control, monitor, or take responsibility for how third parties use, process, store, share, or otherwise handle data after it has been transmitted to them. ExoraWorld makes no representations or warranties regarding the data practices of any third party</li>
+        <li><strong>No Liability for Third-Party Misuse:</strong> ExoraWorld shall not be held liable, responsible, or accountable for any unauthorized use, misuse, breach, disclosure, loss, theft, or illegal processing of your data by any third party — including advertising partners, analytics providers, sponsors, or any other entity — even if such data was originally shared by ExoraWorld. Your recourse in such circumstances is directly against the relevant third party</li>
+        <li><strong>Illegal Use by Third Parties:</strong> If any third party uses your data in a manner that is unlawful, unauthorized, or otherwise in violation of applicable law, that liability rests solely with the third party. ExoraWorld expressly disclaims any and all liability, direct or indirect, for such third-party conduct. ExoraWorld is not a joint controller, co-processor, or guarantor of third-party compliance</li>
+        <li><strong>Support &amp; Assistance:</strong> While ExoraWorld bears no legal liability for third-party data misuse, we are committed to supporting users to the extent reasonably possible. If you believe your data has been mishandled by a third party in connection with ExoraWorld, you may contact us and we will make reasonable efforts to assist, including providing information about the relevant third party to help you exercise your rights</li>
+        <li><strong>Third-Party Policies:</strong> We strongly encourage all users to review the privacy policies and terms of service of any third-party platforms, advertising networks, or services that may interact with your data. ExoraWorld provides links to relevant third-party policies where reasonably practicable</li>
+      </ul>
+      <div class="callout warn">
+        <p><strong>Legal Notice:</strong> By continuing to use ExoraWorld, you irrevocably waive any claims against ExoraWorld arising from third-party data use, misuse, or breach, to the maximum extent permitted by applicable law. Nothing in this clause limits your rights against the relevant third party directly.</p>
+      </div>
+    </div>
+
+    <div class="legal-section section-anchor" id="s13">
+      <div class="legal-section-num">13 &nbsp; Disclaimers</div>
+      <h2>Disclaimers</h2>
+      <p>ExoraWorld is provided on an "as is" and "as available" basis. We make no warranties, express or implied, regarding:</p>
+      <ul>
+        <li>The uninterrupted or error-free operation of the platform</li>
+        <li>The accuracy, completeness, or reliability of any content or product descriptions</li>
+        <li>The fitness of any product for a particular purpose</li>
+        <li>The security of data transmitted to or from the platform</li>
+      </ul>
+      <p>We do not guarantee that the platform will be free from viruses or other harmful components, and we are not liable for any damage to your device or data arising from use of ExoraWorld.</p>
+    </div>
+
+    <div class="legal-section section-anchor" id="s14">
+      <div class="legal-section-num">14 &nbsp; Limitation of Liability</div>
+      <h2>Limitation of Liability</h2>
+      <p>To the maximum extent permitted by law, ExoraWorld and its operators shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform, including but not limited to:</p>
+      <ul>
+        <li>Loss of data, revenue, profits, or business opportunities</li>
+        <li>Errors or interruptions in service</li>
+        <li>Unauthorized access to your account or personal data</li>
+        <li>Any actions or content of third-party services or payment processors</li>
+      </ul>
+      <p>Our total liability to you for any claim arising from these Terms shall not exceed the amount you paid to ExoraWorld in the 30 days preceding the claim.</p>
+    </div>
+
+    <div class="legal-section section-anchor" id="s15">
+      <div class="legal-section-num">15 &nbsp; Changes to Terms</div>
+      <h2>Changes to Terms</h2>
+      <p>We reserve the right to modify these Terms and Conditions at any time. When we make material changes, we will update the "Last updated" date at the top of this page and, where appropriate, notify users via email or a prominent notice on the platform.</p>
+      <p>Your continued use of ExoraWorld after any changes to these Terms constitutes your acceptance of the new Terms. If you do not agree with the updated Terms, you must stop using the platform.</p>
+    </div>
+
+    <div class="legal-section section-anchor" id="s16">
+      <div class="legal-section-num">16 &nbsp; Governing Law</div>
+      <h2>Governing Law</h2>
+      <p>These Terms and Conditions shall be governed by and construed in accordance with applicable laws. Any disputes arising from these Terms or your use of ExoraWorld shall first be attempted to be resolved through good-faith negotiation between you and us.</p>
+      <p>If a dispute cannot be resolved informally, both parties agree to submit to binding arbitration or the jurisdiction of competent courts as applicable under local law.</p>
+    </div>
+
+    <div class="legal-section section-anchor" id="s17">
+      <div class="legal-section-num">17 &nbsp; Contact Us</div>
+      <h2>Contact Us</h2>
+      <p>If you have any questions, concerns, or requests related to these Terms and Conditions, please contact us:</p>
+      <ul>
+        <li><strong>Email:</strong> <a href="mailto:your@email.com">Add your email here</a></li>
+        <li><strong>Facebook:</strong> <a href="#">Add your Facebook page link</a></li>
+        <li><strong>Response Time:</strong> We aim to respond to all inquiries within 1–3 business days</li>
+      </ul>
+      <p>For order-specific issues, always include your order reference number and payment proof in your message so we can assist you faster.</p>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 ExoraWorld. All rights reserved.</div>
+    <div class="footer-legal">
+      <a href="/terms" class="active-page">Terms</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/refund">Refund</a>
+      <a href="/cookies">Cookies</a>
+      <a href="/">Home</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Cursor
+(function() {
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx = -100, my = -100, rx = -100, ry = -100;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx+'px'; dot.style.top = my+'px';
+  });
+  function anim() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(anim); }
+  anim();
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+  document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
+  document.addEventListener('mouseup', () => document.body.classList.remove('cursor-click'));
+})();
+
+// Scroll progress
+const bar = document.getElementById('scroll-progress');
+window.addEventListener('scroll', () => {
+  const s = document.documentElement;
+  bar.style.transform = `scaleX(${window.scrollY/(s.scrollHeight-s.clientHeight)})`;
+}, {passive:true});
+
+// Reveal sections
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.06 });
+document.querySelectorAll('.legal-section').forEach(el => observer.observe(el));
+
+// TOC active state
+const sections = document.querySelectorAll('.section-anchor');
+const tocItems = document.querySelectorAll('.toc-item');
+const scrollSpy = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocItems.forEach(t => t.classList.remove('active'));
+      const active = document.querySelector(`.toc-item[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => scrollSpy.observe(s));
+</script>
+</body>
+</html>
