@@ -65,7 +65,14 @@ nav.scrolled{background:rgba(5,4,12,0.97);}
 
 /* HERO — with living photo slideshow background */
 .hero{padding:0;position:relative;overflow:hidden;min-height:100svh;display:flex;flex-direction:column;}
-.hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:#05040c;}
+.hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  /* Fallback shown instantly while API photo loads — cinematic purple-teal gradient that fits a gallery vibe */
+  background:
+    radial-gradient(ellipse 120% 80% at 20% 50%, rgba(74,0,232,0.55) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 90% at 85% 20%, rgba(0,180,160,0.35) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 70% at 70% 85%, rgba(240,80,140,0.3) 0%, transparent 50%),
+    linear-gradient(135deg, #0d0820 0%, #0a1a1a 40%, #120820 100%);
+}
 
 /* SLIDESHOW LAYERS — two img slots that crossfade */
 .hero-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
@@ -163,12 +170,14 @@ h1.hero-title em{font-style:italic;font-family:var(--f-serif);font-weight:400;ba
 
 /* GALLERY */
 .gallery-section{padding:12px 28px 80px;}
+@media(max-width:600px){.gallery-section{padding:10px 10px 60px;}}
 /* Masonry: responsive columns, full-size uncropped */
 .masonry{columns:5;column-gap:12px;}
 @media(max-width:1400px){.masonry{columns:4;}}
 @media(max-width:1100px){.masonry{columns:3;}}
 @media(max-width:700px){.masonry{columns:2;column-gap:8px;}}
-@media(max-width:380px){.masonry{columns:1;}}
+@media(max-width:480px){.masonry{columns:2;column-gap:6px;}}
+/* Never go to 1 column — always show grid on all screen sizes */
 .photo-card{break-inside:avoid;margin-bottom:12px;border-radius:var(--r2);overflow:hidden;position:relative;cursor:pointer;display:block;background:var(--surface);transition:transform .35s cubic-bezier(.25,.1,.25,1),box-shadow .35s;}
 .photo-card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,0.5),0 0 0 1px rgba(124,77,255,0.2);}
 
@@ -283,6 +292,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:48px 28p
 /* Mobile video fallback */
 @media(max-width:700px){
   .video-thumb-wrap{min-height:auto;}
+  /* Cards on mobile: same masonry feel as desktop, no excessive stretching */
+  .photo-card img{width:100%;height:auto;max-height:320px;object-fit:cover;}
+  .video-thumb-wrap img{max-height:220px;object-fit:cover;}
+  .photo-card{margin-bottom:6px;}
+  .like-btn{opacity:1;transform:scale(1);}
+  .media-badge{opacity:1;}
 }
 
 
@@ -335,7 +350,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:48px 28p
   <div class="hero-inner">
     <div class="hero-badge">ExoraWorld Visual Archive</div>
     <h1 class="hero-title">Moments Worth<em>Keeping</em></h1>
-    <p class="hero-sub">High-res photos &amp; videos, from the Internet. Browse, play, and download — always free.</p>
+    <p class="hero-sub">High-res photos &amp; videos,from all around the Internet. Browse, play, and download — always free.</p>
     <div class="search-container">
       <div class="search-wrap">
         <svg class="si" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -710,19 +725,14 @@ function buildHeadlineBand(cats) {
 }
 
 // ══════════════════════════════════════════════════════════════
-//  FILTER TABS — Photos, Videos, Nature, City Life + dynamic cats
+//  FILTER TABS — Only: All | Photos | Videos
+//  Videos detected by file extension on key or url
 // ══════════════════════════════════════════════════════════════
 function buildFilterTabs(cats) {
   const tabs = document.getElementById('filterTabs');
   tabs.innerHTML = '';
-  const builtIn = new Set(['all','photos','videos','nature','city life','city-life']);
-  // Always include these core filters first
-  const coreList = ['All', 'Photos', 'Videos', 'Nature', 'City Life'];
-  // Add dynamic categories (excluding those already in core)
-  const dynCats = cats.map(c => c.name)
-    .filter(n => !builtIn.has(n.toLowerCase()))
-    .slice(0, 4);
-  const list = [...coreList, ...dynCats];
+  // Only 3 filters — simple and reliable
+  const list = ['All', 'Photos', 'Videos'];
 
   list.forEach(f => {
     const btn = document.createElement('button');
@@ -754,13 +764,8 @@ async function reloadGallery() {
   document.getElementById('loadSpinner').classList.remove('visible');
 
   try {
-    // Map filter names to API category keys
-    let fc = galleryFilter;
-    if (['Photos','Videos'].includes(fc)) fc = '';
-    if (fc === 'City Life') fc = 'city-life';
-    if (fc === 'Nature') fc = 'nature';
-
-    const data = await fetchPhotos(fc === 'All' ? '' : fc);
+    // For All/Photos/Videos we fetch everything and filter client-side
+    const data = await fetchPhotos('');
     let photos = data.photos || [];
     if (galleryFilter === 'Photos') photos = photos.filter(p => !isVidItem(p));
     if (galleryFilter === 'Videos') photos = photos.filter(p => isVidItem(p));
@@ -778,12 +783,7 @@ async function loadMore() {
   isLoadingMore = true;
   document.getElementById('loadSpinner').classList.add('visible');
   try {
-    let fc = galleryFilter;
-    if (['Photos','Videos'].includes(fc)) fc = '';
-    if (fc === 'City Life') fc = 'city-life';
-    if (fc === 'Nature') fc = 'nature';
-
-    const data = await fetchPhotos(fc === 'All' ? '' : fc, galleryCursor);
+    const data = await fetchPhotos('', galleryCursor);
     let photos = data.photos || [];
     if (galleryFilter === 'Photos') photos = photos.filter(p => !isVidItem(p));
     if (galleryFilter === 'Videos') photos = photos.filter(p => isVidItem(p));
