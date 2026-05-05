@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>ExoraWorld — VoidRunner X</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -17,7 +17,7 @@
   --glow:0 0 28px rgba(0,220,255,.35);--glow2:0 0 36px rgba(124,58,237,.45);
 }
 html{scroll-behavior:smooth;overflow-x:hidden}
-body{background:var(--bg);color:var(--text);font-family:var(--fB);min-height:100vh;overflow-x:hidden;cursor:none}
+body{background:var(--bg);color:var(--text);font-family:var(--fB);min-height:100vh;overflow-x:hidden;cursor:none;-webkit-tap-highlight-color:transparent}
 /* CURSOR */
 #cur,#cur-r{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);will-change:transform}
 #cur{width:10px;height:10px;background:var(--cyan);mix-blend-mode:screen}
@@ -42,8 +42,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;padding:0 36px;d
 .nb-f:hover{transform:translateY(-1px);box-shadow:var(--glow)}
 .ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
 .ham span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all .3s}
+/* MAIN NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;padding:0 36px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(3,4,11,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
 /* SEARCH */
-#search-row{position:fixed;top:60px;left:0;right:0;z-index:190;padding:10px 36px;background:rgba(3,4,11,.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,220,255,.1);display:flex;justify-content:center}
+#search-row{position:fixed;top:56px;left:0;right:0;z-index:190;padding:9px 36px;background:rgba(3,4,11,.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,220,255,.1);display:flex;justify-content:center}
 #s-wrap{position:relative;max-width:520px;width:100%}
 .s-ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.45;font-size:.95rem;pointer-events:none}
 #s-input{width:100%;padding:9px 38px 9px 42px;background:rgba(255,255,255,.04);border:1px solid rgba(0,220,255,.18);border-radius:30px;color:var(--text);font-family:var(--fM);font-size:.76rem;outline:none;transition:border-color .25s,box-shadow .25s}
@@ -59,10 +61,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;padding:0 36px;d
 .s-item-name{font-family:var(--fH);font-size:.7rem;color:var(--text)}
 .s-item-sub{font-family:var(--fM);font-size:.58rem;color:var(--text2)}
 /* BANNER */
-#banner{position:fixed;top:60px;left:0;right:0;z-index:180;height:0;overflow:hidden;transition:height .5s cubic-bezier(.4,0,.2,1);background:#000}
+#banner{position:fixed;top:56px;left:0;right:0;z-index:180;height:0;overflow:hidden;transition:height .5s cubic-bezier(.4,0,.2,1);background:#000}
 #banner.open{height:clamp(200px,28vw,340px)}
-body.banner-open #page{padding-top:calc(60px + clamp(200px,28vw,340px) + 52px)}
-body:not(.banner-open) #page{padding-top:calc(60px + 52px)}
+body.banner-open #page{padding-top:calc(56px + clamp(200px,28vw,340px) + 48px)}
+body:not(.banner-open) #page{padding-top:calc(56px + 48px)}
 .banner-slide{position:absolute;inset:0;opacity:0;transition:opacity .7s;display:flex;align-items:center;overflow:hidden}
 .banner-slide.active{opacity:1}
 .banner-gradient{position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,4,11,.95) 30%,rgba(3,4,11,.5) 65%,rgba(3,4,11,.9) 100%)}
@@ -233,7 +235,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
 #toast{position:fixed;bottom:26px;right:26px;background:#0c1120;border:1px solid var(--cyan);border-radius:9px;padding:11px 17px;font-family:var(--fM);font-size:.7rem;color:var(--cyan);z-index:5000;transform:translateY(80px);opacity:0;transition:all .3s;box-shadow:var(--glow);pointer-events:none;max-width:260px}
 #toast.show{transform:translateY(0);opacity:1}
 /* MOBILE NAV */
-#mnav{display:none;position:fixed;top:60px;left:0;right:0;background:rgba(3,4,11,.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:17px 24px;z-index:199;flex-direction:column;gap:13px}
+#mnav{display:none;position:fixed;top:56px;left:0;right:0;background:rgba(3,4,11,.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:17px 24px;z-index:199;flex-direction:column;gap:13px}
 #mnav.open{display:flex}
 #mnav a{color:var(--text2);text-decoration:none;font-family:var(--fM);font-size:.8rem;padding:7px 0;border-bottom:1px solid var(--border);transition:color .2s}
 #mnav a:last-child{border:none}
@@ -242,21 +244,93 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
 ::-webkit-scrollbar-track{background:var(--bg2)}
 ::-webkit-scrollbar-thumb{background:var(--purple);border-radius:2px}
 /* RESPONSIVE */
-@media(max-width:1024px){.contact-grid{grid-template-columns:1fr}.foot-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:1024px){
+  .contact-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+
+/* TABLET 768px */
 @media(max-width:768px){
-  nav{padding:0 16px}.nav-links{display:none}.ham{display:flex}
-  #search-row{padding:8px 16px}
-  .section{padding:50px 16px}
-  #hero{padding:24px 12px 20px}
-  footer{padding:26px 16px}.foot-grid{grid-template-columns:1fr}
-  #mob-ctrl{display:flex}#fs-mob-ctrl{display:flex}
+  /* Nav */
+  nav{top:0;padding:0 16px;height:52px}
+  .nav-links{display:none}
+  .ham{display:flex}
+  #mnav{top:52px}
+  #search-row{top:52px;padding:8px 16px}
+  body:not(.banner-open) #page{padding-top:calc(52px + 44px)}
+  /* Sections */
+  .section{padding:44px 16px}
+  #hero{padding:20px 12px 16px}
+  /* Footer */
+  footer{padding:26px 16px}
+  .foot-grid{grid-template-columns:1fr}
+  /* Game controls */
+  #mob-ctrl{display:flex}
+  #fs-mob-ctrl{display:flex}
+  /* Leaderboard */
   .lb-head,.lb-row{grid-template-columns:44px 1fr 100px}
   .lb-head>*:last-child,.lb-row>*:last-child{display:none}
+  /* Banner */
   .banner-emoji-wrap{display:none}
   .banner-content{padding:0 22px}
-  #cur,#cur-r{display:none}body{cursor:auto}
+  /* Cursor off on touch */
+  #cur,#cur-r{display:none}
+  body{cursor:auto}
+  /* Modal */
+  .modal-box{padding:20px}
+  /* Contact */
+  .contact-grid{gap:28px}
 }
-@media(max-width:480px){.pm-grid{grid-template-columns:1fr 1fr}.g-stats{gap:10px}.g-stats span:nth-child(3){display:none}}
+
+/* MOBILE 480px */
+@media(max-width:480px){
+  /* Nav */
+  nav{top:0;height:50px;padding:0 12px}
+  #mnav{top:50px}
+  #search-row{top:50px;padding:7px 12px}
+  body:not(.banner-open) #page{padding-top:calc(50px + 42px)}
+  /* Game HUD */
+  .g-title{font-size:.62rem}
+  .g-stats{gap:8px;font-size:.6rem}
+  .g-stats span:nth-child(n+3){display:none}
+  #g-fs-btn{font-size:.52rem;padding:4px 9px}
+  /* Powerups bar — scrollable */
+  #g-pu{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;gap:5px}
+  /* Mobile controls — larger touch targets */
+  .mb{padding:13px 16px;font-size:.62rem;min-height:44px}
+  /* Stats */
+  .g-stats span:nth-child(3){display:none}
+  /* Payment grid */
+  .pm-grid{grid-template-columns:1fr 1fr}
+  /* Section */
+  .section{padding:36px 12px}
+  #hero{padding:16px 10px 12px}
+  /* Leaderboard tighter */
+  .lb-head,.lb-row{grid-template-columns:38px 1fr 88px;font-size:.68rem}
+  .lb-rank{font-size:.82rem}
+  /* Footer */
+  .foot-grid{grid-template-columns:1fr}
+  footer{padding:20px 12px}
+  /* Hero text */
+  .hero-title{font-size:clamp(1.6rem,8vw,2.4rem)}
+  .hero-sub{font-size:.82rem}
+  /* Toast */
+  #toast{bottom:16px;right:12px;left:12px;max-width:none;text-align:center}
+}
+
+/* SMALL PHONES 360px */
+@media(max-width:360px){
+  nav{padding:0 10px}
+  .nav-logo{font-size:1rem}
+  #search-row{padding:6px 10px}
+  #s-input{font-size:.7rem}
+  .mb{padding:11px 10px;font-size:.58rem}
+  .banner-title{font-size:1.4rem}
+  .hero-title{font-size:1.5rem}
+  .section{padding:28px 10px}
+  .lb-head,.lb-row{grid-template-columns:32px 1fr 80px}
+  .g-stats span:nth-child(n+2){display:none}
+}
 </style>
 </head>
 <body>
@@ -265,23 +339,50 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
 <div id="cur-r"></div>
 <canvas id="bgc"></canvas>
 <div id="toast"></div>
+
+<!-- TOP UTILITY BAR -->
+<div id="topbar">
+  <div class="tb-left">
+    <a href="https://exoraworld.online" class="tb-link home">⚡ ExoraWorld</a>
+    <div class="tb-sep"></div>
+    <a href="https://exoraworld.online" class="tb-link">🏠 Home</a>
+    <a href="https://exoraworld.online/help" class="tb-link">❓ Help</a>
+    <a href="https://discord.gg/ExoraWorld" target="_blank" rel="noopener" class="tb-link">💬 Chat</a>
+    <div class="tb-sep"></div>
+    <div class="tb-more-wrap">
+      <button class="tb-link" onclick="toggleMore()" id="more-btn">▾ More</button>
+      <div id="more-drop">
+        <a href="https://youtube.com/@ExoraWorld" target="_blank" rel="noopener" class="md-item"><span>▶</span> YouTube</a>
+        <a href="https://instagram.com/ExoraWorld" target="_blank" rel="noopener" class="md-item"><span>◎</span> Instagram</a>
+        <a href="https://facebook.com/ExoraWorld" target="_blank" rel="noopener" class="md-item"><span>f</span> Facebook</a>
+        <a href="mailto:hello@exoraworld.gg" class="md-item"><span>✉</span> Email Us</a>
+        <a href="#" onclick="openTerms();closeDrop();return false" class="md-item"><span>📄</span> Terms</a>
+        <a href="#" onclick="openPriv();closeDrop();return false" class="md-item"><span>🔒</span> Privacy</a>
+      </div>
+    </div>
+  </div>
+  <div class="tb-right">
+    <button class="tb-btn tb-signin" onclick="toast('Sign in via exoraworld.online')">Sign In</button>
+    <button class="tb-btn tb-join" onclick="window.open('https://exoraworld.online/signup','_blank')">Join Free</button>
+  </div>
+</div>
  
 <div id="mnav">
-  <a href="#hero" onclick="cMnav()">🎮 VoidRunner X</a>
-  <a href="#leaderboard" onclick="cMnav()">Leaderboard</a>
-  <a href="#contact" onclick="cMnav()">Contact</a>
+  <a href="https://exoraworld.online" onclick="cMnav()">🏠 Home</a>
+  <a href="#hero" onclick="cMnav()">🎮 Play</a>
+  <a href="#leaderboard" onclick="cMnav()">🏆 Leaderboard</a>
+  <a href="#contact" onclick="cMnav()">📬 Contact</a>
 </div>
  
 <nav>
-  <a href="#" class="nav-logo">Exora<span>World</span></a>
+  <a href="https://exoraworld.online" class="nav-logo">Exora<span>World</span></a>
   <ul class="nav-links">
+    <li><a href="https://exoraworld.online">Home</a></li>
     <li><a href="#hero">Play</a></li>
     <li><a href="#leaderboard">Leaderboard</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-right">
-    <button class="nbtn nb-o" onclick="toast('Sign in coming soon!')">Sign In</button>
-    <button class="nbtn nb-f" onclick="toast('Free accounts launching soon!')">Join Free</button>
     <button class="ham" onclick="tMnav()"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -291,7 +392,6 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px}
     <span class="s-ico">🔍</span>
     <input type="text" id="s-input" placeholder="Search games on ExoraWorld..." autocomplete="off"
       oninput="handleSearch(this.value)"
-      onfocus="openBanner()"
       onblur="setTimeout(()=>document.getElementById('s-drop').classList.remove('open'),180)">
     <button class="s-clr" onclick="clrSearch()">✕</button>
     <div id="s-drop"></div>
@@ -620,22 +720,14 @@ document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e =
 function openTerms() { document.getElementById('terms-modal').classList.add('on'); }
 function openPriv()  { document.getElementById('priv-modal').classList.add('on'); }
  
-// Banner
+// Banner — removed auto-open; banner stays hidden so it never pushes the game section
 let bannerOpen = false;
-function openBanner() {
-  if (bannerOpen) return;
-  bannerOpen = true;
-  document.getElementById('banner').classList.add('open');
-  document.body.classList.add('banner-open');
-}
+function openBanner() {} // no-op: banner disabled
 function closeBanner() {
   bannerOpen = false;
   document.getElementById('banner').classList.remove('open');
   document.body.classList.remove('banner-open');
 }
-setTimeout(() => { openBanner(); setTimeout(closeBanner, 4200); }, 900);
-document.getElementById('s-input').addEventListener('focus', openBanner);
-document.getElementById('s-input').addEventListener('blur', () => setTimeout(closeBanner, 1200));
  
 // Search
 const GAME_DB = [{ name:'VoidRunner X', genre:'Endless Runner · Play Now', icon:'🏃' }];
@@ -1638,7 +1730,7 @@ const VR = (() => {
     el.addEventListener('touchstart', e => { e.preventDefault(); SFX.boot(); SFX.resume(); jump(); }, { passive:false });
     el.addEventListener('click', () => { SFX.boot(); SFX.resume(); if (running) jump(); });
   });
- 
+
   // Mobile buttons — using pointer events to prevent ghost clicks
   function bindMB(btnId, fn) {
     const el = document.getElementById(btnId);
