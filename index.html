@@ -68,11 +68,11 @@ nav.scrolled{background:rgba(5,4,10,.92);backdrop-filter:blur(24px);border-botto
 .nav-primary{max-width:1380px;margin:0 auto;padding:18px 40px;display:flex;align-items:center;gap:0;transition:padding .4s}
 nav.scrolled .nav-primary{padding:12px 40px}
 
-.nav-logo{font-family:var(--f-disp);font-weight:800;font-size:1.2rem;letter-spacing:-.02em;text-decoration:none;background:linear-gradient(135deg,var(--ivory) 30%,var(--v3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-right:auto;flex-shrink:0}
+.nav-logo{font-family:var(--f-disp);font-weight:800;font-size:1.2rem;letter-spacing:-.02em;text-decoration:none;background:linear-gradient(135deg,var(--ivory) 30%,var(--v3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;flex-shrink:0;margin-right:0}
 .nav-logo span{background:linear-gradient(135deg,var(--v2),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
-/* Main links row */
-.nav-links-primary{display:flex;gap:2px;align-items:center;margin-right:16px}
+/* Main links row — flex:1 so it fills all available space between logo and actions */
+.nav-links-primary{display:flex;gap:2px;align-items:center;justify-content:center;flex:1;margin:0 8px}
 .nav-links-primary a,.nav-more-btn{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmer);text-decoration:none;padding:7px 13px;border-radius:2px;transition:all .25s;position:relative;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:4px}
 .nav-links-primary a:hover,.nav-more-btn:hover{color:var(--ivory);background:rgba(255,255,255,.05)}
 .nav-links-primary a.active{color:var(--v3)}
@@ -109,18 +109,24 @@ nav.scrolled .nav-primary{padding:12px 40px}
 .btn-fill-sm{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 18px;background:var(--v2);color:#fff;border:none;text-decoration:none;cursor:pointer;transition:all .3s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
 .btn-fill-sm:hover{background:var(--v3);transform:translateY(-1px)}
 
-.nav-mob-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;margin-left:12px}
+.nav-mob-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;margin-right:12px;order:-1}
 .nav-mob-toggle span{display:block;width:22px;height:1px;background:var(--v3);transition:all .3s}
 
 /* mobile nav */
-.mob-menu{position:fixed;inset:0;background:rgba(5,4,10,.97);backdrop-filter:blur(24px);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transform:translateX(100%);transition:transform .45s cubic-bezier(.77,0,.18,1);padding:60px 24px}
+.mob-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:499;opacity:0;pointer-events:none;transition:opacity .4s}
+.mob-backdrop.show{opacity:1;pointer-events:auto}
+.mob-menu{position:fixed;top:0;left:0;bottom:0;width:min(300px,82vw);background:rgba(5,4,10,.99);backdrop-filter:blur(32px);z-index:500;display:flex;flex-direction:column;align-items:flex-start;gap:2px;transform:translateX(-100%);transition:transform .42s cubic-bezier(.77,0,.18,1);padding:64px 24px 36px;overflow-y:auto;border-right:1px solid var(--border)}
 .mob-menu.open{transform:translateX(0)}
-.mob-menu a{font-family:var(--f-disp);font-weight:700;font-size:1.8rem;color:var(--ivory);text-decoration:none;transition:color .3s}
-.mob-menu a:hover{color:var(--v3)}
-.mob-menu .mob-sep{width:40px;height:1px;background:rgba(139,92,246,.2)}
-.mob-menu .mob-sub{font-size:1rem;color:var(--dimmer);font-weight:400}
-.mob-close{position:absolute;top:24px;right:28px;font-size:2rem;background:none;border:none;color:var(--dimmer);cursor:pointer;transition:color .3s;font-family:var(--f-disp)}
-.mob-close:hover{color:var(--ivory)}
+.mob-brand{font-family:var(--f-disp);font-weight:800;font-size:1.1rem;letter-spacing:-.02em;margin-bottom:18px;background:linear-gradient(135deg,var(--ivory) 30%,var(--v3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mob-brand span{background:linear-gradient(135deg,var(--v2),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mob-section-label{font-family:var(--f-mono);font-size:.48rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(139,92,246,.45);padding:4px 0 6px;width:100%}
+.mob-menu a{font-family:var(--f-disp);font-weight:600;font-size:1rem;color:var(--ivory);text-decoration:none;transition:color .25s,padding-left .2s;width:100%;padding:9px 0 9px 6px;border-bottom:1px solid rgba(139,92,246,.07);display:flex;align-items:center;gap:8px}
+.mob-menu a:hover{color:var(--v3);padding-left:14px}
+.mob-menu .mob-sep{width:100%;height:1px;background:rgba(139,92,246,.12);margin:8px 0}
+.mob-menu .mob-sub{font-size:.88rem;color:var(--dimmer);font-weight:500}
+.mob-ctas{display:flex;flex-direction:column;gap:8px;width:100%;margin-top:6px}
+.mob-close{position:absolute;top:16px;right:16px;width:32px;height:32px;font-size:1rem;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);color:var(--dimmer);cursor:pointer;transition:all .2s;font-family:var(--f-disp);display:flex;align-items:center;justify-content:center;border-radius:2px}
+.mob-close:hover{color:var(--ivory);background:rgba(139,92,246,.2)}
 
 /* ══════════════════════════════
    MODAL (Sign in / Register)
@@ -655,7 +661,12 @@ img{loading:lazy}
 ══════════════════════════════ */
 @media(max-width:1200px){
   .nav-links-primary{gap:0}
-  .nav-links-primary a,.nav-more-btn{padding:7px 10px;font-size:.58rem}
+  .nav-links-primary a,.nav-more-btn{padding:7px 9px;font-size:.57rem}
+}
+/* At 960px, hide AI&Dev and News to save space */
+@media(max-width:960px){
+  .nav-links-primary a,.nav-more-btn{padding:6px 7px;font-size:.55rem}
+  .nav-hide-md{display:none}
 }
 @media(max-width:1100px){
   .bento{grid-template-columns:1fr 1fr}
@@ -675,8 +686,11 @@ img{loading:lazy}
 }
 @media(max-width:768px){
   .wrap{padding:0 24px}
-  .nav-primary{padding:14px 20px!important}
-  .nav-links-primary,.nav-more-btn,.nav-actions .btn-ghost-sm,.nav-actions .btn-fill-sm{display:none}
+  .nav-primary{padding:14px 20px!important;flex-wrap:nowrap}
+  .nav-links-primary,.nav-more-btn{display:none}
+  .nav-actions .btn-ghost-sm{display:none}
+  .nav-actions .btn-fill-sm{display:block;font-size:.52rem;padding:6px 12px}
+  .nav-actions{gap:6px}
   .nav-mob-toggle{display:flex}
   #hero{padding:110px 24px 70px}
   .products{grid-template-columns:1fr}
@@ -710,26 +724,37 @@ img{loading:lazy}
   <div class="orb orb-c"></div>
 </div>
 
-<!-- Mobile Menu -->
+<!-- Mobile Menu Backdrop -->
+<div class="mob-backdrop" id="mobBackdrop" onclick="closeMob()"></div>
+
+<!-- Mobile Menu Sidebar -->
 <div class="mob-menu" id="mobMenu">
   <button class="mob-close" id="mobClose">✕</button>
-  <a href="#features" onclick="closeMob()">Explore</a>
-  <a href="store.html" onclick="closeMob()">Store</a>
-  <a href="gallery.html" onclick="closeMob()">Gallery</a>
+  <div class="mob-brand">Exora<span>World</span></div>
+  <div class="mob-section-label">Main</div>
+  <a href="#features" onclick="closeMob()">🔭 Explore</a>
+  <a href="store.html" onclick="closeMob()">🛒 Store</a>
+  <a href="gallery.html" onclick="closeMob()">🖼 Gallery</a>
   <a href="games.html" onclick="closeMob()">🎮 Games</a>
-  <a href="ai.html" onclick="closeMob()">AI & Dev</a>
-  <a href="news.html" onclick="closeMob()">News</a>
+  <a href="ai.html" onclick="closeMob()">🤖 AI & Dev</a>
+  <a href="news.html" onclick="closeMob()">📰 News</a>
   <div class="mob-sep"></div>
-  <a href="services.html" class="mob-sub" onclick="closeMob()">Services</a>
-  <a href="courses.html" class="mob-sub" onclick="closeMob()">Courses</a>
-  <a href="vlog.html" class="mob-sub" onclick="closeMob()">Vlog</a>
-  <a href="stories.html" class="mob-sub" onclick="closeMob()">Stories</a>
-  <a href="songs.html" class="mob-sub" onclick="closeMob()">Songs</a>
-  <a href="anime.html" class="mob-sub" onclick="closeMob()">Anime</a>
-  <a href="help.html" class="mob-sub" onclick="closeMob()">Help</a>
+  <div class="mob-section-label">More</div>
+  <a href="services.html" class="mob-sub" onclick="closeMob()">⚡ Services</a>
+  <a href="courses.html" class="mob-sub" onclick="closeMob()">📚 Courses</a>
+  <a href="vlog.html" class="mob-sub" onclick="closeMob()">🎬 Vlog</a>
+  <a href="stories.html" class="mob-sub" onclick="closeMob()">📖 Stories</a>
+  <a href="songs.html" class="mob-sub" onclick="closeMob()">🎵 Songs</a>
+  <a href="anime.html" class="mob-sub" onclick="closeMob()">⛩️ Anime</a>
+  <a href="help.html" class="mob-sub" onclick="closeMob()">❓ Help Center</a>
   <div class="mob-sep"></div>
-  <a href="terms.html" class="mob-sub" onclick="closeMob()">Terms</a>
-  <a href="privacy.html" class="mob-sub" onclick="closeMob()">Privacy</a>
+  <a href="terms.html" class="mob-sub" onclick="closeMob()">📄 Terms</a>
+  <a href="privacy.html" class="mob-sub" onclick="closeMob()">🔒 Privacy</a>
+  <div class="mob-sep"></div>
+  <div class="mob-ctas">
+    <button class="btn-ghost-sm" onclick="closeMob();openAuth('login')" style="width:100%;text-align:center;padding:10px">Sign In</button>
+    <button class="btn-fill-sm" onclick="closeMob();openAuth('register')" style="width:100%;text-align:center;padding:10px;clip-path:none">Get Started</button>
+  </div>
 </div>
 
 <!-- Auth Modal -->
@@ -876,9 +901,10 @@ img{loading:lazy}
 <nav id="nav">
   <!-- Primary Row -->
   <div class="nav-primary">
+    <div class="nav-mob-toggle" id="mobToggle"><span></span><span></span><span></span></div>
     <a href="index.html" class="nav-logo">Exora<span>World</span></a>
 
-    <ul class="nav-links-primary" style="list-style:none;display:flex;gap:2px;align-items:center;margin-right:16px">
+    <ul class="nav-links-primary" style="list-style:none">
       <li><a href="#features">Explore</a></li>
       <li class="nav-has-drop">
         <a href="store.html">Store</a>
@@ -905,7 +931,6 @@ img{loading:lazy}
     <div class="nav-actions">
       <button class="btn-ghost-sm" onclick="openAuth('login')">Sign In</button>
       <button class="btn-fill-sm" onclick="openAuth('register')">Get Started</button>
-      <div class="nav-mob-toggle" id="mobToggle"><span></span><span></span><span></span></div>
     </div>
   </div>
 
@@ -1732,9 +1757,10 @@ document.querySelectorAll('.nav-more-inner a').forEach(a=>{
 });
 
 // ── MOBILE NAV
-document.getElementById('mobToggle').onclick=()=>document.getElementById('mobMenu').classList.add('open');
-document.getElementById('mobClose').onclick=()=>document.getElementById('mobMenu').classList.remove('open');
-function closeMob(){document.getElementById('mobMenu').classList.remove('open')}
+function openMob(){document.getElementById('mobMenu').classList.add('open');document.getElementById('mobBackdrop').classList.add('show');document.body.style.overflow='hidden'}
+document.getElementById('mobToggle').onclick=openMob;
+document.getElementById('mobClose').onclick=()=>closeMob();
+function closeMob(){document.getElementById('mobMenu').classList.remove('open');document.getElementById('mobBackdrop').classList.remove('show');document.body.style.overflow=''}
 
 // ── CLOCK
 function tick(){
