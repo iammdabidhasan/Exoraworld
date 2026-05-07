@@ -8,7 +8,7 @@
 <meta name="google-adsense-account" content="ca-pub-XXXXXXXXXXXXXXXX">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Bricolage+Grotesque:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Bricolage+Grotesque:wght@200;300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:     #05040a;
@@ -415,11 +415,11 @@ nav.scrolled .nav-primary{padding:12px 40px}
 .ai-status-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 .ai-msgs{height:240px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:rgba(139,92,246,.2) transparent}
-.msg{max-width:80%;font-family:var(--f-serif);font-size:.88rem;padding:10px 14px;line-height:1.5}
-.msg.bot{align-self:flex-start;background:rgba(109,40,217,.12);border:1px solid rgba(109,40,217,.2);color:#e9d5ff;border-radius:0 8px 8px 8px;font-style:italic}
-.msg.user{align-self:flex-end;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--ivory);border-radius:8px 0 8px 8px}
+.msg{max-width:80%;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:400;padding:10px 14px;line-height:1.55;letter-spacing:.01em;white-space:pre-wrap}
+.msg.bot{align-self:flex-start;background:rgba(109,40,217,.1);border:1px solid rgba(109,40,217,.2);color:rgba(220,210,255,.92);border-radius:2px 10px 10px 10px;font-style:normal}
+.msg.user{align-self:flex-end;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff;font-weight:500;border-radius:10px 2px 10px 10px;font-style:normal}
 .ai-input-row{display:flex;gap:0;border-top:1px solid var(--border)}
-.ai-input{flex:1;background:rgba(0,0,0,.3);border:none;color:var(--ivory);font-family:var(--f-serif);font-size:.88rem;padding:14px 16px;outline:none;font-style:italic}
+.ai-input{flex:1;background:rgba(0,0,0,.3);border:none;color:var(--ivory);font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:400;font-style:normal;padding:14px 16px;outline:none;letter-spacing:.01em}
 .ai-input::placeholder{color:rgba(196,181,253,.2)}
 .ai-send{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:14px 18px;background:var(--v2);color:#fff;border:none;cursor:pointer;transition:background .3s;flex-shrink:0}
 .ai-send:hover{background:var(--v3)}
@@ -557,13 +557,13 @@ nav.scrolled .nav-primary{padding:12px 40px}
 .exo-bubble-status{display:flex;align-items:center;gap:5px;font-family:var(--f-mono);font-size:.45rem;color:rgba(16,185,129,.6)}
 .exo-status-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:status-pulse 2s infinite}
 @keyframes status-pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.exo-msgs{height:180px;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;scrollbar-color:rgba(139,92,246,.2) transparent}
-.exo-msg{font-family:var(--f-serif);font-size:.82rem;color:var(--dim);line-height:1.5;font-style:italic;padding:8px 10px;background:rgba(139,92,246,.05);border-left:2px solid rgba(139,92,246,.3);border-radius:0 4px 4px 0;max-width:90%;animation:fade-up .3s ease}
-.exo-msg.user-msg{align-self:flex-end;background:rgba(255,255,255,.04);border-left:none;border-right:2px solid rgba(255,255,255,.15);text-align:right;color:rgba(250,248,242,.7);font-style:normal}
+.exo-msgs{height:200px;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;scrollbar-color:rgba(139,92,246,.2) transparent}
+.exo-msg{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:400;font-style:normal;color:rgba(220,210,255,.9);line-height:1.55;padding:9px 12px;background:rgba(109,40,217,.08);border:1px solid rgba(139,92,246,.18);border-radius:2px 10px 10px 10px;max-width:92%;animation:fade-up .25s ease;letter-spacing:.01em;white-space:pre-wrap}
+.exo-msg.user-msg{align-self:flex-end;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px 2px 10px 10px;text-align:left;color:rgba(255,255,255,.88);font-weight:500}
 .exo-input-row{display:flex;border-top:1px solid rgba(139,92,246,.15)}
-.exo-text-input{flex:1;background:rgba(0,0,0,.4);border:none;color:var(--ivory);font-family:var(--f-serif);font-size:.8rem;padding:10px 12px;outline:none;font-style:italic}
-.exo-text-input::placeholder{color:rgba(196,181,253,.2)}
-.exo-send-btn{font-family:var(--f-mono);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:10px 12px;background:var(--v1);color:#fff;border:none;cursor:pointer;transition:background .3s;flex-shrink:0}
+.exo-text-input{flex:1;background:rgba(0,0,0,.35);border:none;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:400;font-style:normal;padding:11px 12px;outline:none;letter-spacing:.01em}
+.exo-text-input::placeholder{color:rgba(196,181,253,.25);font-style:normal}
+.exo-send-btn{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:10px 13px;background:var(--v1);color:#fff;border:none;cursor:pointer;transition:background .3s;flex-shrink:0}
 .exo-send-btn:hover{background:var(--v2)}
 .exo-trigger{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--v1),var(--pink));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 24px rgba(109,40,217,.5);animation:exo-float 3.5s ease-in-out infinite;transition:transform .2s;position:relative}
 .exo-trigger:hover{transform:scale(1.1)!important}
@@ -652,7 +652,11 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
 .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s ease,transform .8s ease}
 .reveal.vis{opacity:1;transform:none}
 .rv1{transition-delay:.08s}.rv2{transition-delay:.16s}.rv3{transition-delay:.24s}.rv4{transition-delay:.32s}.rv5{transition-delay:.40s}
-.orb,.hero-sphere,.exo-trigger{will-change:transform}
+.exo-upload-row{display:flex;align-items:center;gap:6px;padding:8px 10px;border-top:1px solid rgba(139,92,246,.12);background:rgba(139,92,246,.04);flex-wrap:wrap}
+.exo-upload-btn{font-family:var(--f-mono);font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.28);color:var(--v3);cursor:pointer;border-radius:2px;white-space:nowrap;transition:background .2s}
+.exo-upload-btn:hover{background:rgba(139,92,246,.22)}
+.exo-upload-name{font-family:var(--f-mono);font-size:.48rem;color:var(--dimmer);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.exo-pay-mode .exo-status-dot{background:#f59e0b!important;box-shadow:0 0 6px #f59e0b!important}
 .bento-card,.prod-card,.course-card,.tmpl-card,.ai-card,.svc-row{will-change:transform;contain:layout style}
 img{loading:lazy}
 
@@ -1666,16 +1670,23 @@ img{loading:lazy}
     <div class="exo-bubble-header">
       <span class="exo-bubble-title">🤖 Exo · AI Guide</span>
       <div style="display:flex;align-items:center;gap:10px">
-        <div class="exo-bubble-status"><div class="exo-status-dot"></div>Online</div>
+        <div class="exo-bubble-status" id="exoStatusLabel"><div class="exo-status-dot"></div>Online</div>
         <button class="eb-close" onclick="closeExo()" style="background:none;border:none;color:rgba(139,92,246,.4);cursor:pointer;font-size:.85rem;line-height:1;padding:0">✕</button>
       </div>
     </div>
     <div class="exo-msgs" id="exoChatMsgs">
       <div class="exo-msg">Hey! 👋 I'm Exo, your ExoraWorld guide. Ask me anything about the store, courses, services or payments!</div>
     </div>
-    <div class="exo-input-row">
+    <div class="exo-input-row" id="exoInputRow">
       <input class="exo-text-input" id="exoChatInput" placeholder="Ask Exo anything..." onkeydown="if(event.key==='Enter')sendExoChat()">
       <button class="exo-send-btn" onclick="sendExoChat()">Send →</button>
+    </div>
+    <!-- Upload row: shown only during payment proof step -->
+    <div class="exo-upload-row" id="exoUploadRow" style="display:none">
+      <label class="exo-upload-btn" for="exoScreenshot">📎 Attach Screenshot</label>
+      <input type="file" id="exoScreenshot" accept="image/*" style="display:none" onchange="handleExoScreenshot(this)">
+      <span class="exo-upload-name" id="exoUploadName">No file chosen</span>
+      <button class="exo-send-btn" onclick="submitExoPayment()">Submit ✓</button>
     </div>
   </div>
   <button class="exo-trigger" onclick="toggleExo()" style="position:relative">
@@ -1685,6 +1696,7 @@ img{loading:lazy}
 </div>
 
 <script>
+
 // ── CONFIG
 const CFG = {
   bkash:  '01715948039',
@@ -1696,7 +1708,14 @@ const CFG = {
   sol:    'AdYq6r68TbsRuygcvuHwq4hWjsfoytvdWewc1TdNSkyK',
   bnb:    '0x18554a980ff6445989de841a602f7cfdb897a275',
   formspree: 'https://formspree.io/f/maqaprqk',
+  // ── TELEGRAM NOTIFICATIONS (optional but recommended!)
+  // Step 1: Message @BotFather on Telegram → /newbot → copy the token below
+  // Step 2: Message @userinfobot on Telegram → copy your Chat ID below
+  // Once filled, you'll get instant Telegram messages + screenshots for every order!
+  telegramBot:  '', // e.g. '7123456789:AAFxxxxxxxxxxxxxxxxxxxxxxxx'
+  telegramChat: '', // e.g. '123456789'
 };
+
 
 // ── CURSOR
 const cur=document.getElementById('cur'),trail=document.getElementById('cur-trail');
@@ -1932,95 +1951,611 @@ document.getElementById('helpForm').addEventListener('submit',async function(e){
   btn.disabled=false;btn.textContent='Send Message →';
 });
 
-// ── EXO AI ENGINE
-const exoKnowledge={
-  greet:{keys:['hello','hi','hey','sup','yo','greetings','good morning','good evening','good afternoon','wassup','hiya'],replies:["Hey! 👋 Welcome to ExoraWorld. I'm Exo — Abid's AI guide. What can I help you with today?","Hello! 🌌 Good to see you here. Ask me anything about ExoraWorld — store, services, courses, payments, whatever you need.","Hi there! I'm Exo, ExoraWorld's AI. Feel free to ask me about our products, services, crypto payments or anything else!"]},
-  store:{keys:['store','buy','purchase','product','shop','digital','item','sell','selling','marketplace'],replies:["The ExoraWorld Store has digital goods from $5! 🛒 We have AI prompt packs, UI design kits, brand kits, Midjourney style packs and more. All priced in both USD and BDT. Want me to point you to something specific?","You can find everything from AI prompt packs ($17) to full brand kits. Click 'Buy Now' on any product — we'll walk you through payment step by step. bKash, Nagad, Airtm and all major crypto accepted!","Our store has 6+ products live right now. Highlights: Ultimate Prompt Bible ($17), Dark UI Kit ($26), Midjourney Style Pack ($13). All delivered to your email within 1–3 hours. 🔥"]},
-  course:{keys:['course','learn','academy','tutorial','lesson','class','study','education','training','enroll','enrol'],replies:["We have 6 live courses! 📚 AI Art Mastery ($22), Prompt Engineering ($18), Dark UI Design ($28), Selling Digital Products ($25), Brand Identity ($34) and Web Dev for Creatives ($38). All practical, no fluff — Abid teaches exactly what works.","Courses range from $18 to $38 — or about ৳2,000–৳4,200 BDT. You can pay with bKash, Nagad or crypto. Once your payment is confirmed, course access is delivered to your email.","Looking to level up? Our most popular course is AI Art Mastery — it covers Midjourney, DALL·E and Stable Diffusion. The Dark UI Design course is also a fan favourite. Which sounds most interesting to you?"]},
-  payment:{keys:['pay','payment','bkash','nagad','airtm','money','how to pay','transaction','send money'],replies:["We accept bKash, Nagad, Airtm (international) and all major crypto: Bitcoin (BTC), Ethereum (ETH), USDT (TRC-20), Solana (SOL) and BNB (BSC)! 💳 Just click Buy Now on any product and follow the steps.","For local payments: bKash or Nagad — send to the number shown, enter your transaction ID and we'll deliver within 1–3 hours. For international: Airtm or crypto. Super easy either way!","bKash number: 01715948039 — but the easiest way is to click 'Buy Now' on any product, enter your name and email, then choose your payment method. Everything is guided step by step. 😊"]},
-  crypto:{keys:['crypto','bitcoin','btc','ethereum','eth','usdt','solana','sol','bnb','binance','blockchain','web3','wallet'],replies:["We accept 5 cryptocurrencies: Bitcoin (BTC), Ethereum (ETH), USDT on TRC-20, Solana (SOL) and BNB on BSC! ✦ Click Buy on any product → choose your crypto → send to our wallet address → paste your TX hash. Done!","Crypto payments: BTC: 134WpYQ2qKSQ9hdbgVYm7JZneRnBEuchPL | ETH/BNB/USDT: 0x18554a980ff6445989de841a602f7cfdb897a275 | SOL: AdYq6r68TbsRuygcvuHwq4hWjsfoytvdWewc1TdNSkyK","Love that you're paying with crypto! 🔐 We recommend USDT (TRC-20) for low fees and fast confirmation. Send the exact USD amount equivalent, then paste your TX hash in the form."]},
-  service:{keys:['service','design','branding','brand','logo','website','web dev','consultation','consult','hire','work','project','build'],replies:["Abid offers: Creative Design ($30), AI & Automation ($25), Web Development ($50), Private Consultation ($20/hr), Custom Digital Products (quote) and Social Media Kits ($18)! ⚡ Use the contact form or message on Facebook to get started.","Need something custom built? Describe your project to Abid via the Help Center contact form or Facebook Messenger — he responds fast and gives honest quotes.","Private consultation with Abid is $20/hr (৳2,200). You can book by sending a message on Facebook or via the contact form. 🔮"]},
-  games:{keys:['game','play','fun','snake','tetris','gravity','void runner','memory','free'],replies:["We have 5 FREE web games — Snake, Void Runner, Gravity Bird, Tetris and Memory Orbs! 🎮 No download, no signup — just head to games.html and play right now.","All games are free forever — that's part of the Explorer tier. Just click 'Games & Fun' in the nav or go to games.html. Community live chat is available too!"]},
-  plans:{keys:['plan','subscription','member','membership','price','tier','voyager','pioneer','explorer','subscribe'],replies:["ExoraWorld has 3 tiers: Explorer (Free forever) · Voyager ($9/mo, ≈৳990) · Pioneer ($22/mo, ≈৳2,400). 🌌 Pioneer gets unlimited course access, private 1-on-1 consults, custom AI requests and 20% off everything!","The free Explorer tier gets you all 5 games, public chat and store browsing. Upgrade to Voyager for course downloads and priority support. Go Pioneer for the full unlimited experience."]},
-  about:{keys:['who','abid','founder','creator','about','bangladesh','story','background','exoraworld','built','made'],replies:["Abid is the founder of ExoraWorld — a creator, designer and builder from Bangladesh 🇧🇩 who genuinely loves making things that feel like an adventure.","MD Abid Hasan — designer, AI enthusiast, web developer and the mind behind ExoraWorld. Born and based in Bangladesh, building for the whole world."]},
-  contact:{keys:['contact','reach','email','message','support','help','talk','facebook','messenger','discord','social'],replies:["You can reach Abid at theexoraworld@gmail.com or on Facebook at facebook.com/exoraworld! 💬 Discord: discord.gg/f84dEvu2q","Social channels: Facebook · Instagram (@theexoraworld) · X/Twitter (@Exoraworld) · YouTube (@ExoraWorld) · Discord (discord.gg/f84dEvu2q). Email: theexoraworld@gmail.com. 📬"]},
-  legal:{keys:['terms','privacy','policy','legal','gdpr','rights','data','refund policy'],replies:["You can read our Terms of Service at terms.html and our Privacy Policy at privacy.html. Two separate pages — fully readable by any visitor. 📄 If you have specific questions about a policy, contact Abid directly at theexoraworld@gmail.com.","Our Terms of Service and Privacy Policy are available on separate pages — check the footer links or the More menu in the navigation. 🔒"]},
-  gallery:{keys:['gallery','photo','picture','image','work','portfolio','show','showcase'],replies:["The Gallery at gallery.html showcases Abid's creative work — brand identities, AI art, UI designs and more. Check it out! 🎨"]},
-  video:{keys:['video','youtube','watch','stream','vlog','content','channel'],replies:["ExoraWorld has a YouTube channel — @ExoraWorld! 🎬 Subscribe for behind-the-scenes builds, AI tutorials, design breakdowns and Abid's personal story. New videos dropping regularly."]},
-  delivery:{keys:['deliver','delivery','how long','receive','get','when','wait','time','fast'],replies:["Digital products are delivered to your email within 1–3 hours after payment verification — often much faster! ⚡ Make sure to enter a valid email when buying."]},
-  refund:{keys:['refund','return','money back','cancel','dispute','issue','problem'],replies:["We stand behind every product! If you have an issue, reach out within 7 days and Abid will make it right. Contact via theexoraworld@gmail.com or Facebook Messenger. 🤝"]},
-  default:{replies:["Hmm, I'm not sure about that one — but Abid is! Message him at theexoraworld@gmail.com or on Facebook (facebook.com/exoraworld). 😊","I didn't quite catch that — could you rephrase? Ask me about the store, courses, services, payments, crypto, games, Terms/Privacy or anything on ExoraWorld. I know this place well! 🌌","That's a bit outside what I know — try the Help Center contact form at the bottom of the page where Abid can answer anything personally."]}
+// ══════════════════════════════════════════════════════════════
+// EXO AI ENGINE v4.0 — Smart · Conversational Checkout · Screenshot Proof
+// ══════════════════════════════════════════════════════════════
+
+// ── SITE MAP
+const EXO_SITEMAP = {
+  home:        { url:'index.html',    label:'Home',           keys:['home','main','start','index','front'] },
+  store:       { url:'store.html',    label:'Store',          keys:['store','shop','buy','purchase','product','item','marketplace'] },
+  gallery:     { url:'gallery.html',  label:'Gallery',        keys:['gallery','portfolio','art','artwork','showcase','photo'] },
+  games:       { url:'games.html',    label:'Games',          keys:['game','play','gaming','fun','snake','tetris','void runner','gravity','memory','arcade'] },
+  ai:          { url:'ai.html',       label:'AI & Dev',       keys:['ai','artificial intelligence','dev','developer','tools','automation'] },
+  news:        { url:'news.html',     label:'News',           keys:['news','blog','update','latest','announcement'] },
+  services:    { url:'services.html', label:'Services',       keys:['service','hire','commission','freelance','work with','design service'] },
+  courses:     { url:'courses.html',  label:'Courses',        keys:['course','learn','academy','class','tutorial','lesson','education','enroll'] },
+  vlog:        { url:'vlog.html',     label:'Vlog',           keys:['vlog','video','youtube','watch','behind the scenes'] },
+  stories:     { url:'stories.html',  label:'Short Stories',  keys:['story','stories','short story','fiction','read'] },
+  songs:       { url:'songs.html',    label:'Songs',          keys:['song','music','track','listen','audio'] },
+  anime:       { url:'anime.html',    label:'Anime',          keys:['anime','animation','manga','otaku','japanese'] },
+  help:        { url:'help.html',     label:'Help Center',    keys:['help','support','contact','faq','question','assist'] },
+  terms:       { url:'terms.html',    label:'Terms',          keys:['terms','tos','legal'] },
+  privacy:     { url:'privacy.html',  label:'Privacy Policy', keys:['privacy','gdpr','data policy'] },
+  features:    { url:'#features',     label:'Features',       keys:['feature','overview','what is','inside'] },
+  about:       { url:'#about',        label:'About Abid',     keys:['about','abid','founder','creator','who made'] },
+  plans_sec:   { url:'#plans',        label:'Plans & Pricing',keys:['plan','pricing','tier','subscription','voyager','pioneer','explorer','how much'] },
 };
 
-function exoReply(text){
-  const t=text.toLowerCase();
-  for(const[,group]of Object.entries(exoKnowledge)){
-    if(!group.keys)continue;
-    if(group.keys.some(k=>t.includes(k))){
-      const r=group.replies;
-      return r[Math.floor(Math.random()*r.length)];
+// ── PRODUCT CATALOGUE (for AI-initiated purchases)
+const EXO_PRODUCTS = [
+  {id:'prompt-bible',   name:'Ultimate Prompt Bible',         price:'$17',  priceLocal:'৳1,900', icon:'🧠'},
+  {id:'ui-kit',         name:'Dark UI Component Kit',         price:'$26',  priceLocal:'৳2,900', icon:'✦'},
+  {id:'mj-pack',        name:'Midjourney Style Pack',         price:'$13',  priceLocal:'৳1,500', icon:'⚡'},
+  {id:'brand-kit',      name:'Creator Brand Starter',         price:'$32',  priceLocal:'৳3,500', icon:'🔥'},
+  {id:'lut-bundle',     name:'Cinematic LUT Bundle',          price:'$11',  priceLocal:'৳1,200', icon:'🎞️'},
+  {id:'everything',     name:'Everything Pack',               price:'$72',  priceLocal:'৳7,900', icon:'📦'},
+  {id:'course-ai-art',  name:'AI Art Mastery Course',         price:'$22',  priceLocal:'৳2,500', icon:'🎨'},
+  {id:'course-prompt',  name:'Prompt Engineering Course',     price:'$18',  priceLocal:'৳2,000', icon:'⚡'},
+  {id:'course-ui',      name:'Dark UI Design Course',         price:'$28',  priceLocal:'৳3,200', icon:'🖥️'},
+  {id:'course-sell',    name:'Selling Digital Products',      price:'$25',  priceLocal:'৳2,800', icon:'💰'},
+  {id:'course-brand',   name:'Brand Identity Design',         price:'$34',  priceLocal:'৳3,800', icon:'✦'},
+  {id:'course-web',     name:'Web Dev for Creatives',         price:'$38',  priceLocal:'৳4,200', icon:'🌐'},
+  {id:'ai-prompts',     name:'Custom Prompt Pack',            price:'$15',  priceLocal:'৳1,650', icon:'📝'},
+  {id:'ai-chatbot',     name:'AI Chatbot Integration',        price:'$80',  priceLocal:'৳8,800', icon:'🤖'},
+  {id:'ai-code',        name:'Custom Code & Automation',      price:'$40',  priceLocal:'৳4,400', icon:'💻'},
+  {id:'ai-consult',     name:'Private AI Consultation (1hr)', price:'$20',  priceLocal:'৳2,200', icon:'🔮'},
+  {id:'svc-design',     name:'Creative Design Service',       price:'$30',  priceLocal:'৳3,300', icon:'🎨'},
+  {id:'svc-web',        name:'Web Development Service',       price:'$50',  priceLocal:'৳5,500', icon:'🌐'},
+  {id:'svc-brand',      name:'Branding Service',              price:'$45',  priceLocal:'৳4,950', icon:'✦'},
+];
+
+// ── PAYMENT METHODS CONFIG
+const EXO_PAY_METHODS = [
+  { id:'bkash',   label:'bKash 🟣',   info:'Send to: '+CFG.bkash,        local:true  },
+  { id:'nagad',   label:'Nagad 🟠',   info:'Send to: '+CFG.nagad,        local:true  },
+  { id:'airtm',   label:'Airtm 🌍',   info:'Send to: '+CFG.airtm,        local:false },
+  { id:'usdt',    label:'USDT 💲',    info:'TRC-20: '+CFG.usdt,          local:false },
+  { id:'btc',     label:'Bitcoin ₿',  info:'BTC: '+CFG.btc,              local:false },
+  { id:'eth',     label:'ETH Ξ',      info:'ERC-20: '+CFG.eth,           local:false },
+  { id:'sol',     label:'Solana ◎',   info:'SOL: '+CFG.sol,              local:false },
+  { id:'bnb',     label:'BNB ⬡',      info:'BSC: '+CFG.bnb,              local:false },
+];
+
+// ── CHECKOUT STATE MACHINE
+const EXO_PAY = {
+  active: false,
+  step: null, // 'product'|'name'|'phone'|'email'|'method'|'waiting'|'proof'|'done'
+  product: null,
+  name: null,
+  phone: null,
+  email: null,
+  method: null,
+  screenshotB64: null,
+  screenshotName: null,
+  orderId: null,
+};
+
+// Steps in order
+const PAY_STEPS = ['product','name','phone','email','method','waiting','proof','done'];
+
+function exoPayReset() {
+  Object.assign(EXO_PAY, {active:false,step:null,product:null,name:null,phone:null,email:null,method:null,screenshotB64:null,screenshotName:null,orderId:null});
+  // Restore normal input
+  const inputRow = document.getElementById('exoInputRow');
+  const uploadRow = document.getElementById('exoUploadRow');
+  if(inputRow) inputRow.style.display = 'flex';
+  if(uploadRow) uploadRow.style.display = 'none';
+  document.getElementById('exoChatInput').placeholder = 'Ask Exo anything...';
+  document.getElementById('exoStatusLabel').innerHTML = '<div class="exo-status-dot"></div>Online';
+  document.getElementById('exoBubble').classList.remove('exo-pay-mode');
+}
+
+function exoPayStart(product) {
+  EXO_PAY.active = true;
+  EXO_PAY.product = product;
+  EXO_PAY.orderId = 'EW-' + Date.now().toString(36).toUpperCase();
+  EXO_PAY.step = 'name';
+  document.getElementById('exoBubble').classList.add('exo-pay-mode');
+  document.getElementById('exoStatusLabel').innerHTML = '<div class="exo-status-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b"></div>Checkout';
+}
+
+function exoPayHandleInput(text) {
+  const t = text.trim();
+  const msgs = document.getElementById('exoChatMsgs');
+
+  // Allow escape at any point
+  if (/^(cancel|stop|exit|quit|nevermind|never mind|abort)/i.test(t)) {
+    exoPayReset();
+    return exoBotMsg(msgs, "No problem! Checkout cancelled. 😊 Let me know if you want to try again or need help with anything else.");
+  }
+
+  switch(EXO_PAY.step) {
+
+    case 'name':
+      if(t.length < 2) return exoBotMsg(msgs, "Please enter your full name so I know who to address the order to 😊");
+      EXO_PAY.name = t;
+      EXO_PAY.step = 'phone';
+      return exoBotMsg(msgs, `Nice to meet you, ${EXO_PAY.name}! 👋\n\nWhat's your phone number? (so Abid can reach you if needed)`);
+
+    case 'phone':
+      if(t.length < 6) return exoBotMsg(msgs, "Please enter a valid phone number.");
+      EXO_PAY.phone = t;
+      EXO_PAY.step = 'email';
+      return exoBotMsg(msgs, `Got it! 📱\n\nNow, what's your email address? Your product will be delivered here after payment is verified.`);
+
+    case 'email':
+      if(!/\S+@\S+\.\S+/.test(t)) return exoBotMsg(msgs, "Hmm, that doesn't look like a valid email. Please try again — this is where your product gets sent! 📧");
+      EXO_PAY.email = t;
+      EXO_PAY.step = 'method';
+      // Show payment method chips
+      setTimeout(() => {
+        exoBotMsg(msgs, `Perfect! ✅\n\nHere's your order summary:\n\n${EXO_PAY.product.icon} ${EXO_PAY.product.name}\n💰 ${EXO_PAY.product.price} · ${EXO_PAY.product.priceLocal}\n📧 ${EXO_PAY.email}\n\nNow choose your payment method:`);
+        setTimeout(() => showPayMethodChips(msgs), 400);
+      }, 200);
+      return;
+
+    case 'method':
+      // handled via chip buttons, but also accept typed
+      const matchedMethod = EXO_PAY_METHODS.find(m => t.toLowerCase().includes(m.id) || t.toLowerCase().includes(m.label.toLowerCase().split(' ')[0].toLowerCase()));
+      if(!matchedMethod) return exoBotMsg(msgs, "Please select a payment method from the options above, or type the name (e.g. 'bkash', 'usdt', 'bitcoin').");
+      selectPayMethod(matchedMethod, msgs);
+      return;
+
+    case 'waiting':
+      // They typed a transaction ID manually instead of uploading
+      const txnPattern = /^[a-zA-Z0-9]{6,}/;
+      if(txnPattern.test(t)) {
+        EXO_PAY.txnId = t;
+        EXO_PAY.step = 'proof';
+        document.getElementById('exoInputRow').style.display = 'none';
+        document.getElementById('exoUploadRow').style.display = 'flex';
+        return exoBotMsg(msgs, `Got transaction ID: ${t} ✅\n\nNow please attach your payment screenshot as proof. Click "📎 Attach Screenshot" below, then hit Submit ✓`);
+      }
+      return exoBotMsg(msgs, "Please enter your transaction ID or hash, or upload a screenshot using the button below 📎");
+
+    default:
+      return;
+  }
+}
+
+function showPayMethodChips(msgs) {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:5px;padding:4px 0 6px';
+  EXO_PAY_METHODS.forEach(m => {
+    const btn = document.createElement('button');
+    btn.textContent = m.label;
+    btn.style.cssText = 'font-family:var(--f-mono);font-size:.48rem;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.25);color:var(--v3);cursor:pointer;border-radius:2px;transition:all .2s';
+    btn.onmouseenter = () => btn.style.background = 'rgba(139,92,246,.22)';
+    btn.onmouseleave = () => btn.style.background = 'rgba(139,92,246,.1)';
+    btn.onclick = () => { wrap.remove(); selectPayMethod(m, msgs); };
+    wrap.appendChild(btn);
+  });
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function selectPayMethod(method, msgs) {
+  EXO_PAY.method = method;
+  EXO_PAY.step = 'waiting';
+  // Show upload row
+  document.getElementById('exoInputRow').style.display = 'flex';
+  document.getElementById('exoChatInput').placeholder = 'Enter TX ID / hash...';
+  document.getElementById('exoUploadRow').style.display = 'flex';
+
+  const info = method.info;
+  const msg = `Great choice! ${method.label} selected. 💳\n\n📋 Payment details:\n${info}\n\nAmount: ${EXO_PAY.product.price} · ${EXO_PAY.product.priceLocal}\n\n✅ After paying:\n• Enter your Transaction ID in the box below, OR\n• Upload a screenshot using 📎 Attach Screenshot\n\nType "cancel" anytime to stop.`;
+  exoBotMsg(msgs, msg);
+}
+
+function handleExoScreenshot(input) {
+  const file = input.files[0];
+  if(!file) return;
+  EXO_PAY.screenshotName = file.name;
+  document.getElementById('exoUploadName').textContent = file.name;
+  const reader = new FileReader();
+  reader.onload = e => {
+    EXO_PAY.screenshotB64 = e.target.result; // full data URL
+    const msgs = document.getElementById('exoChatMsgs');
+    const preview = document.createElement('div');
+    preview.style.cssText = 'margin:4px 0;max-width:180px;border-radius:4px;overflow:hidden;border:1px solid rgba(139,92,246,.3)';
+    const img = document.createElement('img');
+    img.src = e.target.result;
+    img.style.cssText = 'width:100%;display:block';
+    preview.appendChild(img);
+    msgs.appendChild(preview);
+    msgs.scrollTop = msgs.scrollHeight;
+    exoBotMsg(msgs, "Screenshot attached! ✅ Looking good. Hit **Submit ✓** to send your order to Abid for verification!");
+  };
+  reader.readAsDataURL(file);
+}
+
+async function submitExoPayment() {
+  const msgs = document.getElementById('exoChatMsgs');
+  const txnInput = document.getElementById('exoChatInput').value.trim();
+
+  // Need at least txn id OR screenshot
+  if(!EXO_PAY.screenshotB64 && !txnInput && !EXO_PAY.txnId) {
+    return exoBotMsg(msgs, "Please attach a screenshot or enter your transaction ID first! 📎");
+  }
+  if(txnInput) EXO_PAY.txnId = txnInput;
+
+  EXO_PAY.step = 'done';
+  document.getElementById('exoUploadRow').style.display = 'none';
+  document.getElementById('exoInputRow').style.display = 'none';
+  exoBotMsg(msgs, "⏳ Sending your order to Abid... hold tight!");
+
+  const payload = {
+    _subject: `🛒 [${EXO_PAY.orderId}] NEW ORDER via Exo — ${EXO_PAY.product.name}`,
+    order_id:    EXO_PAY.orderId,
+    product:     EXO_PAY.product.name,
+    price:       EXO_PAY.product.price + ' · ' + EXO_PAY.product.priceLocal,
+    buyer_name:  EXO_PAY.name,
+    buyer_email: EXO_PAY.email,
+    buyer_phone: EXO_PAY.phone,
+    method:      EXO_PAY.method ? EXO_PAY.method.label : 'Unknown',
+    txn_id:      EXO_PAY.txnId || '(not provided)',
+    screenshot:  EXO_PAY.screenshotB64 ? '[Screenshot attached — see base64 below]\n' + EXO_PAY.screenshotB64.substring(0,200)+'...' : 'None',
+    time:        new Date().toLocaleString('en-BD',{timeZone:'Asia/Dhaka'}),
+    source:      'Exo AI Checkout Widget'
+  };
+
+  let success = false;
+  try {
+    const res = await fetch(CFG.formspree, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(res.ok) success = true;
+  } catch(e) {}
+
+  // Also try Telegram if bot token is set
+  if(CFG.telegramBot && CFG.telegramChat) {
+    try {
+      const tgText = `🛒 *NEW ORDER — Exo AI*\n\n` +
+        `📦 *Product:* ${EXO_PAY.product.name}\n` +
+        `💰 *Price:* ${EXO_PAY.product.price}\n` +
+        `👤 *Buyer:* ${EXO_PAY.name}\n` +
+        `📧 *Email:* ${EXO_PAY.email}\n` +
+        `📱 *Phone:* ${EXO_PAY.phone}\n` +
+        `💳 *Method:* ${EXO_PAY.method?.label}\n` +
+        `🔑 *TX ID:* ${EXO_PAY.txnId||'N/A'}\n` +
+        `🆔 *Order ID:* ${EXO_PAY.orderId}\n` +
+        `🕐 *Time:* ${new Date().toLocaleString('en-BD',{timeZone:'Asia/Dhaka'})}`;
+      await fetch(`https://api.telegram.org/bot${CFG.telegramBot}/sendMessage`, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({chat_id: CFG.telegramChat, text: tgText, parse_mode:'Markdown'})
+      });
+      // Send screenshot as separate image if available
+      if(EXO_PAY.screenshotB64 && CFG.telegramChat) {
+        const blob = await (await fetch(EXO_PAY.screenshotB64)).blob();
+        const fd = new FormData();
+        fd.append('chat_id', CFG.telegramChat);
+        fd.append('caption', `📸 Payment screenshot for Order ${EXO_PAY.orderId}`);
+        fd.append('photo', blob, EXO_PAY.screenshotName || 'proof.jpg');
+        await fetch(`https://api.telegram.org/bot${CFG.telegramBot}/sendPhoto`, {method:'POST', body:fd});
+      }
+      success = true;
+    } catch(e) {}
+  }
+
+  // Restore input
+  document.getElementById('exoInputRow').style.display = 'flex';
+  document.getElementById('exoChatInput').value = '';
+  document.getElementById('exoChatInput').placeholder = 'Ask Exo anything...';
+
+  if(success) {
+    exoBotMsg(msgs, `✅ *Order sent successfully!*\n\n🆔 Order ID: ${EXO_PAY.orderId}\n\nAbid will verify your payment and send *${EXO_PAY.product.name}* to ${EXO_PAY.email} within 1–3 hours ⚡\n\nThank you, ${EXO_PAY.name}! 🎉`);
+  } else {
+    exoBotMsg(msgs, `⚠️ Network hiccup! Your info was saved.\n\n📧 Please email Abid directly:\ntheexoraworld@gmail.com\n\nWith your Order ID: *${EXO_PAY.orderId}*`);
+  }
+  setTimeout(() => { exoPayReset(); document.getElementById('exoStatusLabel').innerHTML = '<div class="exo-status-dot"></div>Online'; }, 1000);
+}
+
+// ── KNOWLEDGE BASE
+const EXO_KB = {
+  greet: {
+    keys:['hello','hi','hey','sup','yo','greetings','good morning','good evening','good afternoon','wassup','hiya','howdy','whats up',"what's up"],
+    replies:["Hey! 👋 I'm Exo — ExoraWorld's AI guide. I can answer questions, navigate you anywhere on the site, or even help you purchase something directly through chat. What do you need?","Hello! 🌌 Welcome to ExoraWorld. Ask me anything — store, courses, services, payments — or just say 'buy [product name]' and I'll walk you through checkout right here!","Hi there! 🤖 I'm Exo. Try asking me 'what can I buy?' or 'take me to games' or just say 'I want to buy a course'!"]
+  },
+  thanks: { keys:['thank','thanks','thx','ty','appreciate','helpful','great','awesome','cool','nice','perfect'], replies:["Happy to help! 😊 Anything else?","Anytime! That's what I'm here for. 🌌","Glad I could help! Let me know if you need anything else. ✦"] },
+  farewell: { keys:['bye','goodbye','see you','later','cya','take care','peace','gotta go'], replies:["See you around! 🌌 ExoraWorld is always here.","Take care! Come back anytime — Exo is always online. ✦","Bye! 👋 Hope to see you again soon."] },
+  buy_intent: {
+    keys:['buy','purchase','order','get','want to pay','checkout','i want','i need','can i get','how to buy','how do i buy','i\'d like'],
+    replies:['__BUY_HANDLER__']
+  },
+  store: { keys:['store','shop','what do you sell','what can i buy','products','digital','marketplace'], replies:["The ExoraWorld Store has 15+ digital products! 🛒\n\n🧠 Ultimate Prompt Bible — $17\n✦ Dark UI Kit — $26\n⚡ Midjourney Style Pack — $13\n🔥 Creator Brand Starter — $32\n🎞️ Cinematic LUT Bundle — $11\n📦 Everything Pack — $72\n\nPlus courses, AI services & templates. Just say 'I want to buy [product]' and I'll handle the checkout right here! 🚀"] },
+  courses: { keys:['course','learn','academy','tutorial','lesson','class','study','education'], replies:["ExoraWorld Academy has 6 courses! 📚\n\n🎨 AI Art Mastery — $22\n⚡ Prompt Engineering — $18\n🖥️ Dark UI Design — $28\n💰 Selling Digital Products — $25\n✦ Brand Identity Mastery — $34\n🌐 Web Dev for Creatives — $38\n\nSay 'I want to buy [course name]' to purchase right here through Exo!"] },
+  payment: { keys:['pay','payment','bkash','nagad','airtm','how to pay','transaction','method','checkout','methods'], replies:["We accept: bKash 🟣, Nagad 🟠, Airtm 🌍, USDT 💲, Bitcoin ₿, ETH Ξ, Solana ◎, BNB ⬡\n\nYou can pay directly through me! Just say 'I want to buy [product]' and I'll walk you through it step by step — name, email, payment method, screenshot proof — everything. 🛒"] },
+  crypto: { keys:['crypto','bitcoin','btc','ethereum','eth','usdt','solana','sol','bnb','binance','wallet','trc20'], replies:["Crypto wallets 🔐\n\n• BTC: "+CFG.btc+"\n• ETH/BNB/USDT: "+CFG.eth+"\n• SOL: "+CFG.sol+"\n\n✦ Recommend USDT TRC-20 for lowest fees.\n\nWant to make a purchase right now? Just say 'buy [product]' and I'll guide you through it! 🚀"] },
+  services: { keys:['service','hire','logo','branding','web dev','consultation','consult','freelance','commission'], replies:["Abid's services 🎨\n\n🎨 Creative Design — $30\n🤖 AI & Automation — $25\n🌐 Web Development — $50\n🔮 Private Consultation — $20/hr\n✦ Branding Service — $45\n\nSay 'I want to buy [service]' to start checkout through Exo! Or message Abid directly at theexoraworld@gmail.com"] },
+  games: { keys:['game','play','gaming','fun','snake','tetris','void runner','gravity bird','memory','arcade'], replies:["ExoraWorld has 5 FREE web games! 🎮\n\n🐍 Snake · 🕹️ Void Runner · 🐦 Gravity Bird · 🧱 Tetris · 🧠 Memory Orbs\n\nNo download, no sign-up needed. Want me to take you to the Games page?"] },
+  plans: { keys:['plan','subscription','member','membership','tier','voyager','pioneer','explorer','upgrade','premium'], replies:["ExoraWorld Membership Tiers 🌌\n\n🆓 Explorer — Free forever\n⚡ Voyager — $9/mo (≈৳990)\n🚀 Pioneer — $22/mo (≈৳2,400)\n   Unlimited courses + 1-on-1 + 20% off everything\n\nSay 'I want Pioneer' or 'buy Voyager' to start checkout! Want to see full plan details?"] },
+  about_abid: { keys:['who is abid','who made','who built','founder','creator','about exoraworld','background','story','bangladesh'], replies:["Abid (MD Abid Hasan) is the founder and sole creator of ExoraWorld 🇧🇩\n\nDesigner · AI enthusiast · Web developer · Storyteller\n\nBorn and based in Bangladesh, building for the whole world. ExoraWorld is his one-person creative universe."] },
+  contact: { keys:['contact','reach','email','message','support','talk','facebook','discord','instagram','twitter'], replies:["Reach Abid here 📬\n\n✉️ theexoraworld@gmail.com\n💬 facebook.com/exoraworld\n📸 @theexoraworld\n🐦 @Exoraworld\n▶️ @ExoraWorld\n🎮 discord.gg/f84dEvu2q"] },
+  delivery: { keys:['deliver','delivery','how long','receive','when will i get','wait time','how fast','instant'], replies:["All digital products delivered to your email within 1–3 hours of payment verification ⚡\n\nMost orders are processed faster! Make sure you enter a valid email. Check spam if you don't see it."] },
+  refund: { keys:['refund','return','money back','cancel order','dispute','wrong product','not received','issue with order'], replies:["ExoraWorld stands behind every product 🤝\n\nIf something's wrong, contact Abid within 7 days:\n✉️ theexoraworld@gmail.com\n💬 Facebook Messenger\n\nHe'll make it right — guaranteed."] },
+  what_can_you_do: { keys:['what can you do','what do you know','help me','what are you','who are you','capabilities','how smart','can you'], replies:["I'm Exo 🤖 — ExoraWorld's AI guide. Here's what I can do:\n\n🛒 Walk you through purchasing anything on the site — right here in this chat!\n🧭 Navigate you to any page (say 'take me to games')\n💬 Answer questions about products, courses, payments\n💡 Recommend what suits your needs\n\nTry: 'I want to buy the UI kit' or 'take me to courses'"] },
+};
+
+// ── BUY INTENT HANDLER — matches user text to a product
+function handleBuyIntent(text, msgs) {
+  const t = text.toLowerCase();
+  // Try to match a specific product
+  let matched = null;
+  for(const prod of EXO_PRODUCTS) {
+    const words = prod.name.toLowerCase().split(' ');
+    const matchCount = words.filter(w => w.length > 3 && t.includes(w)).length;
+    if(matchCount >= 2) { matched = prod; break; }
+  }
+  // Fallback: partial match
+  if(!matched) {
+    for(const prod of EXO_PRODUCTS) {
+      if(t.includes(prod.id) || prod.name.toLowerCase().split(' ').some(w => w.length>4 && t.includes(w))) {
+        matched = prod; break;
+      }
     }
   }
-  const d=exoKnowledge.default.replies;
-  return d[Math.floor(Math.random()*d.length)];
+  if(matched) {
+    exoBotMsg(msgs, `Great choice! 🎉 Let's get you *${matched.name}* (${matched.price} · ${matched.priceLocal}).\n\nI'll walk you through checkout right here — takes less than 2 minutes. Let's start!\n\nFirst — what's your full name?`);
+    exoPayStart(matched);
+  } else {
+    // Show product picker chips
+    exoBotMsg(msgs, "Sure! Which product would you like to buy? Here are some popular ones — pick one or type the name:");
+    setTimeout(() => showProductChips(msgs), 300);
+  }
 }
 
-function appendMsg(container,text,isUser){
-  const div=document.createElement('div');
-  div.className=isUser?'msg user':'msg bot';
-  div.textContent=text;
+function showProductChips(msgs) {
+  const popular = EXO_PRODUCTS.slice(0, 8); // show top 8
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:5px;padding:4px 0 6px';
+  popular.forEach(prod => {
+    const btn = document.createElement('button');
+    btn.textContent = prod.icon + ' ' + prod.name + ' — ' + prod.price;
+    btn.style.cssText = 'font-family:var(--f-mono);font-size:.44rem;letter-spacing:.05em;padding:5px 9px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.22);color:var(--ivory);cursor:pointer;border-radius:2px;transition:all .2s;text-align:left';
+    btn.onmouseenter = () => btn.style.background = 'rgba(139,92,246,.22)';
+    btn.onmouseleave = () => btn.style.background = 'rgba(139,92,246,.1)';
+    btn.onclick = () => {
+      wrap.remove();
+      exoBotMsg(msgs, `Great choice! 🎉 Let's get you *${prod.name}* (${prod.price} · ${prod.priceLocal}).\n\nI'll walk you through checkout right here!\n\nFirst — what's your full name?`);
+      exoPayStart(prod);
+    };
+    wrap.appendChild(btn);
+  });
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+// ── NAVIGATION DETECTOR
+function detectNavIntent(t) {
+  const navPhrases = ['take me','go to','open','show me','navigate','visit','i want to see','bring me','where is','find','jump to','switch to','head to'];
+  const hasNavPhrase = navPhrases.some(p => t.includes(p));
+  for (const [key, page] of Object.entries(EXO_SITEMAP)) {
+    if (page.keys.some(k => t.includes(k)) && (hasNavPhrase || t.includes(key))) return page;
+  }
+  if (hasNavPhrase) {
+    for (const [key, page] of Object.entries(EXO_SITEMAP)) {
+      if (page.keys.some(k => t.includes(k))) return page;
+    }
+  }
+  return null;
+}
+
+// ── TOPIC MATCHER
+function matchTopic(t) {
+  let best = null, bestScore = 0;
+  for (const [topic, data] of Object.entries(EXO_KB)) {
+    if (!data.keys) continue;
+    let score = 0;
+    for (const key of data.keys) { if (t.includes(key)) score += key.split(' ').length; }
+    if (score > bestScore) { bestScore = score; best = { topic, data }; }
+  }
+  return bestScore > 0 ? best : null;
+}
+
+// ── MEMORY
+const exoMemory = { msgs:[], lastTopic:null, userName:null, visitCount: parseInt(localStorage.getItem('exo_visits')||'0')+1 };
+localStorage.setItem('exo_visits', exoMemory.visitCount);
+
+function detectName(t) {
+  const m = t.match(/(?:i'm|i am|my name is|call me|name's)\s+([a-zA-Z]+)/i);
+  if (m) { exoMemory.userName = m[1]; return true; }
+  return false;
+}
+
+// ── SMART FALLBACK
+function smartFallback(t) {
+  if (t.match(/^(how|what|why|when|where|who|which|can|is|are|do|does|will|should)/)) {
+    return `Hmm, not sure about that one 🤔\n\nI can help with:\n• 🛒 Buying anything on the site — just say 'buy [product]'\n• 🧭 Navigation — say 'take me to [page]'\n• 💬 Store, courses, services, payments\n\nOr contact Abid: theexoraworld@gmail.com`;
+  }
+  if (t.length < 5) return `Could you say a bit more? I want to give you the best answer! 😊`;
+  return `I'm not quite sure what you mean — but I'm learning! 🌌\n\nTry: 'I want to buy the UI kit', 'take me to games', or 'what courses exist?'`;
+}
+
+// ── SUGGESTIONS
+function getSuggestions(topic) {
+  const map = {
+    store:    ['Buy Prompt Bible','Buy UI Kit','Take me to store'],
+    courses:  ['Buy AI Art course','Course prices?','Take me to courses'],
+    payment:  ['I want to pay with bKash','Crypto wallets?','How fast is delivery?'],
+    games:    ['Take me to games','Tell me about plans','What\'s in the store?'],
+    plans:    ['Buy Pioneer plan','Buy Voyager plan','What\'s the difference?'],
+    buy_intent: ['Buy Prompt Bible','Buy Dark UI Kit','Buy AI Art Course'],
+    null:     ['What can I buy?','Take me to games','How do I pay?','Show me courses'],
+  };
+  return map[topic] || map[null];
+}
+
+function addSuggestions(container, suggestions) {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;padding:0 0 4px';
+  suggestions.forEach(s => {
+    const btn = document.createElement('button');
+    btn.textContent = s;
+    btn.style.cssText = 'font-family:var(--f-mono);font-size:.44rem;letter-spacing:.07em;text-transform:uppercase;padding:4px 8px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.22);color:var(--v3);cursor:pointer;border-radius:2px;transition:all .2s;white-space:nowrap';
+    btn.onmouseenter = () => btn.style.background='rgba(139,92,246,.22)';
+    btn.onmouseleave = () => btn.style.background='rgba(139,92,246,.1)';
+    btn.onclick = () => { wrap.remove(); document.getElementById('exoChatInput').value=s; sendExoChat(); };
+    wrap.appendChild(btn);
+  });
+  container.appendChild(wrap);
+  container.scrollTop = container.scrollHeight;
+}
+
+// ── TYPING EFFECT
+function typeMessage(el, text, speed=15) {
+  el.textContent = '';
+  const parts = text.split('\n');
+  let partIdx = 0, charInPart = 0;
+  function next() {
+    if (partIdx >= parts.length) return;
+    const part = parts[partIdx];
+    if (charInPart < part.length) {
+      let fullText = '';
+      for(let i=0;i<partIdx;i++) fullText += parts[i]+'\n';
+      fullText += part.substring(0, charInPart+1);
+      el.textContent = fullText;
+      const sc = el.closest('.exo-msgs,.ai-msgs');
+      if(sc) sc.scrollTop = sc.scrollHeight;
+      charInPart++; setTimeout(next, speed);
+    } else {
+      partIdx++; charInPart = 0;
+      if(partIdx < parts.length) { el.textContent += '\n'; setTimeout(next, speed*2); }
+    }
+  }
+  next();
+}
+
+// ── BOT MESSAGE HELPER
+function exoBotMsg(msgs, text) {
+  const el = document.createElement('div');
+  el.className = 'exo-msg';
+  typeMessage(el, text, 13);
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+  return el;
+}
+
+// ── MAIN REPLY LOGIC
+function exoReply(text, container) {
+  const t = text.toLowerCase().trim();
+  const msgs = container || document.getElementById('exoChatMsgs');
+  exoMemory.msgs.push({role:'user', text:text.substring(0,100)});
+  if(exoMemory.msgs.length > 8) exoMemory.msgs.shift();
+
+  // If in payment flow — route to pay handler
+  if(EXO_PAY.active) { exoPayHandleInput(text); return null; }
+
+  // Name detection
+  if(detectName(t)) return `Nice to meet you, ${exoMemory.userName}! 😊 How can I help? Say 'buy [product]' to purchase something, or ask me anything!`;
+
+  // Navigation intent
+  const navTarget = detectNavIntent(t);
+  if(navTarget) {
+    exoMemory.lastTopic = 'nav';
+    const isSection = navTarget.url.startsWith('#');
+    if(isSection) {
+      const el = document.querySelector(navTarget.url);
+      if(el) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),600);
+      return `Taking you to the ${navTarget.label} section! ⬇️`;
+    } else {
+      setTimeout(()=>{window.location.href=navTarget.url;},1200);
+      return `Opening ${navTarget.label} now... 🚀`;
+    }
+  }
+
+  // Knowledge base match
+  const match = matchTopic(t);
+  if(match) {
+    exoMemory.lastTopic = match.topic;
+    if(match.topic === 'buy_intent') { handleBuyIntent(text, msgs); return null; }
+    const replies = match.data.replies;
+    return replies[Math.floor(Math.random()*replies.length)];
+  }
+
+  // Contextual follow-up
+  if(exoMemory.lastTopic && (t.includes('more')||t.includes('tell me')||t.includes('what else')||t.length<12)) {
+    const prev = EXO_KB[exoMemory.lastTopic];
+    if(prev && prev.replies.length > 1) return prev.replies[1];
+  }
+
+  return smartFallback(t);
+}
+
+// ── HOMEPAGE CHAT (for the big on-page AI section)
+function appendMsg(container, text, isUser) {
+  const div = document.createElement('div');
+  div.className = isUser ? 'msg user' : 'msg bot';
+  if(isUser) div.textContent = text;
+  else typeMessage(div, text, 14);
   container.appendChild(div);
-  container.scrollTop=container.scrollHeight;
+  container.scrollTop = container.scrollHeight;
+  return div;
 }
 
-// Homepage AI chat
-function sendChat(){
-  const input=document.getElementById('chatInput');
-  const msgs=document.getElementById('chatMsgs');
-  const text=input.value.trim();
-  if(!text)return;
-  appendMsg(msgs,text,true);
-  input.value='';
-  const typing=document.createElement('div');
-  typing.className='msg bot';
-  typing.textContent='···';
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const msgs = document.getElementById('chatMsgs');
+  const text = input.value.trim();
+  if(!text) return;
+  appendMsg(msgs, text, true);
+  input.value = '';
+  const typing = document.createElement('div');
+  typing.className = 'msg bot';
+  typing.innerHTML = '<span style="opacity:.5;letter-spacing:.15em">· · ·</span>';
   typing.id='typing-indicator';
   msgs.appendChild(typing);
-  msgs.scrollTop=msgs.scrollHeight;
-  setTimeout(()=>{typing.remove();appendMsg(msgs,exoReply(text),false);},800);
-}
-
-// Floating Exo widget chat
-function sendExoChat(){
-  const input=document.getElementById('exoChatInput');
-  const msgs=document.getElementById('exoChatMsgs');
-  const text=input.value.trim();
-  if(!text)return;
-  const uMsg=document.createElement('div');
-  uMsg.className='exo-msg user-msg';
-  uMsg.textContent=text;
-  msgs.appendChild(uMsg);
-  input.value='';
-  msgs.scrollTop=msgs.scrollHeight;
+  msgs.scrollTop = msgs.scrollHeight;
+  const delay = 600 + Math.min(text.length*8, 800);
   setTimeout(()=>{
-    const bMsg=document.createElement('div');
-    bMsg.className='exo-msg';
-    bMsg.textContent=exoReply(text);
-    msgs.appendChild(bMsg);
-    msgs.scrollTop=msgs.scrollHeight;
-  },750);
+    typing.remove();
+    const reply = exoReply(text, msgs);
+    if(reply) {
+      const el = appendMsg(msgs, reply, false);
+      setTimeout(()=>addSuggestions(msgs, getSuggestions(exoMemory.lastTopic)), 350+reply.length*14);
+    }
+  }, delay);
 }
 
-// ── EXO GUIDE TOGGLE
-let exoOpen=false;
-function toggleExo(){
-  exoOpen=!exoOpen;
-  const b=document.getElementById('exoBubble');
-  b.classList.toggle('show',exoOpen);
-  document.getElementById('exoPing').style.display=exoOpen?'none':'block';
-  if(exoOpen)document.getElementById('exoChatMsgs').scrollTop=99999;
+// ── FLOATING WIDGET CHAT
+function sendExoChat() {
+  const input = document.getElementById('exoChatInput');
+  const msgs = document.getElementById('exoChatMsgs');
+  const text = input.value.trim();
+  if(!text) return;
+  const uMsg = document.createElement('div');
+  uMsg.className = 'exo-msg user-msg';
+  uMsg.textContent = text;
+  msgs.appendChild(uMsg);
+  input.value = '';
+  msgs.scrollTop = msgs.scrollHeight;
+  const typing = document.createElement('div');
+  typing.className = 'exo-msg';
+  typing.innerHTML = '<span style="opacity:.4;letter-spacing:.2em">· · ·</span>';
+  msgs.appendChild(typing);
+  msgs.scrollTop = msgs.scrollHeight;
+  const delay = 450 + Math.min(text.length*7,700);
+  setTimeout(()=>{
+    typing.remove();
+    const reply = exoReply(text, msgs);
+    if(reply) {
+      exoBotMsg(msgs, reply);
+      setTimeout(()=>addSuggestions(msgs, getSuggestions(exoMemory.lastTopic)), 300+reply.length*13);
+    }
+  }, delay);
 }
-function closeExo(){exoOpen=false;document.getElementById('exoBubble').classList.remove('show');}
+
+// ── TOGGLE
+let exoOpen = false;
+function toggleExo() {
+  exoOpen = !exoOpen;
+  const b = document.getElementById('exoBubble');
+  b.classList.toggle('show', exoOpen);
+  document.getElementById('exoPing').style.display = exoOpen ? 'none' : 'block';
+  if(exoOpen) {
+    const msgs = document.getElementById('exoChatMsgs');
+    msgs.scrollTop = 99999;
+    if(msgs.children.length <= 1) {
+      const greeting = exoMemory.visitCount > 2
+        ? `Welcome back! 🌌 Visit #${exoMemory.visitCount}. Ask me anything or say 'buy [product]' to shop right here!`
+        : `Hey! 👋 I'm Exo. I can answer questions AND process your purchase right here in this chat. Try saying 'I want to buy a course'!`;
+      setTimeout(()=>{ exoBotMsg(msgs, greeting); addSuggestions(msgs, ["What can I buy?","Take me to games","How do I pay?","Show me courses"]); }, 500);
+    }
+  }
+}
+function closeExo() { exoOpen=false; document.getElementById('exoBubble').classList.remove('show'); }
 setTimeout(()=>{if(!exoOpen)toggleExo();},3500);
 
 // ── MAGNETIC EFFECT on primary CTAs
@@ -2032,7 +2567,6 @@ document.querySelectorAll('.cta-main,.cta-sec,.modal-submit,.pay-submit,.hf-subm
     btn.style.transform='translateY(-3px) translate('+x+'px,'+y+'px)';
   });
   btn.addEventListener('mouseleave',()=>{btn.style.transform='';});
-});
-</script>
+});</script>
 </body>
 </html>
