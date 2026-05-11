@@ -233,18 +233,18 @@ nav.scrolled .nav-primary{padding:12px 40px}
 ══════════════════════════════ */
 #pixivault{
   position:relative;z-index:2;
-  background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 40%,var(--bg1) 100%);
+  background:transparent;
   padding:100px 0 120px;
   overflow:hidden;
 }
 .pv-ambient{
-  position:absolute;inset:0;pointer-events:none;z-index:0;
+  position:absolute;inset:0;pointer-events:none;z-index:2;
   background:
     radial-gradient(ellipse 70% 60% at 15% 50%,rgba(109,40,217,.13),transparent 65%),
     radial-gradient(ellipse 50% 50% at 85% 20%,rgba(236,72,153,.09),transparent 60%),
     radial-gradient(ellipse 40% 40% at 60% 85%,rgba(6,182,212,.07),transparent 60%);
 }
-.pv-inner{max-width:1380px;margin:0 auto;padding:0 56px;position:relative;z-index:1}
+.pv-inner{max-width:1380px;margin:0 auto;padding:0 56px;position:relative;z-index:3}
 
 /* Header */
 .pv-header{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:36px;flex-wrap:wrap}
@@ -2017,7 +2017,7 @@ const CFG = {
   // Video takes priority over image if both are set.
   // Leave both as '' to keep the default stars/dark background.
   heroVideo: '', // e.g. 'https://example.com/your-video.mp4'  → loops silently
-  heroBg:    'https://pub-cef70f56a078466191cd7d3d47c00ca5.r2.dev/images/river.jpg', // e.g. 'https://example.com/your-image.jpg'  → static background
+  heroBg:    '', // e.g. 'https://example.com/your-image.jpg'  → static background
 
   // ── HERO FALLBACK (shown instantly while Worker photos are loading)
   // This appears immediately on page load — Worker photos fade over it once ready.
@@ -2252,27 +2252,32 @@ const PVSectionBg = (() => {
 })();
 
 // ── Build a single card's inner HTML (front/back flip structure)
+// Returns [innerHtml, overlayHtml] separately so overlays stay outside the 3D inner
 function pvMakeCardInner(p, side) {
   const isVid = pvIsVideo(p.url, p.key);
   const thumb = p.thumbnail_url || p.url || '';
   const title = p.title || (p.key||'').split('/').pop().replace(/\.\w+$/,'') || 'Untitled';
-  return `
-    <div class="pv-card-${side}">
+  const innerHtml = `
+    <div class="pv-card-front">
       ${thumb ? `<img src="${thumb}" alt="${title}" loading="lazy" decoding="async">` : ''}
-      ${isVid ? `<video src="${p.url||''}" preload="none" muted playsinline loop></video>` : ''}
+      ${isVid ? `<video preload="none" muted playsinline loop></video>` : ''}
     </div>
-    ${side === 'front' ? `
-      ${isVid ? `<div class="pv-play"><svg width="14" height="14" fill="#fff" viewBox="0 0 16 16"><path d="M6 3.5l7 4.5-7 4.5V3.5z"/></svg></div>` : ''}
-      <span class="pv-badge">${isVid ? '▶ Video' : '◼ HD'}</span>
-      <div class="pv-card-ov"></div>
-      <div class="pv-card-label">
-        <div class="pv-card-name">${title}</div>
-        <div class="pv-card-acts">
-          <button class="pv-card-btn pv-dl-btn">⬇ Download</button>
-          <button class="pv-card-btn pv-open-btn">🔍 View</button>
-        </div>
-      </div>` : ''}
-  `;
+    <div class="pv-card-back">
+      ${thumb ? `<img src="${thumb}" alt="" loading="lazy" decoding="async">` : ''}
+    </div>`;
+  // Overlay elements live OUTSIDE pv-card-inner (not in 3D space)
+  const overlayHtml = `
+    ${isVid ? `<div class="pv-play"><svg width="14" height="14" fill="#fff" viewBox="0 0 16 16"><path d="M6 3.5l7 4.5-7 4.5V3.5z"/></svg></div>` : ''}
+    <span class="pv-badge">${isVid ? '▶ Video' : '◼ HD'}</span>
+    <div class="pv-card-ov"></div>
+    <div class="pv-card-label">
+      <div class="pv-card-name">${title}</div>
+      <div class="pv-card-acts">
+        <button class="pv-card-btn pv-dl-btn">⬇ Download</button>
+        <button class="pv-card-btn pv-open-btn">🔍 View</button>
+      </div>
+    </div>`;
+  return { innerHtml, overlayHtml, isVid, title, thumb };
 }
 
 // ── Flip a card to show the next photo from the rotate pool
@@ -2290,44 +2295,58 @@ function pvFlipCard(cardEl, cardIdx) {
   }
   if(!next) next = pvRotatePool[Math.floor(Math.random() * pvRotatePool.length)];
 
-  // Pre-load next image into back face
-  const back = cardEl.querySelector('.pv-card-back');
-  const backImg = back ? back.querySelector('img') : null;
-  if(backImg) {
-    backImg.src = next.thumbnail_url || next.url || '';
-  }
+  // Pre-load next image into back face before flipping
+  const back = cardEl.querySelector('.pv-card-back img');
+  if(back) back.src = next.thumbnail_url || next.url || '';
 
   cardEl.classList.add('pv-flipping');
 
-  // At halfway point (360ms), swap front content and reset
+  // At EXACT halfway (360ms = half of 720ms transition) swap content invisibly
   setTimeout(() => {
     pvCardData[cardIdx] = next;
     const inner = cardEl.querySelector('.pv-card-inner');
-    const isVid = pvIsVideo(next.url, next.key);
-    const thumb = next.thumbnail_url || next.url || '';
-    const title = next.title || (next.key||'').split('/').pop().replace(/\.\w+$/,'') || 'Untitled';
-    // Rebuild inner without transition
+    if(!inner) return;
+
+    const { innerHtml, overlayHtml, isVid, title } = pvMakeCardInner(next);
+
+    // Swap 3D inner content without transition (card is edge-on, invisible)
     inner.style.transition = 'none';
     inner.style.transform = 'rotateY(0deg)';
-    inner.innerHTML = pvMakeCardInner(next, 'front') + pvMakeCardInner(next, 'back');
-    // Re-attach overlay/label/badge (already in front markup)
-    // Re-wire new buttons
-    cardEl.classList.remove('pv-flipping');
+    inner.innerHTML = innerHtml;
 
-    // Rebind events on new buttons
+    // Rebuild overlay elements (outside inner)
+    // Remove old overlays first
+    cardEl.querySelectorAll('.pv-play,.pv-badge,.pv-card-ov,.pv-card-label').forEach(el => el.remove());
+    // Insert new overlays
+    cardEl.insertAdjacentHTML('beforeend', overlayHtml);
+
+    // Re-wire buttons
     const dlBtn = cardEl.querySelector('.pv-dl-btn');
     const openBtn = cardEl.querySelector('.pv-open-btn');
     if(dlBtn) dlBtn.addEventListener('click', e => { e.stopPropagation(); pvDownload(next.key, next.download_url||next.url, title); });
     if(openBtn) openBtn.addEventListener('click', e => { e.stopPropagation(); pvOpenLb(next); });
 
-    // Update card class
+    // Update card video class
     cardEl.classList.toggle('pv-vid', isVid);
 
-    // Restore transition after reset
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => { inner.style.transition = ''; });
-    });
-  }, 380);
+    // Wire hover-play for video
+    if(isVid) {
+      const vidEl = cardEl.querySelector('.pv-card-front video');
+      if(vidEl) {
+        vidEl.src = next.url || '';
+        cardEl.addEventListener('mouseenter', function onEnter() {
+          vidEl.play().then(() => cardEl.classList.add('pv-playing')).catch(()=>{});
+        });
+        cardEl.addEventListener('mouseleave', function onLeave() {
+          vidEl.pause(); vidEl.currentTime = 0; cardEl.classList.remove('pv-playing');
+        });
+      }
+    }
+
+    // Remove flipping class and restore transition
+    cardEl.classList.remove('pv-flipping');
+    requestAnimationFrame(() => requestAnimationFrame(() => { inner.style.transition = ''; }));
+  }, 360);
 }
 
 // ── Build grid cards (9 slots)
@@ -2467,7 +2486,7 @@ function pvDownload(key, fallbackUrl, title) {
 // ── Main fetch & init
 (async function pvInit() {
   try {
-    const res = await fetch(PV_WORKER + '/api/photos?limit=24', {headers:{'Accept':'application/json'}});
+    const res = await fetch(PV_WORKER + '/api/photos?limit=40', {headers:{'Accept':'application/json'}});
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     const photos = data.photos || [];
@@ -2479,17 +2498,33 @@ function pvDownload(key, fallbackUrl, title) {
 
     pvAllPhotos = photos;
 
+    // Full pool for card rotation (everything after first 9)
+    pvRotatePool = photos.slice();
+    // Shuffle rotate pool
+    for(let i=pvRotatePool.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [pvRotatePool[i],pvRotatePool[j]]=[pvRotatePool[j],pvRotatePool[i]];
+    }
+
     // Feed hero slideshow (non-blocking, only if no manual CFG override)
     PVHeroSlider.loadPool(photos);
+
+    // Fade out hero fallback once Worker photos are loaded
+    const fallback = document.getElementById('hero-bg-fallback');
+    if(fallback && fallback.children.length) {
+      setTimeout(() => fallback.classList.add('pv-fade-out'), 400);
+    }
+
+    // Start section background slideshow
+    PVSectionBg.init(photos);
 
     // Build preview grid
     pvBuildGrid(photos);
 
   } catch(e) {
-    // Show error, keep skeletons replaced
     document.getElementById('pvGrid').innerHTML = '';
     document.getElementById('pvError').style.display = 'block';
-    // Hero stays dark (default stars bg) — graceful fallback
+    // Hero fallback stays visible on error — perfect graceful fallback
   }
 })();
 
