@@ -273,14 +273,20 @@ nav.scrolled .nav-primary{padding:12px 40px}
   margin-bottom:48px;
 }
 
-/* Grid placement — cinematic asymmetric layout */
-.pv-card:nth-child(1){grid-column:span 5;grid-row:span 2} /* big feature */
-.pv-card:nth-child(2){grid-column:span 4;grid-row:span 1}
-.pv-card:nth-child(3){grid-column:span 3;grid-row:span 1}
-.pv-card:nth-child(4){grid-column:span 4;grid-row:span 1}
-.pv-card:nth-child(5){grid-column:span 3;grid-row:span 1}
-.pv-card:nth-child(6){grid-column:span 4;grid-row:span 2} /* mid feature */
-.pv-card:nth-child(7){grid-column:span 3;grid-row:span 1}
+/* Grid placement — 9-card cinematic layout, zero empty spots
+   Row A: [5 tall×2] [4] [3]
+   Row B: [5 tall×2] [2] [2] [3]
+   Row C: [3] [4 tall×2] [2] [3]
+   Row D:      [4 tall×2] [5]       */
+.pv-card:nth-child(1){grid-column:span 5;grid-row:span 2}
+.pv-card:nth-child(2){grid-column:span 4}
+.pv-card:nth-child(3){grid-column:span 3}
+.pv-card:nth-child(4){grid-column:span 2}
+.pv-card:nth-child(5){grid-column:span 2}
+.pv-card:nth-child(6){grid-column:span 3}
+.pv-card:nth-child(7){grid-column:span 3}
+.pv-card:nth-child(8){grid-column:span 4;grid-row:span 2}
+.pv-card:nth-child(9){grid-column:span 5}
 
 /* Card base */
 .pv-card{
@@ -288,7 +294,6 @@ nav.scrolled .nav-primary{padding:12px 40px}
   background:var(--surface);border:1px solid var(--border);
   min-height:240px;
   transition:transform .45s cubic-bezier(.34,1.3,.64,1),box-shadow .45s,border-color .3s;
-  /* stagger in on load */
   opacity:0;transform:translateY(28px) scale(.97);
 }
 .pv-card.pv-ready{opacity:1;transform:none}
@@ -298,6 +303,31 @@ nav.scrolled .nav-primary{padding:12px 40px}
   border-color:rgba(139,92,246,.45);
   z-index:2;
 }
+
+/* ── 3D FLIP ROTATION ──
+   Each card has a front (current img) and back (next img).
+   JS triggers .pv-flipping which runs the flip, swaps src mid-turn. */
+.pv-card-inner{
+  position:absolute;inset:0;
+  transform-style:preserve-3d;
+  transition:transform .72s cubic-bezier(.4,0,.2,1);
+}
+.pv-card.pv-flipping .pv-card-inner{transform:rotateY(180deg)}
+.pv-card-front,.pv-card-back{
+  position:absolute;inset:0;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  overflow:hidden;
+}
+.pv-card-back{transform:rotateY(180deg)}
+.pv-card-front img,.pv-card-back img,
+.pv-card-front video,.pv-card-back video{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .6s cubic-bezier(.25,.1,.25,1);
+}
+.pv-card:hover .pv-card-front img{transform:scale(1.06)}
+/* After flip completes, swap front/back without animation */
+.pv-card.pv-swap-done .pv-card-inner{transition:none;transform:rotateY(0deg)}
 
 /* Media inside card */
 .pv-card img,.pv-card video{
@@ -313,7 +343,7 @@ nav.scrolled .nav-primary{padding:12px 40px}
 
 /* Overlay gradient */
 .pv-card-ov{
-  position:absolute;inset:0;z-index:2;
+  position:absolute;inset:0;z-index:4;
   background:linear-gradient(180deg,transparent 40%,rgba(5,4,10,.92) 100%);
   opacity:0;transition:opacity .35s;
 }
@@ -321,7 +351,7 @@ nav.scrolled .nav-primary{padding:12px 40px}
 
 /* Card labels */
 .pv-card-label{
-  position:absolute;bottom:0;left:0;right:0;z-index:3;
+  position:absolute;bottom:0;left:0;right:0;z-index:5;
   padding:16px 18px;
   transform:translateY(8px);opacity:0;
   transition:all .35s cubic-bezier(.34,1.2,.64,1);
@@ -334,7 +364,7 @@ nav.scrolled .nav-primary{padding:12px 40px}
 
 /* Video badge */
 .pv-badge{
-  position:absolute;top:12px;right:12px;z-index:3;
+  position:absolute;top:12px;right:12px;z-index:5;
   font-family:var(--f-mono);font-size:.42rem;letter-spacing:.1em;text-transform:uppercase;
   padding:3px 8px;background:rgba(5,4,10,.75);border:1px solid rgba(139,92,246,.3);
   color:var(--v3);backdrop-filter:blur(6px);
@@ -344,7 +374,7 @@ nav.scrolled .nav-primary{padding:12px 40px}
 
 /* Play circle overlay on video cards */
 .pv-play{
-  position:absolute;top:50%;left:50%;z-index:3;
+  position:absolute;top:50%;left:50%;z-index:5;
   transform:translate(-50%,-50%) scale(.85);
   width:56px;height:56px;border-radius:50%;
   background:rgba(109,40,217,.75);border:1.5px solid rgba(255,255,255,.25);
@@ -355,7 +385,41 @@ nav.scrolled .nav-primary{padding:12px 40px}
 .pv-card.pv-vid:hover .pv-play{opacity:1;transform:translate(-50%,-50%) scale(1)}
 .pv-card.pv-playing .pv-play{opacity:0}
 
-/* Skeleton shimmer */
+/* ── PIXI VAULT SECTION BACKGROUND SLIDESHOW ── */
+#pixivault{padding-top:0} /* bg div handles spacing visually */
+.pv-bg{
+  position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+}
+.pv-bg-slide{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
+  opacity:0;transition:opacity 2s cubic-bezier(.4,0,.2,1);will-change:opacity;
+  filter:blur(18px) brightness(.28) saturate(1.4);
+  transform:scale(1.08); /* slightly oversized to hide blur edges */
+}
+.pv-bg-slide.pv-bg-active{opacity:1}
+/* Hard dark vignette so text and cards always read cleanly on top */
+.pv-bg-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(180deg,rgba(5,4,10,.72) 0%,rgba(5,4,10,.45) 40%,rgba(5,4,10,.72) 100%),
+    radial-gradient(ellipse 100% 100% at 50% 50%,transparent 20%,rgba(5,4,10,.5) 100%);
+}
+
+/* ── HERO FALLBACK (shown instantly before Worker photos arrive) ── */
+#hero-bg-fallback{
+  position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+}
+#hero-bg-fallback img,#hero-bg-fallback video{
+  width:100%;height:100%;object-fit:cover;object-position:center;display:block;
+}
+#hero-bg-fallback::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(5,4,10,.5) 0%,rgba(5,4,10,.25) 50%,rgba(5,4,10,.65) 100%);
+}
+/* Fallback fades out once Worker images load in */
+#hero-bg-fallback.pv-fade-out{opacity:0;transition:opacity 1.2s ease}
+
+/* Skeleton shimmer — 9 cards */
 .pv-skeleton{
   background:linear-gradient(90deg,var(--surface) 25%,rgba(28,21,48,.9) 50%,var(--surface) 75%);
   background-size:400% 100%;
@@ -367,10 +431,12 @@ nav.scrolled .nav-primary{padding:12px 40px}
 .pv-sk-a{grid-column:span 5;grid-row:span 2}
 .pv-sk-b{grid-column:span 4}
 .pv-sk-c{grid-column:span 3}
-.pv-sk-d{grid-column:span 4}
-.pv-sk-e{grid-column:span 3}
-.pv-sk-f{grid-column:span 4;grid-row:span 2}
+.pv-sk-d{grid-column:span 2}
+.pv-sk-e{grid-column:span 2}
+.pv-sk-f{grid-column:span 3}
 .pv-sk-g{grid-column:span 3}
+.pv-sk-h{grid-column:span 4;grid-row:span 2}
+.pv-sk-i{grid-column:span 5}
 
 /* Error */
 .pv-error{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.1em;color:rgba(239,68,68,.6);padding:20px;text-align:center;border:1px dashed rgba(239,68,68,.2)}
@@ -414,22 +480,22 @@ nav.scrolled .nav-primary{padding:12px 40px}
   .pv-card:nth-child(1){grid-column:span 3;grid-row:span 2}
   .pv-card:nth-child(2){grid-column:span 3}
   .pv-card:nth-child(3){grid-column:span 3}
-  .pv-card:nth-child(4){grid-column:span 3}
-  .pv-card:nth-child(5){grid-column:span 3}
-  .pv-card:nth-child(6){grid-column:span 3;grid-row:span 2}
+  .pv-card:nth-child(4){grid-column:span 2}
+  .pv-card:nth-child(5){grid-column:span 2}
+  .pv-card:nth-child(6){grid-column:span 2}
   .pv-card:nth-child(7){grid-column:span 3}
-  .pv-sk-a{grid-column:span 3;grid-row:span 2}
-  .pv-sk-b,.pv-sk-c,.pv-sk-d,.pv-sk-e,.pv-sk-g{grid-column:span 3}
-  .pv-sk-f{grid-column:span 3;grid-row:span 2}
+  .pv-card:nth-child(8){grid-column:span 3;grid-row:span 2}
+  .pv-card:nth-child(9){grid-column:span 3}
+  .pv-sk-a,.pv-sk-h{grid-column:span 3;grid-row:span 2}
+  .pv-sk-b,.pv-sk-c,.pv-sk-d,.pv-sk-e,.pv-sk-f,.pv-sk-g,.pv-sk-i{grid-column:span 3}
 }
 @media(max-width:768px){
   .pv-inner{padding:0 20px}
   .pv-mosaic{grid-template-columns:1fr 1fr;gap:8px}
-  .pv-card:nth-child(1){grid-column:span 2;grid-row:span 1;min-height:220px}
   .pv-card:nth-child(n){grid-column:span 1;grid-row:span 1;min-height:180px}
-  .pv-card:nth-child(6){grid-column:span 1;grid-row:span 1}
-  .pv-sk-a,.pv-sk-f{grid-column:span 1;grid-row:span 1}
-  .pv-sk-b,.pv-sk-c,.pv-sk-d,.pv-sk-e,.pv-sk-g{grid-column:span 1}
+  .pv-card:nth-child(1){grid-column:span 2;min-height:220px}
+  .pv-sk-a,.pv-sk-h{grid-column:span 1;grid-row:span 1}
+  .pv-sk-b,.pv-sk-c,.pv-sk-d,.pv-sk-e,.pv-sk-f,.pv-sk-g,.pv-sk-i{grid-column:span 1}
   .pv-header{flex-direction:column;align-items:flex-start}
   .pv-header-right{align-items:flex-start}
   .pv-card-label{opacity:1;transform:none}
@@ -1163,6 +1229,8 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
 
 <!-- ══════ HERO ══════ -->
 <section id="hero">
+  <!-- Instant fallback bg (shown before Worker photos load) -->
+  <div id="hero-bg-fallback"></div>
   <!-- Custom background (image or video) — injected by JS when CFG.heroVideo or CFG.heroBg is set -->
   <div id="hero-bg-media" style="display:none"></div>
   <div class="stars" id="stars"></div>
@@ -1226,7 +1294,11 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
 
 <!-- ══════ PIXI VAULT ══════ -->
 <section id="pixivault">
-  <!-- Ambient glow behind the section -->
+  <!-- Living blurred background from gallery photos -->
+  <div class="pv-bg" id="pvBg">
+    <div class="pv-bg-overlay"></div>
+  </div>
+  <!-- Ambient colour orbs on top of bg -->
   <div class="pv-ambient"></div>
 
   <div class="pv-inner">
@@ -1254,9 +1326,8 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
       <button class="pv-pill" data-pf="video">Videos</button>
     </div>
 
-    <!-- Main mosaic grid -->
+    <!-- Main mosaic grid — 9 cards, zero gaps -->
     <div class="pv-mosaic" id="pvGrid">
-      <!-- Skeletons shown while loading -->
       <div class="pv-skeleton pv-sk-a"></div>
       <div class="pv-skeleton pv-sk-b"></div>
       <div class="pv-skeleton pv-sk-c"></div>
@@ -1264,6 +1335,8 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
       <div class="pv-skeleton pv-sk-e"></div>
       <div class="pv-skeleton pv-sk-f"></div>
       <div class="pv-skeleton pv-sk-g"></div>
+      <div class="pv-skeleton pv-sk-h"></div>
+      <div class="pv-skeleton pv-sk-i"></div>
     </div>
 
     <!-- Error state -->
@@ -1945,6 +2018,12 @@ const CFG = {
   // Leave both as '' to keep the default stars/dark background.
   heroVideo: '', // e.g. 'https://example.com/your-video.mp4'  → loops silently
   heroBg:    '', // e.g. 'https://example.com/your-image.jpg'  → static background
+
+  // ── HERO FALLBACK (shown instantly while Worker photos are loading)
+  // This appears immediately on page load — Worker photos fade over it once ready.
+  // Great for a branded still or short loop. Leave empty to show stars instead.
+  heroFallbackVideo: '', // e.g. 'https://example.com/fallback.mp4'
+  heroFallbackBg:    '', // e.g. 'https://example.com/fallback.jpg'
 };
 
 
@@ -2093,35 +2172,96 @@ const PVHeroSlider = (() => {
   return { loadPool };
 })();
 
+// ── Hero fallback background (shown instantly, before Worker loads)
+(function pvFallback() {
+  const wrap = document.getElementById('hero-bg-fallback');
+  if(CFG.heroFallbackVideo) {
+    const v = document.createElement('video');
+    v.src = CFG.heroFallbackVideo;
+    v.autoplay = true; v.loop = true; v.muted = true; v.playsInline = true;
+    v.setAttribute('playsinline','');
+    wrap.appendChild(v);
+    wrap.style.display = 'block';
+    document.getElementById('hero').classList.add('has-custom-bg');
+  } else if(CFG.heroFallbackBg) {
+    const img = document.createElement('img');
+    img.src = CFG.heroFallbackBg; img.alt = ''; img.setAttribute('aria-hidden','true');
+    wrap.appendChild(img);
+    wrap.style.display = 'block';
+    document.getElementById('hero').classList.add('has-custom-bg');
+  }
+  // If empty — stars show as before
+})();
+
 // ── Pixi Vault grid state
 let pvAllPhotos = [];
 let pvFilter = 'all';
+let pvRotatePool = []; // full pool for card rotation
+let pvCardData  = []; // current photo shown on each card slot
 
-// ── Build grid cards
-function pvBuildGrid(photos) {
-  const grid = document.getElementById('pvGrid');
-  grid.innerHTML = '';
+// ── Section background slideshow (blurred photos behind the whole section)
+const PVSectionBg = (() => {
+  const INTERVAL = 7000;
+  let pool = [], current = 0, active = 0, timer = null;
+  let slot0 = null, slot1 = null;
 
-  // Show up to 7 items (fills the asymmetric mosaic perfectly)
-  const items = photos.slice(0, 7);
-  if(!items.length) {
-    grid.innerHTML = `<div class="pv-error" style="display:block;grid-column:span 12">
-      <span>📷</span> No media found. <a href="gallery.html">Open Gallery →</a>
-    </div>`;
-    return;
+  function init(photos) {
+    const bgEl = document.getElementById('pvBg');
+    const imgPhotos = photos.filter(p => !pvIsVideo(p.url, p.key) && (p.url || p.thumbnail_url));
+    if(!imgPhotos.length) return;
+
+    pool = imgPhotos.map(p => p.url || p.thumbnail_url);
+    // Shuffle
+    for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+
+    slot0 = document.createElement('img');
+    slot1 = document.createElement('img');
+    slot0.className = slot1.className = 'pv-bg-slide';
+    slot0.setAttribute('aria-hidden','true');
+    slot1.setAttribute('aria-hidden','true');
+    // Insert before the overlay div
+    const overlay = bgEl.querySelector('.pv-bg-overlay');
+    bgEl.insertBefore(slot0, overlay);
+    bgEl.insertBefore(slot1, overlay);
+
+    showSlide(0, true);
+    if(pool.length > 1) timer = setInterval(() => showSlide(current+1), INTERVAL);
   }
 
-  items.forEach((p, i) => {
-    const isVid = pvIsVideo(p.url, p.key);
-    const thumb = p.thumbnail_url || p.url || '';
-    const title = p.title || (p.key||'').split('/').pop().replace(/\.\w+$/,'') || 'Untitled';
+  function showSlide(idx, instant) {
+    current = ((idx % pool.length) + pool.length) % pool.length;
+    const slots = [slot0, slot1];
+    const next = 1 - active;
+    slots[next].src = pool[current];
+    if(instant) {
+      slots[next].classList.add('pv-bg-active');
+      active = next;
+    } else {
+      slots[active].classList.remove('pv-bg-active');
+      slots[next].classList.add('pv-bg-active');
+      active = next;
+    }
+  }
 
-    const card = document.createElement('div');
-    card.className = 'pv-card' + (isVid ? ' pv-vid' : '');
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden) clearInterval(timer);
+    else if(pool.length > 1) timer = setInterval(() => showSlide(current+1), INTERVAL);
+  });
 
-    card.innerHTML = `
-      ${thumb ? `<img src="${thumb}" alt="${title}" loading="${i < 3 ? 'eager' : 'lazy'}" decoding="async">` : ''}
+  return { init };
+})();
+
+// ── Build a single card's inner HTML (front/back flip structure)
+function pvMakeCardInner(p, side) {
+  const isVid = pvIsVideo(p.url, p.key);
+  const thumb = p.thumbnail_url || p.url || '';
+  const title = p.title || (p.key||'').split('/').pop().replace(/\.\w+$/,'') || 'Untitled';
+  return `
+    <div class="pv-card-${side}">
+      ${thumb ? `<img src="${thumb}" alt="${title}" loading="lazy" decoding="async">` : ''}
       ${isVid ? `<video src="${p.url||''}" preload="none" muted playsinline loop></video>` : ''}
+    </div>
+    ${side === 'front' ? `
       ${isVid ? `<div class="pv-play"><svg width="14" height="14" fill="#fff" viewBox="0 0 16 16"><path d="M6 3.5l7 4.5-7 4.5V3.5z"/></svg></div>` : ''}
       <span class="pv-badge">${isVid ? '▶ Video' : '◼ HD'}</span>
       <div class="pv-card-ov"></div>
@@ -2131,37 +2271,130 @@ function pvBuildGrid(photos) {
           <button class="pv-card-btn pv-dl-btn">⬇ Download</button>
           <button class="pv-card-btn pv-open-btn">🔍 View</button>
         </div>
-      </div>
-    `;
+      </div>` : ''}
+  `;
+}
 
-    // Hover-to-play video preview (desktop)
+// ── Flip a card to show the next photo from the rotate pool
+function pvFlipCard(cardEl, cardIdx) {
+  if(cardEl.classList.contains('pv-flipping')) return;
+  if(pvRotatePool.length < 2) return;
+
+  // Pick next photo not currently shown
+  const shownUrls = pvCardData.map(p => p && (p.url||p.thumbnail_url));
+  let next = null;
+  for(let tries = 0; tries < pvRotatePool.length * 2; tries++) {
+    const candidate = pvRotatePool[Math.floor(Math.random() * pvRotatePool.length)];
+    const url = candidate.url || candidate.thumbnail_url;
+    if(!shownUrls.includes(url)) { next = candidate; break; }
+  }
+  if(!next) next = pvRotatePool[Math.floor(Math.random() * pvRotatePool.length)];
+
+  // Pre-load next image into back face
+  const back = cardEl.querySelector('.pv-card-back');
+  const backImg = back ? back.querySelector('img') : null;
+  if(backImg) {
+    backImg.src = next.thumbnail_url || next.url || '';
+  }
+
+  cardEl.classList.add('pv-flipping');
+
+  // At halfway point (360ms), swap front content and reset
+  setTimeout(() => {
+    pvCardData[cardIdx] = next;
+    const inner = cardEl.querySelector('.pv-card-inner');
+    const isVid = pvIsVideo(next.url, next.key);
+    const thumb = next.thumbnail_url || next.url || '';
+    const title = next.title || (next.key||'').split('/').pop().replace(/\.\w+$/,'') || 'Untitled';
+    // Rebuild inner without transition
+    inner.style.transition = 'none';
+    inner.style.transform = 'rotateY(0deg)';
+    inner.innerHTML = pvMakeCardInner(next, 'front') + pvMakeCardInner(next, 'back');
+    // Re-attach overlay/label/badge (already in front markup)
+    // Re-wire new buttons
+    cardEl.classList.remove('pv-flipping');
+
+    // Rebind events on new buttons
+    const dlBtn = cardEl.querySelector('.pv-dl-btn');
+    const openBtn = cardEl.querySelector('.pv-open-btn');
+    if(dlBtn) dlBtn.addEventListener('click', e => { e.stopPropagation(); pvDownload(next.key, next.download_url||next.url, title); });
+    if(openBtn) openBtn.addEventListener('click', e => { e.stopPropagation(); pvOpenLb(next); });
+
+    // Update card class
+    cardEl.classList.toggle('pv-vid', isVid);
+
+    // Restore transition after reset
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => { inner.style.transition = ''; });
+    });
+  }, 380);
+}
+
+// ── Build grid cards (9 slots)
+function pvBuildGrid(photos) {
+  const grid = document.getElementById('pvGrid');
+  grid.innerHTML = '';
+
+  const items = photos.slice(0, 9);
+  if(!items.length) {
+    grid.innerHTML = `<div class="pv-error" style="display:block;grid-column:span 12">
+      <span>📷</span> No media found. <a href="gallery.html">Open Gallery →</a>
+    </div>`;
+    return;
+  }
+
+  pvCardData = items.slice(); // track what's shown per slot
+
+  items.forEach((p, i) => {
+    const isVid = pvIsVideo(p.url, p.key);
+    const title = p.title || (p.key||'').split('/').pop().replace(/\.\w+$/,'') || 'Untitled';
+
+    const card = document.createElement('div');
+    card.className = 'pv-card' + (isVid ? ' pv-vid' : '');
+
+    // Flip structure: inner > front + back
+    const inner = document.createElement('div');
+    inner.className = 'pv-card-inner';
+    inner.innerHTML = pvMakeCardInner(p, 'front') + pvMakeCardInner(p, 'back');
+    card.appendChild(inner);
+
+    // Hover-to-play video on front face
     if(isVid) {
-      const vidEl = card.querySelector('video');
-      card.addEventListener('mouseenter', () => {
-        if(!vidEl.src || vidEl.src === window.location.href) vidEl.src = p.url || '';
-        vidEl.play().then(() => card.classList.add('pv-playing')).catch(()=>{});
-      });
-      card.addEventListener('mouseleave', () => {
-        vidEl.pause(); vidEl.currentTime = 0;
-        card.classList.remove('pv-playing');
-      });
+      const vidEl = card.querySelector('.pv-card-front video');
+      if(vidEl) {
+        card.addEventListener('mouseenter', () => {
+          if(!vidEl.src || vidEl.src === window.location.href) vidEl.src = p.url || '';
+          vidEl.play().then(() => card.classList.add('pv-playing')).catch(()=>{});
+        });
+        card.addEventListener('mouseleave', () => {
+          vidEl.pause(); vidEl.currentTime = 0;
+          card.classList.remove('pv-playing');
+        });
+      }
     }
 
-    card.querySelector('.pv-dl-btn').addEventListener('click', e => {
-      e.stopPropagation();
-      pvDownload(p.key, p.download_url || p.url, title);
+    card.querySelector('.pv-dl-btn')?.addEventListener('click', e => {
+      e.stopPropagation(); pvDownload(p.key, p.download_url||p.url, title);
     });
-    card.querySelector('.pv-open-btn').addEventListener('click', e => {
-      e.stopPropagation();
-      pvOpenLb(p);
+    card.querySelector('.pv-open-btn')?.addEventListener('click', e => {
+      e.stopPropagation(); pvOpenLb(p);
     });
-    card.addEventListener('click', () => pvOpenLb(p));
+    card.addEventListener('click', () => pvOpenLb(pvCardData[i]));
 
     grid.appendChild(card);
-
-    // Staggered entrance animation
-    setTimeout(() => card.classList.add('pv-ready'), 60 + i * 80);
+    // Staggered entrance
+    setTimeout(() => card.classList.add('pv-ready'), 60 + i * 75);
   });
+
+  // ── Auto-flip rotation: every 4s flip a random card
+  if(pvRotatePool.length > 9) {
+    setInterval(() => {
+      const cards = document.querySelectorAll('#pvGrid .pv-card');
+      if(!cards.length) return;
+      const idx = Math.floor(Math.random() * cards.length);
+      pvFlipCard(cards[idx], idx);
+    }, 4000);
+  }
 }
 
 // ── Filter logic
