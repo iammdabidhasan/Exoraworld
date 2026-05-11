@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" type="image/png" href="favicon.png">
 <meta charset="UTF-8">
+<link rel="icon" type="image/png" href="favicon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ExoraWorld — Explore the Impossible</title>
 <meta name="google-adsense-account" content="ca-pub-XXXXXXXXXXXXXXXX">
@@ -35,15 +35,18 @@
   --f-mono: 'DM Mono', monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:16px}
-body{background:var(--bg);color:var(--ivory);font-family:var(--f-disp);overflow-x:hidden;cursor:none;min-height:100vh}
+html{scroll-behavior:smooth;font-size:16px;overflow-x:hidden}
+body{background:var(--bg);color:var(--ivory);font-family:var(--f-disp);min-height:100vh}
+@media(pointer:fine){body{cursor:none}}
+:focus-visible{outline:2px solid var(--v3);outline-offset:3px;border-radius:2px}
 
-/* ── CUSTOM CURSOR ── */
+@media(pointer:fine){
 #cur{position:fixed;width:8px;height:8px;background:var(--ivory);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;mix-blend-mode:difference}
 #cur-trail{position:fixed;width:32px;height:32px;border:1px solid rgba(139,92,246,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .1s ease,top .1s ease,width .3s,height .3s,border-color .3s}
 body.hov #cur{width:18px;height:18px}
 body.hov #cur-trail{width:52px;height:52px;border-color:rgba(139,92,246,.8)}
 body.clicking #cur{width:5px;height:5px}
+}
 
 /* ── NOISE GRAIN ── */
 body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:.4}
@@ -162,6 +165,16 @@ nav.scrolled .nav-primary{padding:12px 40px}
    HERO SECTION
 ══════════════════════════════ */
 #hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:130px 48px 80px;z-index:2;overflow:hidden}
+
+/* Hero custom background (image or video) */
+#hero-bg-media{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#hero-bg-media img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+#hero-bg-media video{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+/* Dark overlay so text stays readable over any image/video */
+#hero-bg-media::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,4,10,.55) 0%,rgba(5,4,10,.35) 50%,rgba(5,4,10,.7) 100%)}
+/* When custom bg is active, push stars/sphere behind it */
+#hero.has-custom-bg .stars,
+#hero.has-custom-bg .hero-sphere{opacity:0;pointer-events:none}
 .stars{position:absolute;inset:0;overflow:hidden}
 .star{position:absolute;border-radius:50%;background:white;animation:twinkle ease-in-out infinite}
 @keyframes twinkle{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:.9;transform:scale(1.4)}}
@@ -216,33 +229,213 @@ nav.scrolled .nav-primary{padding:12px 40px}
 .body-text{font-family:var(--f-serif);font-style:italic;font-size:1.05rem;color:var(--dim);line-height:1.8;max-width:460px}
 
 /* ══════════════════════════════
-   FEATURES / OVERVIEW BENTO GRID
+   PIXI VAULT SECTION
 ══════════════════════════════ */
-#features{background:linear-gradient(180deg,var(--bg),var(--bg1))}
-.bento{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:auto;gap:12px;margin-top:64px}
-.bento-card{background:var(--surface);border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s;padding:36px 32px}
-.bento-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(109,40,217,.06),transparent 60%);opacity:0;transition:opacity .4s}
-.bento-card:hover{transform:translateY(-5px);box-shadow:0 16px 56px rgba(109,40,217,.18)}
-.bento-card:hover::before{opacity:1}
-.bc-wide{grid-column:span 8}.bc-narrow{grid-column:span 4}.bc-third{grid-column:span 4}.bc-half{grid-column:span 6}.bc-full{grid-column:span 12}.bc-five{grid-column:span 5}.bc-seven{grid-column:span 7}
-.bc-accent-v{border-top:2px solid var(--v2)}.bc-accent-p{border-top:2px solid var(--pink)}.bc-accent-g{border-top:2px solid var(--gold)}.bc-accent-c{border-top:2px solid var(--cyan)}
-.bento-icon{font-size:2.4rem;margin-bottom:20px;display:block}
-.bento-tag{font-family:var(--f-mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;padding:4px 10px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);color:var(--v3);display:inline-block;margin-bottom:14px}
-.bento-h{font-family:var(--f-disp);font-weight:700;font-size:1.15rem;letter-spacing:-.02em;color:var(--ivory);margin-bottom:10px}
-.bento-p{font-family:var(--f-serif);font-size:.95rem;color:var(--dim);line-height:1.7}
-.bento-num{font-family:var(--f-disp);font-weight:800;font-size:3.5rem;letter-spacing:-.04em;color:var(--v2);line-height:1;margin-bottom:6px}
-.bento-num-label{font-family:var(--f-mono);font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dimmer)}
-.bento-arrow{position:absolute;bottom:24px;right:24px;font-size:1.1rem;color:rgba(139,92,246,.3);transition:all .35s}
-.bento-card:hover .bento-arrow{color:var(--v3);transform:translate(3px,-3px)}
-.bento-link{text-decoration:none;color:inherit;cursor:pointer}
-.bc-hero-inner{display:flex;flex-direction:column;justify-content:space-between;height:100%;min-height:280px}
-.bc-hero-inner .bento-h{font-size:1.8rem;max-width:320px}
-.bc-price-row{display:flex;align-items:baseline;gap:8px;margin-top:20px}
-.bc-usd{font-family:var(--f-disp);font-weight:800;font-size:2rem;color:var(--ivory)}
-.bc-bdt{font-family:var(--f-mono);font-size:.65rem;color:var(--dimmer);letter-spacing:.08em}
-.mini-stats{display:flex;flex-direction:column;gap:16px}
-.mini-stat{padding-bottom:14px;border-bottom:1px solid var(--border)}
-.mini-stat:last-child{border-bottom:none;padding-bottom:0}
+#pixivault{
+  position:relative;z-index:2;
+  background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 40%,var(--bg1) 100%);
+  padding:100px 0 120px;
+  overflow:hidden;
+}
+.pv-ambient{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 50%,rgba(109,40,217,.13),transparent 65%),
+    radial-gradient(ellipse 50% 50% at 85% 20%,rgba(236,72,153,.09),transparent 60%),
+    radial-gradient(ellipse 40% 40% at 60% 85%,rgba(6,182,212,.07),transparent 60%);
+}
+.pv-inner{max-width:1380px;margin:0 auto;padding:0 56px;position:relative;z-index:1}
+
+/* Header */
+.pv-header{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:36px;flex-wrap:wrap}
+.pv-title{font-family:var(--f-disp);font-weight:800;font-size:clamp(2.4rem,5vw,4.8rem);line-height:.95;letter-spacing:-.04em;color:var(--ivory);margin-bottom:12px}
+.pv-title em{font-style:italic;font-family:var(--f-serif);background:linear-gradient(135deg,var(--v3) 0%,var(--pink) 60%,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pv-sub{font-family:var(--f-serif);font-style:italic;font-size:1rem;color:var(--dim);line-height:1.7;max-width:380px}
+.pv-header-right{display:flex;flex-direction:column;align-items:flex-end;gap:14px;flex-shrink:0}
+.pv-live-badge{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(16,185,129,.7);border:1px solid rgba(16,185,129,.2);padding:6px 14px;background:rgba(16,185,129,.04)}
+.pv-live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pv-pulse 2s ease-in-out infinite;flex-shrink:0}
+@keyframes pv-pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(16,185,129,.4)}60%{opacity:.6;box-shadow:0 0 0 5px rgba(16,185,129,0)}}
+.pv-view-all{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--v3);text-decoration:none;padding:9px 20px;border:1px solid rgba(139,92,246,.35);transition:all .3s;white-space:nowrap}
+.pv-view-all:hover{background:rgba(139,92,246,.1);border-color:var(--v3)}
+
+/* Filter pills */
+.pv-filters{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap}
+.pv-pill{font-family:var(--f-mono);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;padding:7px 18px;border:1px solid rgba(139,92,246,.2);background:transparent;color:var(--dimmer);cursor:pointer;transition:all .25s;border-radius:2px}
+.pv-pill:hover{color:var(--v3);border-color:rgba(139,92,246,.5)}
+.pv-pill.active{background:rgba(139,92,246,.12);border-color:var(--v3);color:var(--v3)}
+
+/* ── MOSAIC GRID ── */
+.pv-mosaic{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  grid-template-rows:auto;
+  gap:10px;
+  margin-bottom:48px;
+}
+
+/* Grid placement — cinematic asymmetric layout */
+.pv-card:nth-child(1){grid-column:span 5;grid-row:span 2} /* big feature */
+.pv-card:nth-child(2){grid-column:span 4;grid-row:span 1}
+.pv-card:nth-child(3){grid-column:span 3;grid-row:span 1}
+.pv-card:nth-child(4){grid-column:span 4;grid-row:span 1}
+.pv-card:nth-child(5){grid-column:span 3;grid-row:span 1}
+.pv-card:nth-child(6){grid-column:span 4;grid-row:span 2} /* mid feature */
+.pv-card:nth-child(7){grid-column:span 3;grid-row:span 1}
+
+/* Card base */
+.pv-card{
+  position:relative;overflow:hidden;cursor:pointer;
+  background:var(--surface);border:1px solid var(--border);
+  min-height:240px;
+  transition:transform .45s cubic-bezier(.34,1.3,.64,1),box-shadow .45s,border-color .3s;
+  /* stagger in on load */
+  opacity:0;transform:translateY(28px) scale(.97);
+}
+.pv-card.pv-ready{opacity:1;transform:none}
+.pv-card:hover{
+  transform:translateY(-6px) scale(1.012);
+  box-shadow:0 24px 64px rgba(109,40,217,.25),0 0 0 1px rgba(139,92,246,.35);
+  border-color:rgba(139,92,246,.45);
+  z-index:2;
+}
+
+/* Media inside card */
+.pv-card img,.pv-card video{
+  width:100%;height:100%;object-fit:cover;
+  position:absolute;inset:0;
+  transition:transform .6s cubic-bezier(.25,.1,.25,1),opacity .4s;
+  display:block;
+}
+.pv-card:hover img{transform:scale(1.06)}
+.pv-card video{opacity:0;z-index:1}
+.pv-card.pv-playing video{opacity:1}
+.pv-card.pv-playing img{transform:scale(1.04)}
+
+/* Overlay gradient */
+.pv-card-ov{
+  position:absolute;inset:0;z-index:2;
+  background:linear-gradient(180deg,transparent 40%,rgba(5,4,10,.92) 100%);
+  opacity:0;transition:opacity .35s;
+}
+.pv-card:hover .pv-card-ov{opacity:1}
+
+/* Card labels */
+.pv-card-label{
+  position:absolute;bottom:0;left:0;right:0;z-index:3;
+  padding:16px 18px;
+  transform:translateY(8px);opacity:0;
+  transition:all .35s cubic-bezier(.34,1.2,.64,1);
+}
+.pv-card:hover .pv-card-label{transform:none;opacity:1}
+.pv-card-name{font-family:var(--f-disp);font-weight:700;font-size:.92rem;color:var(--ivory);letter-spacing:-.01em;margin-bottom:6px}
+.pv-card-acts{display:flex;gap:6px}
+.pv-card-btn{font-family:var(--f-mono);font-size:.44rem;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.35);color:rgba(255,255,255,.85);cursor:pointer;backdrop-filter:blur(8px);transition:all .2s;border-radius:2px}
+.pv-card-btn:hover{background:var(--v1);border-color:var(--v1)}
+
+/* Video badge */
+.pv-badge{
+  position:absolute;top:12px;right:12px;z-index:3;
+  font-family:var(--f-mono);font-size:.42rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 8px;background:rgba(5,4,10,.75);border:1px solid rgba(139,92,246,.3);
+  color:var(--v3);backdrop-filter:blur(6px);
+  opacity:0;transition:opacity .2s;
+}
+.pv-card:hover .pv-badge{opacity:1}
+
+/* Play circle overlay on video cards */
+.pv-play{
+  position:absolute;top:50%;left:50%;z-index:3;
+  transform:translate(-50%,-50%) scale(.85);
+  width:56px;height:56px;border-radius:50%;
+  background:rgba(109,40,217,.75);border:1.5px solid rgba(255,255,255,.25);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:all .3s;backdrop-filter:blur(10px);
+  box-shadow:0 0 24px rgba(109,40,217,.5);
+}
+.pv-card.pv-vid:hover .pv-play{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.pv-card.pv-playing .pv-play{opacity:0}
+
+/* Skeleton shimmer */
+.pv-skeleton{
+  background:linear-gradient(90deg,var(--surface) 25%,rgba(28,21,48,.9) 50%,var(--surface) 75%);
+  background-size:400% 100%;
+  animation:pv-shimmer 1.8s infinite linear;
+  border:1px solid var(--border);
+  min-height:240px;
+}
+@keyframes pv-shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.pv-sk-a{grid-column:span 5;grid-row:span 2}
+.pv-sk-b{grid-column:span 4}
+.pv-sk-c{grid-column:span 3}
+.pv-sk-d{grid-column:span 4}
+.pv-sk-e{grid-column:span 3}
+.pv-sk-f{grid-column:span 4;grid-row:span 2}
+.pv-sk-g{grid-column:span 3}
+
+/* Error */
+.pv-error{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.1em;color:rgba(239,68,68,.6);padding:20px;text-align:center;border:1px dashed rgba(239,68,68,.2)}
+.pv-error a{color:var(--v3);text-decoration:none}
+
+/* CTA row */
+.pv-cta-row{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.pv-cta-hint{font-family:var(--f-mono);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dimmer)}
+
+/* Pixi Vault Lightbox */
+.pv-lb{
+  display:none;position:fixed;inset:0;z-index:800;
+  background:rgba(5,4,10,.94);backdrop-filter:blur(18px);
+  align-items:center;justify-content:center;flex-direction:column;padding:24px;
+}
+.pv-lb.open{display:flex;animation:fade-in .28s ease}
+.pv-lb-close{
+  position:fixed;top:18px;right:22px;z-index:801;
+  background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);
+  color:var(--dimmer);font-size:1rem;width:36px;height:36px;
+  cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;
+  border-radius:2px;
+}
+.pv-lb-close:hover{color:var(--ivory);background:rgba(139,92,246,.25)}
+.pv-lb-wrap{max-width:min(1100px,88vw);width:100%;max-height:75vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pv-lb-wrap img{max-width:100%;max-height:75vh;object-fit:contain;display:block}
+.pv-lb-wrap video{max-width:100%;max-height:75vh;width:100%;object-fit:contain;outline:none;background:#000}
+.pv-lb-foot{max-width:min(1100px,88vw);width:100%;display:flex;align-items:center;justify-content:space-between;margin-top:18px;flex-wrap:wrap;gap:14px}
+.pv-lb-title{font-family:var(--f-disp);font-weight:700;font-size:1rem;color:var(--ivory)}
+.pv-lb-meta{font-family:var(--f-mono);font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmer);margin-top:4px}
+.pv-lb-btns{display:flex;gap:8px}
+.pv-lb-btn{font-family:var(--f-mono);font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;padding:9px 20px;cursor:pointer;border:none;transition:all .25s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.pv-lb-dl{background:linear-gradient(135deg,var(--v1),var(--pink));color:#fff}
+.pv-lb-dl:hover{opacity:.88}
+.pv-lb-orig{background:var(--surface);border:1px solid var(--border);color:var(--dim)}
+.pv-lb-orig:hover{border-color:rgba(139,92,246,.4);color:var(--ivory)}
+
+/* Responsive */
+@media(max-width:1100px){
+  .pv-mosaic{grid-template-columns:repeat(6,1fr)}
+  .pv-card:nth-child(1){grid-column:span 3;grid-row:span 2}
+  .pv-card:nth-child(2){grid-column:span 3}
+  .pv-card:nth-child(3){grid-column:span 3}
+  .pv-card:nth-child(4){grid-column:span 3}
+  .pv-card:nth-child(5){grid-column:span 3}
+  .pv-card:nth-child(6){grid-column:span 3;grid-row:span 2}
+  .pv-card:nth-child(7){grid-column:span 3}
+  .pv-sk-a{grid-column:span 3;grid-row:span 2}
+  .pv-sk-b,.pv-sk-c,.pv-sk-d,.pv-sk-e,.pv-sk-g{grid-column:span 3}
+  .pv-sk-f{grid-column:span 3;grid-row:span 2}
+}
+@media(max-width:768px){
+  .pv-inner{padding:0 20px}
+  .pv-mosaic{grid-template-columns:1fr 1fr;gap:8px}
+  .pv-card:nth-child(1){grid-column:span 2;grid-row:span 1;min-height:220px}
+  .pv-card:nth-child(n){grid-column:span 1;grid-row:span 1;min-height:180px}
+  .pv-card:nth-child(6){grid-column:span 1;grid-row:span 1}
+  .pv-sk-a,.pv-sk-f{grid-column:span 1;grid-row:span 1}
+  .pv-sk-b,.pv-sk-c,.pv-sk-d,.pv-sk-e,.pv-sk-g{grid-column:span 1}
+  .pv-header{flex-direction:column;align-items:flex-start}
+  .pv-header-right{align-items:flex-start}
+  .pv-card-label{opacity:1;transform:none}
+  .pv-card-ov{opacity:1}
+  .pv-badge{opacity:1}
+}
 
 /* ══════════════════════════════
    STORE SECTION
@@ -658,7 +851,6 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
 .exo-upload-name{font-family:var(--f-mono);font-size:.48rem;color:var(--dimmer);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .exo-pay-mode .exo-status-dot{background:#f59e0b!important;box-shadow:0 0 6px #f59e0b!important}
 .bento-card,.prod-card,.course-card,.tmpl-card,.ai-card,.svc-row{will-change:transform;contain:layout style}
-img{loading:lazy}
 
 /* ══════════════════════════════
    RESPONSIVE
@@ -773,26 +965,30 @@ img{loading:lazy}
       <div class="m-panel active" id="panel-login">
         <div class="modal-title">Welcome back</div>
         <div class="modal-sub">Sign in to your ExoraWorld account</div>
-        <div class="field"><label>Email Address</label><input type="email" placeholder="your@email.com"></div>
-        <div class="field"><label>Password</label><input type="password" placeholder="••••••••"></div>
-        <button class="modal-submit" onclick="handleAuth('login')">Sign In →</button>
+        <form onsubmit="handleAuth('login');return false" autocomplete="on">
+        <div class="field"><label for="login-email">Email Address</label><input type="email" id="login-email" name="email" placeholder="your@email.com" autocomplete="email"></div>
+        <div class="field"><label for="login-password">Password</label><input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password"></div>
+        <button type="submit" class="modal-submit">Sign In →</button>
+        </form>
         <div class="modal-divider">or continue with</div>
         <div class="social-btns">
-          <button class="social-btn">🌐 Google</button>
-          <button class="social-btn">💙 Facebook</button>
+          <button class="social-btn" type="button">🌐 Google</button>
+          <button class="social-btn" type="button">💙 Facebook</button>
         </div>
       </div>
       <div class="m-panel" id="panel-register">
         <div class="modal-title">Join ExoraWorld</div>
         <div class="modal-sub">Create your free explorer account</div>
-        <div class="field"><label>Full Name</label><input type="text" placeholder="Your name"></div>
-        <div class="field"><label>Email Address</label><input type="email" placeholder="your@email.com"></div>
-        <div class="field"><label>Password</label><input type="password" placeholder="Create a strong password"></div>
-        <button class="modal-submit" onclick="handleAuth('register')">Create Account →</button>
+        <form onsubmit="handleAuth('register');return false" autocomplete="on">
+        <div class="field"><label for="reg-name">Full Name</label><input type="text" id="reg-name" name="name" placeholder="Your name" autocomplete="name"></div>
+        <div class="field"><label for="reg-email">Email Address</label><input type="email" id="reg-email" name="email" placeholder="your@email.com" autocomplete="email"></div>
+        <div class="field"><label for="reg-password">Password</label><input type="password" id="reg-password" name="password" placeholder="Create a strong password" autocomplete="new-password"></div>
+        <button type="submit" class="modal-submit">Create Account →</button>
+        </form>
         <div class="modal-divider">or continue with</div>
         <div class="social-btns">
-          <button class="social-btn">🌐 Google</button>
-          <button class="social-btn">💙 Facebook</button>
+          <button class="social-btn" type="button">🌐 Google</button>
+          <button class="social-btn" type="button">💙 Facebook</button>
         </div>
       </div>
     </div>
@@ -815,13 +1011,14 @@ img{loading:lazy}
         <div class="pay-field"><label>Your Name</label><input type="text" id="pm-bname" placeholder="Full name"></div>
         <div class="pay-field"><label>Email (for delivery)</label><input type="email" id="pm-bemail" placeholder="your@email.com"></div>
         <div class="pay-field"><label>Phone</label><input type="tel" id="pm-bphone" placeholder="01XXXXXXXXX"></div>
-        <button class="pay-submit" onclick="toPayStep()">Continue to Payment →</button>
+        <button type="button" class="pay-submit" onclick="toPayStep()">Continue to Payment →</button>
       </div>
       <div id="pm-payment" style="display:none">
         <div class="pay-tabs">
           <button class="ptab on" onclick="switchPay('bkash')">bKash</button>
           <button class="ptab" onclick="switchPay('nagad')">Nagad</button>
           <button class="ptab" onclick="switchPay('airtm')">Airtm</button>
+          <button class="ptab" onclick="switchPay('skrill')">Skrill</button>
           <button class="ptab" onclick="switchPay('btc')">₿ BTC</button>
           <button class="ptab" onclick="switchPay('eth')">Ξ ETH</button>
           <button class="ptab" onclick="switchPay('usdt')">💲 USDT</button>
@@ -834,21 +1031,29 @@ img{loading:lazy}
           <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">In <strong>Reference</strong>, type your email</div></div>
           <div class="pay-step"><div class="ps-num">3</div><div class="ps-text">Enter your <strong>Transaction ID</strong> below</div></div>
           <div class="txn-field"><label>bKash Transaction ID</label><input type="text" class="txn-input" id="txn-bkash" placeholder="e.g. 8N7A6B5C4D"></div>
-          <button class="pay-submit" onclick="submitOrder('bKash')">Submit Order →</button>
+          <button class="pay-submit" onclick="submitOrder('bKash',event)" type="button">Submit Order →</button>
         </div>
         <div class="ppanel" id="pp-nagad">
           <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Open <strong>Nagad app</strong> → Send Money</div></div>
           <div class="pay-num-box"><span class="pnb-num" id="nagad-num">01715948039</span><button class="copy-btn" onclick="copyN('nagad-num',this)">Copy</button></div>
           <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Type your email in <strong>Reference</strong></div></div>
           <div class="txn-field"><label>Nagad Transaction ID</label><input type="text" class="txn-input" id="txn-nagad" placeholder="Transaction ID"></div>
-          <button class="pay-submit" onclick="submitOrder('Nagad')">Submit Order →</button>
+          <button class="pay-submit" onclick="submitOrder('Nagad',event)" type="button">Submit Order →</button>
         </div>
         <div class="ppanel" id="pp-airtm">
           <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send payment to Airtm account below</div></div>
           <div class="pay-num-box"><span class="pnb-num" id="airtm-acc">iammdabidhasan@gmail.com</span><button class="copy-btn" onclick="copyN('airtm-acc',this)">Copy</button></div>
           <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Include your <strong>email + product name</strong> in note</div></div>
           <div class="txn-field"><label>Airtm Reference</label><input type="text" class="txn-input" id="txn-airtm" placeholder="Transaction reference"></div>
-          <button class="pay-submit" onclick="submitOrder('Airtm')">Submit Order →</button>
+          <button class="pay-submit" onclick="submitOrder('Airtm',event)" type="button">Submit Order →</button>
+        </div>
+        <div class="ppanel" id="pp-skrill">
+          <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);color:var(--v3);margin-bottom:14px;display:inline-block">💜 Skrill</div>
+          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Open <strong>Skrill</strong> → Send Money</div></div>
+          <div class="pay-num-box"><span class="pnb-num" id="skrill-acc"></span><button class="copy-btn" onclick="copyN('skrill-acc',this)">Copy</button></div>
+          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Include your <strong>email + product name</strong> in the note</div></div>
+          <div class="txn-field"><label>Skrill Transaction ID</label><input type="text" class="txn-input" id="txn-skrill" placeholder="Transaction ID or reference"></div>
+          <button class="pay-submit" onclick="submitOrder('Skrill',event)" type="button">Submit Order →</button>
         </div>
         <div class="ppanel" id="pp-btc">
           <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);color:var(--gold);margin-bottom:14px;display:inline-block">₿ Bitcoin (BTC) — On-chain</div>
@@ -856,7 +1061,7 @@ img{loading:lazy}
           <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="btc-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_BTC_WALLET_ADDRESS</span><button class="copy-btn" onclick="copyN('btc-addr',this)">Copy</button></div>
           <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Wait for <strong>1 confirmation</strong>, then paste your TX hash below</div></div>
           <div class="txn-field"><label>Bitcoin TX Hash</label><input type="text" class="txn-input" id="txn-btc" placeholder="0x... or bc1..."></div>
-          <button class="pay-submit" onclick="submitOrder('Bitcoin')">Submit Proof →</button>
+          <button class="pay-submit" onclick="submitOrder('Bitcoin',event)" type="button">Submit Proof →</button>
         </div>
         <div class="ppanel" id="pp-eth">
           <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);color:var(--v3);margin-bottom:14px;display:inline-block">Ξ Ethereum (ETH) — ERC-20</div>
@@ -864,15 +1069,15 @@ img{loading:lazy}
           <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="eth-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_ETH_WALLET_ADDRESS</span><button class="copy-btn" onclick="copyN('eth-addr',this)">Copy</button></div>
           <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Paste your <strong>transaction hash</strong> once confirmed</div></div>
           <div class="txn-field"><label>ETH Transaction Hash</label><input type="text" class="txn-input" id="txn-eth" placeholder="0x..."></div>
-          <button class="pay-submit" onclick="submitOrder('Ethereum')">Submit Proof →</button>
+          <button class="pay-submit" onclick="submitOrder('Ethereum',event)" type="button">Submit Proof →</button>
         </div>
         <div class="ppanel" id="pp-usdt">
-          <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);color:var(--green);margin-bottom:14px;display:inline-block">💲 USDT — TRC-20 / ERC-20</div>
-          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Choose network: <strong>TRC-20 (Tron)</strong> recommended for low fees</div></div>
+          <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);color:var(--green);margin-bottom:14px;display:inline-block">💲 USDT — ERC-20</div>
+          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send USDT via <strong>ERC-20 (Ethereum)</strong> network only</div></div>
           <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="usdt-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_USDT_WALLET_TRC20</span><button class="copy-btn" onclick="copyN('usdt-addr',this)">Copy</button></div>
           <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Send exact USD amount in USDT</div></div>
           <div class="txn-field"><label>USDT Transaction Hash</label><input type="text" class="txn-input" id="txn-usdt" placeholder="Txn hash or ID"></div>
-          <button class="pay-submit" onclick="submitOrder('USDT')">Submit Proof →</button>
+          <button class="pay-submit" onclick="submitOrder('USDT',event)" type="button">Submit Proof →</button>
         </div>
         <div class="ppanel" id="pp-sol">
           <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.25);color:var(--cyan);margin-bottom:14px;display:inline-block">◎ Solana (SOL)</div>
@@ -880,7 +1085,7 @@ img{loading:lazy}
           <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="sol-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_SOL_WALLET_ADDRESS</span><button class="copy-btn" onclick="copyN('sol-addr',this)">Copy</button></div>
           <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Paste <strong>signature / TX ID</strong> after sending</div></div>
           <div class="txn-field"><label>Solana Signature</label><input type="text" class="txn-input" id="txn-sol" placeholder="Signature hash..."></div>
-          <button class="pay-submit" onclick="submitOrder('Solana')">Submit Proof →</button>
+          <button class="pay-submit" onclick="submitOrder('Solana',event)" type="button">Submit Proof →</button>
         </div>
         <div class="ppanel" id="pp-bnb">
           <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);color:var(--gold);margin-bottom:14px;display:inline-block">⬡ BNB — BSC Network</div>
@@ -888,7 +1093,7 @@ img{loading:lazy}
           <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="bnb-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_BNB_BSC_ADDRESS</span><button class="copy-btn" onclick="copyN('bnb-addr',this)">Copy</button></div>
           <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Enter your <strong>TX hash</strong> to confirm payment</div></div>
           <div class="txn-field"><label>BNB Transaction Hash</label><input type="text" class="txn-input" id="txn-bnb" placeholder="0x..."></div>
-          <button class="pay-submit" onclick="submitOrder('BNB')">Submit Proof →</button>
+          <button class="pay-submit" onclick="submitOrder('BNB',event)" type="button">Submit Proof →</button>
         </div>
       </div>
       <div class="pay-success" id="pm-success">
@@ -925,7 +1130,7 @@ img{loading:lazy}
       <li><a href="games.html">🎮 Games</a></li>
       <li><a href="ai.html">AI &amp; Dev</a></li>
       <li><a href="news.html">News</a></li>
-      <li style="list-style:none">
+      <li>
         <button class="nav-more-btn" id="moreBtn" onclick="toggleMore()" aria-expanded="false" aria-controls="moreRow">
           More <span class="more-arrow">▾</span>
         </button>
@@ -958,6 +1163,8 @@ img{loading:lazy}
 
 <!-- ══════ HERO ══════ -->
 <section id="hero">
+  <!-- Custom background (image or video) — injected by JS when CFG.heroVideo or CFG.heroBg is set -->
+  <div id="hero-bg-media" style="display:none"></div>
   <div class="stars" id="stars"></div>
   <div class="hero-sphere"></div>
 
@@ -1017,61 +1224,76 @@ img{loading:lazy}
 
 <div class="ad-slot ad-slot-banner" style="display:none" id="adBanner1">Advertisement</div>
 
-<!-- ══════ FEATURES BENTO ══════ -->
-<section class="section" id="features">
-  <div class="wrap pad">
-    <div class="reveal">
-      <div class="eyebrow">What's Inside</div>
-      <h2 class="big-title">One world.<br><em>Endless experience.</em></h2>
-    </div>
-    <div class="bento">
-      <a href="#store" class="bento-card bc-wide bc-accent-v bento-link reveal rv1">
-        <div class="bc-hero-inner">
-          <div><span class="bento-icon">🛒</span><div class="bento-tag">Digital Store</div><div class="bento-h">Premium digital goods. Pay in USD or BDT.</div><div class="bento-p">AI packs, design kits, templates, presets — all delivered instantly. bKash, Nagad and Airtm accepted.</div></div>
-          <div class="bc-price-row"><span class="bc-usd">From $5</span><span class="bc-bdt">/ ৳550</span></div>
-        </div>
-        <div class="bento-arrow">↗</div>
-      </a>
-      <div class="bento-card bc-narrow bc-accent-p reveal rv2">
-        <div class="mini-stats">
-          <div class="mini-stat"><div class="bento-num" data-target="200">0</div><div class="bento-num-label">Products Sold</div></div>
-          <div class="mini-stat"><div class="bento-num" data-target="50">0</div><div class="bento-num-label">Happy Clients</div></div>
-          <div class="mini-stat"><div class="bento-num" data-target="12">0</div><div class="bento-num-label">Courses Live</div></div>
-        </div>
+<!-- ══════ PIXI VAULT ══════ -->
+<section id="pixivault">
+  <!-- Ambient glow behind the section -->
+  <div class="pv-ambient"></div>
+
+  <div class="pv-inner">
+
+    <!-- Header row -->
+    <div class="pv-header reveal">
+      <div class="pv-header-left">
+        <div class="eyebrow">Visual Archive</div>
+        <h2 class="pv-title">Pixi<em>Vault</em></h2>
+        <p class="pv-sub">High-res photos &amp; videos by Abid — browse, play, download free.</p>
       </div>
-      <a href="#templates" class="bento-card bc-third bc-accent-g bento-link reveal rv1">
-        <span class="bento-icon">🖥️</span><div class="bento-tag">Website Templates</div>
-        <div class="bento-h">Ready-to-deploy site templates</div>
-        <div class="bento-p">Beautiful, animated, fast. Download and go live today.</div>
-        <div class="bento-arrow">↗</div>
-      </a>
-      <a href="#courses" class="bento-card bc-third bc-accent-c bento-link reveal rv2">
-        <span class="bento-icon">📚</span><div class="bento-tag">Courses</div>
-        <div class="bento-h">Learn AI, design & more</div>
-        <div class="bento-p">Practical courses built around real skills. No fluff.</div>
-        <div class="bento-arrow">↗</div>
-      </a>
-      <a href="#ai" class="bento-card bc-third bc-accent-v bento-link reveal rv3">
-        <span class="bento-icon">🤖</span><div class="bento-tag">AI & Dev</div>
-        <div class="bento-h">Custom AI & code</div>
-        <div class="bento-p">Prompts, automation, chatbots, custom builds.</div>
-        <div class="bento-arrow">↗</div>
-      </a>
-      <a href="#services" class="bento-card bc-half bc-accent-p bento-link reveal rv1">
-        <span class="bento-icon">⚡</span><div class="bento-tag">Services</div>
-        <div class="bento-h">Creative services & private consultation</div>
-        <div class="bento-p">Brand design, web development, 1-on-1 consultations. Direct access to Abid.</div>
-        <div class="bento-arrow">↗</div>
-      </a>
-      <a href="games.html" class="bento-card bc-half bc-accent-g bento-link reveal rv2">
-        <span class="bento-icon">🎮</span><div class="bento-tag">Games & Fun</div>
-        <div class="bento-h">5 free animated web games + public chat</div>
-        <div class="bento-p">Play Snake, Void Runner, Gravity Bird, Tetris and more. No download. Just play.</div>
-        <div class="bento-arrow">↗</div>
-      </a>
+      <div class="pv-header-right">
+        <div class="pv-live-badge">
+          <span class="pv-live-dot"></span>
+          <span id="pvCount">—</span> files live
+        </div>
+        <a href="gallery.html" class="pv-view-all">View Full Gallery ↗</a>
+      </div>
+    </div>
+
+    <!-- Filter pills -->
+    <div class="pv-filters reveal">
+      <button class="pv-pill active" data-pf="all">All</button>
+      <button class="pv-pill" data-pf="photo">Photos</button>
+      <button class="pv-pill" data-pf="video">Videos</button>
+    </div>
+
+    <!-- Main mosaic grid -->
+    <div class="pv-mosaic" id="pvGrid">
+      <!-- Skeletons shown while loading -->
+      <div class="pv-skeleton pv-sk-a"></div>
+      <div class="pv-skeleton pv-sk-b"></div>
+      <div class="pv-skeleton pv-sk-c"></div>
+      <div class="pv-skeleton pv-sk-d"></div>
+      <div class="pv-skeleton pv-sk-e"></div>
+      <div class="pv-skeleton pv-sk-f"></div>
+      <div class="pv-skeleton pv-sk-g"></div>
+    </div>
+
+    <!-- Error state -->
+    <div class="pv-error" id="pvError" style="display:none">
+      <span>⚠</span> Could not connect to gallery. <a href="gallery.html">Open Gallery →</a>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="pv-cta-row reveal">
+      <a href="gallery.html" class="cta-main"><span>Explore Full Gallery</span></a>
+      <span class="pv-cta-hint">Free to browse &amp; download · No sign-up</span>
     </div>
   </div>
 </section>
+
+<!-- Pixi Vault Lightbox -->
+<div class="pv-lb" id="pvLb">
+  <button class="pv-lb-close" id="pvLbClose">✕</button>
+  <div class="pv-lb-wrap" id="pvLbWrap"></div>
+  <div class="pv-lb-foot">
+    <div class="pv-lb-info">
+      <div class="pv-lb-title" id="pvLbTitle">—</div>
+      <div class="pv-lb-meta" id="pvLbMeta">—</div>
+    </div>
+    <div class="pv-lb-btns">
+      <button class="pv-lb-btn pv-lb-dl" id="pvLbDl">⬇ Download</button>
+      <a class="pv-lb-btn pv-lb-orig" id="pvLbOrig" href="gallery.html" target="_blank" rel="noopener">Open in Gallery ↗</a>
+    </div>
+  </div>
+</div>
 
 <!-- ══════ STORE ══════ -->
 <section class="section" id="store">
@@ -1550,7 +1772,7 @@ img{loading:lazy}
           <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How are digital products delivered?</span><div class="faq-toggle">+</div></div><div class="faq-a"><div class="faq-a-inner">After we verify your payment, the product files are sent directly to your email address. Usually within 1–3 hours, often much faster. Make sure to enter a valid email when purchasing.</div></div></div>
           <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Can I get a refund?</span><div class="faq-toggle">+</div></div><div class="faq-a"><div class="faq-a-inner">If you have an issue with your purchase, reach out within 7 days and we'll make it right. We stand behind every product we sell. Contact Abid directly.</div></div></div>
           <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How do I book a private consultation?</span><div class="faq-toggle">+</div></div><div class="faq-a"><div class="faq-a-inner">Use the contact form below or message directly on Facebook. Describe what you need, pick a time and Abid will confirm. Sessions are $20/hr or ৳2,200/hr.</div></div></div>
-          <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Do you accept international payments?</span><div class="faq-toggle">+</div></div><div class="faq-a"><div class="faq-a-inner">Yes! International customers can pay via Airtm. We're working on adding more international options. Prices shown in both USD and BDT for clarity.</div></div></div>
+          <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Do you accept international payments?</span><div class="faq-toggle">+</div></div><div class="faq-a"><div class="faq-a-inner">Yes! International customers can pay via Airtm or Skrill. We're also working on adding more international options. Prices shown in both USD and BDT for clarity.</div></div></div>
           <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How long do service projects take?</span><div class="faq-toggle">+</div></div><div class="faq-a"><div class="faq-a-inner">It depends on the scope. Simple designs: 1–3 days. Full branding: 5–7 days. Web development: 1–3 weeks. Rush delivery is available for most projects.</div></div></div>
         </div>
         <div class="help-contact" style="margin-top:20px">
@@ -1614,6 +1836,7 @@ img{loading:lazy}
         <div class="fpi">bKash</div>
         <div class="fpi">Nagad</div>
         <div class="fpi">Airtm</div>
+        <div class="fpi">Skrill</div>
         <div class="fpi" style="color:rgba(245,158,11,.5);border-color:rgba(245,158,11,.2)">₿ BTC</div>
         <div class="fpi" style="color:rgba(139,92,246,.5);border-color:rgba(139,92,246,.2)">Ξ ETH</div>
         <div class="fpi" style="color:rgba(16,185,129,.5);border-color:rgba(16,185,129,.2)">USDT</div>
@@ -1702,6 +1925,7 @@ const CFG = {
   bkash:  '01715948039',
   nagad:  '01715948039',
   airtm:  'iammdabidhasanmail.com',
+  skrill: 'iammdabidhasanmail.com',
   btc:    '134WpYQ2qKSQ9hdbgVYm7JZneRnBEuchPL',
   eth:    '0x18554a980ff6445989de841a602f7cfdb897a275',
   usdt:   '0x18554a980ff6445989de841a602f7cfdb897a275',
@@ -1714,10 +1938,18 @@ const CFG = {
   // Once filled, you'll get instant Telegram messages + screenshots for every order!
   telegramBot:  '', // e.g. '7123456789:AAFxxxxxxxxxxxxxxxxxxxxxxxx'
   telegramChat: '', // e.g. '123456789'
+
+  // ── HERO BACKGROUND (optional)
+  // Set ONE of these to replace the default stars background.
+  // Video takes priority over image if both are set.
+  // Leave both as '' to keep the default stars/dark background.
+  heroVideo: '', // e.g. 'https://example.com/your-video.mp4'  → loops silently
+  heroBg:    '', // e.g. 'https://example.com/your-image.jpg'  → static background
 };
 
 
-// ── CURSOR
+// ── CURSOR (pointer devices only)
+if(window.matchMedia('(pointer:fine)').matches) {
 const cur=document.getElementById('cur'),trail=document.getElementById('cur-trail');
 let mx=0,my=0,tx=0,ty=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
@@ -1728,6 +1960,7 @@ document.querySelectorAll('a,button,.prod-card,.tmpl-card,.course-card,.ai-card,
 });
 document.addEventListener('mousedown',()=>document.body.classList.add('clicking'));
 document.addEventListener('mouseup',()=>document.body.classList.remove('clicking'));
+}
 
 // ── STARS
 (function(){
@@ -1738,6 +1971,292 @@ document.addEventListener('mouseup',()=>document.body.classList.remove('clicking
     const sz=Math.random()*2.5+.5;
     el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*-6}s`;
     s.appendChild(el);
+  }
+})();
+
+// ── HERO BACKGROUND (image or video from CFG)
+(function(){
+  const hero = document.getElementById('hero');
+  const wrap = document.getElementById('hero-bg-media');
+  if(CFG.heroVideo) {
+    // Video background — looping, muted, autoplay
+    const vid = document.createElement('video');
+    vid.src = CFG.heroVideo;
+    vid.autoplay = true;
+    vid.loop = true;
+    vid.muted = true;
+    vid.playsInline = true;
+    vid.setAttribute('playsinline','');
+    wrap.appendChild(vid);
+    wrap.style.display = 'block';
+    hero.classList.add('has-custom-bg');
+  } else if(CFG.heroBg) {
+    // Image background
+    const img = document.createElement('img');
+    img.src = CFG.heroBg;
+    img.alt = '';
+    img.setAttribute('aria-hidden','true');
+    wrap.appendChild(img);
+    wrap.style.display = 'block';
+    hero.classList.add('has-custom-bg');
+  }
+  // If both are empty — default stars background stays, nothing changes
+})();
+
+// ══════════════════════════════════════════════════════════════
+// PIXI VAULT — fetches from gallery Cloudflare Worker
+// Feeds: hero bg slideshow + mosaic preview grid
+// ══════════════════════════════════════════════════════════════
+const PV_WORKER = 'https://pixivault.iammdabidhasan.workers.dev';
+const PV_VIDEO_EXTS = new Set(['mp4','webm','mov','mkv','m4v','ogg']);
+
+function pvIsVideo(url, key) {
+  const src = url || key || '';
+  return PV_VIDEO_EXTS.has((src.split('?')[0].split('.').pop()||'').toLowerCase());
+}
+
+// ── Hero slideshow from real gallery photos (landscape only)
+const PVHeroSlider = (() => {
+  const INTERVAL = 6000;
+  const MIN_RATIO = 1.25;
+  let pool = [], current = 0, active = 0, timer = null;
+
+  // Two crossfade slots already in DOM
+  const slot0 = document.getElementById('hero-bg-media');
+  let img0 = null, img1 = null;
+
+  function buildSlots() {
+    // Only runs if CFG.heroVideo and CFG.heroBg are both empty (no manual override)
+    if(CFG.heroVideo || CFG.heroBg) return false;
+    img0 = document.createElement('img');
+    img1 = document.createElement('img');
+    [img0, img1].forEach(img => {
+      img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.6s cubic-bezier(.4,0,.2,1);will-change:opacity;';
+      img.setAttribute('aria-hidden','true');
+    });
+    slot0.appendChild(img0);
+    slot0.appendChild(img1);
+    slot0.style.display = 'block';
+    document.getElementById('hero').classList.add('has-custom-bg');
+    return true;
+  }
+
+  function probeImage(url) {
+    return new Promise(resolve => {
+      const img = new Image();
+      img.onload = () => resolve({url, w:img.naturalWidth, h:img.naturalHeight});
+      img.onerror = () => resolve(null);
+      img.src = url;
+    });
+  }
+
+  async function loadPool(photos) {
+    if(!buildSlots()) return; // manual override is set, skip
+    const candidates = photos.filter(p => !pvIsVideo(p.url, p.key)).slice(0, 22);
+    const results = await Promise.all(candidates.map(p => probeImage(p.url || p.thumbnail_url || '')));
+    pool = results.filter(r => r && r.w > 0 && r.w / r.h >= MIN_RATIO).map(r => r.url);
+    // Shuffle
+    for(let i = pool.length-1; i > 0; i--) {
+      const j = Math.floor(Math.random()*(i+1));
+      [pool[i],pool[j]] = [pool[j],pool[i]];
+    }
+    if(pool.length === 0) {
+      // No landscape photos — hide slots, restore default
+      slot0.style.display = 'none';
+      document.getElementById('hero').classList.remove('has-custom-bg');
+      return;
+    }
+    showSlide(0, true);
+    if(pool.length > 1) timer = setInterval(() => showSlide(current+1), INTERVAL);
+  }
+
+  function showSlide(idx, instant) {
+    current = ((idx % pool.length) + pool.length) % pool.length;
+    const slots = [img0, img1];
+    const next = 1 - active;
+    slots[next].src = pool[current];
+    if(instant) {
+      slots[next].style.opacity = '1';
+      active = next;
+    } else {
+      slots[active].style.opacity = '0';
+      slots[next].style.opacity = '1';
+      active = next;
+    }
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden) clearInterval(timer);
+    else if(pool.length > 1) timer = setInterval(() => showSlide(current+1), INTERVAL);
+  });
+
+  return { loadPool };
+})();
+
+// ── Pixi Vault grid state
+let pvAllPhotos = [];
+let pvFilter = 'all';
+
+// ── Build grid cards
+function pvBuildGrid(photos) {
+  const grid = document.getElementById('pvGrid');
+  grid.innerHTML = '';
+
+  // Show up to 7 items (fills the asymmetric mosaic perfectly)
+  const items = photos.slice(0, 7);
+  if(!items.length) {
+    grid.innerHTML = `<div class="pv-error" style="display:block;grid-column:span 12">
+      <span>📷</span> No media found. <a href="gallery.html">Open Gallery →</a>
+    </div>`;
+    return;
+  }
+
+  items.forEach((p, i) => {
+    const isVid = pvIsVideo(p.url, p.key);
+    const thumb = p.thumbnail_url || p.url || '';
+    const title = p.title || (p.key||'').split('/').pop().replace(/\.\w+$/,'') || 'Untitled';
+
+    const card = document.createElement('div');
+    card.className = 'pv-card' + (isVid ? ' pv-vid' : '');
+
+    card.innerHTML = `
+      ${thumb ? `<img src="${thumb}" alt="${title}" loading="${i < 3 ? 'eager' : 'lazy'}" decoding="async">` : ''}
+      ${isVid ? `<video src="${p.url||''}" preload="none" muted playsinline loop></video>` : ''}
+      ${isVid ? `<div class="pv-play"><svg width="14" height="14" fill="#fff" viewBox="0 0 16 16"><path d="M6 3.5l7 4.5-7 4.5V3.5z"/></svg></div>` : ''}
+      <span class="pv-badge">${isVid ? '▶ Video' : '◼ HD'}</span>
+      <div class="pv-card-ov"></div>
+      <div class="pv-card-label">
+        <div class="pv-card-name">${title}</div>
+        <div class="pv-card-acts">
+          <button class="pv-card-btn pv-dl-btn">⬇ Download</button>
+          <button class="pv-card-btn pv-open-btn">🔍 View</button>
+        </div>
+      </div>
+    `;
+
+    // Hover-to-play video preview (desktop)
+    if(isVid) {
+      const vidEl = card.querySelector('video');
+      card.addEventListener('mouseenter', () => {
+        if(!vidEl.src || vidEl.src === window.location.href) vidEl.src = p.url || '';
+        vidEl.play().then(() => card.classList.add('pv-playing')).catch(()=>{});
+      });
+      card.addEventListener('mouseleave', () => {
+        vidEl.pause(); vidEl.currentTime = 0;
+        card.classList.remove('pv-playing');
+      });
+    }
+
+    card.querySelector('.pv-dl-btn').addEventListener('click', e => {
+      e.stopPropagation();
+      pvDownload(p.key, p.download_url || p.url, title);
+    });
+    card.querySelector('.pv-open-btn').addEventListener('click', e => {
+      e.stopPropagation();
+      pvOpenLb(p);
+    });
+    card.addEventListener('click', () => pvOpenLb(p));
+
+    grid.appendChild(card);
+
+    // Staggered entrance animation
+    setTimeout(() => card.classList.add('pv-ready'), 60 + i * 80);
+  });
+}
+
+// ── Filter logic
+function pvApplyFilter(f) {
+  pvFilter = f;
+  let filtered = pvAllPhotos;
+  if(f === 'photo') filtered = pvAllPhotos.filter(p => !pvIsVideo(p.url, p.key));
+  if(f === 'video') filtered = pvAllPhotos.filter(p =>  pvIsVideo(p.url, p.key));
+  pvBuildGrid(filtered);
+}
+
+// Pill click handlers
+document.querySelectorAll('.pv-pill').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.pv-pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    pvApplyFilter(btn.dataset.pf);
+  });
+});
+
+// ── Lightbox
+function pvOpenLb(p) {
+  const isVid = pvIsVideo(p.url, p.key);
+  const wrap = document.getElementById('pvLbWrap');
+  wrap.innerHTML = '';
+  if(isVid) {
+    const v = document.createElement('video');
+    v.src = p.url || '';
+    v.controls = true; v.autoplay = true; v.playsInline = true;
+    v.style.cssText = 'max-width:100%;max-height:75vh;object-fit:contain;background:#000;outline:none;';
+    wrap.appendChild(v);
+  } else {
+    const img = document.createElement('img');
+    img.src = p.url || p.thumbnail_url || '';
+    img.alt = p.title || '';
+    img.style.cssText = 'max-width:100%;max-height:75vh;object-fit:contain;display:block;';
+    wrap.appendChild(img);
+  }
+  document.getElementById('pvLbTitle').textContent = p.title || 'Untitled';
+  document.getElementById('pvLbMeta').textContent = (p.category||'General') + ' · ' + (isVid ? 'Video' : 'Photo') + ' · Free Download';
+  document.getElementById('pvLbDl').onclick = () => pvDownload(p.key, p.download_url||p.url, p.title);
+  document.getElementById('pvLb').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function pvCloseLb() {
+  const v = document.querySelector('#pvLbWrap video');
+  if(v) { v.pause(); v.src = ''; }
+  document.getElementById('pvLb').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('pvLbClose').addEventListener('click', pvCloseLb);
+document.getElementById('pvLb').addEventListener('click', e => {
+  if(e.target === document.getElementById('pvLb')) pvCloseLb();
+});
+document.addEventListener('keydown', e => { if(e.key === 'Escape') pvCloseLb(); });
+
+// ── Download (same logic as gallery.html)
+function pvDownload(key, fallbackUrl, title) {
+  if(!key && !fallbackUrl) return;
+  const streamUrl = key ? PV_WORKER + '/api/stream?key=' + encodeURIComponent(key) : fallbackUrl;
+  const src = fallbackUrl || key || '';
+  const isVid = pvIsVideo(src, key);
+  const ext = (src.split('?')[0].split('.').pop() || (isVid ? 'mp4' : 'jpg')).toLowerCase();
+  const name = ((title||'media').replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-_.]/g,'') || 'media') + '.' + ext;
+  const a = document.createElement('a');
+  a.href = streamUrl; a.download = name; a.target = '_blank'; a.rel = 'noopener noreferrer';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+// ── Main fetch & init
+(async function pvInit() {
+  try {
+    const res = await fetch(PV_WORKER + '/api/photos?limit=24', {headers:{'Accept':'application/json'}});
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    const photos = data.photos || [];
+
+    // Update live count badge
+    const total = data.total || photos.length || 0;
+    document.getElementById('pvCount').textContent =
+      total >= 1000 ? (total/1000).toFixed(0)+'K+' : total + '+';
+
+    pvAllPhotos = photos;
+
+    // Feed hero slideshow (non-blocking, only if no manual CFG override)
+    PVHeroSlider.loadPool(photos);
+
+    // Build preview grid
+    pvBuildGrid(photos);
+
+  } catch(e) {
+    // Show error, keep skeletons replaced
+    document.getElementById('pvGrid').innerHTML = '';
+    document.getElementById('pvError').style.display = 'block';
+    // Hero stays dark (default stars bg) — graceful fallback
   }
 })();
 
@@ -1797,9 +2316,9 @@ document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 // ── COUNT UP
 const co=new IntersectionObserver(es=>es.forEach(e=>{
   if(!e.isIntersecting)return;
-  const el=e.target,t=+el.dataset.target,sfx=t===5?'':'+';
+  const el=e.target,t=+el.dataset.target;
   let c=0,s=t/60;
-  const ti=setInterval(()=>{c=Math.min(c+s,t);el.textContent=Math.floor(c)+sfx;if(c>=t)clearInterval(ti)},25);
+  const ti=setInterval(()=>{c=Math.min(c+s,t);el.textContent=Math.floor(c)+'+';if(c>=t)clearInterval(ti)},25);
   co.unobserve(el);
 }),{threshold:.5});
 document.querySelectorAll('[data-target]').forEach(el=>co.observe(el));
@@ -1833,6 +2352,7 @@ function openPay(prod){
   document.getElementById('bkash-num').textContent=CFG.bkash;
   document.getElementById('nagad-num').textContent=CFG.nagad;
   document.getElementById('airtm-acc').textContent=CFG.airtm;
+  document.getElementById('skrill-acc').textContent=CFG.skrill;
   document.getElementById('btc-addr').textContent=CFG.btc||'YOUR_BTC_WALLET_ADDRESS';
   document.getElementById('eth-addr').textContent=CFG.eth||'YOUR_ETH_WALLET_ADDRESS';
   document.getElementById('usdt-addr').textContent=CFG.usdt||'YOUR_USDT_TRC20_ADDRESS';
@@ -1844,7 +2364,7 @@ function openPay(prod){
   document.getElementById('pm-bname').value='';
   document.getElementById('pm-bemail').value='';
   document.getElementById('pm-bphone').value='';
-  ['bkash','nagad','airtm','btc','eth','usdt','sol','bnb'].forEach(m=>{
+  ['bkash','nagad','airtm','skrill','btc','eth','usdt','sol','bnb'].forEach(m=>{
     const el=document.getElementById('txn-'+m);if(el)el.value='';
   });
   switchPay('bkash');
@@ -1863,7 +2383,7 @@ function toPayStep(){
   document.getElementById('pm-payment').style.display='block';
 }
 
-const allPayMethods=['bkash','nagad','airtm','btc','eth','usdt','sol','bnb'];
+const allPayMethods=['bkash','nagad','airtm','skrill','btc','eth','usdt','sol','bnb'];
 function switchPay(m){
   document.querySelectorAll('.ptab').forEach((t,i)=>t.classList.toggle('on',allPayMethods[i]===m));
   document.querySelectorAll('.ppanel').forEach(p=>p.classList.remove('on'));
@@ -1887,8 +2407,8 @@ function copyN(id,btn){
   });
 }
 
-async function submitOrder(method){
-  const txnMap={bKash:'txn-bkash',Nagad:'txn-nagad',Airtm:'txn-airtm',Bitcoin:'txn-btc',Ethereum:'txn-eth',USDT:'txn-usdt',Solana:'txn-sol',BNB:'txn-bnb'};
+async function submitOrder(method, ev){
+  const txnMap={bKash:'txn-bkash',Nagad:'txn-nagad',Airtm:'txn-airtm',Skrill:'txn-skrill',Bitcoin:'txn-btc',Ethereum:'txn-eth',USDT:'txn-usdt',Solana:'txn-sol',BNB:'txn-bnb'};
   const txnEl=document.getElementById(txnMap[method]);
   const txn=txnEl?txnEl.value.trim():'';
   if(!txn){alert('Please enter your Transaction ID / Hash.');return;}
@@ -1901,7 +2421,7 @@ async function submitOrder(method){
     email,phone:document.getElementById('pm-bphone').value,
     time:new Date().toLocaleString('en-BD',{timeZone:'Asia/Dhaka'})
   };
-  const btn=event.target;btn.disabled=true;btn.textContent='Submitting...';
+  const btn=ev.currentTarget;btn.disabled=true;btn.textContent='Submitting...';
   try{
     await fetch(CFG.formspree,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)});
   }catch(e){}
@@ -2005,7 +2525,8 @@ const EXO_PAY_METHODS = [
   { id:'bkash',   label:'bKash 🟣',   info:'Send to: '+CFG.bkash,        local:true  },
   { id:'nagad',   label:'Nagad 🟠',   info:'Send to: '+CFG.nagad,        local:true  },
   { id:'airtm',   label:'Airtm 🌍',   info:'Send to: '+CFG.airtm,        local:false },
-  { id:'usdt',    label:'USDT 💲',    info:'TRC-20: '+CFG.usdt,          local:false },
+  { id:'skrill',  label:'Skrill 💜',  info:'Send to: '+CFG.skrill,       local:false },
+  { id:'usdt',    label:'USDT 💲',    info:'ERC-20: '+CFG.usdt,          local:false },
   { id:'btc',     label:'Bitcoin ₿',  info:'BTC: '+CFG.btc,              local:false },
   { id:'eth',     label:'ETH Ξ',      info:'ERC-20: '+CFG.eth,           local:false },
   { id:'sol',     label:'Solana ◎',   info:'SOL: '+CFG.sol,              local:false },
@@ -2085,14 +2606,15 @@ function exoPayHandleInput(text) {
       }, 200);
       return;
 
-    case 'method':
+    case 'method': {
       // handled via chip buttons, but also accept typed
       const matchedMethod = EXO_PAY_METHODS.find(m => t.toLowerCase().includes(m.id) || t.toLowerCase().includes(m.label.toLowerCase().split(' ')[0].toLowerCase()));
       if(!matchedMethod) return exoBotMsg(msgs, "Please select a payment method from the options above, or type the name (e.g. 'bkash', 'usdt', 'bitcoin').");
       selectPayMethod(matchedMethod, msgs);
       return;
+    }
 
-    case 'waiting':
+    case 'waiting': {
       // They typed a transaction ID manually instead of uploading
       const txnPattern = /^[a-zA-Z0-9]{6,}/;
       if(txnPattern.test(t)) {
@@ -2103,6 +2625,7 @@ function exoPayHandleInput(text) {
         return exoBotMsg(msgs, `Got transaction ID: ${t} ✅\n\nNow please attach your payment screenshot as proof. Click "📎 Attach Screenshot" below, then hit Submit ✓`);
       }
       return exoBotMsg(msgs, "Please enter your transaction ID or hash, or upload a screenshot using the button below 📎");
+    }
 
     default:
       return;
@@ -2257,8 +2780,8 @@ const EXO_KB = {
   },
   store: { keys:['store','shop','what do you sell','what can i buy','products','digital','marketplace'], replies:["The ExoraWorld Store has 15+ digital products! 🛒\n\n🧠 Ultimate Prompt Bible — $17\n✦ Dark UI Kit — $26\n⚡ Midjourney Style Pack — $13\n🔥 Creator Brand Starter — $32\n🎞️ Cinematic LUT Bundle — $11\n📦 Everything Pack — $72\n\nPlus courses, AI services & templates. Just say 'I want to buy [product]' and I'll handle the checkout right here! 🚀"] },
   courses: { keys:['course','learn','academy','tutorial','lesson','class','study','education'], replies:["ExoraWorld Academy has 6 courses! 📚\n\n🎨 AI Art Mastery — $22\n⚡ Prompt Engineering — $18\n🖥️ Dark UI Design — $28\n💰 Selling Digital Products — $25\n✦ Brand Identity Mastery — $34\n🌐 Web Dev for Creatives — $38\n\nSay 'I want to buy [course name]' to purchase right here through Exo!"] },
-  payment: { keys:['pay','payment','bkash','nagad','airtm','how to pay','transaction','method','checkout','methods'], replies:["We accept: bKash 🟣, Nagad 🟠, Airtm 🌍, USDT 💲, Bitcoin ₿, ETH Ξ, Solana ◎, BNB ⬡\n\nYou can pay directly through me! Just say 'I want to buy [product]' and I'll walk you through it step by step — name, email, payment method, screenshot proof — everything. 🛒"] },
-  crypto: { keys:['crypto','bitcoin','btc','ethereum','eth','usdt','solana','sol','bnb','binance','wallet','trc20'], replies:["Crypto wallets 🔐\n\n• BTC: "+CFG.btc+"\n• ETH/BNB/USDT: "+CFG.eth+"\n• SOL: "+CFG.sol+"\n\n✦ Recommend USDT TRC-20 for lowest fees.\n\nWant to make a purchase right now? Just say 'buy [product]' and I'll guide you through it! 🚀"] },
+  payment: { keys:['pay','payment','bkash','nagad','airtm','skrill','how to pay','transaction','method','checkout','methods'], replies:["We accept: bKash 🟣, Nagad 🟠, Airtm 🌍, Skrill 💜, USDT 💲, Bitcoin ₿, ETH Ξ, Solana ◎, BNB ⬡\n\nYou can pay directly through me! Just say 'I want to buy [product]' and I'll walk you through it step by step — name, email, payment method, screenshot proof — everything. 🛒"] },
+  crypto: { keys:['crypto','bitcoin','btc','ethereum','eth','usdt','solana','sol','bnb','binance','wallet','erc20'], replies:["Crypto wallets 🔐\n\n• BTC: "+CFG.btc+"\n• ETH/BNB/USDT: "+CFG.eth+" (ERC-20)\n• SOL: "+CFG.sol+"\n\n✦ USDT is accepted on ERC-20 (Ethereum) network.\n\nWant to make a purchase right now? Just say 'buy [product]' and I'll guide you through it! 🚀"] },
   services: { keys:['service','hire','logo','branding','web dev','consultation','consult','freelance','commission'], replies:["Abid's services 🎨\n\n🎨 Creative Design — $30\n🤖 AI & Automation — $25\n🌐 Web Development — $50\n🔮 Private Consultation — $20/hr\n✦ Branding Service — $45\n\nSay 'I want to buy [service]' to start checkout through Exo! Or message Abid directly at theexoraworld@gmail.com"] },
   games: { keys:['game','play','gaming','fun','snake','tetris','void runner','gravity bird','memory','arcade'], replies:["ExoraWorld has 5 FREE web games! 🎮\n\n🐍 Snake · 🕹️ Void Runner · 🐦 Gravity Bird · 🧱 Tetris · 🧠 Memory Orbs\n\nNo download, no sign-up needed. Want me to take you to the Games page?"] },
   plans: { keys:['plan','subscription','member','membership','tier','voyager','pioneer','explorer','upgrade','premium'], replies:["ExoraWorld Membership Tiers 🌌\n\n🆓 Explorer — Free forever\n⚡ Voyager — $9/mo (≈৳990)\n🚀 Pioneer — $22/mo (≈৳2,400)\n   Unlimited courses + 1-on-1 + 20% off everything\n\nSay 'I want Pioneer' or 'buy Voyager' to start checkout! Want to see full plan details?"] },
@@ -2346,8 +2869,12 @@ function matchTopic(t) {
 }
 
 // ── MEMORY
-const exoMemory = { msgs:[], lastTopic:null, userName:null, visitCount: parseInt(localStorage.getItem('exo_visits')||'0')+1 };
-localStorage.setItem('exo_visits', exoMemory.visitCount);
+const _isNewVisit = !sessionStorage.getItem('exo_session');
+if(_isNewVisit) {
+  sessionStorage.setItem('exo_session','1');
+  localStorage.setItem('exo_visits', parseInt(localStorage.getItem('exo_visits')||'0')+1);
+}
+const exoMemory = { msgs:[], lastTopic:null, userName:null, visitCount: parseInt(localStorage.getItem('exo_visits')||'1') };
 
 function detectName(t) {
   const m = t.match(/(?:i'm|i am|my name is|call me|name's)\s+([a-zA-Z]+)/i);
@@ -2395,24 +2922,30 @@ function addSuggestions(container, suggestions) {
 }
 
 // ── TYPING EFFECT
+function renderMarkdown(text) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>');
+}
+
 function typeMessage(el, text, speed=15) {
-  el.textContent = '';
-  const parts = text.split('\n');
-  let partIdx = 0, charInPart = 0;
+  el.innerHTML = '';
+  const lines = text.split('\n');
+  let lineIdx = 0, charIdx = 0;
   function next() {
-    if (partIdx >= parts.length) return;
-    const part = parts[partIdx];
-    if (charInPart < part.length) {
-      let fullText = '';
-      for(let i=0;i<partIdx;i++) fullText += parts[i]+'\n';
-      fullText += part.substring(0, charInPart+1);
-      el.textContent = fullText;
+    if(lineIdx >= lines.length) return;
+    const line = lines[lineIdx];
+    if(charIdx < line.length) {
+      let html = '';
+      for(let i=0;i<lineIdx;i++) html += renderMarkdown(lines[i])+'<br>';
+      html += renderMarkdown(line.substring(0, charIdx+1));
+      el.innerHTML = html;
       const sc = el.closest('.exo-msgs,.ai-msgs');
       if(sc) sc.scrollTop = sc.scrollHeight;
-      charInPart++; setTimeout(next, speed);
+      charIdx++; setTimeout(next, speed);
     } else {
-      partIdx++; charInPart = 0;
-      if(partIdx < parts.length) { el.textContent += '\n'; setTimeout(next, speed*2); }
+      lineIdx++; charIdx = 0;
+      if(lineIdx < lines.length) { el.innerHTML += '<br>'; setTimeout(next, speed*2); }
     }
   }
   next();
