@@ -2302,10 +2302,11 @@ let _hcLastTap   = 0;
 window._hcHide   = null;
 
 function handleCardEnter(e, pid) {
-  if (window.matchMedia('(hover:none)').matches) return; // mobile handled separately
+  if (window.matchMedia('(hover:none)').matches) return;
   clearTimeout(window._hcHide);
   clearTimeout(_hcShowTimer);
-  _hcShowTimer = setTimeout(() => showHoverCard(pid, e.currentTarget), 280);
+  const cardEl = e.currentTarget; // capture NOW — e.currentTarget is null after event expires
+  _hcShowTimer = setTimeout(() => showHoverCard(pid, cardEl), 280);
 }
 
 function handleCardLeave() {
@@ -2315,26 +2316,24 @@ function handleCardLeave() {
 }
 
 function handleCardTap(e, pid) {
-  // Buy button taps go straight to payment
   if (e.target.closest('.card-btn')) return;
 
   const isMobile = window.matchMedia('(hover:none)').matches;
-  if (!isMobile) return; // desktop handled by click delegation
+  if (!isMobile) return;
 
-  const now = Date.now();
-  const hc  = document.getElementById('hoverCard');
+  const now    = Date.now();
+  const hc     = document.getElementById('hoverCard');
+  const cardEl = e.currentTarget; // capture before event expires
   const isVisible = hc.classList.contains('show');
 
   if (isVisible && _hcLastPid === pid && (now - _hcLastTap) < 700) {
-    // Second tap on same card → open detail page
     hideHoverCard();
     openDetail(pid);
   } else {
-    // First tap → show hover card
     e.preventDefault();
     _hcLastPid = pid;
     _hcLastTap = now;
-    showHoverCard(pid, e.currentTarget);
+    showHoverCard(pid, cardEl);
   }
 }
 
