@@ -993,6 +993,381 @@
       .pm-ticon { font-size: 1rem; }
       .pm-tlabel { font-size: 0.58rem; }
     }
+
+    /* ============================================================
+       PRODUCT DETAIL MODAL
+    ============================================================ */
+    /* ── Full-screen detail page — slides in from right ── */
+    .detail-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1800;
+      background: var(--bg);
+      transform: translateX(100%);
+      transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+      will-change: transform;
+      visibility: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .detail-overlay.open {
+      transform: translateX(0);
+      visibility: visible;
+    }
+    .detail-modal {
+      display: contents; /* children flow directly into overlay */
+    }
+    /* Topbar */
+    .detail-topbar {
+      display: flex; align-items: center;
+      padding: 0 20px; height: 62px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(7,7,15,0.96);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      flex-shrink: 0; gap: 12px;
+      position: relative; z-index: 5;
+    }
+    .detail-back-btn {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 0.82rem; color: var(--text-muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 9px; cursor: pointer;
+      padding: 7px 13px;
+      transition: color 0.18s, background 0.18s, border-color 0.18s;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .detail-back-btn:hover { color: var(--text); background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.15); }
+    .detail-topbar-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.88rem; font-weight: 700;
+      color: var(--text); flex: 1;
+      text-align: center;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .detail-topbar-spacer { width: 90px; flex-shrink: 0; }
+    /* Scroll area */
+    .detail-scroll-area {
+      flex: 1; overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    /* Two-column layout */
+    .detail-layout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      min-height: 100%;
+    }
+    .detail-left {
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .detail-right {
+      padding: 24px 20px;
+    }
+    .detail-sticky-wrap {
+      position: sticky; top: 0;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .detail-sticky-card {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 20px;
+    }
+    .detail-sticky-price {
+      font-family: 'DM Mono', monospace;
+      font-size: 2rem; font-weight: 500;
+      color: var(--accent); line-height: 1;
+      margin-bottom: 3px;
+    }
+    .detail-sticky-note {
+      font-size: 0.7rem; color: var(--text-dim);
+      margin-bottom: 18px;
+    }
+    .detail-buy-btn {
+      width: 100%; padding: 14px;
+      background: var(--accent); color: #07070f;
+      border-radius: 12px; font-weight: 700;
+      font-size: 0.95rem; font-family: 'Syne', sans-serif;
+      transition: opacity 0.18s, box-shadow 0.18s;
+      cursor: pointer; border: none; text-align: center;
+      margin-bottom: 10px; display: block;
+    }
+    .detail-buy-btn:hover { box-shadow: 0 0 30px var(--accent-glow); opacity: 0.9; }
+    .detail-demo-btn {
+      width: 100%; padding: 11px 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text-muted); border-radius: 12px;
+      font-weight: 500; font-size: 0.875rem;
+      transition: all 0.18s; cursor: pointer;
+      text-decoration: none;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .detail-demo-btn:hover { background: rgba(255,255,255,0.07); color: var(--text); }
+    .detail-delivery-note {
+      font-size: 0.72rem; color: var(--text-dim);
+      text-align: center; line-height: 1.6;
+      padding-top: 4px;
+    }
+    .detail-quick-feats {
+      background: rgba(255,255,255,0.015);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 16px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .detail-qf-title {
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 4px;
+      font-family: 'Syne', sans-serif;
+    }
+    .detail-qf-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.8rem; color: var(--text-muted);
+    }
+    .detail-qf-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+    .detail-close { display: none; } /* hidden — replaced by topbar back button */
+
+    /* ── Hover preview card ── */
+    .hover-card {
+      position: fixed;
+      z-index: 1700;
+      width: 255px;
+      background: rgba(10,10,22,0.94);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(245,158,11,0.22);
+      border-radius: 16px;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(0.95) translateY(8px);
+      transition: opacity 0.17s ease, transform 0.17s ease;
+      will-change: transform, opacity;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.65);
+    }
+    .hover-card.show {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+    }
+    .hc-img {
+      width: 100%; aspect-ratio: 16/9;
+      object-fit: cover; display: block;
+    }
+    .hc-no-img {
+      width: 100%; aspect-ratio: 16/9;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem;
+      background: rgba(255,255,255,0.025);
+    }
+    .hc-body { padding: 13px 15px 14px; }
+    .hc-cat {
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 4px;
+      font-family: 'Syne', sans-serif;
+    }
+    .hc-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.88rem; font-weight: 700;
+      color: var(--text); line-height: 1.2; margin-bottom: 7px;
+    }
+    .hc-price {
+      font-family: 'DM Mono', monospace;
+      font-size: 1.05rem; color: var(--accent); margin-bottom: 9px;
+    }
+    .hc-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 9px; }
+    .hc-chip {
+      font-size: 0.62rem; padding: 2px 7px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 20px; color: var(--text-muted);
+    }
+    .hc-hint {
+      font-size: 0.65rem; color: var(--text-dim);
+      display: flex; align-items: center; gap: 3px;
+    }
+    /* Mobile tap indicator */
+    .hc-tap-hint { display: none; }
+    @media (hover: none) {
+      .hc-hint { display: none; }
+      .hc-tap-hint { display: flex; font-size: 0.65rem; color: var(--text-dim); }
+    }
+    .detail-gallery {
+      width: 100%;
+      background: rgba(255,255,255,0.02);
+      overflow: hidden;
+      aspect-ratio: 16/7;
+      position: relative;
+    }
+    .detail-gallery-main {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.25s ease;
+    }
+    .detail-gallery-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px; color: var(--text-dim); font-size: 3rem;
+    }
+    .gallery-thumbs {
+      display: flex; gap: 6px;
+      padding: 10px 22px;
+      overflow-x: auto;
+      background: rgba(0,0,0,0.3);
+      scrollbar-width: none;
+    }
+    .gallery-thumbs::-webkit-scrollbar { display: none; }
+    .gallery-thumb {
+      width: 58px; height: 38px;
+      border-radius: 6px; overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer; flex-shrink: 0;
+      transition: border-color 0.18s, opacity 0.18s;
+      opacity: 0.55;
+    }
+    .gallery-thumb.active { border-color: var(--accent); opacity: 1; }
+    .gallery-thumb:hover { opacity: 0.85; }
+    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .detail-content { padding: 26px 28px 20px; }
+    .detail-top {
+      display: flex; align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px; flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .detail-cat-badge {
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      font-family: 'Syne', sans-serif;
+      color: var(--accent); margin-bottom: 7px;
+    }
+    .detail-name {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 800; letter-spacing: -0.03em;
+      line-height: 1.1; color: var(--text);
+    }
+    .detail-tags { display: flex; gap: 5px; margin-top: 8px; flex-wrap: wrap; }
+    .detail-price-wrap { text-align: right; flex-shrink: 0; }
+    .detail-price {
+      font-family: 'DM Mono', monospace;
+      font-size: 2rem; font-weight: 500;
+      color: var(--accent); line-height: 1;
+    }
+    .detail-price-note { font-size: 0.7rem; color: var(--text-dim); margin-top: 4px; }
+    .detail-tabs {
+      display: flex; gap: 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 22px;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .detail-tabs::-webkit-scrollbar { display: none; }
+    .detail-tab {
+      padding: 9px 18px;
+      font-size: 0.78rem; font-weight: 600;
+      font-family: 'Syne', sans-serif;
+      color: var(--text-muted); cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.18s, border-color 0.18s;
+      white-space: nowrap; background: none;
+      border-top: none; border-left: none; border-right: none;
+    }
+    .detail-tab:hover { color: var(--text); }
+    .detail-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .detail-panel { display: none; animation: fadeUp 0.2s ease; }
+    .detail-panel.active { display: block; }
+    .detail-desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.75; }
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 10px;
+    }
+    .feature-item {
+      display: flex; align-items: flex-start;
+      gap: 10px; padding: 12px 14px;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.83rem; color: var(--text-muted); line-height: 1.4;
+    }
+    .feature-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .who-list { display: flex; flex-direction: column; gap: 9px; }
+    .who-item {
+      display: flex; align-items: center;
+      gap: 11px; padding: 11px 14px;
+      background: rgba(34,211,238,0.03);
+      border: 1px solid rgba(34,211,238,0.1);
+      border-radius: 10px;
+      font-size: 0.85rem; color: var(--text-muted);
+    }
+    .who-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .steps-list { display: flex; flex-direction: column; gap: 12px; }
+    .step-item { display: flex; gap: 14px; align-items: flex-start; }
+    .step-num {
+      width: 28px; height: 28px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem; font-weight: 700;
+      color: var(--accent); flex-shrink: 0; margin-top: 2px;
+    }
+    .step-text {
+      font-size: 0.87rem; color: var(--text-muted);
+      line-height: 1.6; padding-top: 4px;
+    }
+    .step-text strong { color: var(--text); }
+    .detail-footer {
+      padding: 18px 28px 24px;
+      border-top: 1px solid var(--border);
+      display: flex; gap: 10px;
+      align-items: center; flex-wrap: wrap;
+    }
+    .detail-buy-btn {
+      flex: 1; min-width: 180px; padding: 14px;
+      background: var(--accent); color: #07070f;
+      border-radius: 12px; font-weight: 700;
+      font-size: 0.95rem; font-family: 'Syne', sans-serif;
+      transition: opacity 0.18s, box-shadow 0.18s;
+      cursor: pointer; border: none; text-align: center;
+    }
+    .detail-buy-btn:hover { box-shadow: 0 0 30px var(--accent-glow); opacity: 0.9; }
+    .detail-demo-btn {
+      padding: 14px 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text-muted); border-radius: 12px;
+      font-weight: 500; font-size: 0.875rem;
+      transition: all 0.18s; cursor: pointer;
+      white-space: nowrap; text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .detail-demo-btn:hover { background: rgba(255,255,255,0.07); color: var(--text); }
+    .detail-sold-note { font-size: 0.75rem; color: var(--text-dim); width: 100%; text-align: center; }
+    .product-card { cursor: pointer; }
+    @media (max-width: 700px) {
+      .detail-layout { grid-template-columns: 1fr; }
+      .detail-left { border-right: none; }
+      .detail-right { padding: 16px; border-top: 1px solid var(--border); }
+      .detail-sticky-wrap { position: static; }
+      .detail-sticky-price { font-size: 1.7rem; }
+      .detail-topbar { padding: 0 14px; height: 54px; }
+      .detail-topbar-spacer { width: 40px; }
+    }
+    @media (max-width: 420px) {
+      .detail-back-btn span { display: none; } /* show only icon on tiny screens */
+    }
   </style>
 </head>
 <body>
@@ -1103,6 +1478,81 @@
   </section>
 
 </main>
+
+<!-- ============================================================
+     PRODUCT DETAIL MODAL
+============================================================ -->
+<div class="detail-overlay" id="detailOverlay" role="dialog" aria-modal="true" aria-labelledby="detailName">
+  <div class="detail-modal">
+
+    <!-- Topbar -->
+    <div class="detail-topbar">
+      <button class="detail-back-btn" onclick="closeDetail()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Back to Store
+      </button>
+      <span class="detail-topbar-title" id="detailTopTitle"></span>
+      <div class="detail-topbar-spacer"></div>
+    </div>
+
+    <!-- Scrollable body -->
+    <div class="detail-scroll-area">
+      <div class="detail-layout">
+
+        <!-- LEFT — gallery + tabs + panels -->
+        <div class="detail-left">
+          <div class="detail-gallery" id="detailGallery"></div>
+          <div class="gallery-thumbs" id="galleryThumbs"></div>
+          <div class="detail-content">
+            <div class="detail-top">
+              <div class="detail-cat-badge" id="detailCat"></div>
+              <div class="detail-name" id="detailName"></div>
+              <div class="detail-tags" id="detailTags"></div>
+            </div>
+            <div class="detail-tabs" id="detailTabs"></div>
+            <div id="detailPanels"></div>
+          </div>
+        </div>
+
+        <!-- RIGHT — sticky price + buy -->
+        <div class="detail-right">
+          <div class="detail-sticky-wrap">
+            <div class="detail-sticky-card">
+              <div class="detail-sticky-price" id="detailPrice"></div>
+              <div class="detail-sticky-note">One-time payment · No subscription</div>
+              <button class="detail-buy-btn" id="detailBuyBtn">Buy Now →</button>
+              <a class="detail-demo-btn" id="detailDemoBtn" href="#" target="_blank" rel="noopener" style="display:none">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Live Demo
+              </a>
+              <div class="detail-delivery-note" id="detailDelivery"></div>
+            </div>
+            <div class="detail-quick-feats" id="detailQuickFeats" style="display:none">
+              <div class="detail-qf-title">Quick Features</div>
+              <div id="detailQfItems"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Hover preview card -->
+<div id="hoverCard" class="hover-card" role="tooltip" aria-hidden="true"
+     onmouseenter="clearTimeout(window._hcHide)"
+     onmouseleave="hideHoverCard()">
+  <div id="hcImgWrap"></div>
+  <div class="hc-body">
+    <div class="hc-cat"  id="hcCat"></div>
+    <div class="hc-name" id="hcName"></div>
+    <div class="hc-price" id="hcPrice"></div>
+    <div class="hc-chips" id="hcChips"></div>
+    <div class="hc-hint">Click card to see full details →</div>
+    <div class="hc-tap-hint">Tap again for full details →</div>
+  </div>
+</div>
 
 <!-- ============================================================
      PAYMENT MODAL
@@ -1388,7 +1838,10 @@ function renderCard(p, i) {
 
   return `
     <div class="product-card${isSvc ? ' is-service' : ''}" role="listitem"
-         style="animation-delay:${delay}ms">
+         data-pid="${esc(p.id)}" style="animation-delay:${delay}ms"
+         onmouseenter="handleCardEnter(event,'${esc(p.id)}')"
+         onmouseleave="handleCardLeave()"
+         ontouchstart="handleCardTap(event,'${esc(p.id)}')" >
       <div class="card-thumb">
         ${thumb}
         ${tags ? `<div class="card-tags-wrap">${tags}</div>` : ''}
@@ -1679,12 +2132,292 @@ async function submitOrder() {
 }
 
 /* ================================================================
+   PRODUCT DETAIL MODAL
+================================================================ */
+let detailActiveImg = 0;
+
+function openDetail(pid) {
+  const p = productMap[pid];
+  if (!p) return;
+  const cat   = CATS[p.category] || { label: p.category || 'Product', icon: '📦' };
+  const isSvc = SERVICE_CATS.has(p.category);
+
+  // Gallery
+  const screenshots = Array.isArray(p.screenshots) && p.screenshots.length
+    ? p.screenshots
+    : (p.previewUrl ? [p.previewUrl] : []);
+  detailActiveImg = 0;
+
+  const gallery = document.getElementById('detailGallery');
+  const thumbs  = document.getElementById('galleryThumbs');
+
+  if (screenshots.length) {
+    gallery.innerHTML = `<img class="detail-gallery-main" id="detailMainImg"
+      src="${esc(screenshots[0])}" alt="${esc(p.name)}"
+      onerror="this.parentElement.innerHTML='<div class=detail-gallery-placeholder>${esc(cat.icon)}</div>'" />`;
+    if (screenshots.length > 1) {
+      thumbs.innerHTML = screenshots.map((src, i) => `
+        <div class="gallery-thumb${i===0?' active':''}" data-idx="${i}" onclick="switchImg(${i}, ${JSON.stringify(screenshots).replace(/"/g,"'")})">
+          <img src="${esc(src)}" alt="screenshot ${i+1}" loading="lazy" />
+        </div>`).join('');
+      thumbs.style.display = 'flex';
+    } else {
+      thumbs.style.display = 'none';
+    }
+  } else {
+    gallery.innerHTML = `<div class="detail-gallery-placeholder">${cat.icon}</div>`;
+    thumbs.style.display = 'none';
+  }
+
+  // Topbar title
+  document.getElementById('detailTopTitle').textContent = p.name;
+
+  // Top info (left column)
+  document.getElementById('detailCat').textContent  = cat.label;
+  document.getElementById('detailName').textContent  = p.name;
+  document.getElementById('detailPrice').textContent = fmtPrice(p.price, p.currency);
+
+  const tagsEl = document.getElementById('detailTags');
+  tagsEl.innerHTML = (p.tags || []).map(t => {
+    const cfg = TAG_MAP[t];
+    return cfg ? `<span class="ctag ${cfg.cls}">${cfg.label}</span>` : '';
+  }).join('');
+
+  // Right column — buy button
+  const buyBtn = document.getElementById('detailBuyBtn');
+  buyBtn.textContent = isSvc ? 'Order Service →' : 'Buy Now →';
+  buyBtn.onclick = () => { closeDetail(); setTimeout(() => openModal(p.id), 80); };
+
+  // Right column — demo button
+  const demoBtn = document.getElementById('detailDemoBtn');
+  if (p.demoUrl) {
+    demoBtn.href = p.demoUrl;
+    demoBtn.style.display = 'flex';
+  } else {
+    demoBtn.style.display = 'none';
+  }
+
+  // Right column — delivery note
+  const delivEl = document.getElementById('detailDelivery');
+  delivEl.textContent = p.delivery || '📦 Delivered via email after payment confirmation.';
+
+  // Right column — quick features
+  const qfWrap  = document.getElementById('detailQuickFeats');
+  const qfItems = document.getElementById('detailQfItems');
+  const qf = p.quickFeatures || [];
+  if (qf.length) {
+    qfItems.innerHTML = qf.map(f =>
+      `<div class="detail-qf-item"><div class="detail-qf-dot"></div>${esc(f)}</div>`
+    ).join('');
+    qfWrap.style.display = 'block';
+  } else {
+    qfWrap.style.display = 'none';
+  }
+
+  // Build tabs from product data
+  const tabDefs = [
+    { key:'overview',  label:'Overview',   content: p.description || '' },
+    { key:'features',  label:'Features',   content: p.features    || [] },
+    { key:'whofor',    label:"Who's it for", content: p.whoFor    || [] },
+    { key:'howtouse',  label:'How to Use', content: p.howToUse    || [] },
+  ].filter(t => Array.isArray(t.content) ? t.content.length > 0 : t.content);
+
+  const tabsEl   = document.getElementById('detailTabs');
+  const panelsEl = document.getElementById('detailPanels');
+  tabsEl.innerHTML   = tabDefs.map((t, i) =>
+    `<button class="detail-tab${i===0?' active':''}" data-tab="${t.key}">${t.label}</button>`
+  ).join('');
+  panelsEl.innerHTML = tabDefs.map((t, i) => `
+    <div class="detail-panel${i===0?' active':''}" id="panel-${t.key}">
+      ${renderDetailPanel(t.key, t.content)}
+    </div>`).join('');
+
+  // Open with scroll reset
+  document.getElementById('detailOverlay').classList.add('open');
+  document.getElementById('detailOverlay').scrollTop = 0;
+  const scrollY = window.scrollY;
+  document.body.style.cssText = `overflow:hidden;position:fixed;width:100%;top:-${scrollY}px`;
+  document.body.dataset.scrollY = scrollY;
+}
+
+function renderDetailPanel(key, content) {
+  if (key === 'overview') {
+    return `<div class="detail-desc">${esc(content).replace(/\n/g,'<br>')}</div>`;
+  }
+  if (key === 'features') {
+    return `<div class="feature-list">${content.map(f =>
+      `<div class="feature-item"><span class="feature-icon">${f.icon||'✦'}</span><span>${esc(f.text||f)}</span></div>`
+    ).join('')}</div>`;
+  }
+  if (key === 'whofor') {
+    return `<div class="who-list">${content.map(w =>
+      `<div class="who-item"><span class="who-icon">${w.icon||'👤'}</span><span>${esc(w.text||w)}</span></div>`
+    ).join('')}</div>`;
+  }
+  if (key === 'howtouse') {
+    return `<div class="steps-list">${content.map((s, i) =>
+      `<div class="step-item"><div class="step-num">${i+1}</div><div class="step-text">${esc(s.text||s)}</div></div>`
+    ).join('')}</div>`;
+  }
+  return '';
+}
+
+function switchImg(idx, srcs) {
+  detailActiveImg = idx;
+  const mainImg = document.getElementById('detailMainImg');
+  if (mainImg) { mainImg.style.opacity = '0'; setTimeout(() => { mainImg.src = srcs[idx]; mainImg.style.opacity = '1'; }, 150); }
+  document.querySelectorAll('.gallery-thumb').forEach((t, i) => t.classList.toggle('active', i === idx));
+}
+
+function closeDetail() {
+  document.getElementById('detailOverlay').classList.remove('open');
+  const scrollY = parseInt(document.body.dataset.scrollY || '0', 10);
+  document.body.style.cssText = '';
+  window.scrollTo(0, scrollY);
+}
+
+/* ================================================================
+   HOVER CARD
+================================================================ */
+let _hcShowTimer = null;
+let _hcLastPid   = null;
+let _hcLastTap   = 0;
+window._hcHide   = null;
+
+function handleCardEnter(e, pid) {
+  if (window.matchMedia('(hover:none)').matches) return; // mobile handled separately
+  clearTimeout(window._hcHide);
+  clearTimeout(_hcShowTimer);
+  _hcShowTimer = setTimeout(() => showHoverCard(pid, e.currentTarget), 280);
+}
+
+function handleCardLeave() {
+  if (window.matchMedia('(hover:none)').matches) return;
+  clearTimeout(_hcShowTimer);
+  window._hcHide = setTimeout(hideHoverCard, 160);
+}
+
+function handleCardTap(e, pid) {
+  // Buy button taps go straight to payment
+  if (e.target.closest('.card-btn')) return;
+
+  const isMobile = window.matchMedia('(hover:none)').matches;
+  if (!isMobile) return; // desktop handled by click delegation
+
+  const now = Date.now();
+  const hc  = document.getElementById('hoverCard');
+  const isVisible = hc.classList.contains('show');
+
+  if (isVisible && _hcLastPid === pid && (now - _hcLastTap) < 700) {
+    // Second tap on same card → open detail page
+    hideHoverCard();
+    openDetail(pid);
+  } else {
+    // First tap → show hover card
+    e.preventDefault();
+    _hcLastPid = pid;
+    _hcLastTap = now;
+    showHoverCard(pid, e.currentTarget);
+  }
+}
+
+function showHoverCard(pid, cardEl) {
+  const p = productMap[pid];
+  if (!p) return;
+  const cat = CATS[p.category] || { label: p.category || 'Product', icon: '📦' };
+
+  // Populate image
+  const imgWrap = document.getElementById('hcImgWrap');
+  if (p.previewUrl) {
+    imgWrap.innerHTML = `<img class="hc-img" src="${esc(p.previewUrl)}" alt=""
+      onerror="this.parentElement.innerHTML='<div class=hc-no-img>${cat.icon}</div>'">`;
+  } else {
+    imgWrap.innerHTML = `<div class="hc-no-img">${cat.icon}</div>`;
+  }
+
+  document.getElementById('hcCat').textContent   = cat.label;
+  document.getElementById('hcName').textContent  = p.name;
+  document.getElementById('hcPrice').textContent = fmtPrice(p.price, p.currency);
+
+  const chips = p.quickFeatures || [];
+  document.getElementById('hcChips').innerHTML =
+    chips.slice(0, 4).map(f => `<span class="hc-chip">${esc(f)}</span>`).join('');
+
+  // Position smartly
+  const hc  = document.getElementById('hoverCard');
+  hc.style.opacity = '0'; // temporarily invisible to measure
+  hc.classList.add('show');
+  positionHoverCard(hc, cardEl);
+  hc.style.opacity = ''; // let CSS transition take over
+}
+
+function positionHoverCard(hc, cardEl) {
+  const rect  = cardEl.getBoundingClientRect();
+  const vpW   = window.innerWidth;
+  const vpH   = window.innerHeight;
+  const hcW   = 255;
+  const hcH   = hc.offsetHeight || 300;
+  const isMob = window.matchMedia('(hover:none)').matches;
+
+  let left, top;
+
+  if (isMob) {
+    // Mobile: show below card, centred horizontally
+    left = Math.max(8, Math.min(vpW - hcW - 8, rect.left + rect.width / 2 - hcW / 2));
+    top  = rect.bottom + 8;
+    if (top + hcH > vpH - 8) top = Math.max(8, rect.top - hcH - 8);
+  } else {
+    // Desktop: prefer right side, flip left if needed
+    if (rect.right + hcW + 14 <= vpW) {
+      left = rect.right + 10;
+    } else {
+      left = rect.left - hcW - 10;
+    }
+    top = rect.top;
+    if (top + hcH > vpH - 8) top = Math.max(8, vpH - hcH - 8);
+  }
+
+  hc.style.left = Math.max(8, left) + 'px';
+  hc.style.top  = Math.max(8, top)  + 'px';
+}
+
+function hideHoverCard() {
+  clearTimeout(_hcShowTimer);
+  document.getElementById('hoverCard').classList.remove('show');
+  _hcLastPid = null;
+}
+
+// Hide hover card on scroll (prevents stale positions)
+window.addEventListener('scroll', hideHoverCard, { passive: true });
+// Hide on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    hideHoverCard();
+    closeModal();
+    closeDetail();
+  }
+});
+
+// Tab switching inside detail modal
+document.addEventListener('click', e => {
+  const tab = e.target.closest('.detail-tab');
+  if (!tab) return;
+  document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.detail-panel').forEach(p => p.classList.remove('active'));
+  tab.classList.add('active');
+  const panel = document.getElementById('panel-' + tab.dataset.tab);
+  if (panel) panel.classList.add('active');
+});
+
+/* ================================================================
    EVENTS
 ================================================================ */
-// Product grid — buy buttons (event delegation)
+// Product grid — card click opens detail, buy button opens payment
 document.getElementById('productsGrid').addEventListener('click', e => {
-  const btn = e.target.closest('.card-btn[data-pid]');
-  if (btn) openModal(btn.dataset.pid);
+  const btn  = e.target.closest('.card-btn[data-pid]');
+  const card = e.target.closest('.product-card[data-pid]');
+  if (btn)  { e.stopPropagation(); openModal(btn.dataset.pid); }
+  else if (card) openDetail(card.dataset.pid);
 });
 
 // Search
@@ -1723,7 +2456,9 @@ document.getElementById('modalClose').addEventListener('click', closeModal);
 document.getElementById('overlay').addEventListener('click', e => {
   if (e.target === document.getElementById('overlay')) closeModal();
 });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Detail modal close — back button uses onclick; clean up stale listeners
+// detailClose button is hidden via CSS; overlay click no longer closes (it's full-screen)
 
 // Hamburger
 const hamburger  = document.getElementById('hamburger');
