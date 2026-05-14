@@ -2529,9 +2529,17 @@ function pvDownload(key, fallbackUrl, title) {
 })();
 
 // ── NAV SCROLL
+// ── DEBOUNCED SCROLL HANDLER (prevents excessive reflows/repaints)
+let scrollTimeout, lastScrollY = 0;
 window.addEventListener('scroll',()=>{
-  document.getElementById('nav').classList.toggle('scrolled',scrollY>60);
-});
+  if(scrollTimeout) clearTimeout(scrollTimeout);
+  scrollTimeout = setTimeout(() => {
+    const isScrolled = window.scrollY > 60;
+    const nav = document.getElementById('nav');
+    if(isScrolled) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }, 10); // Debounce for 10ms
+}, {passive: true}); // Use passive flag for better scroll performance
 
 // ── MORE ROW TOGGLE
 let moreOpen=false;
@@ -3248,7 +3256,8 @@ function exoReply(text, container) {
     exoMemory.lastTopic = 'nav';
     const isSection = navTarget.url.startsWith('#');
     if(isSection) {
-      const el = document.querySelector(navTarget.url);
+      const id = navTarget.url.substring(1); // Remove # prefix
+      const el = document.getElementById(id); // Use getElementById for safety
       if(el) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),600);
       return `Taking you to the ${navTarget.label} section! ⬇️`;
     } else {
@@ -3357,17 +3366,36 @@ function toggleExo() {
   }
 }
 function closeExo() { exoOpen=false; document.getElementById('exoBubble').classList.remove('show'); }
-setTimeout(()=>{if(!exoOpen)toggleExo();},3500);
+// Auto-toggle disabled - user must manually open chat
+// setTimeout(()=>{if(!exoOpen)toggleExo();},3500);
 
-// ── MAGNETIC EFFECT on primary CTAs
+// ── MAGNETIC EFFECT on primary CTAs (optimized with RAF)
 document.querySelectorAll('.cta-main,.cta-sec,.modal-submit,.pay-submit,.hf-submit').forEach(btn=>{
+  let mouseX = 0, mouseY = 0, lastX = 0, lastY = 0, isMoving = false, rafId;
+  
   btn.addEventListener('mousemove',e=>{
-    const r=btn.getBoundingClientRect();
-    const x=(e.clientX-r.left-r.width/2)*0.1;
-    const y=(e.clientY-r.top-r.height/2)*0.1;
-    btn.style.transform='translateY(-3px) translate('+x+'px,'+y+'px)';
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    isMoving = true;
+    
+    if(rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+      const r = btn.getBoundingClientRect();
+      const x = (mouseX - r.left - r.width/2) * 0.1;
+      const y = (mouseY - r.top - r.height/2) * 0.1;
+      if(Math.abs(x - lastX) > 0.1 || Math.abs(y - lastY) > 0.1) {
+        btn.style.transform = 'translateY(-3px) translate('+x+'px,'+y+'px)';
+        lastX = x;
+        lastY = y;
+      }
+    });
   });
-  btn.addEventListener('mouseleave',()=>{btn.style.transform='';});
+  
+  btn.addEventListener('mouseleave',()=>{
+    if(rafId) cancelAnimationFrame(rafId);
+    btn.style.transform = '';
+    isMoving = false;
+  });
 });</script>
 </body>
 </html>
