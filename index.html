@@ -393,7 +393,7 @@ nav.scrolled .nav-primary{padding:12px 40px}
 .pv-bg-slide{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
   opacity:0;transition:opacity 2s cubic-bezier(.4,0,.2,1);will-change:opacity;
-  filter:blur(18px) brightness(.28) saturate(1.4);
+  filter:blur(8px) brightness(.28) saturate(1.4);
   transform:scale(1.08); /* slightly oversized to hide blur edges */
 }
 .pv-bg-slide.pv-bg-active{opacity:1}
@@ -604,7 +604,17 @@ nav.scrolled .nav-primary{padding:12px 40px}
 .gp-card{position:relative;overflow:hidden}
 .gi-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;transition:transform .5s ease}
 .gallery-item:hover .gi-photo{transform:scale(1.06)}
+.gi-photo[loading="lazy"] {
+  animation: fadeInImage 0.5s ease-in-out forwards;
+}
+@keyframes fadeInImage {
+  from { opacity: 0.7; }
+  to { opacity: 1; }
+}
 .gp-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;z-index:1;background:linear-gradient(135deg,var(--bg3),var(--surface))}
+.gp-placeholder.loading {
+  animation: shimmer 2s infinite;
+}
 .gp-icon{font-size:2rem;opacity:.4}
 .gp-hint{font-family:var(--f-mono);font-size:.38rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmer);text-align:center;padding:0 10px}
 
@@ -908,6 +918,59 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
 @keyframes fade-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fade-in{from{opacity:0}to{opacity:1}}
 @keyframes slide-up{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideInUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ── SCROLL REVEAL ANIMATIONS ── */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.8s cubic-bezier(0.34,1.56,0.64,1),transform 0.8s cubic-bezier(0.34,1.56,0.64,1)}
+.reveal.revealed{opacity:1;transform:translateY(0)}
+
+/* ── GLASSMORPHISM CARD EFFECTS ── */
+.prod-card, .tmpl-card, .vid-card, .gallery-item{
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-radius: 8px;
+}
+.prod-card:hover, .tmpl-card:hover, .vid-card:hover, .gallery-item:hover{
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(167, 139, 250, 0.25), 0 0 60px rgba(236, 72, 153, 0.1);
+  background: rgba(28, 21, 48, 0.6);
+  border-color: rgba(167, 139, 250, 0.4);
+}
+
+/* ── ENHANCED BUTTON INTERACTIONS ── */
+.cta-main:hover, .cta-sec:hover, .btn-buy:hover, .filter-btn.on, .tmpl-btn:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(167, 139, 250, 0.4), 0 0 20px rgba(236, 72, 153, 0.2);
+  text-shadow: 0 0 20px rgba(167, 139, 250, 0.5);
+}
+
+/* ── LINK HOVER GLOW ── */
+a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
+  text-shadow: 0 0 10px rgba(167, 139, 250, 0.4);
+}
+
+/* ── SMOOTH TEXT TRANSITIONS ── */
+.eyebrow, .big-title, .body-text{
+  transition: all 0.4s ease;
+}
+.reveal.revealed .eyebrow, .reveal.revealed .big-title, .reveal.revealed .body-text{
+  color: inherit;
+}
+
+/* ── LOADING SKELETON ── */
+.skeleton{
+  background: linear-gradient(90deg, var(--bg2) 0%, var(--bg3) 50%, var(--bg2) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 4px;
+}
+
+/* ── CARD STAGGER DELAYS ── */
+.reveal.rv1{animation-delay: 0s}
+.reveal.rv2{animation-delay: 0.1s}
+.reveal.rv3{animation-delay: 0.2s}
 .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s ease,transform .8s ease}
 .reveal.vis{opacity:1;transform:none}
 .rv1{transition-delay:.08s}.rv2{transition-delay:.16s}.rv3{transition-delay:.24s}.rv4{transition-delay:.32s}.rv5{transition-delay:.40s}
@@ -973,7 +1036,10 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
 }
 </style>
 </head>
-<body>
+<body style="animation: pageIn 0.6s ease-out">
+
+<!-- Scroll Progress Indicator -->
+<div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#a78bfa,#ec4899,#06b6d4);z-index:9999;width:0%;transition:width 0.1s ease-out"></div>
 
 <!-- Cursor -->
 <div id="cur"></div>
@@ -1524,75 +1590,6 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
         <div class="cc-top"><div class="cc-icon">🌐</div><div><div class="cc-tag">All Levels · 12hrs</div><div class="cc-title">Web Dev for Creatives: From Zero to Live</div></div></div>
         <div class="cc-body"><div class="cc-desc">HTML, CSS, JavaScript — build and deploy beautiful websites without spending a dollar on hosting.</div><div class="cc-meta"><span>🎬 12 hrs</span><span>📋 24 lessons</span><span>⭐ Beginner</span></div></div>
         <div class="cc-foot"><div class="cc-price"><div class="usd">$38</div><div class="bdt">৳4,200</div></div><button class="btn-buy">Enroll</button></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════ GALLERY ══════ -->
-<section class="section" id="gallery">
-  <div class="wrap pad">
-    <div class="reveal">
-      <div class="eyebrow">Gallery</div>
-      <h2 class="big-title">The <em>work.</em></h2>
-      <p class="body-text">A selection of creative work, projects and experiments from ExoraWorld.</p>
-    </div>
-    <div class="gallery-masonry" style="margin-top:48px">
-      <div class="gallery-item">
-        <div class="gallery-img gi-tall gp-card">
-          <img src="https://imagedelivery.net/YOURHASH/IMAGE1/public" alt="Brand Identity" class="gi-photo" onerror="this.style.display='none'" loading="lazy">
-          <div class="gp-placeholder"><div class="gp-icon">🎨</div><div class="gp-hint">Add photo via Cloudflare Images</div></div>
-        </div>
-        <div class="gi-overlay"><span>Brand Identity</span></div>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-img gi-short gp-card">
-          <img src="https://pub-cef70f56a078466191cd7d3d47c00ca5.r2.dev/images/A%20beautiful%20girl.jpg" alt="AI Art" class="gi-photo" onerror="this.style.display='none'" loading="lazy">
-          <div class="gp-placeholder"><div class="gp-icon">🌌</div><div class="gp-hint">Add photo via Cloudflare Images</div></div>
-        </div>
-        <div class="gi-overlay"><span>AI Art</span></div>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-img gi-mid gp-card">
-          <img src="https://imagedelivery.net/YOURHASH/IMAGE3/public" alt="UI Design" class="gi-photo" onerror="this.style.display='none'" loading="lazy">
-          <div class="gp-placeholder"><div class="gp-icon">🖥️</div><div class="gp-hint">Add photo via Cloudflare Images</div></div>
-        </div>
-        <div class="gi-overlay"><span>UI Design</span></div>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-img gi-tall gp-card">
-          <img src="https://imagedelivery.net/YOURHASH/IMAGE4/public" alt="Motion" class="gi-photo" onerror="this.style.display='none'" loading="lazy">
-          <div class="gp-placeholder"><div class="gp-icon">⚡</div><div class="gp-hint">Add photo via Cloudflare Images</div></div>
-        </div>
-        <div class="gi-overlay"><span>Motion</span></div>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-img gi-short gp-card">
-          <img src="https://imagedelivery.net/YOURHASH/IMAGE5/public" alt="Logo Design" class="gi-photo" onerror="this.style.display='none'" loading="lazy">
-          <div class="gp-placeholder"><div class="gp-icon">✦</div><div class="gp-hint">Add photo via Cloudflare Images</div></div>
-        </div>
-        <div class="gi-overlay"><span>Logo Design</span></div>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-img gi-mid gp-card">
-          <img src="https://imagedelivery.net/YOURHASH/IMAGE6/public" alt="Typography" class="gi-photo" onerror="this.style.display='none'" loading="lazy">
-          <div class="gp-placeholder"><div class="gp-icon">🎭</div><div class="gp-hint">Add photo via Cloudflare Images</div></div>
-        </div>
-        <div class="gi-overlay"><span>Typography</span></div>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-img gi-tall gp-card">
-          <img src="https://imagedelivery.net/YOURHASH/IMAGE7/public" alt="3D Art" class="gi-photo" onerror="this.style.display='none'" loading="lazy">
-          <div class="gp-placeholder"><div class="gp-icon">🔮</div><div class="gp-hint">Add photo via Cloudflare Images</div></div>
-        </div>
-        <div class="gi-overlay"><span>3D Art</span></div>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-img gi-short gp-card">
-          <img src="https://imagedelivery.net/YOURHASH/IMAGE8/public" alt="Web Design" class="gi-photo" onerror="this.style.display='none'" loading="lazy">
-          <div class="gp-placeholder"><div class="gp-icon">🌐</div><div class="gp-hint">Add photo via Cloudflare Images</div></div>
-        </div>
-        <div class="gi-overlay"><span>Web Design</span></div>
       </div>
     </div>
   </div>
@@ -3373,7 +3370,57 @@ function closeExo() { exoOpen=false; document.getElementById('exoBubble').classL
 // Auto-toggle disabled - user must manually open chat
 // setTimeout(()=>{if(!exoOpen)toggleExo();},3500);
 
-// ── MAGNETIC EFFECT on primary CTAs (optimized with RAF)
+// ── SCROLL PROGRESS INDICATOR ──
+let scrollProgressTimeout;
+window.addEventListener('scroll', () => {
+  clearTimeout(scrollProgressTimeout);
+  const progressBar = document.getElementById('scroll-progress');
+  if (progressBar) {
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    progressBar.style.width = scrollPercent + '%';
+  }
+}, { passive: true });
+
+// ── SCROLL REVEAL ANIMATIONS (Intersection Observer) ──
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+  // Observe all reveal elements
+  document.querySelectorAll('.reveal').forEach(el => {
+    observer.observe(el);
+  });
+}
+
+// ── ENHANCED FOCUS & BLUR EFFECTS ──
+document.querySelectorAll('input, textarea').forEach(el => {
+  el.addEventListener('focus', function() {
+    this.style.boxShadow = '0 0 20px rgba(167, 139, 250, 0.4)';
+  });
+  el.addEventListener('blur', function() {
+    this.style.boxShadow = '';
+  });
+});
+
+// ── SMOOTH SCROLL BEHAVIOR ──
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const href = this.getAttribute('href');
+    if (href !== '#') {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  });
+});
 document.querySelectorAll('.cta-main,.cta-sec,.modal-submit,.pay-submit,.hf-submit').forEach(btn=>{
   let mouseX = 0, mouseY = 0, lastX = 0, lastY = 0, isMoving = false, rafId;
   
