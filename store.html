@@ -2360,15 +2360,13 @@ function showHoverCard(pid, cardEl) {
   document.getElementById('hcChips').innerHTML =
     chips.slice(0, 4).map(f => `<span class="hc-chip">${esc(f)}</span>`).join('');
 
-  // Show backdrop
-  document.getElementById('hcBackdrop').classList.add('show');
-
-  // Position smartly
-  const hc  = document.getElementById('hoverCard');
-  hc.style.opacity = '0'; // temporarily invisible to measure
-  hc.classList.add('show');
+  // Position BEFORE adding .show so transition starts from correct place
+  const hc = document.getElementById('hoverCard');
   positionHoverCard(hc, cardEl);
-  hc.style.opacity = ''; // let CSS transition take over
+
+  // Show backdrop + card (CSS transition handles fade+scale)
+  document.getElementById('hcBackdrop').classList.add('show');
+  hc.classList.add('show');
 }
 
 function positionHoverCard(hc, cardEl) {
@@ -2376,18 +2374,17 @@ function positionHoverCard(hc, cardEl) {
   const vpW   = window.innerWidth;
   const vpH   = window.innerHeight;
   const hcW   = 255;
-  const hcH   = hc.offsetHeight || 300;
+  const hcH   = 310; // fixed estimate — card is hidden when positioning
   const isMob = window.matchMedia('(hover:none)').matches;
 
   let left, top;
 
   if (isMob) {
-    // Mobile: show below card, centred horizontally
     left = Math.max(8, Math.min(vpW - hcW - 8, rect.left + rect.width / 2 - hcW / 2));
     top  = rect.bottom + 8;
     if (top + hcH > vpH - 8) top = Math.max(8, rect.top - hcH - 8);
   } else {
-    // Desktop: prefer right side, flip left if needed
+    // Prefer right side, flip to left if not enough space
     if (rect.right + hcW + 14 <= vpW) {
       left = rect.right + 10;
     } else {
