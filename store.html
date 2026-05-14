@@ -1134,6 +1134,20 @@
     }
     .detail-close { display: none; } /* hidden — replaced by topbar back button */
 
+    /* ── Blur backdrop behind hover card ── */
+    .hc-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 1699;
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      background: rgba(7,7,15,0.15);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+    .hc-backdrop.show { opacity: 1; }
+
     /* ── Hover preview card ── */
     .hover-card {
       position: fixed;
@@ -1538,6 +1552,9 @@
     </div>
   </div>
 </div>
+
+<!-- Blur backdrop for hover card -->
+<div id="hcBackdrop" class="hc-backdrop"></div>
 
 <!-- Hover preview card -->
 <div id="hoverCard" class="hover-card" role="tooltip" aria-hidden="true"
@@ -2343,6 +2360,9 @@ function showHoverCard(pid, cardEl) {
   document.getElementById('hcChips').innerHTML =
     chips.slice(0, 4).map(f => `<span class="hc-chip">${esc(f)}</span>`).join('');
 
+  // Show backdrop
+  document.getElementById('hcBackdrop').classList.add('show');
+
   // Position smartly
   const hc  = document.getElementById('hoverCard');
   hc.style.opacity = '0'; // temporarily invisible to measure
@@ -2384,6 +2404,7 @@ function positionHoverCard(hc, cardEl) {
 function hideHoverCard() {
   clearTimeout(_hcShowTimer);
   document.getElementById('hoverCard').classList.remove('show');
+  document.getElementById('hcBackdrop').classList.remove('show');
   _hcLastPid = null;
 }
 
