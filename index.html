@@ -2374,7 +2374,9 @@ function pvBuildGrid(photos) {
     // Flip structure: inner > front + back
     const inner = document.createElement('div');
     inner.className = 'pv-card-inner';
-    inner.innerHTML = pvMakeCardInner(p, 'front') + pvMakeCardInner(p, 'back');
+    const frontData = pvMakeCardInner(p, 'front');
+    const backData = pvMakeCardInner(p, 'back');
+    inner.innerHTML = frontData.innerHtml + backData.innerHtml;
     card.appendChild(inner);
 
     // Hover-to-play video on front face
