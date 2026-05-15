@@ -1390,24 +1390,26 @@
      NAV
 ============================================================ -->
 <nav>
-  <a class="nav-brand" href="#">Exora<em>World</em></a>
+  <a class="nav-brand" href="index.html">Exora<em>World</em></a>
   <ul class="nav-links">
-    <li><a href="#">Home</a></li>
-    <li><a href="#" class="active">Store</a></li>
-    <li><a href="#">Gallery</a></li>
-    <li><a href="#">About</a></li>
-    <li><a href="#">Contact</a></li>
+    <li><a href="index.html">⟵ Back Home</a></li>
+    <li><a href="index.html#store" class="active">Store</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="help.html">Help</a></li>
   </ul>
   <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </nav>
 <nav class="nav-mobile" id="navMobile" aria-label="Mobile navigation">
-  <a href="#">Home</a>
-  <a href="#" class="active">Store</a>
-  <a href="#">Gallery</a>
-  <a href="#">About</a>
-  <a href="#">Contact</a>
+  <a href="index.html">⟵ Back Home</a>
+  <a href="index.html#store" class="active">Store</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="index.html#about">About</a>
+  <a href="contact.html">Contact</a>
+  <a href="help.html">Help</a>
 </nav>
 
 <!-- ============================================================
@@ -1700,22 +1702,27 @@ function esc(s) {
     .replace(/'/g,'&#39;');
 }
 function fmtPrice(price, currency) {
-  if (price == null || price === '' || price === 0) return 'Contact';
+  // ── IMPROVED PRICE FORMATTING ──
+  if (price === null || price === undefined || price === '') return 'Custom Quote';
+  if (price === 0) return 'Free';
   const sym = (currency || 'USD') === 'BDT' ? '৳' : '$';
   return sym + Number(price).toLocaleString();
 }
 function copyText(text, btn) {
   const done = () => {
     const orig = btn.textContent;
-    btn.textContent = 'Copied!';
+    btn.textContent = 'Copied! ✓';
     btn.style.cssText = 'background:var(--green);color:#07070f;border-color:transparent';
     setTimeout(() => { btn.textContent = orig; btn.style.cssText = ''; }, 2000);
   };
+  const fail = () => {
+    btn.textContent = 'Copy failed ✗';
+    btn.style.cssText = 'background:var(--red);color:#fff;border-color:transparent';
+    setTimeout(() => { btn.textContent = 'Copy'; btn.style.cssText = ''; }, 2000);
+  };
+  
   if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text).then(done).catch(() => {
-      btn.textContent = 'Failed';
-      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
-    });
+    navigator.clipboard.writeText(text).then(done).catch(fail);
   } else {
     /* Fallback for non-HTTPS or older browsers */
     const ta = document.createElement('textarea');
@@ -1723,7 +1730,14 @@ function copyText(text, btn) {
     ta.style.cssText = 'position:fixed;left:-9999px;opacity:0';
     document.body.appendChild(ta);
     ta.select();
-    try { document.execCommand('copy'); done(); } catch(e) {}
+    try {
+      const success = document.execCommand('copy');
+      if (success) done();
+      else fail();
+    } catch(e) {
+      fail();
+      console.error('Copy failed:', e);
+    }
     document.body.removeChild(ta);
   }
 }
@@ -1732,12 +1746,15 @@ function copyText(text, btn) {
    FETCH PRODUCTS
 ================================================================ */
 async function fetchProducts() {
+  if (!CFG.WORKER) {
+    showEmptyState('Store Configuration Error', '⚠️', 'WORKER URL not configured. Contact site administrator.');
+    return;
+  }
   try {
     const res = await fetch(CFG.WORKER + '/products', { headers:{ 'Accept':'application/json' } });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     allProducts = Array.isArray(data) ? data : (data.products || []);
-    // Build ID map — fallback id = index
     allProducts.forEach((p, i) => {
       if (!p.id) p.id = 'p_' + i;
       productMap[p.id] = p;
@@ -1745,9 +1762,11 @@ async function fetchProducts() {
     applyFilter();
     buildTicker();
   } catch (err) {
-    console.warn('[DevMarket] Could not load products:', err.message);
+    console.warn('[ExoraStore] Could not load products:', err.message);
     showEmptyState('Could not connect to the store.', '⚠️',
       'Please ensure your Cloudflare Worker is deployed and the WORKER URL is set correctly.');
+  }
+}
     buildTickerFallback();
   }
 }
@@ -1916,6 +1935,11 @@ function openModal(pid) {
 
 function closeModal() {
   document.getElementById('overlay').classList.remove('open');
+  // ── FIX: RESET ALL STATE ON CLOSE ──
+  selectedProd = null;
+  step = 1;
+  selectedMethod = null;
+  custData = { name:'', phone:'', email:'', requirements:'' };
   /* Restore scroll position after unlocking body */
   const scrollY = parseInt(document.body.dataset.scrollY || '0', 10);
   document.body.style.cssText = '';
@@ -2093,7 +2117,9 @@ function validateStep1() {
   let ok = true;
   if (!name)              { showErr('e_name',   true);  ok = false; } else showErr('e_name', false);
   if (!phone)             { showErr('e_phone',  true);  ok = false; } else showErr('e_phone', false);
-  if (!email || !email.includes('@')) { showErr('e_email', true); ok = false; } else showErr('e_email', false);
+  // ── IMPROVED EMAIL VALIDATION ──
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email || !emailRegex.test(email)) { showErr('e_email', true); ok = false; } else showErr('e_email', false);
   if (!selectedMethod)    { showErr('e_method', true);  ok = false; } else showErr('e_method', false);
 
   if (!ok) return;
@@ -2516,5 +2542,58 @@ document.getElementById('csBtn').addEventListener('click', () => {
 ================================================================ */
 fetchProducts();
 </script>
+
+<!-- ============================================================
+     PROFESSIONAL FOOTER
+============================================================ -->
+<footer style="position:relative;z-index:2;background:var(--bg);border-top:1px solid rgba(255,255,255,0.08);margin-top:80px">
+  <div style="max-width:1400px;margin:0 auto;padding:60px 28px 40px;display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:56px">
+    <div>
+      <div style="font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:16px">ExoraWorld</div>
+      <p style="font-size:0.95rem;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:20px">A digital universe for creators, builders, and dreamers. Powered by innovation and driven by passion.</p>
+      <div style="display:flex;gap:12px;margin-top:20px">
+        <a href="https://facebook.com/exoraworld" target="_blank" rel="noopener" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.08);border-radius:50%;color:var(--accent);text-decoration:none;transition:all 0.2s">f</a>
+        <a href="https://twitter.com/exoraworld" target="_blank" rel="noopener" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.08);border-radius:50%;color:var(--accent);text-decoration:none;transition:all 0.2s">𝕏</a>
+        <a href="https://instagram.com/theexoraworld" target="_blank" rel="noopener" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.08);border-radius:50%;color:var(--accent);text-decoration:none;transition:all 0.2s">📷</a>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:20px">Product</div>
+      <ul style="list-style:none;padding:0">
+        <li style="margin-bottom:10px"><a href="index.html" style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s">Home</a></li>
+        <li style="margin-bottom:10px"><a href="index.html#store" style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s">Store</a></li>
+        <li style="margin-bottom:10px"><a href="gallery.html" style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s">Gallery</a></li>
+        <li style="margin-bottom:10px"><a href="index.html#about" style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s">About</a></li>
+      </ul>
+    </div>
+    <div>
+      <div style="font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:20px">Company</div>
+      <ul style="list-style:none;padding:0">
+        <li style="margin-bottom:10px"><a href="about.html" style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s">About Us</a></li>
+        <li style="margin-bottom:10px"><a href="contact.html" style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s">Contact</a></li>
+        <li style="margin-bottom:10px"><a href="help.html" style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s">Help Center</a></li>
+        <li style="margin-bottom:10px"><a href="faq.html" style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <div style="font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:20px">Legal</div>
+      <ul style="list-style:none;padding:0">
+        <li style="margin-bottom:10px"><a href="terms.html" style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s">Terms of Service</a></li>
+        <li style="margin-bottom:10px"><a href="privacy.html" style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s">Privacy Policy</a></li>
+        <li style="margin-bottom:10px"><a href="refund.html" style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s">Refund Policy</a></li>
+        <li style="margin-bottom:10px"><a href="shipping.html" style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s">Shipping Info</a></li>
+      </ul>
+    </div>
+  </div>
+  <div style="max-width:1400px;margin:0 auto;padding:24px 28px;border-top:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+    <div style="font-size:0.85rem;color:rgba(255,255,255,0.4)">© 2024–2026 ExoraWorld. Built with care in Bangladesh 🇧🇩</div>
+    <div style="display:flex;gap:20px;font-size:0.85rem">
+      <a href="terms.html" style="color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s">Terms</a>
+      <a href="privacy.html" style="color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s">Privacy</a>
+      <a href="contact.html" style="color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s">Contact</a>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
