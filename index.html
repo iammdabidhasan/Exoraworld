@@ -229,6 +229,22 @@ nav.scrolled .nav-primary{padding:12px 40px}
 .body-text{font-family:var(--f-serif);font-style:italic;font-size:1.05rem;color:var(--dim);line-height:1.8;max-width:460px}
 
 /* ══════════════════════════════
+   CUSTOM SECTION BACKGROUNDS
+══════════════════════════════ */
+.section-bg-container{position:absolute;inset:0;z-index:0;overflow:hidden}
+.section-bg{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:brightness(0.32) saturate(1.3);opacity:0;
+  transition:opacity 2.5s cubic-bezier(0.4,0,0.2,1);
+}
+.section-bg.active{opacity:0.6}
+.section-bg-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(135deg,rgba(5,4,10,0.7),rgba(5,4,10,0.5)),
+             radial-gradient(ellipse 100% 100% at 50% 50%,transparent 15%,rgba(5,4,10,0.65) 100%);
+}
+
+/* ══════════════════════════════
    PIXI VAULT SECTION
 ══════════════════════════════ */
 #pixivault{
@@ -1552,49 +1568,6 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
   </div>
 </section>
 
-<!-- ══════ COURSES ══════ -->
-<section class="section" id="courses">
-  <div class="wrap pad">
-    <div class="reveal">
-      <div class="eyebrow">Academy</div>
-      <h2 class="big-title">Learn. <em>Level up.</em></h2>
-      <p class="body-text">Practical courses with real skills. No fluff, no filler. Just craft.</p>
-    </div>
-    <div class="courses-grid">
-      <div class="course-card reveal rv1" onclick="openPay({name:'AI Art Mastery',price:'$22 · ৳2,500',icon:'🎨',id:'course-ai-art'})">
-        <div class="cc-top"><div class="cc-icon">🎨</div><div><div class="cc-tag">Beginner · 6hrs</div><div class="cc-title">AI Art Mastery — From Zero to Stunning</div></div></div>
-        <div class="cc-body"><div class="cc-desc">Midjourney, DALL·E, Stable Diffusion — master every major AI art tool and create jaw-dropping visuals.</div><div class="cc-meta"><span>🎬 6 hrs</span><span>📋 12 lessons</span><span>⭐ Beginner</span></div></div>
-        <div class="cc-foot"><div class="cc-price"><div class="usd">$22</div><div class="bdt">৳2,500</div></div><button class="btn-buy">Enroll</button></div>
-      </div>
-      <div class="course-card reveal rv2" onclick="openPay({name:'Prompt Engineering for Creatives',price:'$18 · ৳2,000',icon:'⚡',id:'course-prompt'})">
-        <div class="cc-top"><div class="cc-icon">⚡</div><div><div class="cc-tag">Intermediate · 4hrs</div><div class="cc-title">Prompt Engineering for Creatives</div></div></div>
-        <div class="cc-body"><div class="cc-desc">The science and art of talking to AI. Get exactly what you imagine every single time.</div><div class="cc-meta"><span>🎬 4 hrs</span><span>📋 8 lessons</span><span>⭐ Intermediate</span></div></div>
-        <div class="cc-foot"><div class="cc-price"><div class="usd">$18</div><div class="bdt">৳2,000</div></div><button class="btn-buy">Enroll</button></div>
-      </div>
-      <div class="course-card reveal rv3" onclick="openPay({name:'Dark UI Design',price:'$28 · ৳3,200',icon:'🖥️',id:'course-ui'})">
-        <div class="cc-top"><div class="cc-icon">🖥️</div><div><div class="cc-tag">Intermediate · 8hrs</div><div class="cc-title">Dark UI Design: Mood-Driven Interfaces</div></div></div>
-        <div class="cc-body"><div class="cc-desc">Figma, color theory, typography — create interfaces that feel alive and leave people speechless.</div><div class="cc-meta"><span>🎬 8 hrs</span><span>📋 16 lessons</span><span>⭐ Intermediate</span></div></div>
-        <div class="cc-foot"><div class="cc-price"><div class="usd">$28</div><div class="bdt">৳3,200</div></div><button class="btn-buy">Enroll</button></div>
-      </div>
-      <div class="course-card reveal rv1" onclick="openPay({name:'Selling Digital Products',price:'$25 · ৳2,800',icon:'💰',id:'course-sell'})">
-        <div class="cc-top"><div class="cc-icon">💰</div><div><div class="cc-tag">All Levels · 5hrs</div><div class="cc-title">Selling Digital Products: The Full System</div></div></div>
-        <div class="cc-body"><div class="cc-desc">From creation to sales page to delivery — build a real passive income engine that works while you sleep.</div><div class="cc-meta"><span>🎬 5 hrs</span><span>📋 10 lessons</span><span>⭐ All Levels</span></div></div>
-        <div class="cc-foot"><div class="cc-price"><div class="usd">$25</div><div class="bdt">৳2,800</div></div><button class="btn-buy">Enroll</button></div>
-      </div>
-      <div class="course-card reveal rv2" onclick="openPay({name:'Brand Identity Design',price:'$34 · ৳3,800',icon:'✦',id:'course-brand'})">
-        <div class="cc-top"><div class="cc-icon">✦</div><div><div class="cc-tag">Advanced · 10hrs</div><div class="cc-title">Brand Identity Design — Concept to Delivery</div></div></div>
-        <div class="cc-body"><div class="cc-desc">Logo design, visual systems and brand guidelines for modern creators and businesses.</div><div class="cc-meta"><span>🎬 10 hrs</span><span>📋 20 lessons</span><span>⭐ Advanced</span></div></div>
-        <div class="cc-foot"><div class="cc-price"><div class="usd">$34</div><div class="bdt">৳3,800</div></div><button class="btn-buy">Enroll</button></div>
-      </div>
-      <div class="course-card reveal rv3" onclick="openPay({name:'Web Dev for Creatives',price:'$38 · ৳4,200',icon:'🌐',id:'course-web'})">
-        <div class="cc-top"><div class="cc-icon">🌐</div><div><div class="cc-tag">All Levels · 12hrs</div><div class="cc-title">Web Dev for Creatives: From Zero to Live</div></div></div>
-        <div class="cc-body"><div class="cc-desc">HTML, CSS, JavaScript — build and deploy beautiful websites without spending a dollar on hosting.</div><div class="cc-meta"><span>🎬 12 hrs</span><span>📋 24 lessons</span><span>⭐ Beginner</span></div></div>
-        <div class="cc-foot"><div class="cc-price"><div class="usd">$38</div><div class="bdt">৳4,200</div></div><button class="btn-buy">Enroll</button></div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ══════ VIDEO SHOWCASE ══════ -->
 <section class="section" id="content">
   <div class="wrap pad">
@@ -1641,87 +1614,14 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
   </div>
 </section>
 
-<!-- ══════ AI SECTION ══════ -->
-<section class="section" id="ai">
-  <div class="wrap pad">
-    <div class="reveal">
-      <div class="eyebrow">AI & Dev</div>
-      <h2 class="big-title">Intelligence <em>on demand.</em></h2>
-      <p class="body-text">Pick a package, pay once, and get your deliverable within 24 hours. Every service is handled personally by Abid.</p>
-    </div>
-    <div class="ai-layout">
-      <div class="ai-cards reveal">
-        <div class="ai-card ai-card-buyable" onclick="openPay({name:'Custom Prompt Pack',price:'$15 · ৳1,650',icon:'📝',id:'ai-prompts'})">
-          <div class="ai-card-icon">📝</div>
-          <div style="flex:1">
-            <div class="ai-card-title">Custom Prompt Engineering</div>
-            <div class="ai-card-text">A full set of custom prompts built for your specific niche, tools and workflow. Delivered within 24 hours.</div>
-            <div class="ai-pkg-footer">
-              <div class="ai-pkg-price"><span class="ai-usd">$15</span><span class="ai-bdt">৳1,650</span></div>
-              <button class="ai-pkg-btn">Order Now →</button>
-            </div>
-          </div>
-        </div>
-        <div class="ai-card ai-card-buyable" onclick="openPay({name:'AI Chatbot Integration',price:'$80 · ৳8,800',icon:'🤖',id:'ai-chatbot'})">
-          <div class="ai-card-icon">🤖</div>
-          <div style="flex:1">
-            <div class="ai-card-title">AI Chatbot Integration</div>
-            <div class="ai-card-text">A custom AI chatbot for your website or business — trained on your content, ready to serve your customers 24/7.</div>
-            <div class="ai-pkg-footer">
-              <div class="ai-pkg-price"><span class="ai-usd">$80</span><span class="ai-bdt">৳8,800</span></div>
-              <button class="ai-pkg-btn">Order Now →</button>
-            </div>
-          </div>
-        </div>
-        <div class="ai-card ai-card-buyable" onclick="openPay({name:'Custom Code & Automation',price:'$40 · ৳4,400',icon:'💻',id:'ai-code'})">
-          <div class="ai-card-icon">💻</div>
-          <div style="flex:1">
-            <div class="ai-card-title">Custom Code & Automation</div>
-            <div class="ai-card-text">Scripts, tools, automation flows and web apps. Describe exactly what you need and I'll build it from scratch.</div>
-            <div class="ai-pkg-footer">
-              <div class="ai-pkg-price"><span class="ai-usd">From $40</span><span class="ai-bdt">৳4,400</span></div>
-              <button class="ai-pkg-btn">Order Now →</button>
-            </div>
-          </div>
-        </div>
-        <div class="ai-card ai-card-buyable" onclick="openPay({name:'Private AI Consultation (1hr)',price:'$20 · ৳2,200',icon:'🔮',id:'ai-consult'})">
-          <div class="ai-card-icon">🔮</div>
-          <div style="flex:1">
-            <div class="ai-card-title">Private AI Consultation</div>
-            <div class="ai-card-text">1-on-1 session to map out your AI strategy, tools and workflows. Direct access to Abid for 1 full hour.</div>
-            <div class="ai-pkg-footer">
-              <div class="ai-pkg-price"><span class="ai-usd">$20/hr</span><span class="ai-bdt">৳2,200/hr</span></div>
-              <button class="ai-pkg-btn">Book Session →</button>
-            </div>
-          </div>
-        </div>
-        <div class="ai-card ai-card-buyable" onclick="openPay({name:'AI Content Strategy Pack',price:'$35 · ৳3,850',icon:'📊',id:'ai-content'})">
-          <div class="ai-card-icon">📊</div>
-          <div style="flex:1">
-            <div class="ai-card-title">AI Content Strategy</div>
-            <div class="ai-card-text">A full content strategy powered by AI — topics, posting calendar, formats and prompts for 30 days of consistent output.</div>
-            <div class="ai-pkg-footer">
-              <div class="ai-pkg-price"><span class="ai-usd">$35</span><span class="ai-bdt">৳3,850</span></div>
-              <button class="ai-pkg-btn">Order Now →</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="reveal rv2">
-        <div class="ai-chat">
-          <div class="ai-chat-header">
-            <div class="ai-avatar">🤖</div>
-            <div><div class="ai-chat-name">Exo — AI Guide</div><div class="ai-chat-status"><div class="ai-status-dot"></div>Online</div></div>
-          </div>
-          <div class="ai-msgs" id="chatMsgs">
-            <div class="msg bot">Hey! 👋 I'm Exo, ExoraWorld's AI guide. Ask me anything about our services, products or how I can help you today.</div>
-          </div>
-          <div class="ai-input-row">
-            <input class="ai-input" id="chatInput" placeholder="Ask Exo anything..." onkeydown="if(event.key==='Enter')sendChat()">
-            <button class="ai-send" onclick="sendChat()">Send →</button>
-          </div>
-        </div>
-      </div>
+<!-- ══════ AI SERVICES (EXTERNAL) ══════ -->
+<section class="section" id="ai" style="min-height:400px;display:flex;align-items:center;justify-content:center">
+  <div class="ai-external-cta reveal">
+    <div style="text-align:center;max-width:600px">
+      <div class="eyebrow">AI & Intelligence</div>
+      <h2 class="big-title">AI on <em>demand.</em></h2>
+      <p class="body-text" style="margin:20px 0 40px">Explore custom AI solutions, automation services, and intelligent tools built for your specific needs. Meet your dedicated AI expert.</p>
+      <a href="ai.html" class="cta-main" style="display:inline-block;padding:14px 36px;font-size:1rem">Explore AI Services ↗</a>
     </div>
   </div>
 </section>
