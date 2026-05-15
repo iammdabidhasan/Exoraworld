@@ -693,8 +693,8 @@ nav.scrolled .nav-primary{padding:12px 40px}
 .ai-pkg-btn:hover{background:rgba(139,92,246,.3);border-color:var(--v3);box-shadow:0 0 14px rgba(139,92,246,.3)}
 .ai-chat{background:var(--surface);border:1px solid var(--border);overflow:hidden;position:sticky;top:100px}
 .ai-chat-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:rgba(0,0,0,.2)}
-.ai-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--v1),var(--pink));display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;animation:exo-float 3s ease-in-out infinite}
-@keyframes exo-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.ai-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--v1),var(--pink));display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;animation:exo-float 3.2s cubic-bezier(0.45,0.05,0.55,0.95) infinite;will-change:transform;transform:translateZ(0)}
+@keyframes exo-float{0%{transform:translateY(0) translateZ(0)}25%{transform:translateY(-6px) translateZ(0)}50%{transform:translateY(-8px) translateZ(0)}75%{transform:translateY(-4px) translateZ(0)}100%{transform:translateY(0) translateZ(0)}}
 .ai-chat-name{font-family:var(--f-disp);font-weight:700;font-size:.9rem;color:var(--ivory)}
 .ai-chat-status{font-family:var(--f-mono);font-size:.5rem;letter-spacing:.15em;color:var(--green);text-transform:uppercase;display:flex;align-items:center;gap:5px}
 .ai-status-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
@@ -850,7 +850,7 @@ nav.scrolled .nav-primary{padding:12px 40px}
 .exo-text-input::placeholder{color:rgba(196,181,253,.25);font-style:normal}
 .exo-send-btn{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:10px 13px;background:var(--v1);color:#fff;border:none;cursor:pointer;transition:background .3s;flex-shrink:0}
 .exo-send-btn:hover{background:var(--v2)}
-.exo-trigger{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--v1),var(--pink));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 24px rgba(109,40,217,.5);animation:exo-float 3.5s ease-in-out infinite;transition:transform .2s;position:relative}
+.exo-trigger{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--v1),var(--pink));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 24px rgba(109,40,217,.5);animation:exo-float 3.5s cubic-bezier(0.45,0.05,0.55,0.95) infinite;transition:transform .2s;position:relative;will-change:transform;transform:translateZ(0)}
 .exo-trigger:hover{transform:scale(1.1)!important}
 .exo-ping{position:absolute;top:-2px;right:-2px;width:12px;height:12px;border-radius:50%;background:var(--gold);animation:ping-anim 2s infinite}
 @keyframes ping-anim{0%,100%{transform:scale(1);opacity:1}60%{transform:scale(1.8);opacity:0}}
@@ -1614,17 +1614,7 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
   </div>
 </section>
 
-<!-- ══════ AI SERVICES (EXTERNAL) ══════ -->
-<section class="section" id="ai" style="min-height:400px;display:flex;align-items:center;justify-content:center">
-  <div class="ai-external-cta reveal">
-    <div style="text-align:center;max-width:600px">
-      <div class="eyebrow">AI & Intelligence</div>
-      <h2 class="big-title">AI on <em>demand.</em></h2>
-      <p class="body-text" style="margin:20px 0 40px">Explore custom AI solutions, automation services, and intelligent tools built for your specific needs. Meet your dedicated AI expert.</p>
-      <a href="ai.html" class="cta-main" style="display:inline-block;padding:14px 36px;font-size:1rem">Explore AI Services ↗</a>
-    </div>
-  </div>
-</section>
+
 
 <!-- ══════ ABOUT ══════ -->
 <section class="section" id="about">
