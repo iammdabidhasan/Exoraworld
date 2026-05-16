@@ -33,6 +33,27 @@
   --f-disp: 'Bricolage Grotesque', sans-serif;
   --f-serif:'Instrument Serif', serif;
   --f-mono: 'DM Mono', monospace;
+  
+  /* ══════════════════════════════
+     CUSTOM BACKGROUND IMAGES FOR SECTIONS
+     Set these in HTML: style="--bg-[section-name]: url('...')" 
+     
+     IMPORTANT: Hero section NOT using new system (original kept)
+  ══════════════════════════════ */
+  /* --bg-hero: none; */ /* HERO: Original system kept - not using new variables */
+  --bg-pixivault: none;         /* PixiVault - NOW using new CSS variable system */
+  --bg-store: none;             /* Store/Arsenal - using new system */
+  --bg-templates: none;         /* Templates - using new system */
+  --bg-services: none;          /* Services - using new system */
+  --bg-content: none;           /* Content/Videos - using new system */
+  --bg-about: none;             /* About - using new system */
+  --bg-ai: none;                /* AI - using new system */
+  --bg-gallery: none;           /* Gallery - using new system */
+  --bg-plans: none;             /* Plans/Pricing - using new system */
+  --bg-help: none;              /* Help/FAQ - using new system */
+  
+  /* Control background image overlay darkness (0 to 1) */
+  --bg-overlay-strength: 0.55;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px;overflow-x:hidden}
@@ -929,6 +950,286 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
 .ad-slot-banner{min-height:60px}
 
 /* ══════════════════════════════
+   CUSTOM SECTION BACKGROUND IMAGES
+   Add background images via CSS variables: --bg-[section-name]
+   Usage: <section id="hero" style="--bg-hero: url('image.jpg')">
+══════════════════════════════ */
+
+/* ════════════════════════════════════════════════════════════════
+   HERO SECTION - KEEPING ORIGINAL SYSTEM
+   The hero section already has a custom background system with:
+   - #hero-bg-fallback (instant fallback)
+   - #hero-bg-media (custom image/video injection via JS)
+   
+   NEW CSS VARIABLES NOT APPLIED TO HERO to avoid conflicts.
+   If you want to use the new CSS variable system instead in the future,
+   uncomment below and remove the #hero-bg-fallback and #hero-bg-media divs.
+════════════════════════════════════════════════════════════════ */
+
+/* 
+   COMMENTED OUT - Hero keeping original system
+   To use the new system, uncomment this and remove the background HTML elements:
+
+#hero {
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-image: var(--bg-hero);
+  position: relative;
+}
+#hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(5,4,10,0) 0%, rgba(5,4,10,calc(var(--bg-overlay-strength) * 1.2)) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+*/
+
+#pixivault {
+  position: relative;
+}
+/* NEW SYSTEM - Using CSS variables for background (with blur effect like original) */
+#pixivault {
+  background-image: var(--bg-pixivault);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  filter: brightness(0.35) saturate(1.2);
+}
+#pixivault::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(180deg, rgba(5,4,10,0.45) 0%, rgba(5,4,10,0.25) 40%, rgba(5,4,10,0.45) 100%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 20%, rgba(5,4,10,0.35) 100%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: calc(var(--bg-overlay-strength) * 0.8);
+  backdrop-filter: blur(8px);
+}
+#pixivault > .pv-inner {
+  position: relative;
+  z-index: 3;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   OLD SYSTEM (COMMENTED OUT - Kept for reference)
+   Original PixiVault used a slideshow system with:
+   - .pv-bg container with .pv-bg-slide elements
+   - Dynamic images loaded from PV_WORKER API
+   - Blur(8px) brightness(.28) filter effects
+   - Fade in/out transitions
+   
+   If you want to revert to the old system:
+   1. Uncomment the CSS below
+   2. Remove the background-image CSS above
+   3. The .pv-bg div in HTML will handle the slideshow
+════════════════════════════════════════════════════════════════ */
+
+/*
+.pv-bg{
+  position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+}
+.pv-bg-slide{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
+  opacity:0;transition:opacity 2s cubic-bezier(.4,0,.2,1);will-change:opacity;
+  filter:blur(8px) brightness(.28) saturate(1.4);
+  transform:scale(1.08);
+}
+.pv-bg-slide.pv-bg-active{opacity:1}
+.pv-bg-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(180deg,rgba(5,4,10,.72) 0%,rgba(5,4,10,.45) 40%,rgba(5,4,10,.72) 100%),
+    radial-gradient(ellipse 100% 100% at 50% 50%,transparent 20%,rgba(5,4,10,.5) 100%);
+}
+*/
+
+
+#store {
+  background-image: var(--bg-store);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+}
+#store::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(9,7,20,calc(var(--bg-overlay-strength) * 0.9)), rgba(9,7,20,calc(var(--bg-overlay-strength) * 0.9)));
+  pointer-events: none;
+  z-index: 0;
+}
+#store > .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+#templates {
+  background-image: var(--bg-templates);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+}
+#templates::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(9,7,20,calc(var(--bg-overlay-strength) * 0.95)), rgba(15,11,30,calc(var(--bg-overlay-strength) * 0.95)));
+  pointer-events: none;
+  z-index: 0;
+}
+#templates > .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+#services {
+  background-image: var(--bg-services);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+}
+#services::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15,11,30,calc(var(--bg-overlay-strength) * 1)), rgba(15,11,30,calc(var(--bg-overlay-strength) * 1)));
+  pointer-events: none;
+  z-index: 0;
+}
+#services > .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+#content {
+  background-image: var(--bg-content);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+}
+#content::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5,4,10,calc(var(--bg-overlay-strength) * 1)), rgba(5,4,10,calc(var(--bg-overlay-strength) * 1)));
+  pointer-events: none;
+  z-index: 0;
+}
+#content > .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+#gallery {
+  background-image: var(--bg-gallery);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+}
+#gallery::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(9,7,20,calc(var(--bg-overlay-strength) * 0.95)), rgba(5,4,10,calc(var(--bg-overlay-strength) * 0.95)));
+  pointer-events: none;
+  z-index: 0;
+}
+#gallery > .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+#ai {
+  background-image: var(--bg-ai);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+}
+#ai::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5,4,10,calc(var(--bg-overlay-strength) * 1)), rgba(15,11,30,calc(var(--bg-overlay-strength) * 1)));
+  pointer-events: none;
+  z-index: 0;
+}
+#ai > .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+#about {
+  background-image: var(--bg-about);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+}
+#about::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15,11,30,calc(var(--bg-overlay-strength) * 1)), rgba(15,11,30,calc(var(--bg-overlay-strength) * 1)));
+  pointer-events: none;
+  z-index: 0;
+}
+#about > .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+#plans {
+  background-image: var(--bg-plans);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+}
+#plans::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(9,7,20,calc(var(--bg-overlay-strength) * 0.95)), rgba(9,7,20,calc(var(--bg-overlay-strength) * 0.95)));
+  pointer-events: none;
+  z-index: 0;
+}
+#plans > .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+#help {
+  background-image: var(--bg-help);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+}
+#help::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15,11,30,calc(var(--bg-overlay-strength) * 1)), rgba(15,11,30,calc(var(--bg-overlay-strength) * 1)));
+  pointer-events: none;
+  z-index: 0;
+}
+#help > .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+/* ══════════════════════════════
    ANIMATIONS
 ══════════════════════════════ */
 @keyframes fade-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
@@ -1377,11 +1678,34 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
 <div class="ad-slot ad-slot-banner" style="display:none" id="adBanner1">Advertisement</div>
 
 <!-- ══════ PIXI VAULT ══════ -->
-<section id="pixivault">
-  <!-- Living blurred background from gallery photos -->
+<section id="pixivault" style="--bg-pixivault: url('')">
+  <!-- 
+    ════════════════════════════════════════════════════════════════
+    BACKGROUND SYSTEM - Currently using NEW CSS VARIABLE system
+    
+    To use the new background image:
+    Add your image URL to the style attribute above:
+    style="--bg-pixivault: url('your-image-url.jpg')"
+    
+    Examples:
+    - Local: style="--bg-pixivault: url('./images/pixivault-bg.jpg')"
+    - URL: style="--bg-pixivault: url('https://example.com/pixivault.jpg')"
+    - Unsplash: style="--bg-pixivault: url('https://source.unsplash.com/1920x1080/?photography')"
+    
+    If you want to revert to the OLD slideshow system:
+    1. Uncomment the .pv-bg and .pv-bg-overlay divs below
+    2. Comment out the background-image CSS in the stylesheet
+    3. The old API-based slideshow will work again
+    ════════════════════════════════════════════════════════════════
+  -->
+  
+  <!-- OLD SYSTEM (COMMENTED OUT) - Slideshow with API-loaded images
+       Uncomment below to use the old system instead of CSS variables
   <div class="pv-bg" id="pvBg">
     <div class="pv-bg-overlay"></div>
   </div>
+  -->
+  
   <!-- Ambient colour orbs on top of bg -->
   <div class="pv-ambient"></div>
 
