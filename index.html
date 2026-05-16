@@ -38,10 +38,10 @@
      CUSTOM BACKGROUND IMAGES FOR SECTIONS
      Set these in HTML: style="--bg-[section-name]: url('...')" 
      
-     IMPORTANT: PixiVault and Hero NOT using new system (originals kept)
+     IMPORTANT: Hero NOT using new system (original kept)
   ══════════════════════════════ */
   /* --bg-hero: none; */ /* HERO: Original system kept - not using new variables */
-  /* --bg-pixivault: none; */ /* PIXIVAULT: Original Worker system kept - not using new variables */
+  --bg-pixivault: none;         /* PixiVault - custom background (fallback to var(--bg1)) */
   --bg-store: none;             /* Store/Arsenal - using new system */
   --bg-templates: none;         /* Templates - using new system */
   --bg-services: none;          /* Services - using new system */
@@ -270,9 +270,12 @@ nav.scrolled .nav-primary{padding:12px 40px}
 ══════════════════════════════ */
 #pixivault{
   position:relative;z-index:2;
-  background:transparent;
+  background: var(--bg-pixivault, var(--bg1));
   padding:100px 0 120px;
   overflow:hidden;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 .pv-ambient{
   position:absolute;inset:0;pointer-events:none;z-index:2;
@@ -1642,7 +1645,7 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
 <div class="ad-slot ad-slot-banner" style="display:none" id="adBanner1">Advertisement</div>
 
 <!-- ══════ PIXI VAULT ══════ -->
-<section id="pixivault">
+<section id="pixivault" style="--bg-pixivault: none">
   <!-- Living blurred background from gallery photos - Worker fetched -->
   <div class="pv-bg" id="pvBg">
     <div class="pv-bg-overlay"></div>
