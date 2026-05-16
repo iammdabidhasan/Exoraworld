@@ -38,10 +38,10 @@
      CUSTOM BACKGROUND IMAGES FOR SECTIONS
      Set these in HTML: style="--bg-[section-name]: url('...')" 
      
-     IMPORTANT: Hero section NOT using new system (original kept)
+     IMPORTANT: PixiVault and Hero NOT using new system (originals kept)
   ══════════════════════════════ */
   /* --bg-hero: none; */ /* HERO: Original system kept - not using new variables */
-  --bg-pixivault: none;         /* PixiVault - NOW using new CSS variable system */
+  /* --bg-pixivault: none; */ /* PIXIVAULT: Original Worker system kept - not using new variables */
   --bg-store: none;             /* Store/Arsenal - using new system */
   --bg-templates: none;         /* Templates - using new system */
   --bg-services: none;          /* Services - using new system */
@@ -987,47 +987,14 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
 }
 */
 
-#pixivault {
-  position: relative;
-}
-/* NEW SYSTEM - Using CSS variables for background (with blur effect like original) */
-#pixivault {
-  background-image: var(--bg-pixivault);
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  filter: brightness(0.35) saturate(1.2);
-  position: relative;
-}
-#pixivault::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: 
-    linear-gradient(180deg, rgba(5,4,10,0.45) 0%, rgba(5,4,10,0.25) 40%, rgba(5,4,10,0.45) 100%),
-    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 20%, rgba(5,4,10,0.35) 100%);
-  pointer-events: none;
-  z-index: 1;
-  opacity: calc(var(--bg-overlay-strength) * 0.8);
-  backdrop-filter: blur(8px);
-}
-/* Don't override original .pv-inner z-index - keep it at 3 */
+#pixivault{background:var(--bg1)}
 
 /* ════════════════════════════════════════════════════════════════
-   OLD SYSTEM (COMMENTED OUT - Kept for reference)
-   Original PixiVault used a slideshow system with:
-   - .pv-bg container with .pv-bg-slide elements
-   - Dynamic images loaded from PV_WORKER API
-   - Blur(8px) brightness(.28) filter effects
-   - Fade in/out transitions
-   
-   If you want to revert to the old system:
-   1. Uncomment the CSS below
-   2. Remove the background-image CSS above
-   3. The .pv-bg div in HTML will handle the slideshow
+   ORIGINAL SYSTEM - PixiVault with Worker-based image fetching
+   This uses PV_WORKER to load and display images/videos
+   Dynamic slideshow with blur and brightness effects
 ════════════════════════════════════════════════════════════════ */
 
-/*
 .pv-bg{
   position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
 }
@@ -1044,7 +1011,6 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
     linear-gradient(180deg,rgba(5,4,10,.72) 0%,rgba(5,4,10,.45) 40%,rgba(5,4,10,.72) 100%),
     radial-gradient(ellipse 100% 100% at 50% 50%,transparent 20%,rgba(5,4,10,.5) 100%);
 }
-*/
 
 
 #store {
@@ -1676,34 +1642,11 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
 <div class="ad-slot ad-slot-banner" style="display:none" id="adBanner1">Advertisement</div>
 
 <!-- ══════ PIXI VAULT ══════ -->
-<section id="pixivault" style="--bg-pixivault: url('')">
-  <!-- 
-    ════════════════════════════════════════════════════════════════
-    BACKGROUND SYSTEM - Currently using NEW CSS VARIABLE system
-    
-    To use the new background image:
-    Add your image URL to the style attribute above:
-    style="--bg-pixivault: url('your-image-url.jpg')"
-    
-    Examples:
-    - Local: style="--bg-pixivault: url('./images/pixivault-bg.jpg')"
-    - URL: style="--bg-pixivault: url('https://example.com/pixivault.jpg')"
-    - Unsplash: style="--bg-pixivault: url('https://source.unsplash.com/1920x1080/?photography')"
-    
-    If you want to revert to the OLD slideshow system:
-    1. Uncomment the .pv-bg and .pv-bg-overlay divs below
-    2. Comment out the background-image CSS in the stylesheet
-    3. The old API-based slideshow will work again
-    ════════════════════════════════════════════════════════════════
-  -->
-  
-  <!-- OLD SYSTEM (COMMENTED OUT) - Slideshow with API-loaded images
-       Uncomment below to use the old system instead of CSS variables
+<section id="pixivault">
+  <!-- Living blurred background from gallery photos - Worker fetched -->
   <div class="pv-bg" id="pvBg">
     <div class="pv-bg-overlay"></div>
   </div>
-  -->
-  
   <!-- Ambient colour orbs on top of bg -->
   <div class="pv-ambient"></div>
 
