@@ -997,6 +997,7 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
   background-position: center;
   background-attachment: fixed;
   filter: brightness(0.35) saturate(1.2);
+  position: relative;
 }
 #pixivault::before {
   content: '';
@@ -1006,13 +1007,13 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
     linear-gradient(180deg, rgba(5,4,10,0.45) 0%, rgba(5,4,10,0.25) 40%, rgba(5,4,10,0.45) 100%),
     radial-gradient(ellipse 100% 100% at 50% 50%, transparent 20%, rgba(5,4,10,0.35) 100%);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
   opacity: calc(var(--bg-overlay-strength) * 0.8);
   backdrop-filter: blur(8px);
 }
-#pixivault > .pv-inner {
+#pixivault > * {
   position: relative;
-  z-index: 3;
+  z-index: 2;
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -1678,7 +1679,7 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
 <div class="ad-slot ad-slot-banner" style="display:none" id="adBanner1">Advertisement</div>
 
 <!-- ══════ PIXI VAULT ══════ -->
-<section id="pixivault" style="--bg-pixivault: url('https://pub-cef70f56a078466191cd7d3d47c00ca5.r2.dev/images/pixi.png')">
+<section id="pixivault" style="--bg-pixivault: url('')">
   <!-- 
     ════════════════════════════════════════════════════════════════
     BACKGROUND SYSTEM - Currently using NEW CSS VARIABLE system
