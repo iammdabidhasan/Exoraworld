@@ -433,8 +433,8 @@ nav.scrolled .nav-primary{padding:12px 40px}
 .pv-bg-slide{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
   opacity:0;transition:opacity 2s cubic-bezier(.4,0,.2,1);will-change:opacity;
-  filter:blur(8px) brightness(.28) saturate(1.4);
-  transform:scale(1.08); /* slightly oversized to hide blur edges */
+  filter:brightness(.28) saturate(1.4);
+  transform:scale(1.08);
 }
 .pv-bg-slide.pv-bg-active{opacity:1}
 /* Hard dark vignette so text and cards always read cleanly on top */
@@ -1004,7 +1004,7 @@ footer{position:relative;z-index:2;background:var(--bg);border-top:1px solid var
 .pv-bg-slide{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
   opacity:0;transition:opacity 2s cubic-bezier(.4,0,.2,1);will-change:opacity;
-  filter:blur(8px) brightness(.28) saturate(1.4);
+  filter:brightness(.28) saturate(1.4);
   transform:scale(1.08);
 }
 .pv-bg-slide.pv-bg-active{opacity:1}
@@ -2070,7 +2070,7 @@ const CFG = {
   // Video takes priority over image if both are set.
   // Leave both as '' to keep the default stars/dark background.
   heroVideo: '', // e.g. 'https://example.com/your-video.mp4'  → loops silently
-  heroBg:    'https://pub-cef70f56a078466191cd7d3d47c00ca5.r2.dev/images/river.jpg', // e.g. 'https://example.com/your-image.jpg'  → static background
+  heroBg:    'https://pub-cef70f56a078466191cd7d3d47c00ca5.r2.dev/images/planetx.png', // e.g. 'https://example.com/your-image.jpg'  → static background
 
   // ── HERO FALLBACK (shown instantly while Worker photos are loading)
   // This appears immediately on page load — Worker photos fade over it once ready.
