@@ -2144,82 +2144,6 @@ function pvIsVideo(url, key) {
 }
 
 // ── Hero slideshow from real gallery photos (landscape only)
-const PVHeroSlider = (() => {
-  const INTERVAL = 6000;
-  const MIN_RATIO = 1.25;
-  let pool = [], current = 0, active = 0, timer = null;
-
-  // Two crossfade slots already in DOM
-  const slot0 = document.getElementById('hero-bg-media');
-  let img0 = null, img1 = null;
-
-  function buildSlots() {
-    // Only runs if CFG.heroVideo and CFG.heroBg are both empty (no manual override)
-    if(CFG.heroVideo || CFG.heroBg) return false;
-    img0 = document.createElement('img');
-    img1 = document.createElement('img');
-    [img0, img1].forEach(img => {
-      img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.6s cubic-bezier(.4,0,.2,1);will-change:opacity;';
-      img.setAttribute('aria-hidden','true');
-    });
-    slot0.appendChild(img0);
-    slot0.appendChild(img1);
-    slot0.style.display = 'block';
-    document.getElementById('hero').classList.add('has-custom-bg');
-    return true;
-  }
-
-  function probeImage(url) {
-    return new Promise(resolve => {
-      const img = new Image();
-      img.onload = () => resolve({url, w:img.naturalWidth, h:img.naturalHeight});
-      img.onerror = () => resolve(null);
-      img.src = url;
-    });
-  }
-
-  async function loadPool(photos) {
-    if(!buildSlots()) return; // manual override is set, skip
-    const candidates = photos.filter(p => !pvIsVideo(p.url, p.key)).slice(0, 22);
-    const results = await Promise.all(candidates.map(p => probeImage(p.url || p.thumbnail_url || '')));
-    pool = results.filter(r => r && r.w > 0 && r.w / r.h >= MIN_RATIO).map(r => r.url);
-    // Shuffle
-    for(let i = pool.length-1; i > 0; i--) {
-      const j = Math.floor(Math.random()*(i+1));
-      [pool[i],pool[j]] = [pool[j],pool[i]];
-    }
-    if(pool.length === 0) {
-      // No landscape photos — hide slots, restore default
-      slot0.style.display = 'none';
-      document.getElementById('hero').classList.remove('has-custom-bg');
-      return;
-    }
-    showSlide(0, true);
-    if(pool.length > 1) timer = setInterval(() => showSlide(current+1), INTERVAL);
-  }
-
-  function showSlide(idx, instant) {
-    current = ((idx % pool.length) + pool.length) % pool.length;
-    const slots = [img0, img1];
-    const next = 1 - active;
-    slots[next].src = pool[current];
-    if(instant) {
-      slots[next].style.opacity = '1';
-      active = next;
-    } else {
-      slots[active].style.opacity = '0';
-      slots[next].style.opacity = '1';
-      active = next;
-    }
-  }
-
-  document.addEventListener('visibilitychange', () => {
-    if(document.hidden) clearInterval(timer);
-    else if(pool.length > 1) timer = setInterval(() => showSlide(current+1), INTERVAL);
-  });
-
-  return { loadPool };
-})();
 
 // ── Hero fallback background (shown instantly, before Worker loads)
 (function pvFallback() {
@@ -2555,15 +2479,6 @@ function pvDownload(key, fallbackUrl, title) {
     for(let i=pvRotatePool.length-1;i>0;i--){
       const j=Math.floor(Math.random()*(i+1));
       [pvRotatePool[i],pvRotatePool[j]]=[pvRotatePool[j],pvRotatePool[i]];
-    }
-
-    // Feed hero slideshow (non-blocking, only if no manual CFG override)
-    PVHeroSlider.loadPool(photos);
-
-    // Fade out hero fallback once Worker photos are loaded
-    const fallback = document.getElementById('hero-bg-fallback');
-    if(fallback && fallback.children.length) {
-      setTimeout(() => fallback.classList.add('pv-fade-out'), 400);
     }
 
     // Start section background slideshow
