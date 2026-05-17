@@ -38,18 +38,14 @@
      CUSTOM BACKGROUND IMAGES FOR SECTIONS
      Set these in HTML: style="--bg-[section-name]: url('...')" 
      
-     IMPORTANT: Hero NOT using new system (original kept)
+     IMPORTANT: Hero using --hero-bg for background support
   ══════════════════════════════ */
-  /* --bg-hero: none; */ /* HERO: Original system kept - not using new variables */
+  --hero-bg: none;              /* HERO: Background image variable */
   --bg-pixivault: none;         /* PixiVault - custom background (fallback to var(--bg1)) */
   --bg-store: none;             /* Store/Arsenal - using new system */
   --bg-templates: none;         /* Templates - using new system */
   --bg-services: none;          /* Services - using new system */
   --bg-content: none;           /* Content/Videos - using new system */
-  --bg-about: none;             /* About - using new system */
-  --bg-ai: none;                /* AI - using new system */
-  --bg-gallery: none;           /* Gallery - using new system */
-  --bg-plans: none;             /* Plans/Pricing - using new system */
   --bg-help: none;              /* Help/FAQ - using new system */
   
   /* Control background image overlay darkness (0 to 1) */
@@ -185,7 +181,7 @@ nav.scrolled .nav-primary{padding:12px 40px}
 /* ══════════════════════════════
    HERO SECTION
 ══════════════════════════════ */
-#hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:130px 48px 80px;z-index:2;overflow:hidden}
+#hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:130px 48px 80px;z-index:2;overflow:hidden;background-image:var(--hero-bg);background-size:cover;background-position:center;background-attachment:fixed}
 
 /* Hero custom background (image or video) */
 #hero-bg-media{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
@@ -1580,7 +1576,7 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
 </nav>
 
 <!-- ══════ HERO ══════ -->
-<section id="hero">
+<section id="hero" style="--hero-bg: url('https://pub-cef70f56a078466191cd7d3d47c00ca5.r2.dev/images/river.jpg')">
   <!-- Instant fallback bg (shown before Worker photos load) -->
   <div id="hero-bg-fallback"></div>
   <!-- Custom background (image or video) — injected by JS when CFG.heroVideo or CFG.heroBg is set -->
@@ -1721,7 +1717,7 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
 </div>
 
 <!-- ══════ STORE ══════ -->
-<section class="section" id="store">
+<section class="section" id="store" style="--bg-store: url('https://pub-cef70f56a078466191cd7d3d47c00ca5.r2.dev/images/train-nature.jpg')">
   <div class="wrap pad">
     <div class="store-header reveal">
       <div><div class="eyebrow">Digital Store</div><h2 class="big-title">The <em>Arsenal</em></h2></div>
@@ -1770,7 +1766,7 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
 </section>
 
 <!-- ══════ WEBSITE TEMPLATES ══════ -->
-<section class="section" id="templates">
+<section class="section" id="templates" style="--bg-templates: url('https://pub-cef70f56a078466191cd7d3d47c00ca5.r2.dev/images/sea-side.jpg')">
   <div class="wrap pad">
     <div class="reveal">
       <div class="eyebrow">Website Templates</div>
@@ -1803,7 +1799,7 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
 </section>
 
 <!-- ══════ SERVICES ══════ -->
-<section class="section" id="services">
+<section class="section" id="services" style="--bg-services: url('https://pub-cef70f56a078466191cd7d3d47c00ca5.r2.dev/images/resting.jpg')">
   <div class="wrap pad">
     <div class="reveal">
       <div class="eyebrow">Services</div>
@@ -1837,7 +1833,7 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
 </section>
 
 <!-- ══════ VIDEO SHOWCASE ══════ -->
-<section class="section" id="content">
+<section class="section" id="content" style="--bg-content: url('https://pub-cef70f56a078466191cd7d3d47c00ca5.r2.dev/images/sun-set-nature.jpg')">
   <div class="wrap pad">
     <div class="reveal">
       <div class="eyebrow">Content & Videos</div>
