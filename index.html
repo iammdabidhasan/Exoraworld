@@ -38,6 +38,7 @@
 
   /* Global background overlay darkness (0 to 1) */
   --bg-overlay-strength: 0.55;
+  --ease-overshoot: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px;overflow-x:hidden}
@@ -300,7 +301,7 @@ nav.scrolled .nav-primary{padding:12px 40px}
 /* ══════════════════════════════
    SHARED SECTION STYLES
 ══════════════════════════════ */
-.section{position:relative;z-index:2;content-visibility:auto;contain-intrinsic-size:1px 900px}
+.section{position:relative;z-index:2;content-visibility:auto;contain-intrinsic-size:auto 1200px}
 .section::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:transparent}
 .section>.wrap{position:relative;z-index:1}
 .wrap{max-width:1380px;margin:0 auto;padding:0 56px}
@@ -1087,7 +1088,7 @@ footer{position:relative;z-index:2;background:transparent;border-top:1px solid v
 
 /* ── GLASSMORPHISM CARD EFFECTS ── */
 .prod-card, .tmpl-card, .vid-card, .gallery-item{
-  transition: transform .35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .35s cubic-bezier(0.34, 1.56, 0.64, 1), border-color .35s ease, background-color .35s ease;
+  transition: transform .35s var(--ease-overshoot), box-shadow .35s var(--ease-overshoot), border-color .35s var(--ease-overshoot), background-color .35s var(--ease-overshoot);
   border-radius: 8px;
 }
 .prod-card:hover, .tmpl-card:hover, .vid-card:hover, .gallery-item:hover{
@@ -2074,7 +2075,16 @@ const CFG = {
 
 
 // ── CURSOR (pointer devices only)
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+let prefersReducedMotion = reducedMotionQuery.matches;
+const EXORA_STAR_COUNT_REDUCED_MOTION = 12;
+const EXORA_STAR_COUNT_MOBILE = 24;
+const EXORA_STAR_COUNT_DESKTOP = 40;
+const EXORA_VIEWPORT_MOBILE_BREAKPOINT = 768;
+function clamp(value, min, max){ return Math.min(max, Math.max(min, value)); }
+const handleReducedMotionChange = (event) => { prefersReducedMotion = event.matches; };
+if(reducedMotionQuery.addEventListener) reducedMotionQuery.addEventListener('change', handleReducedMotionChange);
+else if(reducedMotionQuery.addListener) reducedMotionQuery.addListener(handleReducedMotionChange);
 if(window.matchMedia('(pointer:fine)').matches && !prefersReducedMotion) {
 const cur=document.getElementById('cur'),trail=document.getElementById('cur-trail');
 let mx=0,my=0,tx=0,ty=0;
@@ -2092,13 +2102,38 @@ document.addEventListener('mouseup',()=>document.body.classList.remove('clicking
 (function(){
   const s=document.getElementById('stars');
   if(!s) return;
-  const starCount = prefersReducedMotion ? 12 : (window.innerWidth < 768 ? 24 : 40);
-  for(let i=0;i<starCount;i++){
-    const el=document.createElement('div');
-    el.classList.add('star');
-    const sz=Math.random()*2.5+.5;
-    el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*-6}s`;
-    s.appendChild(el);
+  let lastBucket = '';
+  function getStarCount(){
+    if(prefersReducedMotion) return EXORA_STAR_COUNT_REDUCED_MOTION;
+    return window.innerWidth < EXORA_VIEWPORT_MOBILE_BREAKPOINT ? EXORA_STAR_COUNT_MOBILE : EXORA_STAR_COUNT_DESKTOP;
+  }
+  function getBucket(){
+    if(prefersReducedMotion) return 'reduced';
+    return window.innerWidth < EXORA_VIEWPORT_MOBILE_BREAKPOINT ? 'mobile' : 'desktop';
+  }
+  function renderStars(){
+    const starCount = getStarCount();
+    lastBucket = getBucket();
+    s.replaceChildren();
+    for(let i=0;i<starCount;i++){
+      const el=document.createElement('div');
+      el.classList.add('star');
+      const sz=Math.random()*2.5+.5;
+      el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*-6}s`;
+      s.appendChild(el);
+    }
+  }
+  renderStars();
+  if(!prefersReducedMotion){
+    let starResizeRaf = null;
+    window.addEventListener('resize', () => {
+      if(starResizeRaf) return;
+      starResizeRaf = requestAnimationFrame(() => {
+        starResizeRaf = null;
+        const nextBucket = getBucket();
+        if(nextBucket !== lastBucket) renderStars();
+      });
+    }, {passive:true});
   }
 })();
 
@@ -2395,13 +2430,17 @@ const progressBarEl = document.getElementById('scroll-progress');
 let maxScroll = 1;
 let scrollRaf = null;
 function updateScrollMetrics(){
-  maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+  const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+  maxScroll = Math.max(0, scrollableHeight);
 }
 function renderScrollUI(){
   scrollRaf = null;
-  const y = window.scrollY || window.pageYOffset || 0;
+  const y = window.scrollY;
   if(navEl) navEl.classList.toggle('scrolled', y > 60);
-  if(progressBarEl) progressBarEl.style.width = (Math.min(100, (y / maxScroll) * 100)) + '%';
+  if(progressBarEl) {
+    const progress = maxScroll > 0 ? clamp((y / maxScroll) * 100, 0, 100) : 0;
+    progressBarEl.style.width = progress + '%';
+  }
 }
 function queueScrollUI(){
   if(scrollRaf) return;
