@@ -153,6 +153,16 @@ nav.scrolled .nav-primary{padding:12px 40px}
 .modal-body{padding:32px}
 .modal-title{font-family:var(--f-disp);font-weight:700;font-size:1.4rem;margin-bottom:6px;color:var(--ivory)}
 .modal-sub{font-family:var(--f-serif);font-size:.9rem;font-style:italic;color:var(--dim);margin-bottom:28px}
+.auth-error{font-family:'Inter','Space Grotesk',sans-serif;font-size:.78rem;color:#fca5a5;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);padding:10px 14px;margin-bottom:18px;line-height:1.5}
+
+/* ── Logged-in user chip (nav) ── */
+.exo-user-chip{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 6px;border:1px solid rgba(79,216,255,.3);background:rgba(79,216,255,.05);cursor:pointer;transition:all .3s;border-radius:999px}
+.exo-user-chip:hover{border-color:rgba(79,216,255,.6);background:rgba(79,216,255,.12)}
+.exo-user-chip img{width:26px;height:26px;border-radius:50%;object-fit:cover;display:block}
+.exo-user-initial{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--electric),var(--neon-v));color:#05040a;font-family:var(--f-disp);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.exo-user-name{font-family:'JetBrains Mono','DM Mono',monospace;font-size:.62rem;letter-spacing:.04em;color:var(--ivory);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px}
+.exo-user-chip-mob{width:100%;justify-content:center;padding:12px;border-radius:0}
+.exo-user-chip-mob .exo-user-name{max-width:none}
 .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--dimmer);font-size:1.1rem;cursor:pointer;transition:color .3s;z-index:1}
 .modal-close:hover{color:var(--ivory)}
 .m-panel{display:none}.m-panel.active{display:block;animation:fade-in .3s ease}
@@ -1177,6 +1187,7 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
   .orb,.hero-sphere,.stars{display:none}
 }
 </style>
+<script type="module" src="exora-auth.js"></script>
 </head>
 <body style="animation: pageIn 0.6s ease-out">
 
@@ -1240,30 +1251,32 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
       <div class="m-panel active" id="panel-login">
         <div class="modal-title">Welcome back</div>
         <div class="modal-sub">Sign in to your ExoraWorld account</div>
+        <div class="auth-error" id="auth-error-login" style="display:none"></div>
         <form onsubmit="handleAuth('login');return false" autocomplete="on">
-        <div class="field"><label for="login-email">Email Address</label><input type="email" id="login-email" name="email" placeholder="your@email.com" autocomplete="email"></div>
-        <div class="field"><label for="login-password">Password</label><input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password"></div>
+        <div class="field"><label for="login-email">Email Address</label><input type="email" id="login-email" name="email" placeholder="your@email.com" autocomplete="email" required></div>
+        <div class="field"><label for="login-password">Password</label><input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required></div>
         <button type="submit" class="modal-submit">Sign In →</button>
         </form>
         <div class="modal-divider">or continue with</div>
         <div class="social-btns">
-          <button class="social-btn" type="button">🌐 Google</button>
-          <button class="social-btn" type="button">💙 Facebook</button>
+          <button class="social-btn" type="button" onclick="handleSocialAuth('google')">🌐 Google</button>
+          <button class="social-btn" type="button" onclick="handleSocialAuth('facebook')">💙 Facebook</button>
         </div>
       </div>
       <div class="m-panel" id="panel-register">
         <div class="modal-title">Join ExoraWorld</div>
         <div class="modal-sub">Create your free explorer account</div>
+        <div class="auth-error" id="auth-error-register" style="display:none"></div>
         <form onsubmit="handleAuth('register');return false" autocomplete="on">
-        <div class="field"><label for="reg-name">Full Name</label><input type="text" id="reg-name" name="name" placeholder="Your name" autocomplete="name"></div>
-        <div class="field"><label for="reg-email">Email Address</label><input type="email" id="reg-email" name="email" placeholder="your@email.com" autocomplete="email"></div>
-        <div class="field"><label for="reg-password">Password</label><input type="password" id="reg-password" name="password" placeholder="Create a strong password" autocomplete="new-password"></div>
+        <div class="field"><label for="reg-name">Full Name</label><input type="text" id="reg-name" name="name" placeholder="Your name" autocomplete="name" required></div>
+        <div class="field"><label for="reg-email">Email Address</label><input type="email" id="reg-email" name="email" placeholder="your@email.com" autocomplete="email" required></div>
+        <div class="field"><label for="reg-password">Password</label><input type="password" id="reg-password" name="password" placeholder="Create a strong password" autocomplete="new-password" required minlength="6"></div>
         <button type="submit" class="modal-submit">Create Account →</button>
         </form>
         <div class="modal-divider">or continue with</div>
         <div class="social-btns">
-          <button class="social-btn" type="button">🌐 Google</button>
-          <button class="social-btn" type="button">💙 Facebook</button>
+          <button class="social-btn" type="button" onclick="handleSocialAuth('google')">🌐 Google</button>
+          <button class="social-btn" type="button" onclick="handleSocialAuth('facebook')">💙 Facebook</button>
         </div>
       </div>
     </div>
@@ -2428,14 +2441,40 @@ function switchAuth(tab){
   document.querySelectorAll('.m-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+tab).classList.add('active');
 }
-function handleAuth(type){
+async function handleAuth(type){
   const btn=document.querySelector('#panel-'+type+' .modal-submit');
+  const errBox=document.getElementById('auth-error-'+type);
+  if(errBox){errBox.style.display='none';errBox.textContent='';}
+  btn.dataset.label=btn.textContent;
   btn.textContent='Loading...';btn.disabled=true;
-  setTimeout(()=>{
-    btn.textContent=type==='login'?'Sign In →':'Create Account →';
+  try{
+    if(type==='login'){
+      const email=document.getElementById('login-email').value.trim();
+      const password=document.getElementById('login-password').value;
+      await ExoAuth.signInEmail(email,password);
+    }else{
+      const name=document.getElementById('reg-name').value.trim();
+      const email=document.getElementById('reg-email').value.trim();
+      const password=document.getElementById('reg-password').value;
+      await ExoAuth.signUpEmail(name,email,password);
+    }
+    closeAuth();
+  }catch(err){
+    if(errBox){errBox.textContent=ExoAuth.friendlyError(err);errBox.style.display='block';}
+    else alert(ExoAuth.friendlyError(err));
+  }finally{
+    btn.textContent=btn.dataset.label;
     btn.disabled=false;
-    alert(type==='login'?'Sign-in functionality coming soon! For now contact Abid directly.':'Account creation coming soon! For now contact Abid to get started.');
-  },1200);
+  }
+}
+async function handleSocialAuth(provider){
+  try{
+    if(provider==='google') await ExoAuth.signInGoogle();
+    else if(provider==='facebook') await ExoAuth.signInFacebook();
+    closeAuth();
+  }catch(err){
+    alert(ExoAuth.friendlyError(err));
+  }
 }
 
 // ── PAYMENT MODAL
