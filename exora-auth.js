@@ -76,8 +76,22 @@ window.ExoAuth = {
     await signOut(auth);
   },
 
+  toggleMenu(e) {
+    if (e) e.stopPropagation();
+    const dd = document.getElementById("exoUserDropdown");
+    if (dd) dd.classList.toggle("open");
+  },
+
   friendlyError
 };
+
+// Close the dropdown when clicking anywhere else on the page
+document.addEventListener("click", (e) => {
+  const dd = document.getElementById("exoUserDropdown");
+  if (dd && !e.target.closest(".exo-user-wrap")) {
+    dd.classList.remove("open");
+  }
+});
 
 // ── Keep every page's nav bar in sync automatically ──
 function renderAuthUI(user) {
@@ -89,20 +103,31 @@ function renderAuthUI(user) {
   if (user) {
     const name = (user.displayName || user.email || "Explorer").split(" ")[0];
     const photo = user.photoURL;
+    const avatarHTML = photo
+      ? `<img src="${photo}" alt="${name}" referrerpolicy="no-referrer">`
+      : `<span class="exo-user-initial">${name[0].toUpperCase()}</span>`;
 
     if (navActions) {
       navActions.innerHTML = `
-        <div class="exo-user-chip" onclick="ExoAuth.signOutUser()" title="Sign out">
-          ${photo ? `<img src="${photo}" alt="${name}" referrerpolicy="no-referrer">` : `<span class="exo-user-initial">${name[0].toUpperCase()}</span>`}
-          <span class="exo-user-name">${name}</span>
+        <div class="exo-user-wrap">
+          <div class="exo-user-chip" onclick="ExoAuth.toggleMenu(event)">
+            ${avatarHTML}
+            <span class="exo-user-name">${name}</span>
+            <span class="exo-user-caret">▾</span>
+          </div>
+          <div class="exo-user-dropdown" id="exoUserDropdown">
+            <div class="exo-dropdown-email">${user.email || ""}</div>
+            <button class="exo-dropdown-signout" onclick="ExoAuth.signOutUser()">Sign Out</button>
+          </div>
         </div>`;
     }
     if (mobCtas) {
       mobCtas.innerHTML = `
-        <div class="exo-user-chip exo-user-chip-mob" onclick="ExoAuth.signOutUser()">
-          ${photo ? `<img src="${photo}" alt="${name}" referrerpolicy="no-referrer">` : `<span class="exo-user-initial">${name[0].toUpperCase()}</span>`}
-          <span class="exo-user-name">Signed in as ${name} · Tap to sign out</span>
-        </div>`;
+        <div class="exo-user-chip exo-user-chip-mob">
+          ${avatarHTML}
+          <span class="exo-user-name">Signed in as ${name}</span>
+        </div>
+        <button class="btn-ghost-sm" onclick="ExoAuth.signOutUser()" style="width:100%;text-align:center;padding:10px;margin-top:8px">Sign Out</button>`;
     }
   } else {
     if (navActions) {
