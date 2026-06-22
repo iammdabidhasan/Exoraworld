@@ -38,12 +38,15 @@
 
   /* Global background overlay darkness (0 to 1) */
   --bg-overlay-strength: 0.55;
+  --ease-overshoot: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px;overflow-x:hidden}
-body{background:var(--bg) url("https://pub-cef70f56a078466191cd7d3d47c00ca5.r2.dev/images/cool.png") center/cover fixed no-repeat;color:var(--ivory);font-family:var(--f-disp);min-height:100vh}
+body{background:var(--bg) url("https://pub-cef70f56a078466191cd7d3d47c00ca5.r2.dev/images/cool.png") center/cover fixed no-repeat;color:var(--ivory);font-family:var(--f-disp);min-height:100vh;animation:pageIn .6s ease-out}
 @media(pointer:fine){body{cursor:none}}
 :focus-visible{outline:2px solid var(--v3);outline-offset:3px;border-radius:2px}
+#scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#a78bfa,#ec4899,#06b6d4);z-index:9999;width:0%;transition:width .1s ease-out}
+@media (max-width:1024px){body{background-attachment:scroll}}
 
 @media(pointer:fine){
 #cur{position:fixed;width:8px;height:8px;background:var(--ivory);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;mix-blend-mode:difference}
@@ -121,7 +124,7 @@ nav.scrolled .nav-primary{padding:12px 40px}
 .btn-ghost-accent{border-color:rgba(139,92,246,.65);color:var(--v4)}
 .btn-ghost-accent:hover{background:rgba(139,92,246,.18);border-color:var(--v3);color:var(--ivory)}
 
-.nav-mob-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;margin-right:12px;order:-1}
+.nav-mob-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;margin-right:12px;order:-1;border:none;background:transparent;appearance:none}
 .nav-mob-toggle span{display:block;width:22px;height:1px;background:var(--v3);transition:all .3s}
 
 /* mobile nav */
@@ -304,7 +307,7 @@ nav.scrolled .nav-primary{padding:12px 40px}
 /* ══════════════════════════════
    SHARED SECTION STYLES
 ══════════════════════════════ */
-.section{position:relative;z-index:2}
+.section{position:relative;z-index:2;content-visibility:auto;contain-intrinsic-size:auto 1200px}
 .section::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:transparent}
 .section>.wrap{position:relative;z-index:1}
 .wrap{max-width:1380px;margin:0 auto;padding:0 56px}
@@ -1091,13 +1094,12 @@ footer{position:relative;z-index:2;background:transparent;border-top:1px solid v
 
 /* ── GLASSMORPHISM CARD EFFECTS ── */
 .prod-card, .tmpl-card, .vid-card, .gallery-item{
-  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform .35s var(--ease-overshoot), box-shadow .35s var(--ease-overshoot), border-color .35s var(--ease-overshoot), background-color .35s var(--ease-overshoot);
   border-radius: 8px;
 }
 .prod-card:hover, .tmpl-card:hover, .vid-card:hover, .gallery-item:hover{
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 16px 48px rgba(139, 92, 246, 0.3), 0 0 32px rgba(139, 92, 246, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
-  border-color: rgba(139, 92, 246, 0.6);
   background: rgba(28, 21, 48, 0.85);
   border-color: rgba(167, 139, 250, 0.4);
 }
@@ -1197,16 +1199,19 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
 
 /* ── PREFERS REDUCED MOTION ── */
 @media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  .orb,.hero-sphere,.stars{display:none}
+  body{animation:none}
+  body::after,.orb,.hero-sphere,.stars,#cur,#cur-trail{display:none!important}
+  .section{content-visibility:visible;contain-intrinsic-size:auto}
 }
 </style>
 <script type="module" src="exora-auth.js"></script>
 </head>
-<body style="animation: pageIn 0.6s ease-out">
+<body>
 
 <!-- Scroll Progress Indicator -->
-<div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#a78bfa,#ec4899,#06b6d4);z-index:9999;width:0%;transition:width 0.1s ease-out"></div>
+<div id="scroll-progress"></div>
 
 <!-- Cursor -->
 <div id="cur"></div>
@@ -1223,7 +1228,7 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
 <div class="mob-backdrop" id="mobBackdrop" onclick="closeMob()"></div>
 
 <!-- Mobile Menu Sidebar -->
-<div class="mob-menu" id="mobMenu">
+<div class="mob-menu" id="mobMenu" aria-hidden="true">
   <button class="mob-close" id="mobClose">✕</button>
   <div class="mob-brand">Exora<span>World</span></div>
   <div class="mob-section-label">Main</div>
@@ -1412,7 +1417,7 @@ a:not(.nav-more-btn):not([class*="btn"]):not([class*="filter"]):hover{
 <nav id="nav">
   <!-- Primary Row -->
   <div class="nav-primary">
-    <div class="nav-mob-toggle" id="mobToggle"><span></span><span></span><span></span></div>
+    <button class="nav-mob-toggle" id="mobToggle" type="button" aria-label="Open navigation menu" aria-controls="mobMenu" aria-expanded="false"><span></span><span></span><span></span></button>
     <a href="index.html" class="nav-logo">Exora<span>World</span></a>
 
     <ul class="nav-links-primary" style="list-style:none">
@@ -2076,7 +2081,17 @@ const CFG = {
 
 
 // ── CURSOR (pointer devices only)
-if(window.matchMedia('(pointer:fine)').matches) {
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+let prefersReducedMotion = reducedMotionQuery.matches;
+const EXORA_STAR_COUNT_REDUCED_MOTION = 12;
+const EXORA_STAR_COUNT_MOBILE = 24;
+const EXORA_STAR_COUNT_DESKTOP = 40;
+const EXORA_VIEWPORT_MOBILE_BREAKPOINT = 768;
+function clamp(value, min, max){ return Math.min(max, Math.max(min, value)); }
+const handleReducedMotionChange = (event) => { prefersReducedMotion = event.matches; };
+if(reducedMotionQuery.addEventListener) reducedMotionQuery.addEventListener('change', handleReducedMotionChange);
+else if(reducedMotionQuery.addListener) reducedMotionQuery.addListener(handleReducedMotionChange);
+if(window.matchMedia('(pointer:fine)').matches && !prefersReducedMotion) {
 const cur=document.getElementById('cur'),trail=document.getElementById('cur-trail');
 let mx=0,my=0,tx=0,ty=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
@@ -2092,12 +2107,39 @@ document.addEventListener('mouseup',()=>document.body.classList.remove('clicking
 // ── STARS
 (function(){
   const s=document.getElementById('stars');
-  for(let i=0;i<40;i++){
-    const el=document.createElement('div');
-    el.classList.add('star');
-    const sz=Math.random()*2.5+.5;
-    el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*-6}s`;
-    s.appendChild(el);
+  if(!s) return;
+  let lastBucket = '';
+  function getStarCount(){
+    if(prefersReducedMotion) return EXORA_STAR_COUNT_REDUCED_MOTION;
+    return window.innerWidth < EXORA_VIEWPORT_MOBILE_BREAKPOINT ? EXORA_STAR_COUNT_MOBILE : EXORA_STAR_COUNT_DESKTOP;
+  }
+  function getBucket(){
+    if(prefersReducedMotion) return 'reduced';
+    return window.innerWidth < EXORA_VIEWPORT_MOBILE_BREAKPOINT ? 'mobile' : 'desktop';
+  }
+  function renderStars(){
+    const starCount = getStarCount();
+    lastBucket = getBucket();
+    s.replaceChildren();
+    for(let i=0;i<starCount;i++){
+      const el=document.createElement('div');
+      el.classList.add('star');
+      const sz=Math.random()*2.5+.5;
+      el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*-6}s`;
+      s.appendChild(el);
+    }
+  }
+  renderStars();
+  if(!prefersReducedMotion){
+    let starResizeRaf = null;
+    window.addEventListener('resize', () => {
+      if(starResizeRaf) return;
+      starResizeRaf = requestAnimationFrame(() => {
+        starResizeRaf = null;
+        const nextBucket = getBucket();
+        if(nextBucket !== lastBucket) renderStars();
+      });
+    }, {passive:true});
   }
 })();
 
@@ -2183,7 +2225,19 @@ document.getElementById('pvLbClose').addEventListener('click', pvCloseLb);
 document.getElementById('pvLb').addEventListener('click', e => {
   if(e.target === document.getElementById('pvLb')) pvCloseLb();
 });
-document.addEventListener('keydown', e => { if(e.key === 'Escape') pvCloseLb(); });
+document.addEventListener('keydown', e => {
+  if(e.key !== 'Escape') return;
+  pvCloseLb();
+  closeMob();
+  closeAuth();
+  closePay();
+  if(moreOpen){
+    moreOpen=false;
+    document.getElementById('moreBtn').classList.remove('open');
+    document.getElementById('moreRow').classList.remove('open');
+    document.getElementById('moreBtn').setAttribute('aria-expanded','false');
+  }
+});
 
 // ── HERO FALLBACK (shown instantly while page loads)
 (function pvFallback() {
@@ -2376,17 +2430,32 @@ document.addEventListener('keydown', e => { if(e.key === 'Escape') pvCloseLb(); 
   }
   document.querySelectorAll('#newsGrid .reveal').forEach(el => ro.observe(el));
 })();
-// ── DEBOUNCED SCROLL HANDLER (prevents excessive reflows/repaints)
-let scrollTimeout, lastScrollY = 0;
-window.addEventListener('scroll',()=>{
-  if(scrollTimeout) clearTimeout(scrollTimeout);
-  scrollTimeout = setTimeout(() => {
-    const isScrolled = window.scrollY > 60;
-    const nav = document.getElementById('nav');
-    if(isScrolled) nav.classList.add('scrolled');
-    else nav.classList.remove('scrolled');
-  }, 10); // Debounce for 10ms
-}, {passive: true}); // Use passive flag for better scroll performance
+// ── SCROLL UI (single rAF loop for nav + progress)
+const navEl = document.getElementById('nav');
+const progressBarEl = document.getElementById('scroll-progress');
+let maxScroll = 1;
+let scrollRaf = null;
+function updateScrollMetrics(){
+  const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+  maxScroll = Math.max(0, scrollableHeight);
+}
+function renderScrollUI(){
+  scrollRaf = null;
+  const y = window.scrollY;
+  if(navEl) navEl.classList.toggle('scrolled', y > 60);
+  if(progressBarEl) {
+    const progress = maxScroll > 0 ? clamp((y / maxScroll) * 100, 0, 100) : 0;
+    progressBarEl.style.width = progress + '%';
+  }
+}
+function queueScrollUI(){
+  if(scrollRaf) return;
+  scrollRaf = requestAnimationFrame(renderScrollUI);
+}
+updateScrollMetrics();
+queueScrollUI();
+window.addEventListener('scroll', queueScrollUI, {passive:true});
+window.addEventListener('resize', () => { updateScrollMetrics(); queueScrollUI(); }, {passive:true});
 
 // ── MORE ROW TOGGLE
 let moreOpen=false;
@@ -2418,10 +2487,28 @@ document.querySelectorAll('.nav-more-inner a').forEach(a=>{
 });
 
 // ── MOBILE NAV
-function openMob(){document.getElementById('mobMenu').classList.add('open');document.getElementById('mobBackdrop').classList.add('show');document.body.style.overflow='hidden'}
+function openMob(){
+  const menu = document.getElementById('mobMenu');
+  const backdrop = document.getElementById('mobBackdrop');
+  const toggle = document.getElementById('mobToggle');
+  menu.classList.add('open');
+  menu.setAttribute('aria-hidden','false');
+  backdrop.classList.add('show');
+  toggle.setAttribute('aria-expanded','true');
+  document.body.style.overflow='hidden';
+}
 document.getElementById('mobToggle').onclick=openMob;
 document.getElementById('mobClose').onclick=()=>closeMob();
-function closeMob(){document.getElementById('mobMenu').classList.remove('open');document.getElementById('mobBackdrop').classList.remove('show');document.body.style.overflow=''}
+function closeMob(){
+  const menu = document.getElementById('mobMenu');
+  const backdrop = document.getElementById('mobBackdrop');
+  const toggle = document.getElementById('mobToggle');
+  menu.classList.remove('open');
+  menu.setAttribute('aria-hidden','true');
+  backdrop.classList.remove('show');
+  toggle.setAttribute('aria-expanded','false');
+  document.body.style.overflow='';
+}
 
 // ── CLOCK
 function tick(){
@@ -3078,6 +3165,10 @@ function renderMarkdown(text) {
 }
 
 function typeMessage(el, text, speed=15) {
+  if(prefersReducedMotion){
+    el.innerHTML = renderMarkdown(text).replace(/\n/g,'<br>');
+    return;
+  }
   el.innerHTML = '';
   const lines = text.split('\n');
   let lineIdx = 0, charIdx = 0;
@@ -3241,17 +3332,6 @@ function toggleExo() {
 function closeExo() { exoOpen=false; document.getElementById('exoBubble').classList.remove('show'); }
 // Auto-toggle disabled - user must manually open chat
 // setTimeout(()=>{if(!exoOpen)toggleExo();},3500);
-
-// ── SCROLL PROGRESS INDICATOR ──
-let scrollProgressTimeout;
-window.addEventListener('scroll', () => {
-  clearTimeout(scrollProgressTimeout);
-  const progressBar = document.getElementById('scroll-progress');
-  if (progressBar) {
-    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-    progressBar.style.width = scrollPercent + '%';
-  }
-}, { passive: true });
 
 // (Reveal animations now handled by the single merged observer above.)
 
