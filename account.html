@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account Settings — ExoraWorld</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<script type="module" src="exora-auth.js"></script>
+<style>
+/* ── Reset & base ── */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05040a;--ivory:#faf8f2;--dim:rgba(154,160,194,.8);--dimmer:rgba(154,160,194,.45);
+  --electric:#4fd8ff;--neon-v:#b794ff;--v2:#8b5cf6;--pink:#ec4899;
+  --border:rgba(255,255,255,.08);--red:#fca5a5;--green:#10b981;
+  --f-head:'Orbitron',sans-serif;--f-mono:'JetBrains Mono',monospace;--f-body:'Inter',sans-serif;
+}
+html,body{min-height:100vh;background:var(--bg) url("https://pub-cef70f56a078466191cd7d3d47c00ca5.r2.dev/images/cool.png") center/cover fixed no-repeat;color:var(--ivory);font-family:var(--f-body);scroll-behavior:smooth}
+a{color:inherit;text-decoration:none}
+
+/* ── Nav ── */
+nav{position:sticky;top:0;z-index:100;background:rgba(5,4,10,.75);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1100px;margin:0 auto;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav-logo{font-family:var(--f-head);font-weight:800;font-size:1rem;letter-spacing:.02em;display:inline-flex;align-items:center;gap:2px;color:var(--ivory)}
+.nav-logo::before{content:'[';font-family:var(--f-mono);font-weight:400;color:rgba(79,216,255,.45);margin-right:1px}
+.nav-logo::after{content:']';font-family:var(--f-mono);font-weight:400;color:rgba(79,216,255,.45);margin-left:1px}
+.nav-logo span{background:linear-gradient(120deg,var(--electric),var(--neon-v),var(--electric));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-back{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dimmer);padding:8px 16px;border:1px solid rgba(255,255,255,.1);transition:all .25s;display:flex;align-items:center;gap:8px}
+.nav-back:hover{border-color:rgba(79,216,255,.35);color:var(--electric)}
+.nav-actions{display:flex;align-items:center;gap:10px}
+
+/* ── Shared button ── */
+.btn-ghost-sm{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 18px;background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--dimmer);cursor:pointer;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);transition:all .3s}
+.btn-ghost-sm:hover{border-color:rgba(79,216,255,.5);color:var(--ivory)}
+.btn-ghost-accent{border-color:rgba(139,92,246,.65);color:var(--neon-v)}
+
+/* ── Page wrapper ── */
+.page{max-width:680px;margin:0 auto;padding:48px 24px 80px}
+.page-eyebrow{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.38em;text-transform:uppercase;color:var(--electric);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.page-eyebrow::before{content:'';width:18px;height:1px;background:linear-gradient(90deg,var(--electric),transparent)}
+.page-title{font-family:var(--f-head);font-weight:800;font-size:1.8rem;color:var(--ivory);margin-bottom:6px;letter-spacing:-.01em}
+.page-sub{font-family:var(--f-body);font-size:.88rem;color:var(--dimmer);margin-bottom:40px;line-height:1.6}
+
+/* ── Guard (shown when not logged in) ── */
+.guard{display:none;flex-direction:column;align-items:center;text-align:center;gap:16px;padding:60px 24px}
+.guard-icon{font-size:2.5rem}
+.guard-title{font-family:var(--f-head);font-size:1.2rem;color:var(--ivory)}
+.guard-sub{font-family:var(--f-body);font-size:.85rem;color:var(--dimmer);line-height:1.6;max-width:320px}
+.guard-btn{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:12px 28px;background:rgba(79,216,255,.06);border:1px solid rgba(79,216,255,.35);color:var(--electric);cursor:pointer;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:all .3s}
+.guard-btn:hover{background:rgba(79,216,255,.14);box-shadow:0 0 20px rgba(79,216,255,.2)}
+
+/* ── Card sections ── */
+.acc-card{background:rgba(10,9,18,.6);backdrop-filter:blur(14px);border:1px solid rgba(79,216,255,.14);margin-bottom:20px;overflow:hidden}
+.acc-card-header{padding:18px 24px;border-bottom:1px solid rgba(79,216,255,.08);display:flex;align-items:center;gap:12px}
+.acc-card-icon{width:32px;height:32px;border:1px solid rgba(79,216,255,.25);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.acc-card-title{font-family:var(--f-head);font-size:.82rem;letter-spacing:.04em;color:var(--ivory)}
+.acc-card-body{padding:24px}
+
+/* ── Profile photo ── */
+.photo-wrap{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.photo-avatar{position:relative;width:88px;height:88px;flex-shrink:0}
+.photo-avatar-ring{position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(79,216,255,.25);pointer-events:none}
+.photo-avatar-img{width:100%;height:100%;border-radius:50%;overflow:hidden;border:1.5px solid rgba(79,216,255,.4);background:rgba(10,9,18,.7);display:flex;align-items:center;justify-content:center;font-size:1.8rem;isolation:isolate}
+.photo-avatar-img img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
+.photo-initial{width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,var(--electric),var(--neon-v));color:#05040a;font-family:var(--f-head);font-weight:800;font-size:1.6rem;display:flex;align-items:center;justify-content:center}
+.photo-actions{display:flex;flex-direction:column;gap:10px}
+.photo-note{font-family:var(--f-body);font-size:.75rem;color:var(--dimmer);line-height:1.5;max-width:260px}
+.upload-btn{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;padding:9px 20px;background:rgba(79,216,255,.06);border:1px solid rgba(79,216,255,.3);color:var(--electric);cursor:pointer;transition:all .3s;white-space:nowrap}
+.upload-btn:hover{background:rgba(79,216,255,.14);box-shadow:0 0 16px rgba(79,216,255,.18)}
+.remove-btn{font-family:var(--f-mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 16px;background:transparent;border:1px solid rgba(239,68,68,.2);color:rgba(239,68,68,.6);cursor:pointer;transition:all .3s}
+.remove-btn:hover{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.5);color:var(--red)}
+#photoInput{display:none}
+.photo-progress{height:2px;background:rgba(79,216,255,.1);margin-top:12px;overflow:hidden;display:none}
+.photo-progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--electric),var(--neon-v));transition:width .3s}
+
+/* ── Form fields ── */
+.field{margin-bottom:18px}
+.field label{display:block;font-family:var(--f-mono);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dimmer);margin-bottom:8px}
+.field input{width:100%;padding:12px 16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);color:var(--ivory);font-family:var(--f-body);font-size:.9rem;outline:none;transition:border-color .25s}
+.field input:focus{border-color:rgba(79,216,255,.45)}
+.field input:disabled{opacity:.4;cursor:not-allowed}
+.field-note{font-family:var(--f-body);font-size:.72rem;color:var(--dimmer);margin-top:6px;line-height:1.5}
+
+/* ── Feedback messages ── */
+.feedback{font-family:var(--f-body);font-size:.78rem;padding:10px 14px;margin-bottom:16px;line-height:1.5;display:none}
+.feedback.error{color:var(--red);background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)}
+.feedback.success{color:#6ee7b7;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25)}
+
+/* ── Save button ── */
+.save-btn{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;padding:12px 28px;background:rgba(79,216,255,.06);border:1px solid rgba(79,216,255,.35);color:var(--electric);cursor:pointer;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:all .3s}
+.save-btn:hover{background:rgba(79,216,255,.14);box-shadow:0 0 20px rgba(79,216,255,.18)}
+.save-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* ── Provider badge ── */
+.provider-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmer);padding:6px 12px;border:1px solid rgba(255,255,255,.08);margin-bottom:16px}
+.provider-badge .dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)}
+
+/* ── Danger zone ── */
+.danger-card{background:rgba(10,9,18,.6);backdrop-filter:blur(14px);border:1px solid rgba(239,68,68,.2);margin-bottom:20px;overflow:hidden}
+.danger-card .acc-card-header{border-bottom-color:rgba(239,68,68,.1)}
+.danger-card .acc-card-icon{border-color:rgba(239,68,68,.25);color:var(--red)}
+.danger-card .acc-card-title{color:var(--red)}
+.danger-note{font-family:var(--f-body);font-size:.82rem;color:var(--dimmer);line-height:1.6;margin-bottom:16px}
+.danger-btn{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;padding:10px 22px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.3);color:var(--red);cursor:pointer;transition:all .3s}
+.danger-btn:hover{background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.6)}
+
+/* ── Nav dropdown (shared via exora-auth.js) ── */
+.exo-user-wrap{position:relative}
+.exo-user-chip{display:flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;border:1px solid rgba(79,216,255,.3);background:rgba(79,216,255,.05);cursor:pointer;transition:all .3s;border-radius:999px}
+.exo-user-chip img{width:26px;height:26px;border-radius:50%;object-fit:cover}
+.exo-user-initial{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--electric),var(--neon-v));color:#05040a;font-family:var(--f-head);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.exo-user-name{font-family:var(--f-mono);font-size:.62rem;color:var(--ivory);white-space:nowrap;max-width:110px;overflow:hidden;text-overflow:ellipsis}
+.exo-user-caret{font-size:.6rem;color:rgba(79,216,255,.6)}
+.exo-user-dropdown{position:absolute;top:calc(100% + 10px);right:0;min-width:220px;background:rgba(10,9,18,.96);backdrop-filter:blur(20px);border:1px solid rgba(79,216,255,.2);box-shadow:0 16px 40px rgba(0,0,0,.5);opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .25s;z-index:200;overflow:hidden}
+.exo-user-dropdown.open{opacity:1;visibility:visible;transform:translateY(0)}
+.exo-dropdown-info{display:flex;align-items:center;gap:12px;padding:16px}
+.exo-dropdown-avatar img{width:38px;height:38px;border-radius:50%;object-fit:cover}
+.exo-dropdown-avatar .exo-user-initial{width:38px;height:38px;font-size:.9rem}
+.exo-dropdown-name{font-family:var(--f-head);font-size:.85rem;color:var(--ivory);margin-bottom:2px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.exo-dropdown-email{font-family:var(--f-body);font-size:.72rem;color:var(--dim);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.exo-dropdown-divider{height:1px;background:rgba(79,216,255,.1)}
+.exo-dropdown-item{display:flex;align-items:center;gap:10px;padding:12px 16px;font-family:var(--f-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:all .2s;background:transparent;border:none;width:100%;text-align:left;cursor:pointer}
+.exo-dropdown-item:hover{background:rgba(79,216,255,.06);color:var(--ivory)}
+.exo-dropdown-signout{display:block;width:100%;padding:12px 16px;font-family:var(--f-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(239,68,68,.05);border:none;border-top:1px solid rgba(239,68,68,.15);color:var(--red);cursor:pointer;transition:all .25s;text-align:left}
+.exo-dropdown-signout:hover{background:rgba(239,68,68,.12)}
+
+/* ── Responsive ── */
+@media(max-width:600px){
+  .photo-wrap{flex-direction:column;align-items:flex-start}
+  .page{padding:32px 16px 60px}
+  .nav-inner{padding:14px 16px}
+  .page-title{font-size:1.4rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Exora<span>World</span></a>
+    <div class="nav-actions">
+      <!-- Filled by exora-auth.js onAuthStateChanged -->
+      <a href="index.html" class="nav-back">← Back to site</a>
+    </div>
+  </div>
+</nav>
+
+<!-- GUARD: shown only when NOT logged in -->
+<div class="guard" id="authGuard">
+  <div class="guard-icon">🔐</div>
+  <div class="guard-title">Sign in to view your account</div>
+  <div class="guard-sub">You need to be signed in to access account settings.</div>
+  <button class="guard-btn" onclick="window.location.href='index.html'">Go to ExoraWorld</button>
+</div>
+
+<!-- MAIN PAGE: shown only when logged in -->
+<main class="page" id="accountPage" style="display:none">
+
+  <div class="page-eyebrow">Account</div>
+  <h1 class="page-title">Account Settings</h1>
+  <p class="page-sub">Manage your profile, update your credentials, and control your account.</p>
+
+  <!-- ── PROFILE PHOTO ── -->
+  <div class="acc-card">
+    <div class="acc-card-header">
+      <div class="acc-card-icon">📷</div>
+      <div class="acc-card-title">Profile Photo</div>
+    </div>
+    <div class="acc-card-body">
+      <div id="photoFeedback" class="feedback"></div>
+      <div class="photo-wrap">
+        <div class="photo-avatar">
+          <div class="photo-avatar-ring"></div>
+          <div class="photo-avatar-img" id="photoPreview"></div>
+        </div>
+        <div class="photo-actions">
+          <p class="photo-note">JPG, PNG or WEBP · Max 5MB. Your photo is shown in the nav bar and across the site.</p>
+          <button class="upload-btn" onclick="document.getElementById('photoInput').click()">Upload Photo</button>
+          <button class="remove-btn" id="removePhotoBtn" onclick="handleRemovePhoto()" style="display:none">Remove Photo</button>
+          <input type="file" id="photoInput" accept="image/*" onchange="handlePhotoUpload(this)">
+        </div>
+      </div>
+      <div class="photo-progress" id="photoProgress"><div class="photo-progress-bar" id="photoProgressBar"></div></div>
+    </div>
+  </div>
+
+  <!-- ── DISPLAY NAME ── -->
+  <div class="acc-card">
+    <div class="acc-card-header">
+      <div class="acc-card-icon">✏️</div>
+      <div class="acc-card-title">Display Name</div>
+    </div>
+    <div class="acc-card-body">
+      <div id="nameFeedback" class="feedback"></div>
+      <div class="field">
+        <label for="displayName">Your Name</label>
+        <input type="text" id="displayName" placeholder="Enter your name" autocomplete="name">
+      </div>
+      <button class="save-btn" onclick="handleUpdateName()">Save Name</button>
+    </div>
+  </div>
+
+  <!-- ── EMAIL ── -->
+  <div class="acc-card" id="emailCard">
+    <div class="acc-card-header">
+      <div class="acc-card-icon">✉️</div>
+      <div class="acc-card-title">Email Address</div>
+    </div>
+    <div class="acc-card-body">
+      <div id="emailFeedback" class="feedback"></div>
+      <div id="providerOnlyEmail" style="display:none">
+        <div class="provider-badge"><span class="dot"></span><span id="emailProviderName">Google</span> account — email managed by your provider</div>
+        <p class="field-note">Your email is tied to your <span id="emailProviderName2">Google</span> account and can't be changed here. Manage it through your provider's settings.</p>
+      </div>
+      <div id="emailFields">
+        <div class="field">
+          <label for="newEmail">New Email Address</label>
+          <input type="email" id="newEmail" placeholder="new@email.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="emailCurrentPassword">Current Password (to confirm)</label>
+          <input type="password" id="emailCurrentPassword" placeholder="••••••••" autocomplete="current-password">
+          <div class="field-note">A verification link will be sent to your new email.</div>
+        </div>
+        <button class="save-btn" onclick="handleUpdateEmail()">Update Email</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PASSWORD ── -->
+  <div class="acc-card" id="passwordCard">
+    <div class="acc-card-header">
+      <div class="acc-card-icon">🔑</div>
+      <div class="acc-card-title">Password</div>
+    </div>
+    <div class="acc-card-body">
+      <div id="passwordFeedback" class="feedback"></div>
+      <div id="providerOnlyPassword" style="display:none">
+        <div class="provider-badge"><span class="dot"></span><span id="passProviderName">Google</span> account — no password set</div>
+        <p class="field-note">You signed in with <span id="passProviderName2">Google</span>, so there's no password to change here. Manage your password through your provider.</p>
+      </div>
+      <div id="passwordFields">
+        <div class="field">
+          <label for="currentPassword">Current Password</label>
+          <input type="password" id="currentPassword" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <div class="field">
+          <label for="newPassword">New Password</label>
+          <input type="password" id="newPassword" placeholder="At least 6 characters" autocomplete="new-password">
+        </div>
+        <div class="field">
+          <label for="confirmPassword">Confirm New Password</label>
+          <input type="password" id="confirmPassword" placeholder="Repeat new password" autocomplete="new-password">
+        </div>
+        <button class="save-btn" onclick="handleUpdatePassword()">Change Password</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONNECTED ACCOUNTS ── -->
+  <div class="acc-card" id="connectedCard">
+    <div class="acc-card-header">
+      <div class="acc-card-icon">🔗</div>
+      <div class="acc-card-title">Sign-in Methods</div>
+    </div>
+    <div class="acc-card-body">
+      <p class="field-note" style="margin-bottom:16px">These are the sign-in methods currently connected to your account.</p>
+      <div id="providerList"></div>
+    </div>
+  </div>
+
+  <!-- ── DANGER ZONE ── -->
+  <div class="danger-card">
+    <div class="acc-card-header">
+      <div class="acc-card-icon">⚠️</div>
+      <div class="acc-card-title">Danger Zone</div>
+    </div>
+    <div class="acc-card-body">
+      <p class="danger-note">Signing out will end your current session. You can sign back in at any time.</p>
+      <button class="danger-btn" onclick="ExoAuth.signOutUser().then(()=>window.location.href='index.html')">Sign Out of ExoraWorld</button>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ── Wait for ExoAuth to be ready, then check auth state ──
+// Uses polling because exora-auth.js is a module and may fire
+// its custom event before this script's listener is registered.
+function waitForAuth(cb, tries) {
+  tries = tries || 0;
+  if (tries > 80) {
+    // Timed out after 8 seconds — show guard
+    document.getElementById("authGuard").style.display = "flex";
+    return;
+  }
+  // ExoAuth.ready is set to true by exora-auth.js once onAuthStateChanged fires
+  if (window.ExoAuth && window.ExoAuth.ready === true) {
+    cb(window.ExoAuth.currentUser);
+  } else {
+    setTimeout(() => waitForAuth(cb, tries + 1), 100);
+  }
+}
+
+// Also listen for the event in case it fires after this script loads
+document.addEventListener("exoAuthChanged", (e) => {
+  handleUser(e.detail.user);
+});
+
+// And poll as a reliable fallback
+waitForAuth(handleUser);
+
+let handled = false;
+function handleUser(user) {
+  if (handled) return;
+  handled = true;
+
+  const guard = document.getElementById("authGuard");
+  const page  = document.getElementById("accountPage");
+
+  if (!user) {
+    guard.style.display = "flex";
+    page.style.display  = "none";
+    return;
+  }
+
+  guard.style.display = "none";
+  page.style.display  = "block";
+  populatePage(user);
+}
+
+// Re-render if auth changes while on the page (e.g. sign out)
+document.addEventListener("exoAuthChanged", (e) => {
+  if (!e.detail.user && handled) {
+    window.location.href = "index.html";
+  }
+});
+
+function populatePage(user) {
+  // Display name
+  document.getElementById("displayName").value = user.displayName || "";
+
+  // Profile photo
+  updatePhotoPreview(user);
+
+  // Detect provider (Google/Facebook = no password)
+  const isProviderOnly = ExoAuth.isProviderOnly(user);
+  const providerName = user.providerData[0]?.providerId === "google.com" ? "Google" : "Facebook";
+
+  // Email section
+  if (isProviderOnly) {
+    document.getElementById("emailFields").style.display        = "none";
+    document.getElementById("providerOnlyEmail").style.display  = "block";
+    document.querySelectorAll("#emailProviderName, #emailProviderName2").forEach(el => el.textContent = providerName);
+  } else {
+    document.getElementById("newEmail").placeholder = user.email || "";
+  }
+
+  // Password section
+  if (isProviderOnly) {
+    document.getElementById("passwordFields").style.display       = "none";
+    document.getElementById("providerOnlyPassword").style.display = "block";
+    document.querySelectorAll("#passProviderName, #passProviderName2").forEach(el => el.textContent = providerName);
+  }
+
+  // Connected providers
+  const providerIcons = { "password": "✉️ Email/Password", "google.com": "🌐 Google", "facebook.com": "💙 Facebook" };
+  const list = user.providerData.map(p =>
+    `<div class="provider-badge" style="display:inline-flex;margin-bottom:8px;margin-right:8px">
+      <span class="dot"></span>${providerIcons[p.providerId] || p.providerId}
+    </div>`
+  ).join("");
+  document.getElementById("providerList").innerHTML = list || '<p class="field-note">No sign-in methods found.</p>';
+}
+
+function updatePhotoPreview(user) {
+  const preview = document.getElementById("photoPreview");
+  const removeBtn = document.getElementById("removePhotoBtn");
+  if (user.photoURL) {
+    preview.innerHTML = `<img src="${user.photoURL}" alt="Profile photo" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.innerHTML='${(user.displayName||'?')[0].toUpperCase()}'">`;
+    removeBtn.style.display = "block";
+  } else {
+    const initial = (user.displayName || user.email || "?")[0].toUpperCase();
+    preview.innerHTML = `<div class="photo-initial">${initial}</div>`;
+    removeBtn.style.display = "none";
+  }
+}
+
+// ── Photo upload ──
+async function handlePhotoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const fb = document.getElementById("photoFeedback");
+  const progress = document.getElementById("photoProgress");
+  const bar = document.getElementById("photoProgressBar");
+  fb.style.display = "none"; fb.className = "feedback";
+  progress.style.display = "block";
+  bar.style.width = "30%";
+  try {
+    bar.style.width = "60%";
+    await ExoAuth.uploadPhoto(file);
+    bar.style.width = "100%";
+    updatePhotoPreview(ExoAuth.currentUser);
+    showFeedback(fb, "success", "Profile photo updated.");
+    setTimeout(() => { progress.style.display = "none"; bar.style.width = "0"; }, 800);
+  } catch(err) {
+    showFeedback(fb, "error", ExoAuth.friendlyError(err));
+    progress.style.display = "none"; bar.style.width = "0";
+  }
+  input.value = "";
+}
+
+// ── Remove photo ──
+async function handleRemovePhoto() {
+  const fb = document.getElementById("photoFeedback");
+  fb.style.display = "none";
+  try {
+    await ExoAuth.removePhoto();
+    updatePhotoPreview(ExoAuth.currentUser);
+    showFeedback(fb, "success", "Profile photo removed.");
+  } catch(err) {
+    showFeedback(fb, "error", ExoAuth.friendlyError(err));
+  }
+}
+
+// ── Update display name ──
+async function handleUpdateName() {
+  const fb = document.getElementById("nameFeedback");
+  fb.style.display = "none";
+  const name = document.getElementById("displayName").value.trim();
+  if (!name) { showFeedback(fb, "error", "Please enter a name."); return; }
+  const btn = document.querySelector("#nameFeedback ~ * .save-btn") || event.target;
+  btn.disabled = true; btn.textContent = "Saving...";
+  try {
+    await ExoAuth.updateName(name);
+    showFeedback(fb, "success", "Name updated successfully.");
+  } catch(err) {
+    showFeedback(fb, "error", ExoAuth.friendlyError(err));
+  }
+  btn.disabled = false; btn.textContent = "Save Name";
+}
+
+// ── Update email ──
+async function handleUpdateEmail() {
+  const fb = document.getElementById("emailFeedback");
+  fb.style.display = "none";
+  const email   = document.getElementById("newEmail").value.trim();
+  const pass    = document.getElementById("emailCurrentPassword").value;
+  const btn     = event.target;
+  if (!email) { showFeedback(fb, "error", "Please enter a new email."); return; }
+  btn.disabled = true; btn.textContent = "Updating...";
+  try {
+    await ExoAuth.updateUserEmail(email, pass);
+    showFeedback(fb, "success", "Email updated. Please check your new inbox for a verification link.");
+    document.getElementById("newEmail").value = "";
+    document.getElementById("emailCurrentPassword").value = "";
+  } catch(err) {
+    showFeedback(fb, "error", ExoAuth.friendlyError(err));
+  }
+  btn.disabled = false; btn.textContent = "Update Email";
+}
+
+// ── Update password ──
+async function handleUpdatePassword() {
+  const fb      = document.getElementById("passwordFeedback");
+  fb.style.display = "none";
+  const current = document.getElementById("currentPassword").value;
+  const next    = document.getElementById("newPassword").value;
+  const confirm = document.getElementById("confirmPassword").value;
+  const btn     = event.target;
+  if (!current || !next || !confirm) { showFeedback(fb, "error", "Please fill in all fields."); return; }
+  if (next !== confirm) { showFeedback(fb, "error", "New passwords don't match."); return; }
+  if (next.length < 6)  { showFeedback(fb, "error", "Password must be at least 6 characters."); return; }
+  btn.disabled = true; btn.textContent = "Updating...";
+  try {
+    await ExoAuth.updateUserPassword(current, next);
+    showFeedback(fb, "success", "Password changed successfully.");
+    ["currentPassword","newPassword","confirmPassword"].forEach(id => document.getElementById(id).value = "");
+  } catch(err) {
+    showFeedback(fb, "error", ExoAuth.friendlyError(err));
+  }
+  btn.disabled = false; btn.textContent = "Change Password";
+}
+
+// ── Helper: show feedback ──
+function showFeedback(el, type, msg) {
+  el.textContent = msg;
+  el.className = "feedback " + type;
+  el.style.display = "block";
+}
+
+// These stubs prevent errors on pages where openAuth/closeMob aren't defined
+window.openAuth = window.openAuth || function(){};
+window.closeMob = window.closeMob || function(){};
+</script>
+</body>
+</html>
