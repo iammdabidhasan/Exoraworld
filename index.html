@@ -10,218 +10,25 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Space+Grotesk:wght@300;400;500;600&family=Orbitron:wght@700;800;900&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<script type="module" src="exora-auth.js"></script>
+<script type="module" src="exo-core.js"></script>
 <link rel="stylesheet" href="styles.css">
 <script defer src="main.js"></script>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700;800&family=Orbitron:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
 </head>
 <body>
+<div id="exo-nav"></div>
 
 <!-- Scroll Progress Indicator -->
-<div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#a78bfa,#ec4899,#06b6d4);z-index:9999;width:0%;transition:width 0.1s ease-out"></div>
 
 <!-- Cursor -->
-<div id="cur"></div>
-<div id="cur-trail"></div>
 
-<!-- Ambient Orbs -->
-<div class="orbs">
-  <div class="orb orb-a"></div>
-  <div class="orb orb-b"></div>
+<!-- Ambient Orbs --><div class="orb orb-b"></div>
   <div class="orb orb-c"></div>
 </div>
 
 <!-- Mobile Menu Backdrop -->
-<div class="mob-backdrop" id="mobBackdrop" onclick="closeMob()"></div>
 
-<!-- Mobile Menu Sidebar -->
-<div class="mob-menu" id="mobMenu">
-  <button class="mob-close" id="mobClose">✕</button>
-  <div class="mob-brand">Exora<span>World</span></div>
-  <div class="mob-section-label">Main</div>
-  <a href="#features" onclick="closeMob()">🔭 Explore</a>
-  <a href="store.html" onclick="closeMob()">🛒 Store</a>
-  <a href="gallery.html" onclick="closeMob()">🖼 Gallery</a>
-  <a href="games.html" onclick="closeMob()">🎮 Games</a>
-  <a href="ai.html" onclick="closeMob()">🤖 AI & Dev</a>
-  <a href="news.html" onclick="closeMob()">📰 News</a>
-  <a href="https://exoraworld.online/lab" onclick="closeMob()" target="_blank" rel="noopener" style="color:var(--gold);font-weight:600;text-decoration:none">🧪 Lab <span style="font-size:0.7rem;margin-left:3px">↗</span></a>
-  <div class="mob-sep"></div>
-  <div class="mob-section-label">More</div>
-  <a href="services.html" class="mob-sub" onclick="closeMob()">⚡ Services</a>
-  <a href="courses.html" class="mob-sub" onclick="closeMob()">📚 Courses</a>
-  <a href="vlog.html" class="mob-sub" onclick="closeMob()">🎬 Vlog</a>
-  <a href="stories.html" class="mob-sub" onclick="closeMob()">📖 Stories</a>
-  <a href="songs.html" class="mob-sub" onclick="closeMob()">🎵 Songs</a>
-  <a href="anime.html" class="mob-sub" onclick="closeMob()">⛩️ Anime</a>
-  <a href="help.html" class="mob-sub" onclick="closeMob()">❓ Help Center</a>
-  <div class="mob-sep"></div>
-  <a href="terms.html" class="mob-sub" onclick="closeMob()">📄 Terms</a>
-  <a href="privacy.html" class="mob-sub" onclick="closeMob()">🔒 Privacy</a>
-  <div class="mob-sep"></div>
-  <div class="mob-ctas">
-    <button class="btn-ghost-sm" onclick="closeMob();openAuth('login')" style="width:100%;text-align:center;padding:10px">Sign In</button>
-    <button class="btn-fill-sm" onclick="closeMob();openAuth('register')" style="width:100%;text-align:center;padding:10px;clip-path:none">Get Started</button>
-  </div>
-</div>
-
-<!-- Auth Modal -->
-<div class="modal-bg" id="authModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeAuth()">✕</button>
-    <div class="modal-tabs">
-      <button class="modal-tab active" onclick="switchAuth('login')">Sign In</button>
-      <button class="modal-tab" onclick="switchAuth('register')">Create Account</button>
-    </div>
-    <div class="modal-body">
-      <div class="m-panel active" id="panel-login">
-        <div class="modal-title">Welcome back</div>
-        <div class="modal-sub">Sign in to your ExoraWorld account</div>
-        <div class="auth-error" id="auth-error-login" style="display:none"></div>
-        <form onsubmit="handleAuth('login');return false" autocomplete="on">
-        <div class="field"><label for="login-email">Email Address</label><input type="email" id="login-email" name="email" placeholder="your@email.com" autocomplete="email" required></div>
-        <div class="field"><label for="login-password">Password</label><input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required></div>
-        <button type="submit" class="modal-submit">Sign In →</button>
-        </form>
-        <div class="modal-divider">or continue with</div>
-        <div class="social-btns">
-          <button class="social-btn" type="button" onclick="handleSocialAuth('google')">🌐 Google</button>
-          <button class="social-btn" type="button" onclick="handleSocialAuth('facebook')">💙 Facebook</button>
-        </div>
-      </div>
-      <div class="m-panel" id="panel-register">
-        <div class="modal-title">Join ExoraWorld</div>
-        <div class="modal-sub">Create your free explorer account</div>
-        <div class="auth-error" id="auth-error-register" style="display:none"></div>
-        <form onsubmit="handleAuth('register');return false" autocomplete="on">
-        <div class="field"><label for="reg-name">Full Name</label><input type="text" id="reg-name" name="name" placeholder="Your name" autocomplete="name" required></div>
-        <div class="field"><label for="reg-email">Email Address</label><input type="email" id="reg-email" name="email" placeholder="your@email.com" autocomplete="email" required></div>
-        <div class="field"><label for="reg-password">Password</label><input type="password" id="reg-password" name="password" placeholder="Create a strong password" autocomplete="new-password" required minlength="6"></div>
-        <button type="submit" class="modal-submit">Create Account →</button>
-        </form>
-        <div class="modal-divider">or continue with</div>
-        <div class="social-btns">
-          <button class="social-btn" type="button" onclick="handleSocialAuth('google')">🌐 Google</button>
-          <button class="social-btn" type="button" onclick="handleSocialAuth('facebook')">💙 Facebook</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Payment Modal -->
-<div id="pay-modal">
-  <div class="pay-box">
-    <div class="pay-head">
-      <div class="pay-title">Complete Purchase</div>
-      <button class="pay-x" onclick="closePay()">✕</button>
-    </div>
-    <div class="pay-body">
-      <div class="pay-product">
-        <div class="pp-icon" id="pm-icon">📦</div>
-        <div><div class="pp-name" id="pm-name">Product</div><div class="pp-price" id="pm-price">$0</div></div>
-      </div>
-      <div id="pm-buyer" class="buyer-section">
-        <div class="pay-field"><label>Your Name</label><input type="text" id="pm-bname" placeholder="Full name"></div>
-        <div class="pay-field"><label>Email (for delivery)</label><input type="email" id="pm-bemail" placeholder="your@email.com"></div>
-        <div class="pay-field"><label>Phone</label><input type="tel" id="pm-bphone" placeholder="01XXXXXXXXX"></div>
-        <button type="button" class="pay-submit" onclick="toPayStep()">Continue to Payment →</button>
-      </div>
-      <div id="pm-payment" style="display:none">
-        <div class="pay-tabs">
-          <button class="ptab on" onclick="switchPay('bkash')">bKash</button>
-          <button class="ptab" onclick="switchPay('nagad')">Nagad</button>
-          <button class="ptab" onclick="switchPay('airtm')">Airtm</button>
-          <button class="ptab" onclick="switchPay('skrill')">Skrill</button>
-          <button class="ptab" onclick="switchPay('btc')">₿ BTC</button>
-          <button class="ptab" onclick="switchPay('eth')">Ξ ETH</button>
-          <button class="ptab" onclick="switchPay('usdt')">💲 USDT</button>
-          <button class="ptab" onclick="switchPay('sol')">◎ SOL</button>
-          <button class="ptab" onclick="switchPay('bnb')">⬡ BNB</button>
-        </div>
-        <div class="ppanel on" id="pp-bkash">
-          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Open <strong>bKash app</strong> → Send Money</div></div>
-          <div class="pay-num-box"><span class="pnb-num" id="bkash-num">01715948039</span><button class="copy-btn" onclick="copyN('bkash-num',this)">Copy</button></div>
-          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">In <strong>Reference</strong>, type your email</div></div>
-          <div class="pay-step"><div class="ps-num">3</div><div class="ps-text">Enter your <strong>Transaction ID</strong> below</div></div>
-          <div class="txn-field"><label>bKash Transaction ID</label><input type="text" class="txn-input" id="txn-bkash" placeholder="e.g. 8N7A6B5C4D"></div>
-          <button class="pay-submit" onclick="submitOrder('bKash',event)" type="button">Submit Order →</button>
-        </div>
-        <div class="ppanel" id="pp-nagad">
-          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Open <strong>Nagad app</strong> → Send Money</div></div>
-          <div class="pay-num-box"><span class="pnb-num" id="nagad-num">01715948039</span><button class="copy-btn" onclick="copyN('nagad-num',this)">Copy</button></div>
-          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Type your email in <strong>Reference</strong></div></div>
-          <div class="txn-field"><label>Nagad Transaction ID</label><input type="text" class="txn-input" id="txn-nagad" placeholder="Transaction ID"></div>
-          <button class="pay-submit" onclick="submitOrder('Nagad',event)" type="button">Submit Order →</button>
-        </div>
-        <div class="ppanel" id="pp-airtm">
-          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send payment to Airtm account below</div></div>
-          <div class="pay-num-box"><span class="pnb-num" id="airtm-acc">iammdabidhasan@gmail.com</span><button class="copy-btn" onclick="copyN('airtm-acc',this)">Copy</button></div>
-          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Include your <strong>email + product name</strong> in note</div></div>
-          <div class="txn-field"><label>Airtm Reference</label><input type="text" class="txn-input" id="txn-airtm" placeholder="Transaction reference"></div>
-          <button class="pay-submit" onclick="submitOrder('Airtm',event)" type="button">Submit Order →</button>
-        </div>
-        <div class="ppanel" id="pp-skrill">
-          <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);color:var(--v3);margin-bottom:14px;display:inline-block">💜 Skrill</div>
-          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Open <strong>Skrill</strong> → Send Money</div></div>
-          <div class="pay-num-box"><span class="pnb-num" id="skrill-acc"></span><button class="copy-btn" onclick="copyN('skrill-acc',this)">Copy</button></div>
-          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Include your <strong>email + product name</strong> in the note</div></div>
-          <div class="txn-field"><label>Skrill Transaction ID</label><input type="text" class="txn-input" id="txn-skrill" placeholder="Transaction ID or reference"></div>
-          <button class="pay-submit" onclick="submitOrder('Skrill',event)" type="button">Submit Order →</button>
-        </div>
-        <div class="ppanel" id="pp-btc">
-          <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);color:var(--gold);margin-bottom:14px;display:inline-block">₿ Bitcoin (BTC) — On-chain</div>
-          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send <strong>exact USD amount in BTC</strong> to address below</div></div>
-          <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="btc-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_BTC_WALLET_ADDRESS</span><button class="copy-btn" onclick="copyN('btc-addr',this)">Copy</button></div>
-          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Wait for <strong>1 confirmation</strong>, then paste your TX hash below</div></div>
-          <div class="txn-field"><label>Bitcoin TX Hash</label><input type="text" class="txn-input" id="txn-btc" placeholder="0x... or bc1..."></div>
-          <button class="pay-submit" onclick="submitOrder('Bitcoin',event)" type="button">Submit Proof →</button>
-        </div>
-        <div class="ppanel" id="pp-eth">
-          <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);color:var(--v3);margin-bottom:14px;display:inline-block">Ξ Ethereum (ETH) — ERC-20</div>
-          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send ETH to the address below (ERC-20 network)</div></div>
-          <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="eth-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_ETH_WALLET_ADDRESS</span><button class="copy-btn" onclick="copyN('eth-addr',this)">Copy</button></div>
-          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Paste your <strong>transaction hash</strong> once confirmed</div></div>
-          <div class="txn-field"><label>ETH Transaction Hash</label><input type="text" class="txn-input" id="txn-eth" placeholder="0x..."></div>
-          <button class="pay-submit" onclick="submitOrder('Ethereum',event)" type="button">Submit Proof →</button>
-        </div>
-        <div class="ppanel" id="pp-usdt">
-          <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);color:var(--green);margin-bottom:14px;display:inline-block">💲 USDT — ERC-20</div>
-          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send USDT via <strong>ERC-20 (Ethereum)</strong> network only</div></div>
-          <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="usdt-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_USDT_WALLET_TRC20</span><button class="copy-btn" onclick="copyN('usdt-addr',this)">Copy</button></div>
-          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Send exact USD amount in USDT</div></div>
-          <div class="txn-field"><label>USDT Transaction Hash</label><input type="text" class="txn-input" id="txn-usdt" placeholder="Txn hash or ID"></div>
-          <button class="pay-submit" onclick="submitOrder('USDT',event)" type="button">Submit Proof →</button>
-        </div>
-        <div class="ppanel" id="pp-sol">
-          <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.25);color:var(--cyan);margin-bottom:14px;display:inline-block">◎ Solana (SOL)</div>
-          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send SOL equivalent of the product price</div></div>
-          <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="sol-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_SOL_WALLET_ADDRESS</span><button class="copy-btn" onclick="copyN('sol-addr',this)">Copy</button></div>
-          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Paste <strong>signature / TX ID</strong> after sending</div></div>
-          <div class="txn-field"><label>Solana Signature</label><input type="text" class="txn-input" id="txn-sol" placeholder="Signature hash..."></div>
-          <button class="pay-submit" onclick="submitOrder('Solana',event)" type="button">Submit Proof →</button>
-        </div>
-        <div class="ppanel" id="pp-bnb">
-          <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);color:var(--gold);margin-bottom:14px;display:inline-block">⬡ BNB — BSC Network</div>
-          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send BNB via <strong>Binance Smart Chain (BSC)</strong></div></div>
-          <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="bnb-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_BNB_BSC_ADDRESS</span><button class="copy-btn" onclick="copyN('bnb-addr',this)">Copy</button></div>
-          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Enter your <strong>TX hash</strong> to confirm payment</div></div>
-          <div class="txn-field"><label>BNB Transaction Hash</label><input type="text" class="txn-input" id="txn-bnb" placeholder="0x..."></div>
-          <button class="pay-submit" onclick="submitOrder('BNB',event)" type="button">Submit Proof →</button>
-        </div>
-      </div>
-      <div class="pay-success" id="pm-success">
-        <div class="ps-icon">✅</div>
-        <div class="ps-title">Order Received!</div>
-        <div class="ps-msg">We'll verify your payment and send your product to <strong id="success-email"></strong> within 1–3 hours.</div>
-        <div class="ps-oid" id="success-oid"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════ NAV ══════ -->
-<nav id="nav">
+<!-- Mobile Menu Sidebar --><nav id="nav">
   <!-- Primary Row -->
   <div class="nav-primary">
     <div class="nav-mob-toggle" id="mobToggle"><span></span><span></span><span></span></div>
@@ -679,7 +486,7 @@
         <div class="about-ring-outer"></div>
         <div class="about-ring-mid"></div>
         <div class="about-avatar">
-          <img src="https://pub-cef70f56a078466191cd7d3d47c00ca5.r2.dev/images/dev.jpg" alt="Md Abid Hasan" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML+='👤'">
+          <img src="https://pub-cef70f56a078466191cd7d3d47c00ca5.r2.dev/images/dev.jpg" alt="Md Abid Hasan" loading="lazy" onerror="this.onerror=null;this.style.display='none';this.insertAdjacentHTML('afterend','<span style=&quot;font-size:2.2rem&quot;>👤</span>')">
         </div>
         <div class="about-status"></div>
       </div>
@@ -744,85 +551,6 @@
 </section>
 
 <!-- ══════ FOOTER ══════ -->
-<footer>
-  <div class="footer-top">
-    <div class="ft-brand">
-      <a href="#" class="logo">Exora<span>World</span></a>
-      <p>One world, infinite possibilities — built from Bangladesh, designed for everyone, everywhere.</p>
-      <div class="ft-social">
-        <a href="https://facebook.com/exoraworld" target="_blank" rel="noopener" class="ft-social-btn" title="Facebook" aria-label="Facebook">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        </a>
-        <a href="https://instagram.com/theexoraworld" target="_blank" rel="noopener" class="ft-social-btn" title="Instagram" aria-label="Instagram">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        </a>
-        <a href="https://x.com/Exoraworld" target="_blank" rel="noopener" class="ft-social-btn" title="X / Twitter" aria-label="X Twitter">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </a>
-        <a href="https://www.youtube.com/@ExoraWorld" target="_blank" rel="noopener" class="ft-social-btn" title="YouTube" aria-label="YouTube">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
-        </a>
-        <a href="https://discord.gg/f84dEvu2q" target="_blank" rel="noopener" class="ft-social-btn" title="Discord" aria-label="Discord">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.045.036.059 2.052 1.508 4.04 2.423 5.992 3.029a.077.077 0 0 0 .084-.028 13.96 13.96 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.029.077.077 0 0 0 .036-.058c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-        </a>
-        <a href="mailto:theexoraworld@gmail.com" class="ft-social-btn" title="Gmail" aria-label="Email">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-.9.732-1.636 1.636-1.636h.727L12 10.73l9.637-6.909h.727A1.636 1.636 0 0 1 24 5.457z"/></svg>
-        </a>
-      </div>
-      <div class="ft-payment-icons" style="margin-top:16px">
-        <div class="fpi">bKash</div>
-        <div class="fpi">Nagad</div>
-        <div class="fpi">Airtm</div>
-        <div class="fpi">Skrill</div>
-        <div class="fpi" style="color:rgba(245,158,11,.5);border-color:rgba(245,158,11,.2)">₿ BTC</div>
-        <div class="fpi" style="color:rgba(139,92,246,.5);border-color:rgba(139,92,246,.2)">Ξ ETH</div>
-        <div class="fpi" style="color:rgba(16,185,129,.5);border-color:rgba(16,185,129,.2)">USDT</div>
-        <div class="fpi" style="color:rgba(6,182,212,.5);border-color:rgba(6,182,212,.2)">◎ SOL</div>
-        <div class="fpi" style="color:rgba(245,158,11,.5);border-color:rgba(245,158,11,.2)">⬡ BNB</div>
-      </div>
-    </div>
-    <div class="ft-col">
-      <h4>Explore</h4>
-      <a href="#store">Digital Store</a>
-      <a href="#templates">Templates</a>
-      <a href="games.html">Games & Fun</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="news.html">News</a>
-    </div>
-    <div class="ft-col">
-      <h4>Services</h4>
-      <a href="#services">Creative Design</a>
-      <a href="#services">Web Dev</a>
-      <a href="#ai">AI & Automation</a>
-      <a href="#services">Consultation</a>
-      <a href="#courses">Courses</a>
-    </div>
-    <div class="ft-col">
-      <h4>Support</h4>
-      <a href="#help">Help Center</a>
-      <a href="#plans">Pricing Plans</a>
-      <a href="#about">About Abid</a>
-      <a href="mailto:theexoraworld@gmail.com">Email</a>
-      <a href="#" onclick="openAuth('register');return false">Create Account</a>
-      <a href="terms.html">Terms of Service</a>
-      <a href="privacy.html">Privacy Policy</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="fb-copy">© 2025 ExoraWorld · exoraworld.online · MD Abid Hasan · Bangladesh 🇧🇩</div>
-    <div class="fb-links">
-      <a href="#" onclick="openAuth('login');return false">Sign In</a>
-      <a href="#help">Contact</a>
-      <a href="#about">About</a>
-      <a href="https://facebook.com/exoraworld" target="_blank" rel="noopener">FB</a>
-      <a href="https://instagram.com/theexoraworld" target="_blank" rel="noopener">IG</a>
-      <a href="https://x.com/Exoraworld" target="_blank" rel="noopener">𝕏</a>
-      <a href="https://discord.gg/f84dEvu2q" target="_blank" rel="noopener">Discord</a>
-      <a href="terms.html">Terms</a>
-      <a href="privacy.html">Privacy</a>
-    </div>
-  </div>
-</footer>
 
 <!-- ══════ EXO GUIDE ══════ -->
 <div id="exo">
@@ -854,5 +582,7 @@
     <div class="exo-ping" id="exoPing"></div>
   </button>
 </div>
+<div id="exo-footer"></div>
+<div id="exo-modal"></div>
 </body>
 </html>
