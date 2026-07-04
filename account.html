@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="styles.css">
 
 <!-- Firebase auth module (must stay type="module") -->
-<script type="module" src="exora-auth.js"></script>
+<script type="module" src="exo-core.js"></script>
 
 <!-- Account page logic (deferred, defines global functions for onclick handlers) -->
 <script defer src="accountpage.js"></script>
@@ -29,15 +29,7 @@
 <body class="account-page">
 
 <!-- ══ NAV ══ -->
-<nav>
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo">Exora<span>World</span></a>
-    <div class="nav-actions">
-      <!-- Populated by exora-auth.js onAuthStateChanged -->
-      <a href="index.html" class="nav-back">← Back to site</a>
-    </div>
-  </div>
-</nav>
+<div id="exo-nav" data-variant="minimal"></div>
 
 <!-- ══ GUARD: shown only when NOT logged in ══ -->
 <div class="guard" id="authGuard">
@@ -187,5 +179,6 @@
 
 </main>
 
+<div id="exo-modal"></div>
 </body>
 </html>
