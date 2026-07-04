@@ -1,184 +1,257 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Manage your ExoraWorld profile, update credentials, and control your account settings.">
-<title>Account Settings — ExoraWorld</title>
+/* ════════════════════════════════════════════════════════════
+   EXORAWORLD — accountpage.js
+   Extracted from account.html inline <script>.
+   Loaded with defer so it runs after HTML is parsed.
+   All functions are top-level globals so onclick= handlers work.
+   Depends on: exo-core.js (provides window.ExoAuth, openAuth, closeMob)
+════════════════════════════════════════════════════════════ */
 
-<!-- Fonts: only what this page needs (Orbitron, JetBrains Mono, Inter) -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500&display=swap"
-      rel="stylesheet" media="print" onload="this.media='all'">
-<noscript>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-</noscript>
+/* openAuth + closeMob → provided by exo-core.js */
 
-<!-- Shared stylesheet (body bg, variables, nav chip/dropdown, buttons, fields, reset) -->
-<link rel="stylesheet" href="styles.css">
+/* ── Auth state handling ──
+   Uses both polling and event listener because exora-auth.js is a module —
+   its custom event may fire before this script's listener is registered.
+   Polling is the reliable fallback. ── */
 
-<!-- Firebase auth module (must stay type="module") -->
-<script type="module" src="exo-core.js"></script>
+let handled = false;
 
-<!-- Account page logic (deferred, defines global functions for onclick handlers) -->
-<script defer src="accountpage.js"></script>
-</head>
+function waitForAuth(cb, tries) {
+  tries = tries || 0;
+  if (tries > 80) {
+    // Timed out after ~8s — show guard
+    const guard = document.getElementById('authGuard');
+    if (guard) guard.style.display = 'flex';
+    return;
+  }
+  // ExoAuth.ready is set by exora-auth.js once onAuthStateChanged fires
+  if (window.ExoAuth && window.ExoAuth.ready === true) {
+    cb(window.ExoAuth.currentUser);
+  } else {
+    setTimeout(() => waitForAuth(cb, tries + 1), 100);
+  }
+}
 
-<!-- .account-page scopes the nav override + variable overrides in styles.css -->
-<body class="account-page">
+// Listen for auth event (fires if module loads before this script)
+document.addEventListener('exoAuthChanged', (e) => {
+  handleUser(e.detail.user);
+});
 
-<!-- ══ NAV ══ -->
-<div id="exo-nav" data-variant="minimal"></div>
+// Poll as reliable fallback
+waitForAuth(handleUser);
 
-<!-- ══ GUARD: shown only when NOT logged in ══ -->
-<div class="guard" id="authGuard">
-  <div class="guard-icon">🔐</div>
-  <div class="guard-title">Sign in to view your account</div>
-  <div class="guard-sub">You need to be signed in to access account settings.</div>
-  <button class="guard-btn" onclick="window.location.href='index.html'">Go to ExoraWorld</button>
-</div>
+// Redirect to home if user signs out while on this page
+document.addEventListener('exoAuthChanged', (e) => {
+  if (!e.detail.user && handled) {
+    window.location.href = 'index.html';
+  }
+});
 
-<!-- ══ MAIN PAGE: shown only when logged in ══ -->
-<main class="page" id="accountPage" style="display:none">
+function handleUser(user) {
+  if (handled) return;
+  handled = true;
 
-  <div class="page-eyebrow">Account</div>
-  <h1 class="page-title">Account Settings</h1>
-  <p class="page-sub">Manage your profile, update your credentials, and control your account.</p>
+  const guard = document.getElementById('authGuard');
+  const page  = document.getElementById('accountPage');
 
-  <!-- ── PROFILE PHOTO ── -->
-  <div class="acc-card">
-    <div class="acc-card-header">
-      <div class="acc-card-icon">📷</div>
-      <div class="acc-card-title">Profile Photo</div>
-    </div>
-    <div class="acc-card-body">
-      <div id="photoFeedback" class="feedback"></div>
-      <div class="photo-wrap">
-        <div class="photo-avatar">
-          <div class="photo-avatar-ring"></div>
-          <div class="photo-avatar-img" id="photoPreview"></div>
-        </div>
-        <div class="photo-actions">
-          <p class="photo-note">JPG, PNG or WEBP · Max 5MB. Your photo is shown in the nav bar and across the site.</p>
-          <button class="upload-btn" onclick="document.getElementById('photoInput').click()">Upload Photo</button>
-          <button class="remove-btn" id="removePhotoBtn" onclick="handleRemovePhoto()" style="display:none">Remove Photo</button>
-          <input type="file" id="photoInput" accept="image/*" onchange="handlePhotoUpload(this)" hidden>
-        </div>
-      </div>
-      <div class="photo-progress" id="photoProgress">
-        <div class="photo-progress-bar" id="photoProgressBar"></div>
-      </div>
-    </div>
-  </div>
+  if (!user) {
+    if (guard) guard.style.display = 'flex';
+    if (page)  page.style.display  = 'none';
+    return;
+  }
 
-  <!-- ── DISPLAY NAME ── -->
-  <div class="acc-card">
-    <div class="acc-card-header">
-      <div class="acc-card-icon">✏️</div>
-      <div class="acc-card-title">Display Name</div>
-    </div>
-    <div class="acc-card-body">
-      <div id="nameFeedback" class="feedback"></div>
-      <div class="field">
-        <label for="displayName">Your Name</label>
-        <input type="text" id="displayName" placeholder="Enter your name" autocomplete="name">
-      </div>
-      <button class="save-btn" onclick="handleUpdateName(event)">Save Name</button>
-    </div>
-  </div>
+  if (guard) guard.style.display = 'none';
+  if (page)  page.style.display  = 'block';
+  populatePage(user);
+}
 
-  <!-- ── EMAIL ── -->
-  <div class="acc-card" id="emailCard">
-    <div class="acc-card-header">
-      <div class="acc-card-icon">✉️</div>
-      <div class="acc-card-title">Email Address</div>
-    </div>
-    <div class="acc-card-body">
-      <div id="emailFeedback" class="feedback"></div>
-      <div id="providerOnlyEmail" style="display:none">
-        <div class="provider-badge">
-          <span class="dot"></span>
-          <span id="emailProviderName">Google</span> account — email managed by your provider
-        </div>
-        <p class="field-note">Your email is tied to your <span id="emailProviderName2">Google</span> account and can't be changed here. Manage it through your provider's settings.</p>
-      </div>
-      <div id="emailFields">
-        <div class="field">
-          <label for="newEmail">New Email Address</label>
-          <input type="email" id="newEmail" placeholder="new@email.com" autocomplete="email">
-        </div>
-        <div class="field">
-          <label for="emailCurrentPassword">Current Password (to confirm)</label>
-          <input type="password" id="emailCurrentPassword" placeholder="••••••••" autocomplete="current-password">
-          <div class="field-note">A verification link will be sent to your new email.</div>
-        </div>
-        <button class="save-btn" onclick="handleUpdateEmail(event)">Update Email</button>
-      </div>
-    </div>
-  </div>
+function populatePage(user) {
+  // Display name
+  const nameInput = document.getElementById('displayName');
+  if (nameInput) nameInput.value = user.displayName || '';
 
-  <!-- ── PASSWORD ── -->
-  <div class="acc-card" id="passwordCard">
-    <div class="acc-card-header">
-      <div class="acc-card-icon">🔑</div>
-      <div class="acc-card-title">Password</div>
-    </div>
-    <div class="acc-card-body">
-      <div id="passwordFeedback" class="feedback"></div>
-      <div id="providerOnlyPassword" style="display:none">
-        <div class="provider-badge">
-          <span class="dot"></span>
-          <span id="passProviderName">Google</span> account — no password set
-        </div>
-        <p class="field-note">You signed in with <span id="passProviderName2">Google</span>, so there's no password to change here. Manage your password through your provider.</p>
-      </div>
-      <div id="passwordFields">
-        <div class="field">
-          <label for="currentPassword">Current Password</label>
-          <input type="password" id="currentPassword" placeholder="••••••••" autocomplete="current-password">
-        </div>
-        <div class="field">
-          <label for="newPassword">New Password</label>
-          <input type="password" id="newPassword" placeholder="At least 6 characters" autocomplete="new-password">
-        </div>
-        <div class="field">
-          <label for="confirmPassword">Confirm New Password</label>
-          <input type="password" id="confirmPassword" placeholder="Repeat new password" autocomplete="new-password">
-        </div>
-        <button class="save-btn" onclick="handleUpdatePassword(event)">Change Password</button>
-      </div>
-    </div>
-  </div>
+  // Profile photo
+  updatePhotoPreview(user);
 
-  <!-- ── SIGN-IN METHODS ── -->
-  <div class="acc-card" id="connectedCard">
-    <div class="acc-card-header">
-      <div class="acc-card-icon">🔗</div>
-      <div class="acc-card-title">Sign-in Methods</div>
-    </div>
-    <div class="acc-card-body">
-      <p class="field-note" style="margin-bottom:16px">These are the sign-in methods currently connected to your account.</p>
-      <div id="providerList"></div>
-    </div>
-  </div>
+  // Detect provider (Google / Facebook = no password)
+  const isProviderOnly = ExoAuth.isProviderOnly(user);
+  const providerName   = user.providerData[0]?.providerId === 'google.com' ? 'Google' : 'Facebook';
 
-  <!-- ── DANGER ZONE ── -->
-  <div class="danger-card">
-    <div class="acc-card-header">
-      <div class="acc-card-icon">⚠️</div>
-      <div class="acc-card-title">Danger Zone</div>
-    </div>
-    <div class="acc-card-body">
-      <p class="danger-note">Signing out will end your current session. You can sign back in at any time.</p>
-      <button class="danger-btn" onclick="ExoAuth.signOutUser().then(()=>window.location.href='index.html')">
-        Sign Out of ExoraWorld
-      </button>
-    </div>
-  </div>
+  // Email section
+  if (isProviderOnly) {
+    const emailFields       = document.getElementById('emailFields');
+    const providerOnlyEmail = document.getElementById('providerOnlyEmail');
+    if (emailFields)       emailFields.style.display       = 'none';
+    if (providerOnlyEmail) providerOnlyEmail.style.display = 'block';
+    document.querySelectorAll('#emailProviderName, #emailProviderName2')
+      .forEach(el => { el.textContent = providerName; });
+  } else {
+    const newEmailInput = document.getElementById('newEmail');
+    if (newEmailInput) newEmailInput.placeholder = user.email || '';
+  }
 
-</main>
+  // Password section
+  if (isProviderOnly) {
+    const passFields      = document.getElementById('passwordFields');
+    const providerOnlyPw  = document.getElementById('providerOnlyPassword');
+    if (passFields)     passFields.style.display     = 'none';
+    if (providerOnlyPw) providerOnlyPw.style.display = 'block';
+    document.querySelectorAll('#passProviderName, #passProviderName2')
+      .forEach(el => { el.textContent = providerName; });
+  }
 
-<div id="exo-modal"></div>
-</body>
-</html>
+  // Connected sign-in methods
+  const providerIcons = {
+    'password':    '✉️ Email / Password',
+    'google.com':  '🌐 Google',
+    'facebook.com':'💙 Facebook'
+  };
+  const list = user.providerData
+    .map(p => `<div class="provider-badge" style="display:inline-flex;margin-bottom:8px;margin-right:8px">
+      <span class="dot"></span>${providerIcons[p.providerId] || p.providerId}
+    </div>`)
+    .join('');
+  const providerList = document.getElementById('providerList');
+  if (providerList) {
+    providerList.innerHTML = list || '<p class="field-note">No sign-in methods found.</p>';
+  }
+}
+
+function updatePhotoPreview(user) {
+  const preview   = document.getElementById('photoPreview');
+  const removeBtn = document.getElementById('removePhotoBtn');
+  if (!preview) return;
+
+  if (user.photoURL) {
+    const initial = (user.displayName || '?')[0].toUpperCase();
+    preview.innerHTML = `<img src="${user.photoURL}" alt="Profile photo" referrerpolicy="no-referrer"
+      onerror="this.style.display='none';this.parentElement.innerHTML='${initial}'">`;
+    if (removeBtn) removeBtn.style.display = 'block';
+  } else {
+    const initial = (user.displayName || user.email || '?')[0].toUpperCase();
+    preview.innerHTML = `<div class="photo-initial">${initial}</div>`;
+    if (removeBtn) removeBtn.style.display = 'none';
+  }
+}
+
+/* ── Photo upload ── */
+async function handlePhotoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const fb       = document.getElementById('photoFeedback');
+  const progress = document.getElementById('photoProgress');
+  const bar      = document.getElementById('photoProgressBar');
+
+  if (fb) { fb.style.display = 'none'; fb.className = 'feedback'; }
+  if (progress) progress.style.display = 'block';
+  if (bar) bar.style.width = '30%';
+
+  try {
+    if (bar) bar.style.width = '60%';
+    await ExoAuth.uploadPhoto(file);
+    if (bar) bar.style.width = '100%';
+    updatePhotoPreview(ExoAuth.currentUser);
+    showFeedback(fb, 'success', 'Profile photo updated.');
+    setTimeout(() => {
+      if (progress) progress.style.display = 'none';
+      if (bar) bar.style.width = '0';
+    }, 800);
+  } catch (err) {
+    showFeedback(fb, 'error', ExoAuth.friendlyError(err));
+    if (progress) progress.style.display = 'none';
+    if (bar) bar.style.width = '0';
+  }
+  input.value = '';
+}
+
+/* ── Remove photo ── */
+async function handleRemovePhoto() {
+  const fb = document.getElementById('photoFeedback');
+  if (fb) fb.style.display = 'none';
+  try {
+    await ExoAuth.removePhoto();
+    updatePhotoPreview(ExoAuth.currentUser);
+    showFeedback(fb, 'success', 'Profile photo removed.');
+  } catch (err) {
+    showFeedback(fb, 'error', ExoAuth.friendlyError(err));
+  }
+}
+
+/* ── Update display name ── */
+async function handleUpdateName(e) {
+  const fb  = document.getElementById('nameFeedback');
+  const btn = e ? e.target : document.querySelector('#accountPage .save-btn');
+  if (fb) fb.style.display = 'none';
+
+  const name = (document.getElementById('displayName')?.value || '').trim();
+  if (!name) { showFeedback(fb, 'error', 'Please enter a name.'); return; }
+
+  if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+  try {
+    await ExoAuth.updateName(name);
+    showFeedback(fb, 'success', 'Name updated successfully.');
+  } catch (err) {
+    showFeedback(fb, 'error', ExoAuth.friendlyError(err));
+  }
+  if (btn) { btn.disabled = false; btn.textContent = 'Save Name'; }
+}
+
+/* ── Update email ── */
+async function handleUpdateEmail(e) {
+  const fb  = document.getElementById('emailFeedback');
+  const btn = e ? e.target : null;
+  if (fb) fb.style.display = 'none';
+
+  const email = (document.getElementById('newEmail')?.value || '').trim();
+  const pass  =  document.getElementById('emailCurrentPassword')?.value || '';
+  if (!email) { showFeedback(fb, 'error', 'Please enter a new email.'); return; }
+
+  if (btn) { btn.disabled = true; btn.textContent = 'Updating…'; }
+  try {
+    await ExoAuth.updateUserEmail(email, pass);
+    showFeedback(fb, 'success', 'Email updated. Check your new inbox for a verification link.');
+    const newEmailEl = document.getElementById('newEmail');
+    const passEl     = document.getElementById('emailCurrentPassword');
+    if (newEmailEl) newEmailEl.value = '';
+    if (passEl)     passEl.value     = '';
+  } catch (err) {
+    showFeedback(fb, 'error', ExoAuth.friendlyError(err));
+  }
+  if (btn) { btn.disabled = false; btn.textContent = 'Update Email'; }
+}
+
+/* ── Update password ── */
+async function handleUpdatePassword(e) {
+  const fb  = document.getElementById('passwordFeedback');
+  const btn = e ? e.target : null;
+  if (fb) fb.style.display = 'none';
+
+  const current = document.getElementById('currentPassword')?.value  || '';
+  const next    = document.getElementById('newPassword')?.value      || '';
+  const confirm = document.getElementById('confirmPassword')?.value  || '';
+
+  if (!current || !next || !confirm) { showFeedback(fb, 'error', 'Please fill in all fields.'); return; }
+  if (next !== confirm)              { showFeedback(fb, 'error', "New passwords don't match."); return; }
+  if (next.length < 6)              { showFeedback(fb, 'error', 'Password must be at least 6 characters.'); return; }
+
+  if (btn) { btn.disabled = true; btn.textContent = 'Updating…'; }
+  try {
+    await ExoAuth.updateUserPassword(current, next);
+    showFeedback(fb, 'success', 'Password changed successfully.');
+    ['currentPassword', 'newPassword', 'confirmPassword'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+  } catch (err) {
+    showFeedback(fb, 'error', ExoAuth.friendlyError(err));
+  }
+  if (btn) { btn.disabled = false; btn.textContent = 'Change Password'; }
+}
+
+/* ── Helper: show feedback message ── */
+function showFeedback(el, type, msg) {
+  if (!el) return;
+  el.textContent  = msg;
+  el.className    = 'feedback ' + type;
+  el.style.display = 'block';
+}
