@@ -353,14 +353,7 @@ window.addEventListener('scroll',()=>{
 
 // ── MORE ROW TOGGLE
 let moreOpen=false;
-function toggleMore(){
-  moreOpen=!moreOpen;
-  const btn=document.getElementById('moreBtn');
-  const row=document.getElementById('moreRow');
-  btn.classList.toggle('open',moreOpen);
-  row.classList.toggle('open',moreOpen);
-  btn.setAttribute('aria-expanded',moreOpen);
-}
+/* toggleMore → exo-core.js */
 
 // Close more row when clicking outside
 document.addEventListener('click',function(e){
@@ -381,10 +374,10 @@ document.querySelectorAll('.nav-more-inner a').forEach(a=>{
 });
 
 // ── MOBILE NAV
-function openMob(){document.getElementById('mobMenu').classList.add('open');document.getElementById('mobBackdrop').classList.add('show');document.body.style.overflow='hidden'}
+/* openMob → exo-core.js */
 document.getElementById('mobToggle').onclick=openMob;
 document.getElementById('mobClose').onclick=()=>closeMob();
-function closeMob(){document.getElementById('mobMenu').classList.remove('open');document.getElementById('mobBackdrop').classList.remove('show');document.body.style.overflow=''}
+/* closeMob → exo-core.js */
 
 // ── CLOCK
 function tick(){
@@ -410,14 +403,10 @@ const co=new IntersectionObserver(es=>es.forEach(e=>{
 document.querySelectorAll('[data-target]').forEach(el=>co.observe(el));
 
 // ── AUTH MODAL
-function openAuth(tab){document.getElementById('authModal').classList.add('open');switchAuth(tab)}
-function closeAuth(){document.getElementById('authModal').classList.remove('open')}
+/* openAuth → exo-core.js */
+/* closeAuth → exo-core.js */
 document.getElementById('authModal').addEventListener('click',function(e){if(e.target===this)closeAuth()});
-function switchAuth(tab){
-  document.querySelectorAll('.modal-tab').forEach((t,i)=>t.classList.toggle('active',['login','register'][i]===tab));
-  document.querySelectorAll('.m-panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel-'+tab).classList.add('active');
-}
+/* switchAuth → exo-core.js */
 async function handleAuth(type){
   const btn=document.querySelector('#panel-'+type+' .modal-submit');
   const errBox=document.getElementById('auth-error-'+type);
