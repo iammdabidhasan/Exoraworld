@@ -1254,3 +1254,8 @@ input:focus, textarea:focus { box-shadow:0 0 20px rgba(167,139,250,0.4) }
   .nav-inner   { padding:14px 16px }
   .page-title  { font-size:1.4rem }
 }
+
+/* ── Slot placeholders — prevent layout shift before exo-core.js injects content ── */
+#exo-nav    { min-height: 56px; background: rgba(5,4,10,0.7); position: sticky; top: 0; z-index: 400 }
+#exo-footer { min-height: 200px; background: var(--bg1, #090714) }
+#exo-modal  { display: none }
