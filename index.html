@@ -516,6 +516,116 @@
     <div class="exo-ping" id="exoPing"></div>
   </button>
 </div>
+<div id="pay-modal">
+  <div class="pay-box">
+    <div class="pay-head">
+      <div class="pay-title">Complete Purchase</div>
+      <button class="pay-x" onclick="closePay()">✕</button>
+    </div>
+    <div class="pay-body">
+      <div class="pay-product">
+        <div class="pp-icon" id="pm-icon">📦</div>
+        <div><div class="pp-name" id="pm-name">Product</div><div class="pp-price" id="pm-price">$0</div></div>
+      </div>
+      <div id="pm-buyer" class="buyer-section">
+        <div class="pay-field"><label>Your Name</label><input type="text" id="pm-bname" placeholder="Full name"></div>
+        <div class="pay-field"><label>Email (for delivery)</label><input type="email" id="pm-bemail" placeholder="your@email.com"></div>
+        <div class="pay-field"><label>Phone</label><input type="tel" id="pm-bphone" placeholder="01XXXXXXXXX"></div>
+        <button type="button" class="pay-submit" onclick="toPayStep()">Continue to Payment →</button>
+      </div>
+      <div id="pm-payment" style="display:none">
+        <div class="pay-tabs">
+          <button class="ptab on" onclick="switchPay('bkash')">bKash</button>
+          <button class="ptab" onclick="switchPay('nagad')">Nagad</button>
+          <button class="ptab" onclick="switchPay('airtm')">Airtm</button>
+          <button class="ptab" onclick="switchPay('skrill')">Skrill</button>
+          <button class="ptab" onclick="switchPay('btc')">₿ BTC</button>
+          <button class="ptab" onclick="switchPay('eth')">Ξ ETH</button>
+          <button class="ptab" onclick="switchPay('usdt')">💲 USDT</button>
+          <button class="ptab" onclick="switchPay('sol')">◎ SOL</button>
+          <button class="ptab" onclick="switchPay('bnb')">⬡ BNB</button>
+        </div>
+        <div class="ppanel on" id="pp-bkash">
+          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Open <strong>bKash app</strong> → Send Money</div></div>
+          <div class="pay-num-box"><span class="pnb-num" id="bkash-num">01715948039</span><button class="copy-btn" onclick="copyN('bkash-num',this)">Copy</button></div>
+          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">In <strong>Reference</strong>, type your email</div></div>
+          <div class="pay-step"><div class="ps-num">3</div><div class="ps-text">Enter your <strong>Transaction ID</strong> below</div></div>
+          <div class="txn-field"><label>bKash Transaction ID</label><input type="text" class="txn-input" id="txn-bkash" placeholder="e.g. 8N7A6B5C4D"></div>
+          <button class="pay-submit" onclick="submitOrder('bKash',event)" type="button">Submit Order →</button>
+        </div>
+        <div class="ppanel" id="pp-nagad">
+          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Open <strong>Nagad app</strong> → Send Money</div></div>
+          <div class="pay-num-box"><span class="pnb-num" id="nagad-num">01715948039</span><button class="copy-btn" onclick="copyN('nagad-num',this)">Copy</button></div>
+          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Type your email in <strong>Reference</strong></div></div>
+          <div class="txn-field"><label>Nagad Transaction ID</label><input type="text" class="txn-input" id="txn-nagad" placeholder="Transaction ID"></div>
+          <button class="pay-submit" onclick="submitOrder('Nagad',event)" type="button">Submit Order →</button>
+        </div>
+        <div class="ppanel" id="pp-airtm">
+          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send payment to Airtm account below</div></div>
+          <div class="pay-num-box"><span class="pnb-num" id="airtm-acc">iammdabidhasan@gmail.com</span><button class="copy-btn" onclick="copyN('airtm-acc',this)">Copy</button></div>
+          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Include your <strong>email + product name</strong> in note</div></div>
+          <div class="txn-field"><label>Airtm Reference</label><input type="text" class="txn-input" id="txn-airtm" placeholder="Transaction reference"></div>
+          <button class="pay-submit" onclick="submitOrder('Airtm',event)" type="button">Submit Order →</button>
+        </div>
+        <div class="ppanel" id="pp-skrill">
+          <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);color:var(--v3);margin-bottom:14px;display:inline-block">💜 Skrill</div>
+          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Open <strong>Skrill</strong> → Send Money</div></div>
+          <div class="pay-num-box"><span class="pnb-num" id="skrill-acc"></span><button class="copy-btn" onclick="copyN('skrill-acc',this)">Copy</button></div>
+          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Include your <strong>email + product name</strong> in the note</div></div>
+          <div class="txn-field"><label>Skrill Transaction ID</label><input type="text" class="txn-input" id="txn-skrill" placeholder="Transaction ID or reference"></div>
+          <button class="pay-submit" onclick="submitOrder('Skrill',event)" type="button">Submit Order →</button>
+        </div>
+        <div class="ppanel" id="pp-btc">
+          <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);color:var(--gold);margin-bottom:14px;display:inline-block">₿ Bitcoin (BTC) — On-chain</div>
+          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send <strong>exact USD amount in BTC</strong> to address below</div></div>
+          <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="btc-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_BTC_WALLET_ADDRESS</span><button class="copy-btn" onclick="copyN('btc-addr',this)">Copy</button></div>
+          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Wait for <strong>1 confirmation</strong>, then paste your TX hash below</div></div>
+          <div class="txn-field"><label>Bitcoin TX Hash</label><input type="text" class="txn-input" id="txn-btc" placeholder="0x... or bc1..."></div>
+          <button class="pay-submit" onclick="submitOrder('Bitcoin',event)" type="button">Submit Proof →</button>
+        </div>
+        <div class="ppanel" id="pp-eth">
+          <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);color:var(--v3);margin-bottom:14px;display:inline-block">Ξ Ethereum (ETH) — ERC-20</div>
+          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send ETH to the address below (ERC-20 network)</div></div>
+          <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="eth-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_ETH_WALLET_ADDRESS</span><button class="copy-btn" onclick="copyN('eth-addr',this)">Copy</button></div>
+          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Paste your <strong>transaction hash</strong> once confirmed</div></div>
+          <div class="txn-field"><label>ETH Transaction Hash</label><input type="text" class="txn-input" id="txn-eth" placeholder="0x..."></div>
+          <button class="pay-submit" onclick="submitOrder('Ethereum',event)" type="button">Submit Proof →</button>
+        </div>
+        <div class="ppanel" id="pp-usdt">
+          <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);color:var(--green);margin-bottom:14px;display:inline-block">💲 USDT — ERC-20</div>
+          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send USDT via <strong>ERC-20 (Ethereum)</strong> network only</div></div>
+          <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="usdt-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_USDT_WALLET_TRC20</span><button class="copy-btn" onclick="copyN('usdt-addr',this)">Copy</button></div>
+          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Send exact USD amount in USDT</div></div>
+          <div class="txn-field"><label>USDT Transaction Hash</label><input type="text" class="txn-input" id="txn-usdt" placeholder="Txn hash or ID"></div>
+          <button class="pay-submit" onclick="submitOrder('USDT',event)" type="button">Submit Proof →</button>
+        </div>
+        <div class="ppanel" id="pp-sol">
+          <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.25);color:var(--cyan);margin-bottom:14px;display:inline-block">◎ Solana (SOL)</div>
+          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send SOL equivalent of the product price</div></div>
+          <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="sol-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_SOL_WALLET_ADDRESS</span><button class="copy-btn" onclick="copyN('sol-addr',this)">Copy</button></div>
+          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Paste <strong>signature / TX ID</strong> after sending</div></div>
+          <div class="txn-field"><label>Solana Signature</label><input type="text" class="txn-input" id="txn-sol" placeholder="Signature hash..."></div>
+          <button class="pay-submit" onclick="submitOrder('Solana',event)" type="button">Submit Proof →</button>
+        </div>
+        <div class="ppanel" id="pp-bnb">
+          <div class="crypto-badge" style="font-family:var(--f-mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);color:var(--gold);margin-bottom:14px;display:inline-block">⬡ BNB — BSC Network</div>
+          <div class="pay-step"><div class="ps-num">1</div><div class="ps-text">Send BNB via <strong>Binance Smart Chain (BSC)</strong></div></div>
+          <div class="pay-num-box" style="word-break:break-all"><span class="pnb-num" id="bnb-addr" style="font-size:.7rem;letter-spacing:.03em">YOUR_BNB_BSC_ADDRESS</span><button class="copy-btn" onclick="copyN('bnb-addr',this)">Copy</button></div>
+          <div class="pay-step"><div class="ps-num">2</div><div class="ps-text">Enter your <strong>TX hash</strong> to confirm payment</div></div>
+          <div class="txn-field"><label>BNB Transaction Hash</label><input type="text" class="txn-input" id="txn-bnb" placeholder="0x..."></div>
+          <button class="pay-submit" onclick="submitOrder('BNB',event)" type="button">Submit Proof →</button>
+        </div>
+      </div>
+      <div class="pay-success" id="pm-success">
+        <div class="ps-icon">✅</div>
+        <div class="ps-title">Order Received!</div>
+        <div class="ps-msg">We'll verify your payment and send your product to <strong id="success-email"></strong> within 1–3 hours.</div>
+        <div class="ps-oid" id="success-oid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="exo-footer"></div>
 <div id="exo-modal"></div>
 </body>
