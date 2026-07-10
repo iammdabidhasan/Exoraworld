@@ -38,19 +38,22 @@ const CFG = {
 };
 
 
-// ── CURSOR (pointer devices only)
+// ── CURSOR HOVER TARGETS (index-page-specific)
+// The cursor dot/trail movement itself is handled once by exo-core.js's
+// _setupCursor() — running a second copy here just fought it for the same
+// element. All that's kept is the 'hov' class toggle for .prod-card, since
+// that's the one selector below that (a) still exists on this page and
+// (b) isn't already covered by exo-core's generic a/button/[onclick] hover
+// list (a product card's clickable area is bigger than just its buy button).
+// .tmpl-card/.course-card/.ai-card/.svc-row were dropped — none of those
+// classes exist anywhere in the current index.html anymore.
 if(window.matchMedia('(pointer:fine)').matches) {
-const cur=document.getElementById('cur'),trail=document.getElementById('cur-trail');
-let mx=0,my=0,tx=0,ty=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
-(function loop(){cur.style.left=mx+'px';cur.style.top=my+'px';tx+=(mx-tx)*.1;ty+=(my-ty)*.1;trail.style.left=tx+'px';trail.style.top=ty+'px';requestAnimationFrame(loop)})();
-document.querySelectorAll('a,button,.prod-card,.tmpl-card,.course-card,.ai-card,.svc-row,.faq-q').forEach(el=>{
+document.querySelectorAll('.prod-card').forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
   el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
 });
-document.addEventListener('mousedown',()=>document.body.classList.add('clicking'));
-document.addEventListener('mouseup',()=>document.body.classList.remove('clicking'));
 }
+
 
 // ── STARS
 (function(){
@@ -351,33 +354,13 @@ window.addEventListener('scroll',()=>{
   }, 10); // Debounce for 10ms
 }, {passive: true}); // Use passive flag for better scroll performance
 
-// ── MORE ROW TOGGLE
-let moreOpen=false;
-/* toggleMore → exo-core.js */
-
-// Close more row when clicking outside
-document.addEventListener('click',function(e){
-  if(moreOpen && !e.target.closest('#moreBtn') && !e.target.closest('#moreRow')){
-    moreOpen=false;
-    document.getElementById('moreBtn').classList.remove('open');
-    document.getElementById('moreRow').classList.remove('open');
-  }
-});
-
-// Close more row on nav link click
-document.querySelectorAll('.nav-more-inner a').forEach(a=>{
-  a.addEventListener('click',()=>{
-    moreOpen=false;
-    document.getElementById('moreBtn').classList.remove('open');
-    document.getElementById('moreRow').classList.remove('open');
-  });
-});
-
-// ── MOBILE NAV
-/* openMob → exo-core.js */
-document.getElementById('mobToggle').onclick=openMob;
-document.getElementById('mobClose').onclick=()=>closeMob();
-/* closeMob → exo-core.js */
+// ── MORE ROW + MOBILE NAV
+// toggleMore / openMob / closeMob and their outside-click handling all
+// live in exo-core.js now (correct ids: nav-more-btn/nav-more-row,
+// mob-menu/mob-backdrop). The old copies here referenced ids that no
+// longer exist post-refactor and crashed the rest of this script on
+// every page load — removed rather than re-pointed, since exo-core.js's
+// versions are the real, currently-working implementation.
 
 // ── CLOCK
 function tick(){
@@ -405,7 +388,7 @@ document.querySelectorAll('[data-target]').forEach(el=>co.observe(el));
 // ── AUTH MODAL
 /* openAuth → exo-core.js */
 /* closeAuth → exo-core.js */
-document.getElementById('authModal').addEventListener('click',function(e){if(e.target===this)closeAuth()});
+document.getElementById('auth-modal')?.addEventListener('click',function(e){if(e.target===this)closeAuth()});
 /* switchAuth → exo-core.js */
 async function handleAuth(type){
   const btn=document.querySelector('#panel-'+type+' .modal-submit');
