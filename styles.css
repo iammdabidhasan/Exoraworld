@@ -150,7 +150,6 @@ nav.scrolled .nav-primary { padding:12px 40px }
 .nav-drop .drop-sep { height:1px; background:rgba(139,92,246,.1); margin:4px 0 }
 
 /* More button & expandable row */
-.nav-more-btn { color:var(--dimmer) }
 .nav-more-btn .more-arrow { font-size:.5rem; transition:transform .3s; display:inline-block; opacity:.6 }
 .nav-more-btn.open .more-arrow { transform:rotate(180deg) }
 .nav-more-btn:hover { color:var(--v3) }
@@ -229,7 +228,7 @@ nav.scrolled .nav-primary { padding:12px 40px }
 /* ══════════════════════════════
    AUTH MODAL
 ══════════════════════════════ */
-.modal-bg { position:fixed; inset:0; background:rgba(5,4,10,.85); backdrop-filter:blur(8px); z-index:600; display:none; align-items:center; justify-content:center; padding:20px }
+.modal-bg { position:fixed; inset:0; background:rgba(5,4,10,.85); backdrop-filter:blur(8px); z-index:900; display:none; align-items:center; justify-content:center; padding:20px }
 .modal-bg.open { display:flex; animation:fade-in .3s ease }
 .modal-box { background:var(--bg2); border:1px solid var(--border); max-width:440px; width:100%; padding:0; position:relative; animation:slide-up .4s ease; overflow:hidden }
 .modal-box::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--v1),var(--v2),var(--pink)) }
