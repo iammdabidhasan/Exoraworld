@@ -114,7 +114,7 @@ nav.scrolled .nav-primary { padding:12px 40px }
   background-clip:text; background-size:200%; animation:em-shimmer 6s ease-in-out infinite
 }
 
-.nav-links-primary { display:flex; gap:2px; align-items:center; justify-content:center; flex:1; margin:0 8px }
+.nav-links-primary { display:flex; gap:2px; align-items:center; justify-content:center; flex:1; margin:0 8px; list-style:none }
 .nav-links-primary a,
 .nav-more-btn {
   font-family:var(--f-mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase;
@@ -966,13 +966,13 @@ footer { position:relative; z-index:2; background:transparent; border-top:1px so
 .ft-brand p { font-family:'Inter','Space Grotesk',sans-serif; font-size:.85rem; color:var(--dim); line-height:1.7; max-width:230px; margin-bottom:20px; letter-spacing:.01em }
 .ft-payment-icons { display:flex; gap:8px; flex-wrap:wrap }
 .fpi { font-family:var(--f-mono); font-size:.48rem; letter-spacing:.1em; text-transform:uppercase; padding:5px 10px; border:1px solid rgba(139,92,246,.15); color:rgba(139,92,246,.4) }
-.ft-col h4 { font-family:var(--f-mono); font-size:.52rem; letter-spacing:.28em; text-transform:uppercase; color:rgba(139,92,246,.4); margin-bottom:16px }
-.ft-col a  { display:block; font-family:var(--f-disp); font-size:.88rem; font-weight:400; color:rgba(196,181,253,.35); text-decoration:none; margin-bottom:9px; transition:color .3s }
+.ft-col h4 { font-family:var(--f-mono); font-size:.52rem; letter-spacing:.28em; text-transform:uppercase; color:rgba(196,181,253,.55); margin-bottom:16px }
+.ft-col a  { display:block; font-family:var(--f-disp); font-size:.88rem; font-weight:400; color:rgba(228,220,253,.68); text-decoration:none; margin-bottom:9px; transition:color .3s }
 .ft-col a:hover { color:var(--ivory) }
 .footer-bottom { max-width:1380px; margin:0 auto; padding:24px 56px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px }
-.fb-copy  { font-family:var(--f-mono); font-size:.52rem; letter-spacing:.14em; color:rgba(139,92,246,.2) }
+.fb-copy  { font-family:var(--f-mono); font-size:.52rem; letter-spacing:.14em; color:rgba(196,181,253,.42) }
 .fb-links { display:flex; gap:20px; flex-wrap:wrap }
-.fb-links a { font-family:var(--f-mono); font-size:.52rem; letter-spacing:.12em; text-transform:uppercase; color:rgba(139,92,246,.25); text-decoration:none; transition:color .3s }
+.fb-links a { font-family:var(--f-mono); font-size:.52rem; letter-spacing:.12em; text-transform:uppercase; color:rgba(196,181,253,.5); text-decoration:none; transition:color .3s }
 .fb-links a:hover { color:var(--v3) }
 .ft-social     { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px }
 .ft-social-btn { width:36px; height:36px; border:1px solid rgba(139,92,246,.2); color:rgba(139,92,246,.45); display:flex; align-items:center; justify-content:center; text-decoration:none; transition:all .3s }
