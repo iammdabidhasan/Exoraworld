@@ -66,6 +66,8 @@ const NAV_PRIMARY = [
   { label: 'Gallery',    href: 'gallery.html'       },
   { label: 'Games',      href: `${_h}#games`       },
   { label: 'News',       href: `${_h}#news`        },
+  { label: 'AI & Dev',   href: 'ai.html'            },
+  { label: '🧪 Lab',     href: 'https://exoraworld.online/lab', external: true, accent: true },
 ];
 
 /**
@@ -73,12 +75,17 @@ const NAV_PRIMARY = [
  * To add: push here. All pages update.
  */
 const NAV_MORE = [
-  { label: '✦ Services',  href: `${_h}#services`  },
-  { label: '◈ Plans',     href: `${_h}#plans`     },
-  { label: '⊕ Courses',   href: `${_h}#courses`   },
-  { label: '⌗ Templates', href: `${_h}#templates` },
-  { label: '◎ About',     href: `${_h}#about`     },
-  { label: '⁉ Help',      href: `${_h}#help`      },
+  { label: '✦ Services',         href: 'services.html'   },
+  { label: '⊕ Courses',          href: 'courses.html'    },
+  { label: '◈ Plans',            href: `${_h}#plans`     }, // NOTE: no #plans section exists in index.html yet (never did) — flagged, not fixed
+  { label: '◎ About',            href: `${_h}#about`     },
+  { label: '⁉ Help',             href: `${_h}#help`      },
+  { label: '🎬 Vlog',             href: 'vlog.html'        },
+  { label: '📖 Short Stories',    href: 'stories.html'     },
+  { label: '🎵 Songs',            href: 'songs.html'       },
+  { label: '⛩️ Anime',            href: 'anime.html'       },
+  { label: '📄 Terms of Service', href: 'terms.html'       },
+  { label: '🔒 Privacy Policy',   href: 'privacy.html'     },
 ];
 
 /**
@@ -140,8 +147,27 @@ function _navHTML(variant) {
   const currentHref = window.location.pathname + window.location.hash;
 
   const primaryItems = NAV_PRIMARY.map(l => {
+    // Store gets a hover dropdown, like the old nav — sub-links point at the
+    // in-page #store filters (all/ai/design/course) rather than the old
+    // separate store.html?filter pages, since Store is now one section.
+    if (l.label === 'Store') {
+      const active = window.location.href.includes('#store') ? ' class="active"' : '';
+      return `<li class="nav-has-drop">
+        <a href="${l.href}"${active}>Store</a>
+        <div class="nav-drop">
+          <a href="${_h}#store">🛒 All Products</a>
+          <div class="drop-sep"></div>
+          <a href="${_h}#store">🤖 AI Packs</a>
+          <a href="${_h}#store">🎨 Design Kits</a>
+          <a href="${_h}#store">📦 Courses &amp; Bundles</a>
+        </div>
+      </li>`;
+    }
     const active = window.location.href.includes(l.href.replace(/^index\.html/, '')) ? ' class="active"' : '';
-    return `<li><a href="${l.href}"${active}>${l.label}</a></li>`;
+    const ext   = l.external ? ' target="_blank" rel="noopener"' : '';
+    const style = l.accent   ? ' style="color:var(--gold);font-weight:600"' : '';
+    const arrow = l.external ? ' <span style="font-size:.6rem;margin-left:2px">↗</span>' : '';
+    return `<li><a href="${l.href}"${active}${ext}${style}>${l.label}${arrow}</a></li>`;
   }).join('\n      ');
 
   const moreItems = NAV_MORE.map((l, i) =>
@@ -163,7 +189,7 @@ function _navHTML(variant) {
   <button class="mob-close" onclick="closeMob()" aria-label="Close menu">&times;</button>
   <span class="mob-brand">[<span>ExoraWorld</span>]</span>
   <span class="mob-section-label">Navigate</span>
-  ${NAV_PRIMARY.map(l => `<a href="${l.href}">${l.label}</a>`).join('\n  ')}
+  ${NAV_PRIMARY.map(l => `<a href="${l.href}"${l.external ? ' target="_blank" rel="noopener"' : ''}${l.accent ? ' style="color:var(--gold)"' : ''}>${l.label}</a>`).join('\n  ')}
   <div class="mob-sep"></div>
   <span class="mob-section-label">More</span>
   ${NAV_MORE.map(l => `<a href="${l.href}" class="mob-sub">${l.label}</a>`).join('\n  ')}
@@ -234,18 +260,18 @@ function _footerHTML() {
     <div class="ft-col">
       <h4>Explore</h4>
       <a href="${_h}#store">Digital Store</a>
-      <a href="${_h}#templates">Templates</a>
+      <a href="${_h}#store">Templates</a>
       <a href="games.html">Games &amp; Fun</a>
       <a href="gallery.html">Gallery</a>
       <a href="news.html">News</a>
     </div>
     <div class="ft-col">
       <h4>Services</h4>
-      <a href="${_h}#services">Creative Design</a>
-      <a href="${_h}#services">Web Dev</a>
-      <a href="${_h}#ai">AI &amp; Automation</a>
-      <a href="${_h}#services">Consultation</a>
-      <a href="${_h}#courses">Courses</a>
+      <a href="services.html">Creative Design</a>
+      <a href="services.html">Web Dev</a>
+      <a href="ai.html">AI &amp; Automation</a>
+      <a href="services.html">Consultation</a>
+      <a href="courses.html">Courses</a>
     </div>
     <div class="ft-col">
       <h4>Info</h4>
