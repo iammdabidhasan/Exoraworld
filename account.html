@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Account Settings — ExoraWorld</title>
+<meta name="description" content="Manage your ExoraWorld profile, update credentials, and control your account settings." />
+<meta name="theme-color" content="#E8A430" />
+<meta name="format-detection" content="telephone=no" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23E8A430'/%3E%3Ccircle cx='12' cy='12' r='5' fill='%2317171A'/%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<!-- Same shared auth module as index.html — must stay type="module" -->
+<script type="module" src="exora-auth.js"></script>
+
+<script>
+  (function () {
+    try {
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+    } catch (e) {}
+  })();
+</script>
+
+<style>
+  /* Design tokens — identical values to index.html, so the two pages match. */
+  :root {
+    --color-bg: #F8F7F3; --color-bg-alt: #F1ECE0; --color-surface: #FFFFFF;
+    --color-text: #17171A; --color-text-muted: #6B6864; --color-border: #E4DFD2;
+    --color-primary: #E8A430; --color-primary-hover: #D6952A; --color-on-primary: #17171A;
+    --color-secondary: #12756B; --color-secondary-hover: #0D5A52; --color-coral: #DE5B4C;
+    --color-navbar-bg: rgba(248, 247, 243, 0.78); --shadow-color: 220 20% 10%;
+    --font-display: 'Bricolage Grotesque', 'Segoe UI', sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --space-sm: 1.25rem; --space-md: 2rem; --space-lg: 3rem; --nav-height: 76px; --container-width: 720px;
+    --radius-sm: 8px; --radius-md: 14px; --radius-lg: 22px; --radius-full: 999px;
+    --shadow-sm: 0 1px 3px hsl(var(--shadow-color) / 0.08);
+    --shadow-md: 0 10px 30px hsl(var(--shadow-color) / 0.10);
+    --shadow-lg: 0 24px 48px hsl(var(--shadow-color) / 0.16);
+    --transition-fast: 0.2s ease; --transition-base: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  [data-theme="dark"] {
+    --color-bg: #121214; --color-bg-alt: #18181B; --color-surface: #1D1D21;
+    --color-text: #F5F3EE; --color-text-muted: #9E9B95; --color-border: #2B2B30;
+    --color-primary: #F0AC42; --color-primary-hover: #F5BE6B; --color-on-primary: #17171A;
+    --color-secondary: #2DD4BF; --color-secondary-hover: #5EEAD4; --color-coral: #EC6B5C;
+    --color-navbar-bg: rgba(18, 18, 20, 0.72); --shadow-color: 0 0% 0%;
+    --shadow-sm: 0 1px 3px hsl(var(--shadow-color) / 0.35);
+    --shadow-md: 0 10px 30px hsl(var(--shadow-color) / 0.45);
+    --shadow-lg: 0 24px 48px hsl(var(--shadow-color) / 0.55);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--color-bg); color: var(--color-text); line-height: 1.6; -webkit-font-smoothing: antialiased; transition: background-color var(--transition-base), color var(--transition-base); }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button, input, textarea, select { font: inherit; color: inherit; }
+  h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; font-weight: 700; }
+  :focus-visible { outline: 2px solid var(--color-secondary); outline-offset: 3px; }
+  .container { width: 100%; max-width: var(--container-width); margin-inline: auto; padding-inline: clamp(1.25rem, 4vw, 2rem); }
+  .icon { width: 1.25em; height: 1.25em; stroke: currentColor; flex-shrink: 0; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.85rem 1.6rem; border-radius: var(--radius-md); border: none; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast); }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary { background: var(--color-primary); color: var(--color-on-primary); box-shadow: var(--shadow-sm); }
+  .btn-primary:hover { background: var(--color-primary-hover); }
+  .btn-secondary { background: transparent; color: var(--color-text); border: 1.5px solid var(--color-border); }
+  .btn-secondary:hover { border-color: var(--color-text); }
+  .btn-danger { background: transparent; color: var(--color-coral); border: 1.5px solid var(--color-coral); }
+  .btn-danger:hover { background: var(--color-coral); color: #fff; }
+  .btn-block { width: 100%; }
+  .btn-sm { padding: 0.6rem 1.1rem; font-size: 0.85rem; }
+  .btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+
+  .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: var(--nav-height); display: flex; align-items: center; background: var(--color-navbar-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--color-border); }
+  .navbar-inner { display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 0.55rem; font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; }
+  .logo-mark { width: 32px; height: 32px; border-radius: 9px; background: var(--color-primary); display: flex; align-items: center; justify-content: center; color: var(--color-on-primary); }
+  .logo-mark .icon { width: 18px; height: 18px; }
+  .navbar-actions { display: flex; align-items: center; gap: 0.6rem; }
+  .theme-toggle { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--color-border); background: var(--color-surface); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--color-text); transition: transform var(--transition-fast), border-color var(--transition-fast); }
+  .theme-toggle:hover { transform: rotate(-14deg); border-color: var(--color-primary); }
+  .theme-toggle .icon-moon { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+  .nav-user-avatar { width: 28px; height: 28px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background: var(--color-primary); color: var(--color-on-primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
+  .nav-user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .nav-user-desktop { position: relative; }
+  .nav-user-chip { display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.7rem 0.35rem 0.35rem; border: 1px solid var(--color-border); border-radius: var(--radius-full); background: var(--color-surface); cursor: pointer; }
+  .nav-user-chip:hover { border-color: var(--color-text); }
+  .nav-user-name { font-weight: 600; font-size: 0.88rem; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nav-user-caret { width: 12px; height: 12px; color: var(--color-text-muted); transition: transform var(--transition-fast); }
+  .nav-user-chip[aria-expanded="true"] .nav-user-caret { transform: rotate(180deg); }
+  .nav-user-dropdown { position: absolute; top: calc(100% + 0.6rem); right: 0; width: 240px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); padding: 0.6rem; opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast); }
+  .nav-user-dropdown.open { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-user-dropdown-info { display: flex; align-items: center; gap: 0.7rem; padding: 0.5rem; }
+  .nav-user-dropdown-info .nav-user-avatar { width: 36px; height: 36px; font-size: 0.95rem; }
+  .nav-user-dropdown-name { display: block; font-weight: 700; font-size: 0.9rem; }
+  .nav-user-dropdown-email { display: block; font-size: 0.78rem; color: var(--color-text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px; }
+  .nav-user-dropdown-sep { height: 1px; background: var(--color-border); margin: 0.4rem 0; }
+  .nav-user-dropdown-item, .nav-user-dropdown-signout { display: block; width: 100%; text-align: left; padding: 0.6rem 0.5rem; border-radius: var(--radius-sm); font-size: 0.88rem; font-weight: 500; color: var(--color-text); border: none; background: none; cursor: pointer; }
+  .nav-user-dropdown-item:hover, .nav-user-dropdown-signout:hover { background: var(--color-bg-alt); }
+  .nav-user-dropdown-signout { color: var(--color-coral); }
+
+  .guard { display: none; flex-direction: column; align-items: center; text-align: center; padding: 8rem 1.5rem 6rem; min-height: 70vh; justify-content: center; }
+  .guard-icon { font-size: 2.75rem; margin-bottom: 1.25rem; }
+  .guard-title { font-size: 1.5rem; margin-bottom: 0.6rem; }
+  .guard-sub { color: var(--color-text-muted); margin-bottom: 1.75rem; max-width: 380px; }
+
+  .page { max-width: var(--container-width); margin: 0 auto; padding: calc(var(--nav-height) + 2.5rem) 1.5rem 5rem; }
+  .page-eyebrow { display: inline-block; color: var(--color-secondary); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .page-title { font-size: clamp(1.75rem, 4vw, 2.25rem); margin-bottom: 0.5rem; }
+  .page-sub { color: var(--color-text-muted); margin-bottom: 2.5rem; }
+
+  .acc-card, .danger-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); margin-bottom: 1.5rem; overflow: hidden; }
+  .danger-card { border-color: color-mix(in srgb, var(--color-coral) 30%, var(--color-border)); }
+  .acc-card-header { display: flex; align-items: center; gap: 0.75rem; padding: 1.15rem 1.5rem; border-bottom: 1px solid var(--color-border); }
+  .acc-card-icon { font-size: 1.25rem; }
+  .acc-card-title { font-size: 1.02rem; }
+  .acc-card-body { padding: 1.5rem; }
+
+  .feedback { display: none; padding: 0.7rem 0.9rem; border-radius: var(--radius-sm); font-size: 0.85rem; margin-bottom: 1.1rem; }
+  .feedback.success { display: block; background: color-mix(in srgb, var(--color-secondary) 12%, transparent); border: 1px solid color-mix(in srgb, var(--color-secondary) 35%, transparent); color: var(--color-secondary); }
+  .feedback.error { display: block; background: color-mix(in srgb, var(--color-coral) 12%, transparent); border: 1px solid color-mix(in srgb, var(--color-coral) 35%, transparent); color: var(--color-coral); }
+
+  .photo-wrap { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .photo-avatar { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+  .photo-avatar-ring { position: absolute; inset: -6px; border-radius: 50%; border: 1.5px dashed var(--color-primary); opacity: 0.5; }
+  .photo-avatar-img { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: linear-gradient(135deg, var(--color-primary), var(--color-coral)); display: flex; align-items: center; justify-content: center; }
+  .photo-avatar-img img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-initial { font-family: var(--font-display); font-weight: 800; font-size: 1.6rem; color: #fff; }
+  .photo-actions { flex: 1; min-width: 220px; }
+  .photo-note { font-size: 0.82rem; color: var(--color-text-muted); margin-bottom: 0.9rem; }
+  .photo-actions .btn { margin-right: 0.6rem; margin-bottom: 0.5rem; }
+  .photo-progress { display: none; height: 5px; background: var(--color-bg-alt); border-radius: var(--radius-full); overflow: hidden; margin-top: 0.75rem; }
+  .photo-progress-bar { height: 100%; width: 0; background: var(--color-primary); transition: width 0.3s ease; }
+
+  .field { margin-bottom: 1.15rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .field label { font-size: 0.85rem; font-weight: 600; color: var(--color-text-muted); }
+  .field input { padding: 0.8rem 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg); color: var(--color-text); transition: border-color var(--transition-fast), box-shadow var(--transition-fast); }
+  .field input:focus { outline: none; border-color: var(--color-secondary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-secondary) 18%, transparent); }
+  .field-note { font-size: 0.8rem; color: var(--color-text-muted); margin-top: 0.3rem; }
+
+  .provider-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.9rem; border-radius: var(--radius-full); background: var(--color-bg-alt); font-size: 0.85rem; font-weight: 600; margin: 0 0.5rem 0.5rem 0; }
+  .provider-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--color-secondary); flex-shrink: 0; }
+  .danger-note { color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1.1rem; }
+
+  .acc-footer { text-align: center; padding: 2rem 1.5rem; color: var(--color-text-muted); font-size: 0.85rem; border-top: 1px solid var(--color-border); }
+  .acc-footer a { color: var(--color-secondary); font-weight: 600; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-spark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L14.2 9.8 L22 12 L14.2 14.2 L12 22 L9.8 14.2 L2 12 L9.8 9.8 Z"/></symbol>
+  <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></symbol>
+  <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.5A8 8 0 1 1 11.5 4a6.3 6.3 0 0 0 8.5 8.5z"/></symbol>
+  <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></symbol>
+</svg>
+
+<header class="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-mark"><svg class="icon"><use href="#icon-spark"/></svg></span>
+      ExoraWorld
+    </a>
+    <div class="navbar-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light theme" aria-pressed="false">
+        <svg class="icon icon-sun"><use href="#icon-sun"/></svg>
+        <svg class="icon icon-moon"><use href="#icon-moon"/></svg>
+      </button>
+      <div class="nav-auth-desktop" id="navAuthDesktop">
+        <a href="index.html" class="btn btn-primary btn-sm">Go to ExoraWorld</a>
+      </div>
+      <div class="nav-user-desktop" id="navUserDesktop" style="display:none"></div>
+    </div>
+  </div>
+</header>
+
+<div class="guard" id="authGuard">
+  <div class="guard-icon">🔐</div>
+  <h2 class="guard-title">Sign in to view your account</h2>
+  <p class="guard-sub">You need to be signed in to access account settings.</p>
+  <a href="index.html" class="btn btn-primary">Go to ExoraWorld</a>
+</div>
+
+<main class="page" id="accountPage" style="display:none">
+  <span class="page-eyebrow">Account</span>
+  <h1 class="page-title">Account Settings</h1>
+  <p class="page-sub">Manage your profile, update your credentials, and control your account.</p>
+
+  <div class="acc-card">
+    <div class="acc-card-header"><span class="acc-card-icon">📷</span><h3 class="acc-card-title">Profile Photo</h3></div>
+    <div class="acc-card-body">
+      <div id="photoFeedback" class="feedback"></div>
+      <div class="photo-wrap">
+        <div class="photo-avatar">
+          <span class="photo-avatar-ring" aria-hidden="true"></span>
+          <div class="photo-avatar-img" id="photoPreview"></div>
+        </div>
+        <div class="photo-actions">
+          <p class="photo-note">JPG, PNG or WEBP · Max 5MB. Shown in the nav and across the site.</p>
+          <button type="button" class="btn btn-secondary btn-sm" id="uploadPhotoBtn">Upload Photo</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="removePhotoBtn" style="display:none">Remove Photo</button>
+          <input type="file" id="photoInput" accept="image/*" hidden />
+        </div>
+      </div>
+      <div class="photo-progress" id="photoProgress"><div class="photo-progress-bar" id="photoProgressBar"></div></div>
+    </div>
+  </div>
+
+  <div class="acc-card">
+    <div class="acc-card-header"><span class="acc-card-icon">✏️</span><h3 class="acc-card-title">Display Name</h3></div>
+    <div class="acc-card-body">
+      <div id="nameFeedback" class="feedback"></div>
+      <form id="nameForm" novalidate>
+        <div class="field"><label for="displayName">Your Name</label><input type="text" id="displayName" placeholder="Enter your name" autocomplete="name" /></div>
+        <button type="submit" class="btn btn-primary btn-sm">Save Name</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="acc-card">
+    <div class="acc-card-header"><span class="acc-card-icon">✉️</span><h3 class="acc-card-title">Email Address</h3></div>
+    <div class="acc-card-body">
+      <div id="emailFeedback" class="feedback"></div>
+      <div id="providerOnlyEmail" style="display:none">
+        <div class="provider-badge"><span class="dot"></span><span id="emailProviderName">Google</span> account — managed by your provider</div>
+        <p class="field-note">Your email is tied to your <span id="emailProviderName2">Google</span> account and can't be changed here.</p>
+      </div>
+      <form id="emailForm" novalidate>
+        <div id="emailFields">
+          <div class="field"><label for="newEmail">New Email Address</label><input type="email" id="newEmail" placeholder="new@email.com" autocomplete="email" /></div>
+          <div class="field">
+            <label for="emailCurrentPassword">Current Password (to confirm)</label>
+            <input type="password" id="emailCurrentPassword" placeholder="••••••••" autocomplete="current-password" />
+            <div class="field-note">A verification link will be sent to your new email.</div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-sm">Update Email</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="acc-card">
+    <div class="acc-card-header"><span class="acc-card-icon">🔑</span><h3 class="acc-card-title">Password</h3></div>
+    <div class="acc-card-body">
+      <div id="passwordFeedback" class="feedback"></div>
+      <div id="providerOnlyPassword" style="display:none">
+        <div class="provider-badge"><span class="dot"></span><span id="passProviderName">Google</span> account — no password set</div>
+        <p class="field-note">You signed in with <span id="passProviderName2">Google</span>, so there's no password to change here.</p>
+      </div>
+      <form id="passwordForm" novalidate>
+        <div id="passwordFields">
+          <div class="field"><label for="currentPassword">Current Password</label><input type="password" id="currentPassword" placeholder="••••••••" autocomplete="current-password" /></div>
+          <div class="field"><label for="newPassword">New Password</label><input type="password" id="newPassword" placeholder="At least 6 characters" autocomplete="new-password" /></div>
+          <div class="field"><label for="confirmPassword">Confirm New Password</label><input type="password" id="confirmPassword" placeholder="Repeat new password" autocomplete="new-password" /></div>
+          <button type="submit" class="btn btn-primary btn-sm">Change Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="acc-card">
+    <div class="acc-card-header"><span class="acc-card-icon">🔗</span><h3 class="acc-card-title">Sign-in Methods</h3></div>
+    <div class="acc-card-body">
+      <p class="field-note" style="margin-bottom:14px">Sign-in methods currently connected to your account.</p>
+      <div id="providerList"></div>
+    </div>
+  </div>
+
+  <div class="danger-card">
+    <div class="acc-card-header"><span class="acc-card-icon">⚠️</span><h3 class="acc-card-title">Danger Zone</h3></div>
+    <div class="acc-card-body">
+      <p class="danger-note">Signing out ends your current session. You can sign back in anytime.</p>
+      <button type="button" class="btn btn-danger btn-sm" id="signOutBtn">Sign Out of ExoraWorld</button>
+    </div>
+  </div>
+</main>
+
+<div class="acc-footer">&copy; <span id="year">2026</span> ExoraWorld. &middot; <a href="index.html">Back to ExoraWorld</a></div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  var themeToggle = document.getElementById('themeToggle');
+  themeToggle.addEventListener('click', function () {
+    var root = document.documentElement;
+    var isDark = root.getAttribute('data-theme') === 'dark';
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    themeToggle.setAttribute('aria-pressed', String(!isDark));
+  });
+
+  /* ── Auth gating: same dual approach as the rest of the site — an event
+     listener (primary) plus short polling (fallback), since exora-auth.js
+     loads as a module and its readiness event could in principle fire
+     before this script's listener is registered. ── */
+  var handled = false;
+
+  function waitForAuth(cb, tries) {
+    tries = tries || 0;
+    if (tries > 80) { document.getElementById('authGuard').style.display = 'flex'; return; }
+    if (window.ExoAuth && window.ExoAuth.ready === true) cb(window.ExoAuth.currentUser);
+    else setTimeout(function () { waitForAuth(cb, tries + 1); }, 100);
+  }
+  document.addEventListener('exoAuthChanged', function (e) { handleUser(e.detail.user); });
+  waitForAuth(handleUser);
+  document.addEventListener('exoAuthChanged', function (e) {
+    if (!e.detail.user && handled) window.location.href = 'index.html';
+  });
+
+  function handleUser(user) {
+    if (handled) return;
+    handled = true;
+    var guard = document.getElementById('authGuard');
+    var page = document.getElementById('accountPage');
+    if (!user) { guard.style.display = 'flex'; page.style.display = 'none'; return; }
+    guard.style.display = 'none';
+    page.style.display = 'block';
+    populatePage(user);
+  }
+
+  function populatePage(user) {
+    var nameInput = document.getElementById('displayName');
+    if (nameInput) nameInput.value = user.displayName || '';
+    updatePhotoPreview(user);
+
+    var isProviderOnly = window.ExoAuth.isProviderOnly(user);
+    var providerName = (user.providerData[0] && user.providerData[0].providerId === 'google.com') ? 'Google' : 'Facebook';
+
+    if (isProviderOnly) {
+      document.getElementById('emailFields').style.display = 'none';
+      document.getElementById('providerOnlyEmail').style.display = 'block';
+      document.querySelectorAll('#emailProviderName, #emailProviderName2').forEach(function (el) { el.textContent = providerName; });
+      document.getElementById('passwordFields').style.display = 'none';
+      document.getElementById('providerOnlyPassword').style.display = 'block';
+      document.querySelectorAll('#passProviderName, #passProviderName2').forEach(function (el) { el.textContent = providerName; });
+    } else {
+      var newEmailInput = document.getElementById('newEmail');
+      if (newEmailInput) newEmailInput.placeholder = user.email || '';
+    }
+
+    var providerIcons = { 'password': '✉️ Email / Password', 'google.com': '🌐 Google', 'facebook.com': '💙 Facebook' };
+    var list = user.providerData.map(function (p) {
+      return '<span class="provider-badge"><span class="dot"></span>' + (providerIcons[p.providerId] || p.providerId) + '</span>';
+    }).join('');
+    document.getElementById('providerList').innerHTML = list || '<p class="field-note">No sign-in methods found.</p>';
+  }
+
+  function updatePhotoPreview(user) {
+    var preview = document.getElementById('photoPreview');
+    var removeBtn = document.getElementById('removePhotoBtn');
+    if (!preview) return;
+    if (user.photoURL) {
+      var initial = (user.displayName || '?')[0].toUpperCase();
+      var img = document.createElement('img');
+      img.src = user.photoURL; img.alt = 'Profile photo'; img.referrerPolicy = 'no-referrer';
+      img.onerror = function () { preview.innerHTML = '<div class="photo-initial">' + initial + '</div>'; };
+      preview.innerHTML = ''; preview.appendChild(img);
+      if (removeBtn) removeBtn.style.display = 'inline-flex';
+    } else {
+      var initial2 = (user.displayName || user.email || '?')[0].toUpperCase();
+      preview.innerHTML = '<div class="photo-initial">' + initial2 + '</div>';
+      if (removeBtn) removeBtn.style.display = 'none';
+    }
+  }
+
+  function showFeedback(el, type, msg) { if (!el) return; el.textContent = msg; el.className = 'feedback ' + type; }
+
+  document.getElementById('uploadPhotoBtn').addEventListener('click', function () { document.getElementById('photoInput').click(); });
+
+  document.getElementById('photoInput').addEventListener('change', async function () {
+    var file = this.files[0];
+    if (!file) return;
+    var fb = document.getElementById('photoFeedback');
+    var progress = document.getElementById('photoProgress');
+    var bar = document.getElementById('photoProgressBar');
+    fb.className = 'feedback';
+    progress.style.display = 'block'; bar.style.width = '30%';
+    try {
+      bar.style.width = '60%';
+      await window.ExoAuth.uploadPhoto(file);
+      bar.style.width = '100%';
+      updatePhotoPreview(window.ExoAuth.currentUser);
+      showFeedback(fb, 'success', 'Profile photo updated.');
+      setTimeout(function () { progress.style.display = 'none'; bar.style.width = '0'; }, 800);
+    } catch (err) {
+      showFeedback(fb, 'error', window.ExoAuth.friendlyError(err));
+      progress.style.display = 'none'; bar.style.width = '0';
+    }
+    this.value = '';
+  });
+
+  document.getElementById('removePhotoBtn').addEventListener('click', async function () {
+    var fb = document.getElementById('photoFeedback');
+    fb.className = 'feedback';
+    try {
+      await window.ExoAuth.removePhoto();
+      updatePhotoPreview(window.ExoAuth.currentUser);
+      showFeedback(fb, 'success', 'Profile photo removed.');
+    } catch (err) { showFeedback(fb, 'error', window.ExoAuth.friendlyError(err)); }
+  });
+
+  document.getElementById('nameForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var fb = document.getElementById('nameFeedback');
+    var btn = this.querySelector('button[type="submit"]');
+    fb.className = 'feedback';
+    var name = document.getElementById('displayName').value.trim();
+    if (!name) { showFeedback(fb, 'error', 'Please enter a name.'); return; }
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try { await window.ExoAuth.updateName(name); showFeedback(fb, 'success', 'Name updated successfully.'); }
+    catch (err) { showFeedback(fb, 'error', window.ExoAuth.friendlyError(err)); }
+    btn.disabled = false; btn.textContent = 'Save Name';
+  });
+
+  document.getElementById('emailForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var fb = document.getElementById('emailFeedback');
+    var btn = this.querySelector('button[type="submit"]');
+    fb.className = 'feedback';
+    var email = document.getElementById('newEmail').value.trim();
+    var pass = document.getElementById('emailCurrentPassword').value;
+    if (!email) { showFeedback(fb, 'error', 'Please enter a new email.'); return; }
+    btn.disabled = true; btn.textContent = 'Updating…';
+    try {
+      await window.ExoAuth.updateUserEmail(email, pass);
+      showFeedback(fb, 'success', 'Email updated. Check your new inbox for a verification link.');
+      document.getElementById('newEmail').value = '';
+      document.getElementById('emailCurrentPassword').value = '';
+    } catch (err) { showFeedback(fb, 'error', window.ExoAuth.friendlyError(err)); }
+    btn.disabled = false; btn.textContent = 'Update Email';
+  });
+
+  document.getElementById('passwordForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var fb = document.getElementById('passwordFeedback');
+    var btn = this.querySelector('button[type="submit"]');
+    fb.className = 'feedback';
+    var current = document.getElementById('currentPassword').value;
+    var next = document.getElementById('newPassword').value;
+    var confirm = document.getElementById('confirmPassword').value;
+    if (!current || !next || !confirm) { showFeedback(fb, 'error', 'Please fill in all fields.'); return; }
+    if (next !== confirm) { showFeedback(fb, 'error', "New passwords don't match."); return; }
+    if (next.length < 6) { showFeedback(fb, 'error', 'Password must be at least 6 characters.'); return; }
+    btn.disabled = true; btn.textContent = 'Updating…';
+    try {
+      await window.ExoAuth.updateUserPassword(current, next);
+      showFeedback(fb, 'success', 'Password changed successfully.');
+      ['currentPassword', 'newPassword', 'confirmPassword'].forEach(function (id) { document.getElementById(id).value = ''; });
+    } catch (err) { showFeedback(fb, 'error', window.ExoAuth.friendlyError(err)); }
+    btn.disabled = false; btn.textContent = 'Change Password';
+  });
+
+  document.getElementById('signOutBtn').addEventListener('click', function () {
+    window.ExoAuth.signOutUser().then(function () { window.location.href = 'index.html'; });
+  });
+</script>
+</body>
+</html>
