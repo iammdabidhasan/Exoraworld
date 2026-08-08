@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI NPCs Are Finally Real — ExoraWorld</title>
+<meta name="description" content="In 2026, game characters remember you, adapt to you, and feel genuinely alive. Here's how AI completely rewrote the rules of game design."/>
+<meta name="theme-color" content="#E8A430"/>
+<meta property="og:title" content="AI NPCs Are Finally Real — And Games Will Never Be the Same"/>
+<meta property="og:description" content="In 2026, game characters remember you, adapt to you, and feel genuinely alive."/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<script type="module" src="../../js/exora-auth.js"></script>
+<script>
+  (function(){
+    try{var d=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}
+  })();
+</script>
+<style>
+/* ── TOKENS ──────────────────────────────────────────────────── */
+:root {
+  --color-bg:#F8F7F3; --color-bg-alt:#F1ECE0;
+  --color-surface:#FFFFFF; --color-text:#17171A;
+  --color-text-muted:#6B6864; --color-border:#E4DFD2;
+  --color-primary:#E8A430; --color-primary-hover:#D6952A;
+  --color-on-primary:#17171A;
+  --color-secondary:#12756B; --color-secondary-hover:#0D5A52;
+  --color-coral:#DE5B4C;
+  --color-navbar-bg:rgba(248,247,243,0.85);
+  --font-display:'Bricolage Grotesque','Segoe UI',sans-serif;
+  --font-body:'Inter',-apple-system,sans-serif;
+  --font-prose:'Lora','Georgia',serif;
+  --space-xs:.75rem; --space-sm:1.25rem; --space-md:2rem; --space-lg:3rem;
+  --nav-height:76px; --article-width:720px;
+  --radius-sm:8px; --radius-md:14px; --radius-lg:22px; --radius-full:999px;
+  --shadow-sm:0 1px 3px rgba(20,18,10,.08);
+  --shadow-md:0 10px 30px rgba(20,18,10,.10);
+  --shadow-lg:0 24px 48px rgba(20,18,10,.16);
+  --transition-fast:.2s ease; --transition-base:.35s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="dark"] {
+  --color-bg:#121214; --color-bg-alt:#18181B;
+  --color-surface:#1D1D21; --color-text:#F5F3EE;
+  --color-text-muted:#9E9B95; --color-border:#2B2B30;
+  --color-primary:#F0AC42; --color-primary-hover:#F5BE6B;
+  --color-secondary:#2DD4BF; --color-secondary-hover:#5EEAD4;
+  --color-coral:#EC6B5C;
+  --color-navbar-bg:rgba(18,18,20,.82);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.35);
+  --shadow-md:0 10px 30px rgba(0,0,0,.45);
+  --shadow-lg:0 24px 48px rgba(0,0,0,.55);
+}
+
+/* ── RESET & BASE ────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-height) + 1rem);}
+body{font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);
+  line-height:1.6;-webkit-font-smoothing:antialiased;
+  transition:background-color var(--transition-base),color var(--transition-base);}
+body.no-scroll{overflow:hidden;}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button,input{font:inherit;color:inherit;}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.2;font-weight:700;letter-spacing:-.01em;}
+:focus-visible{outline:2px solid var(--color-secondary);outline-offset:3px;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+.skip-link{position:absolute;left:-9999px;top:0;z-index:5000;background:var(--color-surface);color:var(--color-text);padding:.9rem 1.4rem;border-radius:var(--radius-sm);box-shadow:var(--shadow-md);}
+.skip-link:focus{left:var(--space-sm);top:var(--space-sm);}
+.icon{width:1.2em;height:1.2em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+
+/* ── LAYOUT ──────────────────────────────────────────────────── */
+.container{width:100%;max-width:1200px;margin-inline:auto;padding-inline:clamp(1.25rem,4vw,2rem);}
+.article-container{width:100%;max-width:var(--article-width);margin-inline:auto;padding-inline:clamp(1.25rem,4vw,2rem);}
+
+/* ── BUTTONS ─────────────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.85rem 1.6rem;border-radius:var(--radius-md);border:none;
+  font-weight:600;font-size:.95rem;cursor:pointer;white-space:nowrap;
+  transition:transform var(--transition-fast),box-shadow var(--transition-fast),background-color var(--transition-fast);}
+.btn:hover{transform:translateY(-2px);}
+.btn:active{transform:translateY(0);}
+.btn-primary{background:var(--color-primary);color:var(--color-on-primary);box-shadow:var(--shadow-sm);}
+.btn-primary:hover{background:var(--color-primary-hover);box-shadow:var(--shadow-md);}
+.btn-secondary{background:transparent;color:var(--color-text);border:1.5px solid var(--color-border);}
+.btn-secondary:hover{border-color:var(--color-text);}
+.btn-ghost{background:transparent;color:var(--color-text-muted);padding:.5rem .85rem;}
+.btn-ghost:hover{color:var(--color-secondary);transform:none;}
+.btn-sm{padding:.5rem 1rem;font-size:.85rem;}
+
+/* ── NAVBAR ──────────────────────────────────────────────────── */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-height);
+  display:flex;align-items:center;
+  background:var(--color-navbar-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--color-border);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;
+  height:var(--nav-height);width:100%;max-width:1200px;margin-inline:auto;
+  padding-inline:clamp(1.25rem,4vw,2rem);gap:1rem;}
+.nav-logo{display:flex;align-items:center;gap:.55rem;font-family:var(--font-display);font-weight:800;font-size:1.25rem;flex-shrink:0;}
+.nav-logo .logo-mark{width:32px;height:32px;border-radius:9px;background:var(--color-primary);display:flex;align-items:center;justify-content:center;color:var(--color-on-primary);}
+.nav-logo .logo-mark .icon{width:18px;height:18px;}
+.navbar-actions{display:flex;align-items:center;gap:.5rem;flex-shrink:0;}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--color-border);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background var(--transition-fast);}
+.theme-toggle:hover{background:var(--color-bg-alt);}
+[data-theme="light"] .icon-moon{display:none;}
+[data-theme="dark"] .icon-sun{display:none;}
+.nav-auth-desktop{display:flex;align-items:center;gap:.5rem;}
+.nav-user-desktop{display:none;}
+.nav-toggle{display:none;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--color-border);background:transparent;cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px;padding:10px;}
+.nav-toggle span{display:block;height:2px;background:var(--color-text);border-radius:2px;width:100%;transition:transform var(--transition-base),opacity var(--transition-fast);}
+.nav-toggle.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nav-toggle.active span:nth-child(2){opacity:0;}
+.nav-toggle.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.nav-breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--color-text-muted);flex:1;padding-inline:1rem;overflow:hidden;}
+.nav-breadcrumb a:hover{color:var(--color-secondary);}
+.nav-breadcrumb span{opacity:.5;}
+.nav-breadcrumb .crumb-current{color:var(--color-text);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nav-user-chip{display:flex;align-items:center;gap:.5rem;padding:.4rem .9rem .4rem .4rem;border:1.5px solid var(--color-border);border-radius:var(--radius-full);background:var(--color-surface);cursor:pointer;position:relative;transition:border-color var(--transition-fast);}
+.nav-user-chip:hover{border-color:var(--color-text-muted);}
+.nav-user-avatar{width:28px;height:28px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:var(--color-on-primary);overflow:hidden;flex-shrink:0;}
+.nav-user-avatar img{width:100%;height:100%;object-fit:cover;}
+.nav-user-name{font-size:.85rem;font-weight:600;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.nav-user-caret{width:14px;height:14px;transition:transform var(--transition-fast);}
+.nav-user-chip[aria-expanded="true"] .nav-user-caret{transform:rotate(180deg);}
+.nav-user-dropdown{display:none;position:absolute;top:calc(100% + 8px);right:0;min-width:220px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);overflow:hidden;z-index:10;}
+.nav-user-dropdown.open{display:block;}
+.nav-user-dropdown-info{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;border-bottom:1px solid var(--color-border);}
+.nav-user-dropdown-name{display:block;font-weight:700;font-size:.9rem;}
+.nav-user-dropdown-email{display:block;font-size:.78rem;color:var(--color-text-muted);}
+.nav-user-dropdown-item,.nav-user-dropdown-signout{display:block;width:100%;padding:.7rem 1rem;font-size:.88rem;text-align:left;background:none;border:none;cursor:pointer;transition:background var(--transition-fast);}
+.nav-user-dropdown-item:hover,.nav-user-dropdown-signout:hover{background:var(--color-bg-alt);}
+.nav-user-dropdown-signout{color:var(--color-coral);}
+
+/* ── MOBILE NAV ──────────────────────────────────────────────── */
+.nav-backdrop{position:fixed;inset:0;z-index:997;background:rgba(10,10,12,.52);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity var(--transition-base);}
+.nav-backdrop.open{opacity:1;pointer-events:auto;}
+.nav-panel-header{display:none;align-items:center;justify-content:space-between;padding:1.1rem 1.5rem;border-bottom:1px solid var(--color-border);flex-shrink:0;}
+.nav-panel-close{width:38px;height:38px;border-radius:50%;border:1px solid var(--color-border);background:var(--color-bg-alt);color:var(--color-text);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition-fast);}
+.nav-panel-close:hover{background:var(--color-border);}
+.nav-social-btns{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;}
+.nav-social-btn{display:flex;align-items:center;justify-content:center;gap:.6rem;width:100%;height:46px;border-radius:var(--radius-md);font-size:.9rem;font-weight:600;cursor:pointer;border:1px solid var(--color-border);transition:opacity var(--transition-fast);}
+.nav-social-btn:hover{opacity:.85;}
+.nav-social-btn svg{width:18px;height:18px;flex-shrink:0;}
+.nav-google-btn{background:var(--color-surface);color:var(--color-text);}
+.nav-fb-btn{background:#1877F2;color:#fff;border-color:#1877F2;}
+.nav-auth-divider{display:flex;align-items:center;gap:.65rem;color:var(--color-text-muted);font-size:.78rem;font-weight:500;text-transform:uppercase;letter-spacing:.06em;}
+.nav-auth-divider::before,.nav-auth-divider::after{content:'';flex:1;height:1px;background:var(--color-border);}
+.nav-user-chip-mob{display:flex;align-items:center;gap:.75rem;padding:.9rem 1rem;border-radius:var(--radius-md);background:var(--color-bg-alt);border:1px solid var(--color-border);}
+
+/* ── ARTICLE HERO ────────────────────────────────────────────── */
+.article-hero{margin-top:var(--nav-height);}
+.hero-img-placeholder{position:relative;width:100%;height:clamp(280px,45vw,520px);background:linear-gradient(135deg,var(--color-secondary),var(--color-primary));display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.hero-img-placeholder img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.hero-img-placeholder .placeholder-label{display:flex;flex-direction:column;align-items:center;gap:.75rem;color:rgba(255,255,255,.65);text-align:center;z-index:1;pointer-events:none;}
+.hero-img-placeholder .placeholder-label svg{width:48px;height:48px;opacity:.7;}
+.hero-img-placeholder .placeholder-label p{font-size:.85rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
+.hero-img-placeholder .placeholder-label small{font-size:.75rem;opacity:.7;font-weight:400;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 50%);}
+
+/* ── ARTICLE HEADER ──────────────────────────────────────────── */
+.article-header{padding-block:clamp(2rem,5vw,3.5rem) 0;}
+.article-category{display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--color-secondary);margin-bottom:.85rem;}
+.article-category .dot{width:6px;height:6px;border-radius:50%;background:var(--color-secondary);}
+.article-title{font-size:clamp(1.75rem,4.5vw,3rem);line-height:1.1;margin-bottom:1rem;letter-spacing:-.02em;}
+.article-subtitle{font-family:var(--font-prose);font-size:1.15rem;color:var(--color-text-muted);line-height:1.6;font-style:italic;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--color-border);}
+.article-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding-bottom:2rem;border-bottom:1px solid var(--color-border);margin-bottom:.5rem;}
+.author-chip{display:flex;align-items:center;gap:.65rem;}
+.author-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--color-secondary),var(--color-primary));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;color:white;flex-shrink:0;}
+.author-info{display:flex;flex-direction:column;}
+.author-name{font-weight:700;font-size:.9rem;}
+.author-role{font-size:.75rem;color:var(--color-text-muted);}
+.meta-divider{width:4px;height:4px;border-radius:50%;background:var(--color-border);}
+.meta-item{display:flex;align-items:center;gap:.35rem;font-size:.82rem;color:var(--color-text-muted);}
+.meta-item .icon{width:14px;height:14px;}
+.article-tags{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;padding-block:1.5rem;border-bottom:1px solid var(--color-border);margin-bottom:2rem;}
+.tag{font-size:.72rem;font-weight:600;color:var(--color-text-muted);background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:.2rem .65rem;}
+
+/* ── ARTICLE BODY ────────────────────────────────────────────── */
+.article-body{font-family:var(--font-prose);font-size:1.1rem;line-height:1.85;color:var(--color-text);}
+.article-body p{margin-bottom:1.65rem;}
+.article-body h2{font-family:var(--font-display);font-size:clamp(1.35rem,3vw,1.75rem);font-weight:700;margin-block:2.5rem 1rem;padding-top:.5rem;border-top:2px solid var(--color-primary);display:inline-block;}
+.article-body h3{font-family:var(--font-display);font-size:1.15rem;font-weight:700;margin-block:2rem .75rem;color:var(--color-secondary);}
+.article-body strong{font-weight:700;color:var(--color-text);}
+.article-body em{font-style:italic;}
+.article-body ul,.article-body ol{margin-block:1rem 1.65rem;padding-left:1.5rem;}
+.article-body li{margin-bottom:.6rem;}
+.article-body ul li::marker{color:var(--color-primary);}
+.article-body a{color:var(--color-secondary);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px;}
+.article-body a:hover{color:var(--color-secondary-hover);}
+/* Drop cap on first paragraph */
+.article-body .drop-cap::first-letter{float:left;font-family:var(--font-display);font-size:4.2rem;font-weight:800;line-height:.75;padding-right:.12em;padding-top:.08em;color:var(--color-primary);}
+
+/* ── PULL QUOTE ──────────────────────────────────────────────── */
+.pullquote{margin-block:2.5rem;padding:1.75rem 2rem;border-left:4px solid var(--color-primary);background:var(--color-bg-alt);border-radius:0 var(--radius-md) var(--radius-md) 0;font-family:var(--font-display);font-size:1.2rem;font-weight:600;font-style:normal;line-height:1.4;color:var(--color-text);}
+.pullquote cite{display:block;margin-top:.65rem;font-size:.82rem;font-weight:500;color:var(--color-text-muted);font-style:normal;}
+
+/* ── IMAGE PLACEHOLDERS ──────────────────────────────────────── */
+.img-placeholder{margin-block:2.5rem;border-radius:var(--radius-lg);overflow:hidden;border:2px dashed var(--color-border);background:var(--color-bg-alt);}
+.img-placeholder-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;padding:3rem 2rem;color:var(--color-text-muted);text-align:center;}
+.img-placeholder-inner svg{width:40px;height:40px;opacity:.45;}
+.img-placeholder-inner strong{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+.img-placeholder-inner span{font-size:.78rem;opacity:.7;}
+.img-placeholder.wide{aspect-ratio:16/7;}
+.img-placeholder.medium{aspect-ratio:16/9;}
+.img-placeholder.portrait{aspect-ratio:4/5;max-width:400px;}
+.img-caption{text-align:center;font-size:.8rem;color:var(--color-text-muted);font-style:italic;margin-top:-.75rem;margin-bottom:2rem;font-family:var(--font-body);}
+
+/* ── STAT BOX ────────────────────────────────────────────────── */
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-block:2.5rem;}
+.stat-box{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;text-align:center;}
+.stat-box .stat-number{font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--color-primary);display:block;line-height:1;}
+.stat-box .stat-label{font-size:.78rem;color:var(--color-text-muted);font-family:var(--font-body);margin-top:.35rem;display:block;font-weight:500;}
+
+/* ── ARTICLE FOOTER / SHARE ──────────────────────────────────── */
+.article-end{padding-block:2.5rem;border-top:1px solid var(--color-border);margin-top:3rem;}
+.article-end-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-muted);margin-bottom:1rem;}
+.share-row{display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;}
+.share-btn{display:inline-flex;align-items:center;gap:.45rem;height:38px;padding:0 1rem;border-radius:var(--radius-full);font-size:.82rem;font-weight:600;cursor:pointer;border:1.5px solid var(--color-border);background:transparent;transition:all var(--transition-fast);}
+.share-btn:hover{border-color:var(--color-text-muted);}
+.share-btn.twitter{color:#1DA1F2;border-color:#1DA1F2;}
+.share-btn.twitter:hover{background:#1DA1F2;color:#fff;}
+.share-btn.copy:hover{background:var(--color-bg-alt);}
+
+/* ── RELATED / BACK NAV ──────────────────────────────────────── */
+.article-nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:2.5rem;border-top:1px solid var(--color-border);flex-wrap:wrap;}
+.back-link{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.9rem;color:var(--color-text-muted);transition:color var(--transition-fast);}
+.back-link:hover{color:var(--color-secondary);}
+.back-link .icon{width:14px;height:14px;}
+
+/* ── FOOTER ──────────────────────────────────────────────────── */
+.article-footer{border-top:1px solid var(--color-border);padding:1.75rem 0;background:var(--color-bg-alt);}
+.article-footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.82rem;color:var(--color-text-muted);}
+
+/* ── PROGRESS BAR ────────────────────────────────────────────── */
+.reading-progress{position:fixed;top:var(--nav-height);left:0;width:0%;height:3px;background:var(--color-primary);z-index:999;transition:width .1s linear;border-radius:0 3px 3px 0;}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────── */
+@media(max-width:640px){
+  .stat-row{grid-template-columns:1fr 1fr;}
+  .stat-row .stat-box:last-child{grid-column:1/-1;}
+  .article-meta{gap:.65rem;}
+  .meta-divider{display:none;}
+  .nav-auth-desktop{display:none;}
+  .nav-toggle{display:flex;}
+}
+@media(max-width:1180px){
+  .nav-auth-desktop{display:none;}
+  .nav-user-desktop{display:none!important;}
+  .nav-toggle{display:flex;}
+  .nav-links{position:fixed;inset:0;z-index:998;width:100%;background:var(--color-bg);
+    flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;
+    transform:translateX(100%);transition:transform .38s cubic-bezier(.4,0,.2,1);
+    overflow-y:auto;overflow-x:hidden;padding:0;display:flex;}
+  .nav-links.open{transform:translateX(0);}
+  .nav-panel-header{display:flex;}
+  .nav-split{width:100%;height:56px;border-radius:0;border:none;border-bottom:1px solid var(--color-border);display:flex;}
+  .nav-split:hover{background:var(--color-bg-alt);}
+  .nav-split-label{flex:1;padding-inline:1.5rem;font-size:1rem;font-weight:700;display:flex;align-items:center;}
+  .nav-split-arrow{width:56px;border-left:1px solid var(--color-border);display:flex;align-items:center;justify-content:center;}
+  .nav-auth-mobile{display:flex;flex-direction:column;gap:.75rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--color-border);}
+  .nav-user-mobile{flex-direction:column;gap:.75rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--color-border);}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition-duration:.01ms!important;animation-duration:.01ms!important;}
+}
+</style>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="icon-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+  <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+  <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></symbol>
+  <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+  <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+  <symbol id="icon-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></symbol>
+  <symbol id="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="icon-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><polyline points="21 15 16 10 5 21"/></symbol>
+  <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></symbol>
+</svg>
+
+<a href="#article-body" class="skip-link">Skip to article</a>
+<div class="reading-progress" id="readingProgress" role="progressbar" aria-label="Reading progress"></div>
+<div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="../../index.html" class="nav-logo" aria-label="ExoraWorld home">
+      <span class="logo-mark"><svg class="icon" aria-hidden="true"><use href="#icon-spark"/></svg></span>
+      ExoraWorld
+    </a>
+    <nav class="nav-breadcrumb" aria-label="Breadcrumb">
+      <a href="../contents.html">Content</a>
+      <span aria-hidden="true">›</span>
+      <span class="crumb-current">Articles</span>
+      <span aria-hidden="true">›</span>
+      <span class="crumb-current">AI NPCs Are Finally Real</span>
+    </nav>
+    <div class="navbar-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="icon icon-sun" aria-hidden="true"><use href="#icon-sun"/></svg>
+        <svg class="icon icon-moon" aria-hidden="true"><use href="#icon-moon"/></svg>
+      </button>
+      <div class="nav-auth-desktop" id="navAuthDesktop">
+        <button class="btn btn-ghost btn-sm" data-auth-open="login">Log In</button>
+        <button class="btn btn-primary btn-sm" data-auth-open="signup">Sign Up</button>
+      </div>
+      <div class="nav-user-desktop" id="navUserDesktop"></div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV PANEL (outside header) -->
+<nav class="nav-links" id="navLinks" aria-label="Mobile navigation">
+  <div class="nav-panel-header">
+    <a href="../../index.html" class="nav-logo">
+      <span class="logo-mark"><svg class="icon"><use href="#icon-spark"/></svg></span>
+      ExoraWorld
+    </a>
+    <button class="nav-panel-close" id="navPanelClose" aria-label="Close menu">
+      <svg class="icon"><use href="#icon-close"/></svg>
+    </button>
+  </div>
+  <div class="nav-user-mobile" id="navUserMobile" style="display:none"></div>
+  <div class="nav-auth-mobile" id="navAuthMobile">
+    <div class="nav-social-btns">
+      <button class="nav-social-btn nav-google-btn" id="navGoogleBtn" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Google
+      </button>
+      <button class="nav-social-btn nav-fb-btn" id="navFbBtn" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#fff"/></svg>
+        Facebook
+      </button>
+    </div>
+    <div class="nav-auth-divider"><span>or</span></div>
+    <button class="btn btn-ghost btn-block" data-auth-open="login">Sign In with Email</button>
+    <button class="btn btn-primary btn-block" data-auth-open="signup">Create Account</button>
+  </div>
+  <span class="nav-split"><a href="../../pages/store.html" class="nav-split-label">Store</a><a href="../../index.html#store" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
+  <span class="nav-split"><a href="../../pages/games.html" class="nav-split-label">Games</a><a href="../../index.html#games" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
+  <span class="nav-split"><a href="../../pages/news.html" class="nav-split-label">News</a><a href="../../index.html#news" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
+  <span class="nav-split"><a href="../contents.html" class="nav-split-label" style="color:var(--color-secondary)">Content</a><a href="../contents.html" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
+</nav>
+
+<!-- ARTICLE HERO IMAGE -->
+<div class="article-hero">
+  <div class="hero-img-placeholder">
+    <!-- Replace this div with: <img src="your-image.jpg" alt="AI NPCs in gaming 2026"> -->
+    <div class="placeholder-label">
+      <svg aria-hidden="true"><use href="#icon-image"/></svg>
+      <p>Hero Image</p>
+      <small>Recommended: 1400 × 650px</small>
+    </div>
+    <div class="hero-overlay"></div>
+  </div>
+</div>
+
+<!-- ARTICLE -->
+<main id="article-body">
+  <div class="article-container">
+
+    <!-- HEADER -->
+    <header class="article-header">
+      <div class="article-category">
+        <span class="dot" aria-hidden="true"></span>
+        Article · Gaming &amp; Technology
+      </div>
+
+      <h1 class="article-title">AI NPCs Are Finally Real — And Games Will Never Be the Same</h1>
+
+      <p class="article-subtitle">
+        For decades, game characters followed scripts. They said the same things, forgot everything you did, and broke the moment you went off-script. In 2026, that era is quietly, definitively over.
+      </p>
+
+      <div class="article-meta">
+        <div class="author-chip">
+          <div class="author-avatar" aria-hidden="true">EX</div>
+          <div class="author-info">
+            <span class="author-name">ExoraWorld Team</span>
+            <span class="author-role">Gaming &amp; Tech</span>
+          </div>
+        </div>
+        <span class="meta-divider" aria-hidden="true"></span>
+        <span class="meta-item">
+          <svg class="icon" aria-hidden="true"><use href="#icon-calendar"/></svg>
+          August 8, 2026
+        </span>
+        <span class="meta-divider" aria-hidden="true"></span>
+        <span class="meta-item">
+          <svg class="icon" aria-hidden="true"><use href="#icon-clock"/></svg>
+          9 min read
+        </span>
+      </div>
+
+      <div class="article-tags" aria-label="Article tags">
+        <span class="tag">Gaming</span>
+        <span class="tag">Artificial Intelligence</span>
+        <span class="tag">NPCs</span>
+        <span class="tag">Game Design</span>
+        <span class="tag">Technology</span>
+        <span class="tag">2026</span>
+      </div>
+    </header>
+
+    <!-- BODY -->
+    <article class="article-body" aria-label="Article content">
+
+      <p class="drop-cap">Picture this. You're forty hours into an RPG. You made a decision three sessions ago — you sided with a rebel faction, betrayed a guard captain, let a merchant's warehouse burn. Now you walk back into the capital city, and an NPC you've never directly spoken to stops you in the street. She's the daughter of the guard captain. She's heard what you did. And she's <em>furious</em> — not with scripted fury, but with something that feels shockingly like the real thing. She remembers. The game remembers. And nothing will ever be the same.</p>
+
+      <p>This isn't a pitch for a future game. It's what playing in 2026 actually feels like — and it happened faster, and more quietly, than almost anyone in the industry predicted.</p>
+
+      <!-- IMAGE PLACEHOLDER 1 -->
+      <div class="img-placeholder wide" role="img" aria-label="Image placeholder: AI NPC conversation screenshot">
+        <div class="img-placeholder-inner">
+          <svg aria-hidden="true"><use href="#icon-image"/></svg>
+          <strong>Image Placeholder</strong>
+          <span>Screenshot: AI NPC dialogue in action · 1200 × 525px recommended</span>
+        </div>
+      </div>
+      <p class="img-caption">An AI NPC responding dynamically to player history — no dialogue tree in sight.</p>
+
+      <h2>The Hard Problem Was Never Conversation</h2>
+
+      <p>When AI-powered NPCs first started getting attention, most coverage focused on the obvious thing: could they hold a conversation? Could you ask an NPC something the writers never anticipated and get a sensible answer? The answer, it turned out, was yes — and that part was solved faster than most people expected.</p>
+
+      <p>But conversation was always the easy part. Anyone who spent time with early implementations quickly noticed the real problem: the NPC had no idea who you were. You could tell them you'd burned down their city yesterday, and they'd greet you like a stranger today. The technology could generate coherent responses. It could not, by itself, <em>remember</em>.</p>
+
+      <blockquote class="pullquote">
+        "The single biggest change in 2026 game reviews isn't graphics or performance. It's critics tearing apart games whose NPCs still use static dialogue trees."
+        <cite>— SolidAITech, Gaming Analysis Report 2026</cite>
+      </blockquote>
+
+      <p>This is what researchers call the memory problem, and it turned out to be an architectural challenge as much as an AI one. Solving it required building something entirely different: a persistent knowledge graph for every significant NPC in a game world.</p>
+
+      <h2>How the Memory Problem Got Solved</h2>
+
+      <p>The breakthrough came from an unexpected direction — enterprise AI tools originally built for customer service. When companies like Inworld AI and NVIDIA, with its ACE (Avatar Cloud Engine) platform, started applying persistent memory architecture to game characters, the results were dramatic.</p>
+
+      <p>Here's how it works in practice. Each NPC maintains a private memory store — essentially a vector database of episodic memories unique to that character. What events they've witnessed. What the player has told them. What they've overheard about the player from other characters. How their emotional state has evolved over time. What their relationship with every other significant NPC in the world looks like.</p>
+
+      <!-- IMAGE PLACEHOLDER 2 -->
+      <div class="img-placeholder medium" role="img" aria-label="Image placeholder: Memory architecture diagram">
+        <div class="img-placeholder-inner">
+          <svg aria-hidden="true"><use href="#icon-image"/></svg>
+          <strong>Image Placeholder</strong>
+          <span>Diagram: NPC memory architecture · 900 × 506px recommended</span>
+        </div>
+      </div>
+      <p class="img-caption">How persistent NPC memory systems store and retrieve player history.</p>
+
+      <p>When you interact with that NPC, the system pulls relevant memories in real time, feeds them into the language model alongside the character's personality parameters, and generates a response that reflects everything that character should logically know and feel. The NPC can discuss topics the original writers never wrote. They stay in character. They respond to genuinely novel situations. And they carry all of it forward.</p>
+
+      <h3>NVIDIA ACE: More Than Just Words</h3>
+
+      <p>What makes NVIDIA ACE particularly striking is that it doesn't stop at text generation. The system also handles neural text-to-speech — generating voice with natural emotional variation, pacing, and emphasis matched to the character's personality and current state. Then, in real time, it synthesizes the character's facial animation to match the generated speech. No pre-recorded dialogue. No motion capture for AI-generated lines. Everything is live.</p>
+
+      <p>The practical result is characters that don't just say new things — they <em>feel</em> new things, visibly. A character who discovers you've betrayed their trust doesn't just say different words than they would have otherwise. Their voice tightens. Their face changes. The performance reflects the history between you.</p>
+
+      <!-- STATS -->
+      <div class="stat-row" role="list" aria-label="Key statistics">
+        <div class="stat-box" role="listitem">
+          <span class="stat-number">89%</span>
+          <span class="stat-label">of top 50 multiplayer games support full crossplay in 2026, up from 41% in 2021</span>
+        </div>
+        <div class="stat-box" role="listitem">
+          <span class="stat-number">30%</span>
+          <span class="stat-label">reduction in QA time reported by studios using AI-driven automated testing</span>
+        </div>
+        <div class="stat-box" role="listitem">
+          <span class="stat-number">1/3</span>
+          <span class="stat-label">of all games released on Steam in 2026 are expected to disclose AI-generated content</span>
+        </div>
+      </div>
+
+      <h2>What This Means for Game Design</h2>
+
+      <p>The implications for how games are actually made are significant — and not uniformly comfortable for everyone in the industry.</p>
+
+      <p>On the creative side, writers are finding that their job has changed in ways that feel simultaneously liberating and unsettling. The old model was explicit: you write every line of dialogue, every branching option, every contingency. The new model asks writers to define something harder to pin down — <em>who is this character</em>? What do they value? What are they afraid of? How do they speak when they're nervous versus when they're confident? The system handles the rest.</p>
+
+      <p>Studios using AI-driven automated testing have reported meaningful reductions in QA time. Asset generation tools are producing texture variants and environmental details faster than manual artist pipelines could. The economics of game development are shifting, and the creative questions this raises — about what roles exist in future development teams — are ones the industry is very much still working through.</p>
+
+      <!-- IMAGE PLACEHOLDER 3 -->
+      <div class="img-placeholder medium" role="img" aria-label="Image placeholder: Game studio using AI tools">
+        <div class="img-placeholder-inner">
+          <svg aria-hidden="true"><use href="#icon-image"/></svg>
+          <strong>Image Placeholder</strong>
+          <span>Behind the scenes: A game studio integrating AI NPC tools · 900 × 506px</span>
+        </div>
+      </div>
+      <p class="img-caption">Studios are rethinking their pipelines — writers now define personality frameworks rather than individual lines.</p>
+
+      <h2>The Dark Side: AI Shovelware</h2>
+
+      <p>It would be dishonest to write about AI in games in 2026 without talking about the downside — and it's a real one.</p>
+
+      <p>The same tools that enable extraordinary NPC experiences in well-resourced games are also extraordinarily cheap to deploy badly. Steam is currently struggling with what some analysts are bluntly calling an AI shovelware problem: a flood of low-effort games using AI generation for art, dialogue, and sometimes entire game systems, with no meaningful craft or quality control behind them. One third of all games released on Steam this year are expected to disclose AI-generated content — a number that tells you nothing about quality and everything about volume.</p>
+
+      <blockquote class="pullquote">
+        "The problem isn't that AI makes bad games. It's that AI makes it cheaper to release games that were always going to be bad."
+        <cite>— AI and Games, January 2026</cite>
+      </blockquote>
+
+      <p>For genuinely good small studios, this is creating a real discoverability problem. The signal-to-noise ratio on digital storefronts is getting worse, and the games benefiting most from AI tools are often the ones with the least to offer. It's a tension the industry hasn't figured out, and it's probably going to get worse before it gets better.</p>
+
+      <h2>What Comes Next</h2>
+
+      <p>The most interesting near-term development isn't technical — it's philosophical. As NPC memory and personality systems mature, game designers are starting to ask questions that would have sounded absurd five years ago. If an NPC carries persistent memories across a long playthrough, develops opinions about the player, and changes emotionally in response to events — what does the player owe that character? Does betraying an AI character who feels real create a different kind of experience than betraying a dialogue tree?</p>
+
+      <p>These questions don't have clean answers. But the fact that they're being asked at all is a measure of how far things have moved.</p>
+
+      <!-- IMAGE PLACEHOLDER 4 -->
+      <div class="img-placeholder medium" role="img" aria-label="Image placeholder: Future of AI gaming concept art">
+        <div class="img-placeholder-inner">
+          <svg aria-hidden="true"><use href="#icon-image"/></svg>
+          <strong>Image Placeholder</strong>
+          <span>Concept: The future of player-NPC relationships · 900 × 506px</span>
+        </div>
+      </div>
+      <p class="img-caption">The lines between scripted character and emergent personality are blurring faster than anyone anticipated.</p>
+
+      <p>On the hardware side, the arrival of gaming ecosystem smartphones, performance-driven gamer tablets, and handheld consoles purpose-built for high-performance play means these AI systems are no longer confined to high-end PCs. The technology is going portable. Within the next two years, the NPC who remembers your three-session-old betrayal might be on a device that fits in your pocket.</p>
+
+      <p>The era of static dialogue trees isn't completely over — plenty of games will keep using them, because they're cheaper and predictable and good enough for many experiences. But the ceiling has shifted permanently. Players have now seen what the other thing looks like. They know what it feels like when a game character actually remembers. And once you've seen that, it's very hard to go back.</p>
+
+      <p>The most important question in game design right now isn't about technology. It's about what kind of experiences become possible when the characters inside your games stop being props and start being something a little harder to define. That's the conversation 2026 has handed us. It's a good one to be having.</p>
+
+    </article>
+
+    <!-- SHARE -->
+    <div class="article-end">
+      <p class="article-end-label">Share this article</p>
+      <div class="share-row">
+        <button class="share-btn twitter" onclick="window.open('https://twitter.com/intent/tweet?text=AI+NPCs+Are+Finally+Real+%E2%80%94+And+Games+Will+Never+Be+the+Same&url='+encodeURIComponent(location.href))">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          Post on X
+        </button>
+        <button class="share-btn copy" id="copyLinkBtn" onclick="navigator.clipboard.writeText(location.href).then(()=>{this.textContent='Copied!';setTimeout(()=>this.innerHTML='<svg width=\'14\' height=\'14\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'9\' y=\'9\' width=\'13\' height=\'13\' rx=\'2\'/><path d=\'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\'/></svg> Copy link',2000)})">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy link
+        </button>
+      </div>
+    </div>
+
+    <!-- BACK NAV -->
+    <nav class="article-nav" aria-label="Article navigation">
+      <a href="../contents.html" class="back-link">
+        <svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg>
+        Back to Content Hub
+      </a>
+      <a href="../../index.html" class="back-link">
+        <svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg>
+        Back to ExoraWorld
+      </a>
+    </nav>
+
+  </div><!-- /article-container -->
+</main>
+
+<footer class="article-footer">
+  <div class="container">
+    <div class="article-footer-inner">
+      <span>&copy; <span id="footerYear"></span> ExoraWorld. All rights reserved.</span>
+      <a href="../contents.html" style="color:var(--color-secondary);font-weight:600;">More Articles →</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Reading progress bar */
+  window.addEventListener('scroll', () => {
+    const article = document.getElementById('article-body');
+    if (!article) return;
+    const top = article.getBoundingClientRect().top + window.scrollY;
+    const height = article.offsetHeight;
+    const scrolled = window.scrollY - top;
+    const pct = Math.min(100, Math.max(0, (scrolled / height) * 100));
+    document.getElementById('readingProgress').style.width = pct + '%';
+  }, { passive: true });
+
+  /* Theme toggle */
+  document.getElementById('themeToggle')?.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+  });
+
+  /* Mobile nav */
+  (function() {
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    const backdrop = document.getElementById('navBackdrop');
+    const close  = document.getElementById('navPanelClose');
+    function open()  { links.classList.add('open'); toggle.classList.add('active'); toggle.setAttribute('aria-expanded','true'); backdrop?.classList.add('open'); document.body.classList.add('no-scroll'); }
+    function shut()  { links.classList.remove('open'); toggle.classList.remove('active'); toggle.setAttribute('aria-expanded','false'); backdrop?.classList.remove('open'); document.body.classList.remove('no-scroll'); }
+    window._closeNav = shut;
+    toggle?.addEventListener('click', () => links.classList.contains('open') ? shut() : open());
+    close?.addEventListener('click', shut);
+    backdrop?.addEventListener('click', shut);
+    document.getElementById('navGoogleBtn')?.addEventListener('click', () => { shut(); window.ExoAuth?.signInGoogle().catch(()=>{}); });
+    document.getElementById('navFbBtn')?.addEventListener('click', () => { shut(); window.ExoAuth?.signInFacebook().catch(()=>{}); });
+  })();
+
+  /* Footer year */
+  document.getElementById('footerYear').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
