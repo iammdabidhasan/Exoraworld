@@ -152,6 +152,8 @@
   .nav-user-dropdown-signout { color:var(--color-coral); }
 
   /* ── MOBILE NAV BACKDROP & PANEL ────────────────────────────── */
+  /* Hidden on desktop — shown only via the 1180px media query */
+  .nav-links { display:none; }
   .nav-backdrop { position:fixed; inset:0; z-index:997; background:rgba(10,10,12,.52); backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px); opacity:0; pointer-events:none; transition:opacity var(--transition-base); }
   .nav-backdrop.open { opacity:1; pointer-events:auto; }
   .nav-panel-header { display:none; align-items:center; justify-content:space-between; padding:1.1rem 1.5rem; border-bottom:1px solid var(--color-border); flex-shrink:0; }
@@ -310,7 +312,7 @@
     .nav-toggle { display:flex; }
     .nav-auth-desktop { display:none; }
     .nav-user-desktop { display:none !important; }
-    .nav-links { position:fixed; inset:0; z-index:998; width:100%; background:var(--color-bg);
+    .nav-links { display:flex; position:fixed; inset:0; z-index:998; width:100%; background:var(--color-bg);
       flex-direction:column; align-items:stretch; justify-content:flex-start; gap:0;
       transform:translateX(100%); transition:transform .38s cubic-bezier(.4,0,.2,1);
       overflow-y:auto; overflow-x:hidden; padding:0; }
@@ -318,11 +320,10 @@
     .nav-panel-header { display:flex; }
     .nav-auth-mobile { display:flex; flex-direction:column; gap:.75rem; padding:1.25rem 1.5rem; border-bottom:1px solid var(--color-border); width:100%; max-width:none; }
     .nav-user-mobile { flex-direction:column; gap:.75rem; padding:1.25rem 1.5rem; border-bottom:1px solid var(--color-border); width:100%; max-width:none; }
-    .nav-split { width:100%; height:56px; border-radius:0; border:none; border-bottom:1px solid var(--color-border); transition:background var(--transition-fast); }
+    .nav-split { display:flex; width:100%; height:56px; border-radius:0; border:none; border-bottom:1px solid var(--color-border); transition:background var(--transition-fast); }
     .nav-split:hover { background:var(--color-bg-alt); border-color:var(--color-border); box-shadow:none; }
-    .nav-split-label { flex:1; padding-inline:1.5rem; font-size:1rem; font-weight:700; }
-    .nav-split-arrow { width:56px; border-left:1px solid var(--color-border); }
-    .nav-toggle { display:flex; }
+    .nav-split-label { flex:1; padding-inline:1.5rem; font-size:1rem; font-weight:700; display:flex; align-items:center; }
+    .nav-split-arrow { width:56px; border-left:1px solid var(--color-border); display:flex; align-items:center; justify-content:center; }
   }
   @media (prefers-reduced-motion:reduce) {
     .ticker-track { animation:none; }
@@ -422,8 +423,8 @@
         <svg class="icon icon-moon" aria-hidden="true"><use href="#icon-moon"/></svg>
       </button>
       <div class="nav-auth-desktop" id="navAuthDesktop">
-        <button class="btn btn-ghost btn-sm" data-auth-open="login">Log In</button>
-        <button class="btn btn-primary btn-sm" data-auth-open="signup">Sign Up</button>
+        <a href="../index.html" class="btn btn-ghost btn-sm">Log In</a>
+        <a href="../index.html" class="btn btn-primary btn-sm">Sign Up</a>
       </div>
       <div class="nav-user-desktop" id="navUserDesktop"></div>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
@@ -464,8 +465,8 @@
       </button>
     </div>
     <div class="nav-auth-divider"><span>or</span></div>
-    <button class="btn btn-ghost btn-block" data-auth-open="login">Sign In with Email</button>
-    <button class="btn btn-primary btn-block" data-auth-open="signup">Create Account</button>
+    <a href="../index.html" class="btn btn-ghost btn-block">Sign In with Email</a>
+    <a href="../index.html" class="btn btn-primary btn-block">Create Account</a>
   </div>
   <span class="nav-split"><a href="../pages/store.html" class="nav-split-label">Store</a><a href="../index.html#store" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
   <span class="nav-split"><a href="../pages/games.html" class="nav-split-label">Games</a><a href="../index.html#games" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
@@ -583,7 +584,7 @@
 <script type="module">
 import { initializeApp, getApps, getApp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getFirestore, collection, query, orderBy, getDocs }
+import { getFirestore, collection, getDocs }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
 /* ── Firebase (reuses the app exora-auth.js may have already inited) ── */
@@ -629,10 +630,18 @@ function fmtDate(d) {
 async function loadContent() {
   showSkeletons(9);
   try {
-    const snap = await getDocs(query(collection(db,'content'), orderBy('date','desc')));
+    // No orderBy here — avoids Firestore index requirement.
+    // We sort client-side after fetching.
+    const snap = await getDocs(collection(db,'content'));
     allContent = snap.docs
       .map(d => ({ id:d.id, ...d.data() }))
-      .filter(d => d.published !== false); // skip explicitly unpublished
+      .filter(d => d.published !== false)
+      .sort((a,b) => {
+        // Sort newest first using the date field
+        const da = a.date?.toDate ? a.date.toDate() : new Date(a.date||0);
+        const db_ = b.date?.toDate ? b.date.toDate() : new Date(b.date||0);
+        return db_ - da;
+      });
     initTicker();
     renderHero();
     applyFilters();
@@ -680,7 +689,6 @@ function renderHero() {
         <span class="card-type-badge type-${esc(main.type)}" style="position:absolute;top:.85rem;left:.85rem">${mc.label}</span>
       </div>
       <div class="hero-main-body">
-        <span class="card-type-badge type-${esc(main.type)}" style="display:none"></span>
         <h2 class="hero-main-title">${esc(main.title)}</h2>
         ${main.excerpt?`<p class="hero-main-excerpt">${esc(main.excerpt)}</p>`:''}
         <div class="card-meta" style="margin-top:.75rem">
