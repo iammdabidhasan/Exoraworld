@@ -205,14 +205,17 @@
   .navbar.scrolled { border-color: var(--color-border); box-shadow: var(--shadow-sm); }
   .navbar-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); }
 
-  .nav-logo { display: flex; align-items: center; gap: 0.55rem; font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; }
+  .nav-logo { display: flex; align-items: center; gap: 0.55rem; font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; flex-shrink: 0; }
   .nav-logo .logo-mark {
     width: 32px; height: 32px; border-radius: 9px; background: var(--color-primary);
     display: flex; align-items: center; justify-content: center; color: var(--color-on-primary);
   }
   .nav-logo .logo-mark .icon { width: 18px; height: 18px; }
 
-  .nav-links { display: flex; align-items: center; gap: 0.55rem; }
+  /* Desktop nav — the split pills shown inside the header on wide screens */
+  .nav-desktop { display: flex; align-items: center; gap: 0.3rem; flex: 1; justify-content: center; }
+
+  .nav-links { display: none; }
 
   /* Split nav button: two real links fused into one bordered pill.
      Label (left, wider) -> the dedicated page (store.html). Arrow (right,
@@ -225,8 +228,8 @@
   }
   .nav-split:hover { border-color: var(--color-text); box-shadow: var(--shadow-sm); }
   .nav-split-label {
-    display: flex; align-items: center; padding-inline: 0.9rem;
-    font-weight: 500; font-size: 0.87rem; color: var(--color-text-muted); white-space: nowrap;
+    display: flex; align-items: center; padding-inline: 0.7rem;
+    font-weight: 500; font-size: 0.83rem; color: var(--color-text-muted); white-space: nowrap;
     transition: color var(--transition-fast), background-color var(--transition-fast);
   }
   .nav-split-label:hover { color: var(--color-text); background: var(--color-bg-alt); }
@@ -241,7 +244,7 @@
   .nav-split-arrow:hover .icon { transform: translateX(3px); }
   .nav-split-arrow:active .icon { transform: translateX(1px) scale(0.85); }
 
-  .navbar-actions { display: flex; align-items: center; gap: 0.6rem; }
+  .navbar-actions { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
   .nav-auth-mobile { display: none; }
   .nav-auth-desktop { display: flex; align-items: center; gap: 0.6rem; }
 
@@ -732,8 +735,10 @@
   }
 
   @media (max-width: 1180px) {
+    .nav-desktop { display: none; }
     /* Full-screen slide-in panel */
     .nav-links {
+      display: flex;
       position: fixed; inset: 0; z-index: 998;
       width: 100%;
       background: var(--color-bg);
@@ -885,14 +890,46 @@
         ExoraWorld
       </a>
 
+      <!-- Desktop nav pills — hidden on mobile, replaced by the slide-in panel -->
+      <nav class="nav-desktop" aria-label="Main navigation">
+        <span class="nav-split">
+          <a href="pages/store.html" class="nav-split-label">Store</a>
+          <a href="#store" class="nav-split-arrow" aria-label="Jump to Store section"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+        </span>
+        <span class="nav-split">
+          <a href="pages/games.html" class="nav-split-label">Games</a>
+          <a href="#games" class="nav-split-arrow" aria-label="Jump to Games section"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+        </span>
+        <span class="nav-split">
+          <a href="pages/news.html" class="nav-split-label">News</a>
+          <a href="#news" class="nav-split-arrow" aria-label="Jump to News section"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+        </span>
+        <span class="nav-split">
+          <a href="pages/gallery.html" class="nav-split-label">Gallery</a>
+          <a href="#gallery" class="nav-split-arrow" aria-label="Jump to Gallery section"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+        </span>
+        <span class="nav-split">
+          <a href="content/contents.html" class="nav-split-label">Content</a>
+          <a href="#content" class="nav-split-arrow" aria-label="Jump to Content section"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+        </span>
+        <span class="nav-split">
+          <a href="pages/about.html" class="nav-split-label">About</a>
+          <a href="#about" class="nav-split-arrow" aria-label="Jump to About section"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+        </span>
+        <span class="nav-split">
+          <a href="pages/help.html" class="nav-split-label">Help</a>
+          <a href="#help" class="nav-split-arrow" aria-label="Jump to Help section"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+        </span>
+      </nav>
+
       <div class="navbar-actions">
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light theme" aria-pressed="false">
           <svg class="icon icon-sun"><use href="#icon-sun"/></svg>
           <svg class="icon icon-moon"><use href="#icon-moon"/></svg>
         </button>
         <div class="nav-auth-desktop" id="navAuthDesktop">
-          <button class="btn btn-ghost" data-auth-open="login">Log In</button>
-          <button class="btn btn-primary" data-auth-open="signup">Sign Up</button>
+          <button class="btn btn-ghost btn-sm" data-auth-open="login">Log In</button>
+          <button class="btn btn-primary btn-sm" data-auth-open="signup">Sign Up</button>
         </div>
         <div class="nav-user-desktop" id="navUserDesktop" style="display:none"></div>
         <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
