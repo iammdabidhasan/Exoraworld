@@ -584,10 +584,10 @@
 <script type="module">
 import { initializeApp, getApps, getApp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getFirestore, collection, getDocs }
+import { getFirestore, initializeFirestore, collection, getDocs }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-/* ── Firebase (reuses the app exora-auth.js may have already inited) ── */
+/* ── Firebase ───────────────────────────────────────────────────── */
 const CFG = {
   apiKey: "AIzaSyBsTIxhaIqIQ3Hxkz3IZNAKlA-65h_7BD4",
   authDomain: "exoraworld01.firebaseapp.com",
@@ -597,7 +597,18 @@ const CFG = {
   appId: "1:711731946739:web:4b8582ea122e6546604386"
 };
 const app = getApps().length ? getApp() : initializeApp(CFG);
-const db  = getFirestore(app);
+
+// Force long-polling instead of WebSockets — fixes Cloudflare proxy interference
+let db;
+try {
+  db = initializeFirestore(app, {
+    experimentalForceLongPolling: true,
+    useFetchStreams: false
+  });
+} catch(e) {
+  // Already initialized (e.g. by exora-cart.js) — just get the instance
+  db = getFirestore(app);
+}
 
 /* ── State ─────────────────────────────────────────────────────── */
 let allContent  = [];   // all published docs from Firestore
@@ -667,42 +678,54 @@ async function loadContent() {
   }
 }
 
-// Direct Firestore REST API — bypasses WebChannel entirely, works through Cloudflare
+// Direct Firestore REST runQuery — bypasses WebChannel entirely
 async function loadViaRest() {
   try {
-    const url = 'https://firestore.googleapis.com/v1/projects/exoraworld01/databases/(default)/documents/content?key=AIzaSyBsTIxhaIqIQ3Hxkz3IZNAKlA-65h_7BD4';
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('REST fetch failed: ' + res.status);
-    const json = await res.json();
-    console.log('[ExoraContent] REST response:', json);
+    console.log('[ExoraContent] Trying REST runQuery fallback...');
+    const url = 'https://firestore.googleapis.com/v1/projects/exoraworld01/databases/(default)/documents:runQuery?key=AIzaSyBsTIxhaIqIQ3Hxkz3IZNAKlA-65h_7BD4';
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        structuredQuery: {
+          from: [{ collectionId: 'content' }]
+        }
+      })
+    });
+    if (!res.ok) throw new Error('REST runQuery failed: ' + res.status);
+    const rows = await res.json();
+    console.log('[ExoraContent] REST rows received:', rows.length);
 
-    const docs = json.documents || [];
-    allContent = docs.map(doc => {
-      const fields = doc.fields || {};
-      const get = (f, type) => fields[f]?.[type];
-      return {
-        id: doc.name.split('/').pop(),
-        title:     get('title',   'stringValue') || '',
-        type:      get('type',    'stringValue') || 'article',
-        excerpt:   get('excerpt', 'stringValue') || '',
-        slug:      get('slug',    'stringValue') || '',
-        thumbnail: get('thumbnail', 'stringValue') || '',
-        readTime:  Number(get('readTime', 'integerValue') || get('readTime', 'doubleValue') || 0),
-        featured:  get('featured',  'booleanValue') || false,
-        published: get('published', 'booleanValue') !== false,
-        tags:      (fields.tags?.arrayValue?.values || []).map(v => v.stringValue || ''),
-        date:      fields.date?.timestampValue ? new Date(fields.date.timestampValue) : new Date(0)
-      };
-    })
-    .filter(d => d.published !== false)
-    .sort((a, b) => b.date - a.date);
+    allContent = rows
+      .filter(r => r.document)
+      .map(r => {
+        const f = r.document.fields || {};
+        const str  = k => f[k]?.stringValue  || '';
+        const bool = k => f[k]?.booleanValue;
+        const num  = k => Number(f[k]?.integerValue || f[k]?.doubleValue || 0);
+        return {
+          id:        r.document.name.split('/').pop(),
+          title:     str('title'),
+          type:      str('type') || 'article',
+          excerpt:   str('excerpt'),
+          slug:      str('slug'),
+          thumbnail: str('thumbnail'),
+          readTime:  num('readTime'),
+          featured:  bool('featured') || false,
+          published: bool('published') !== false,
+          tags:      (f.tags?.arrayValue?.values || []).map(v => v.stringValue || ''),
+          date:      f.date?.timestampValue ? new Date(f.date.timestampValue) : new Date(0)
+        };
+      })
+      .filter(d => d.published !== false)
+      .sort((a, b) => b.date - a.date);
 
     console.log('[ExoraContent] REST items loaded:', allContent.length);
     initTicker();
     renderHero();
     applyFilters();
   } catch (err) {
-    console.error('[ExoraContent] REST fallback also failed:', err.message);
+    console.error('[ExoraContent] REST fallback failed:', err.message);
     showError('Could not load content. Please try refreshing the page.');
   }
 }
