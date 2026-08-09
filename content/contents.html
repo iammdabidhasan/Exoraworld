@@ -630,28 +630,80 @@ function fmtDate(d) {
 async function loadContent() {
   showSkeletons(9);
   try {
-    console.log('[ExoraContent] Fetching Firestore collection: content');
-    const snap = await getDocs(collection(db,'content'));
-    console.log('[ExoraContent] Snapshot size:', snap.size, '| Empty:', snap.empty);
-    snap.forEach(doc => {
-      const d = doc.data();
-      console.log('[ExoraContent] Doc:', doc.id, '| published:', d.published, '('+typeof d.published+') | type:', d.type);
-    });
+    console.log('[ExoraContent] Fetching Firestore...');
+
+    // Wrap getDocs in a 8-second timeout — Cloudflare can stall WebChannel
+    const snap = await Promise.race([
+      getDocs(collection(db, 'content')),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('TIMEOUT')), 8000)
+      )
+    ]);
+
+    console.log('[ExoraContent] Snapshot size:', snap.size);
     allContent = snap.docs
-      .map(d => ({ id:d.id, ...d.data() }))
+      .map(d => ({ id: d.id, ...d.data() }))
       .filter(d => d.published !== false)
-      .sort((a,b) => {
-        const da = a.date?.toDate ? a.date.toDate() : new Date(a.date||0);
-        const db_ = b.date?.toDate ? b.date.toDate() : new Date(b.date||0);
+      .sort((a, b) => {
+        const da = a.date?.toDate ? a.date.toDate() : new Date(a.date || 0);
+        const db_ = b.date?.toDate ? b.date.toDate() : new Date(b.date || 0);
         return db_ - da;
       });
-    console.log('[ExoraContent] After filter — items to render:', allContent.length);
+
+    console.log('[ExoraContent] Items to render:', allContent.length);
     initTicker();
     renderHero();
     applyFilters();
-  } catch(err) {
-    console.error('[ExoraContent] Firestore error:', err.code, err.message);
-    showError(err.message);
+
+  } catch (err) {
+    if (err.message === 'TIMEOUT') {
+      // Firebase WebChannel timed out — fall back to Firestore REST API
+      console.warn('[ExoraContent] WebChannel timeout — trying REST fallback...');
+      await loadViaRest();
+    } else {
+      console.error('[ExoraContent] Error:', err.code, err.message);
+      showError(err.message);
+    }
+  }
+}
+
+// Direct Firestore REST API — bypasses WebChannel entirely, works through Cloudflare
+async function loadViaRest() {
+  try {
+    const url = 'https://firestore.googleapis.com/v1/projects/exoraworld01/databases/(default)/documents/content';
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('REST fetch failed: ' + res.status);
+    const json = await res.json();
+    console.log('[ExoraContent] REST response:', json);
+
+    const docs = json.documents || [];
+    allContent = docs.map(doc => {
+      const fields = doc.fields || {};
+      const get = (f, type) => fields[f]?.[type];
+      return {
+        id: doc.name.split('/').pop(),
+        title:     get('title',   'stringValue') || '',
+        type:      get('type',    'stringValue') || 'article',
+        excerpt:   get('excerpt', 'stringValue') || '',
+        slug:      get('slug',    'stringValue') || '',
+        thumbnail: get('thumbnail', 'stringValue') || '',
+        readTime:  Number(get('readTime', 'integerValue') || get('readTime', 'doubleValue') || 0),
+        featured:  get('featured',  'booleanValue') || false,
+        published: get('published', 'booleanValue') !== false,
+        tags:      (fields.tags?.arrayValue?.values || []).map(v => v.stringValue || ''),
+        date:      fields.date?.timestampValue ? new Date(fields.date.timestampValue) : new Date(0)
+      };
+    })
+    .filter(d => d.published !== false)
+    .sort((a, b) => b.date - a.date);
+
+    console.log('[ExoraContent] REST items loaded:', allContent.length);
+    initTicker();
+    renderHero();
+    applyFilters();
+  } catch (err) {
+    console.error('[ExoraContent] REST fallback also failed:', err.message);
+    showError('Could not load content. Please try refreshing the page.');
   }
 }
 
