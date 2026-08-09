@@ -670,7 +670,7 @@ async function loadContent() {
 // Direct Firestore REST API — bypasses WebChannel entirely, works through Cloudflare
 async function loadViaRest() {
   try {
-    const url = 'https://firestore.googleapis.com/v1/projects/exoraworld01/databases/(default)/documents/content';
+    const url = 'https://firestore.googleapis.com/v1/projects/exoraworld01/databases/(default)/documents/content?key=AIzaSyBsTIxhaIqIQ3Hxkz3IZNAKlA-65h_7BD4';
     const res = await fetch(url);
     if (!res.ok) throw new Error('REST fetch failed: ' + res.status);
     const json = await res.json();
