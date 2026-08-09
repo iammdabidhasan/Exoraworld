@@ -630,23 +630,27 @@ function fmtDate(d) {
 async function loadContent() {
   showSkeletons(9);
   try {
-    // No orderBy here — avoids Firestore index requirement.
-    // We sort client-side after fetching.
+    console.log('[ExoraContent] Fetching Firestore collection: content');
     const snap = await getDocs(collection(db,'content'));
+    console.log('[ExoraContent] Snapshot size:', snap.size, '| Empty:', snap.empty);
+    snap.forEach(doc => {
+      const d = doc.data();
+      console.log('[ExoraContent] Doc:', doc.id, '| published:', d.published, '('+typeof d.published+') | type:', d.type);
+    });
     allContent = snap.docs
       .map(d => ({ id:d.id, ...d.data() }))
       .filter(d => d.published !== false)
       .sort((a,b) => {
-        // Sort newest first using the date field
         const da = a.date?.toDate ? a.date.toDate() : new Date(a.date||0);
         const db_ = b.date?.toDate ? b.date.toDate() : new Date(b.date||0);
         return db_ - da;
       });
+    console.log('[ExoraContent] After filter — items to render:', allContent.length);
     initTicker();
     renderHero();
     applyFilters();
   } catch(err) {
-    console.error('Firestore error:', err);
+    console.error('[ExoraContent] Firestore error:', err.code, err.message);
     showError(err.message);
   }
 }
