@@ -682,7 +682,7 @@ async function loadContent() {
 async function loadViaRest() {
   try {
     console.log('[ExoraContent] Trying REST runQuery fallback...');
-    const url = 'https://firestore.googleapis.com/v1/projects/exoraworld01/databases/(default)/documents:runQuery?key=AIzaSyBsTIxhaIqIQ3Hxkz3IZNAKlA-65h_7BD4';
+    const url = 'https://firestore.googleapis.com/v1/projects/exoraworld01/databases/default/documents:runQuery?key=AIzaSyBsTIxhaIqIQ3Hxkz3IZNAKlA-65h_7BD4';
     const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
