@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cloud Gaming Is Finally Here — ExoraWorld</title>
+<meta name="description" content="In 2026, cloud gaming stopped being a promise and became a reality. Here's what changed, who it benefits most, and what it means for the future of play."/>
+<meta name="theme-color" content="#E8A430"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<script type="module" src="../../js/exora-auth.js"></script>
+<script>(function(){try{var d=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+<style>
+:root{--color-bg:#F8F7F3;--color-bg-alt:#F1ECE0;--color-surface:#FFFFFF;--color-text:#17171A;--color-text-muted:#6B6864;--color-border:#E4DFD2;--color-primary:#E8A430;--color-primary-hover:#D6952A;--color-on-primary:#17171A;--color-secondary:#12756B;--color-secondary-hover:#0D5A52;--color-coral:#DE5B4C;--color-navbar-bg:rgba(248,247,243,0.85);--font-display:'Bricolage Grotesque','Segoe UI',sans-serif;--font-body:'Inter',-apple-system,sans-serif;--font-prose:'Lora','Georgia',serif;--nav-height:76px;--article-width:720px;--radius-sm:8px;--radius-md:14px;--radius-lg:22px;--radius-full:999px;--shadow-sm:0 1px 3px rgba(20,18,10,.08);--shadow-md:0 10px 30px rgba(20,18,10,.10);--shadow-lg:0 24px 48px rgba(20,18,10,.16);--transition-fast:.2s ease;--transition-base:.35s cubic-bezier(.4,0,.2,1);}
+[data-theme="dark"]{--color-bg:#121214;--color-bg-alt:#18181B;--color-surface:#1D1D21;--color-text:#F5F3EE;--color-text-muted:#9E9B95;--color-border:#2B2B30;--color-primary:#F0AC42;--color-secondary:#2DD4BF;--color-coral:#EC6B5C;--color-navbar-bg:rgba(18,18,20,.82);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-height) + 1rem);}
+body{font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background-color var(--transition-base),color var(--transition-base);}
+body.no-scroll{overflow:hidden;}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button,input{font:inherit;color:inherit;}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.2;font-weight:700;letter-spacing:-.01em;}
+:focus-visible{outline:2px solid var(--color-secondary);outline-offset:3px;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+.skip-link{position:absolute;left:-9999px;top:0;z-index:5000;background:var(--color-surface);color:var(--color-text);padding:.9rem 1.4rem;border-radius:var(--radius-sm);}
+.skip-link:focus{left:1.25rem;top:1.25rem;}
+.icon{width:1.2em;height:1.2em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+.container{width:100%;max-width:1200px;margin-inline:auto;padding-inline:clamp(1.25rem,4vw,2rem);}
+.article-container{width:100%;max-width:var(--article-width);margin-inline:auto;padding-inline:clamp(1.25rem,4vw,2rem);}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.85rem 1.6rem;border-radius:var(--radius-md);border:none;font-weight:600;font-size:.95rem;cursor:pointer;white-space:nowrap;transition:transform var(--transition-fast),box-shadow var(--transition-fast),background-color var(--transition-fast);}
+.btn:hover{transform:translateY(-2px);}
+.btn-primary{background:var(--color-primary);color:var(--color-on-primary);}
+.btn-primary:hover{background:var(--color-primary-hover);}
+.btn-ghost{background:transparent;color:var(--color-text-muted);padding:.5rem .85rem;}
+.btn-ghost:hover{color:var(--color-secondary);transform:none;}
+.btn-sm{padding:.5rem 1rem;font-size:.85rem;}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-height);display:flex;align-items:center;background:var(--color-navbar-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--color-border);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:var(--nav-height);width:100%;max-width:1200px;margin-inline:auto;padding-inline:clamp(1.25rem,4vw,2rem);gap:1rem;}
+.nav-logo{display:flex;align-items:center;gap:.55rem;font-family:var(--font-display);font-weight:800;font-size:1.25rem;flex-shrink:0;}
+.nav-logo .logo-mark{width:32px;height:32px;border-radius:9px;background:var(--color-primary);display:flex;align-items:center;justify-content:center;color:var(--color-on-primary);}
+.nav-breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--color-text-muted);flex:1;padding-inline:1rem;overflow:hidden;}
+.nav-breadcrumb a:hover{color:var(--color-secondary);}
+.nav-breadcrumb .crumb-current{color:var(--color-text);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.navbar-actions{display:flex;align-items:center;gap:.5rem;flex-shrink:0;}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--color-border);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background var(--transition-fast);}
+.theme-toggle:hover{background:var(--color-bg-alt);}
+[data-theme="light"] .icon-moon{display:none;}
+[data-theme="dark"] .icon-sun{display:none;}
+.nav-auth-desktop{display:flex;align-items:center;gap:.5rem;}
+.nav-user-desktop{display:none;}
+.nav-toggle{display:none;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--color-border);background:transparent;cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px;padding:10px;}
+.nav-toggle span{display:block;height:2px;background:var(--color-text);border-radius:2px;width:100%;transition:transform var(--transition-base),opacity var(--transition-fast);}
+.nav-toggle.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nav-toggle.active span:nth-child(2){opacity:0;}
+.nav-toggle.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.nav-user-avatar{width:28px;height:28px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:var(--color-on-primary);overflow:hidden;flex-shrink:0;}
+.nav-user-avatar img{width:100%;height:100%;object-fit:cover;}
+.nav-backdrop{position:fixed;inset:0;z-index:997;background:rgba(10,10,12,.52);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity var(--transition-base);}
+.nav-backdrop.open{opacity:1;pointer-events:auto;}
+.nav-links{display:none;}
+.nav-panel-header{display:none;align-items:center;justify-content:space-between;padding:1.1rem 1.5rem;border-bottom:1px solid var(--color-border);flex-shrink:0;}
+.nav-panel-close{width:38px;height:38px;border-radius:50%;border:1px solid var(--color-border);background:var(--color-bg-alt);color:var(--color-text);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.nav-social-btns{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;}
+.nav-social-btn{display:flex;align-items:center;justify-content:center;gap:.6rem;width:100%;height:46px;border-radius:var(--radius-md);font-size:.9rem;font-weight:600;cursor:pointer;border:1px solid var(--color-border);}
+.nav-social-btn svg{width:18px;height:18px;flex-shrink:0;}
+.nav-google-btn{background:var(--color-surface);color:var(--color-text);}
+.nav-fb-btn{background:#1877F2;color:#fff;border-color:#1877F2;}
+.nav-auth-divider{display:flex;align-items:center;gap:.65rem;color:var(--color-text-muted);font-size:.78rem;font-weight:500;text-transform:uppercase;letter-spacing:.06em;}
+.nav-auth-divider::before,.nav-auth-divider::after{content:'';flex:1;height:1px;background:var(--color-border);}
+.nav-user-chip-mob{display:flex;align-items:center;gap:.75rem;padding:.9rem 1rem;border-radius:var(--radius-md);background:var(--color-bg-alt);border:1px solid var(--color-border);}
+.reading-progress{position:fixed;top:var(--nav-height);left:0;width:0%;height:3px;background:var(--color-primary);z-index:999;transition:width .1s linear;border-radius:0 3px 3px 0;}
+.article-hero{margin-top:var(--nav-height);}
+.hero-img-placeholder{position:relative;width:100%;height:clamp(280px,45vw,520px);background:linear-gradient(135deg,#1a3a5c,var(--color-secondary));display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.hero-img-placeholder img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.hero-img-placeholder .placeholder-label{display:flex;flex-direction:column;align-items:center;gap:.75rem;color:rgba(255,255,255,.65);text-align:center;z-index:1;pointer-events:none;}
+.hero-img-placeholder .placeholder-label svg{width:48px;height:48px;opacity:.7;}
+.hero-img-placeholder .placeholder-label p{font-size:.85rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
+.hero-img-placeholder .placeholder-label small{font-size:.75rem;opacity:.7;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 50%);}
+.article-header{padding-block:clamp(2rem,5vw,3.5rem) 0;}
+.article-category{display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--color-secondary);margin-bottom:.85rem;}
+.article-category .dot{width:6px;height:6px;border-radius:50%;background:var(--color-secondary);}
+.article-title{font-size:clamp(1.75rem,4.5vw,3rem);line-height:1.1;margin-bottom:1rem;letter-spacing:-.02em;}
+.article-subtitle{font-family:var(--font-prose);font-size:1.15rem;color:var(--color-text-muted);line-height:1.6;font-style:italic;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--color-border);}
+.article-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding-bottom:2rem;border-bottom:1px solid var(--color-border);margin-bottom:.5rem;}
+.author-chip{display:flex;align-items:center;gap:.65rem;}
+.author-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#1a3a5c,var(--color-secondary));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;color:white;flex-shrink:0;}
+.author-info{display:flex;flex-direction:column;}
+.author-name{font-weight:700;font-size:.9rem;}
+.author-role{font-size:.75rem;color:var(--color-text-muted);}
+.meta-divider{width:4px;height:4px;border-radius:50%;background:var(--color-border);}
+.meta-item{display:flex;align-items:center;gap:.35rem;font-size:.82rem;color:var(--color-text-muted);}
+.meta-item .icon{width:14px;height:14px;}
+.article-tags{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;padding-block:1.5rem;border-bottom:1px solid var(--color-border);margin-bottom:2rem;}
+.tag{font-size:.72rem;font-weight:600;color:var(--color-text-muted);background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:.2rem .65rem;}
+.article-body{font-family:var(--font-prose);font-size:1.1rem;line-height:1.85;color:var(--color-text);}
+.article-body p{margin-bottom:1.65rem;}
+.article-body h2{font-family:var(--font-display);font-size:clamp(1.35rem,3vw,1.75rem);font-weight:700;margin-block:2.5rem 1rem;padding-top:.5rem;border-top:2px solid var(--color-primary);display:inline-block;}
+.article-body h3{font-family:var(--font-display);font-size:1.15rem;font-weight:700;margin-block:2rem .75rem;color:var(--color-secondary);}
+.article-body strong{font-weight:700;}
+.article-body em{font-style:italic;}
+.article-body ul{margin-block:1rem 1.65rem;padding-left:1.5rem;}
+.article-body li{margin-bottom:.6rem;}
+.article-body ul li::marker{color:var(--color-primary);}
+.article-body .drop-cap::first-letter{float:left;font-family:var(--font-display);font-size:4.2rem;font-weight:800;line-height:.75;padding-right:.12em;padding-top:.08em;color:var(--color-primary);}
+.pullquote{margin-block:2.5rem;padding:1.75rem 2rem;border-left:4px solid var(--color-primary);background:var(--color-bg-alt);border-radius:0 var(--radius-md) var(--radius-md) 0;font-family:var(--font-display);font-size:1.2rem;font-weight:600;line-height:1.4;color:var(--color-text);}
+.pullquote cite{display:block;margin-top:.65rem;font-size:.82rem;font-weight:500;color:var(--color-text-muted);font-style:normal;}
+.img-placeholder{margin-block:2.5rem;border-radius:var(--radius-lg);overflow:hidden;border:2px dashed var(--color-border);background:var(--color-bg-alt);}
+.img-placeholder-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;padding:3rem 2rem;color:var(--color-text-muted);text-align:center;}
+.img-placeholder-inner svg{width:40px;height:40px;opacity:.45;}
+.img-placeholder-inner strong{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+.img-placeholder-inner span{font-size:.78rem;opacity:.7;}
+.img-placeholder.wide{aspect-ratio:16/7;}
+.img-placeholder.medium{aspect-ratio:16/9;}
+.img-caption{text-align:center;font-size:.8rem;color:var(--color-text-muted);font-style:italic;margin-top:-.75rem;margin-bottom:2rem;font-family:var(--font-body);}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-block:2.5rem;}
+.stat-box{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1.25rem;text-align:center;}
+.stat-box .stat-number{font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--color-primary);display:block;line-height:1;}
+.stat-box .stat-label{font-size:.78rem;color:var(--color-text-muted);font-family:var(--font-body);margin-top:.35rem;display:block;font-weight:500;}
+.article-end{padding-block:2.5rem;border-top:1px solid var(--color-border);margin-top:3rem;}
+.article-end-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-muted);margin-bottom:1rem;}
+.share-row{display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;}
+.share-btn{display:inline-flex;align-items:center;gap:.45rem;height:38px;padding:0 1rem;border-radius:var(--radius-full);font-size:.82rem;font-weight:600;cursor:pointer;border:1.5px solid var(--color-border);background:transparent;transition:all var(--transition-fast);}
+.share-btn.twitter{color:#1DA1F2;border-color:#1DA1F2;}
+.share-btn.twitter:hover{background:#1DA1F2;color:#fff;}
+.share-btn.copy:hover{background:var(--color-bg-alt);}
+.article-nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:2.5rem;border-top:1px solid var(--color-border);flex-wrap:wrap;}
+.back-link{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.9rem;color:var(--color-text-muted);transition:color var(--transition-fast);}
+.back-link:hover{color:var(--color-secondary);}
+.article-footer{border-top:1px solid var(--color-border);padding:1.75rem 0;background:var(--color-bg-alt);}
+.article-footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.82rem;color:var(--color-text-muted);}
+@media(max-width:640px){.stat-row{grid-template-columns:1fr 1fr;}.stat-row .stat-box:last-child{grid-column:1/-1;}.article-meta{gap:.65rem;}.meta-divider{display:none;}.nav-auth-desktop{display:none;}.nav-toggle{display:flex;}}
+@media(max-width:1180px){.nav-auth-desktop{display:none;}.nav-user-desktop{display:none!important;}.nav-toggle{display:flex;}.nav-links{display:flex;position:fixed;inset:0;z-index:998;width:100%;background:var(--color-bg);flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;transform:translateX(100%);transition:transform .38s cubic-bezier(.4,0,.2,1);overflow-y:auto;overflow-x:hidden;padding:0;}.nav-links.open{transform:translateX(0);}.nav-panel-header{display:flex;}.nav-auth-mobile{display:flex;flex-direction:column;gap:.75rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--color-border);}.nav-user-mobile{flex-direction:column;gap:.75rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--color-border);}.nav-split{display:flex;width:100%;height:56px;border-radius:0;border:none;border-bottom:1px solid var(--color-border);}.nav-split:hover{background:var(--color-bg-alt);}.nav-split-label{flex:1;padding-inline:1.5rem;font-size:1rem;font-weight:700;display:flex;align-items:center;}.nav-split-arrow{width:56px;border-left:1px solid var(--color-border);display:flex;align-items:center;justify-content:center;}}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important;}}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="icon-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+  <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+  <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></symbol>
+  <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+  <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+  <symbol id="icon-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><polyline points="21 15 16 10 5 21"/></symbol>
+  <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></symbol>
+</svg>
+
+<a href="#article-body" class="skip-link">Skip to article</a>
+<div class="reading-progress" id="readingProgress"></div>
+<div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+
+<header class="navbar">
+  <div class="nav-inner">
+    <a href="../../index.html" class="nav-logo">
+      <span class="logo-mark"><svg class="icon" aria-hidden="true"><use href="#icon-spark"/></svg></span>
+      ExoraWorld
+    </a>
+    <nav class="nav-breadcrumb" aria-label="Breadcrumb">
+      <a href="../contents.html">Content</a>
+      <span aria-hidden="true">›</span>
+      <span>Articles</span>
+      <span aria-hidden="true">›</span>
+      <span class="crumb-current">Cloud Gaming Is Finally Here</span>
+    </nav>
+    <div class="navbar-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="icon icon-sun" aria-hidden="true"><use href="#icon-sun"/></svg>
+        <svg class="icon icon-moon" aria-hidden="true"><use href="#icon-moon"/></svg>
+      </button>
+      <div class="nav-auth-desktop" id="navAuthDesktop">
+        <a href="../../index.html" class="btn btn-ghost btn-sm">Log In</a>
+        <a href="../../index.html" class="btn btn-primary btn-sm">Sign Up</a>
+      </div>
+      <div class="nav-user-desktop" id="navUserDesktop"></div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-links" id="navLinks">
+  <div class="nav-panel-header">
+    <a href="../../index.html" class="nav-logo"><span class="logo-mark"><svg class="icon"><use href="#icon-spark"/></svg></span>ExoraWorld</a>
+    <button class="nav-panel-close" id="navPanelClose"><svg class="icon"><use href="#icon-close"/></svg></button>
+  </div>
+  <div class="nav-user-mobile" id="navUserMobile" style="display:none"></div>
+  <div class="nav-auth-mobile" id="navAuthMobile">
+    <div class="nav-social-btns">
+      <button class="nav-social-btn nav-google-btn" id="navGoogleBtn" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>Google
+      </button>
+      <button class="nav-social-btn nav-fb-btn" id="navFbBtn" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#fff"/></svg>Facebook
+      </button>
+    </div>
+    <div class="nav-auth-divider"><span>or</span></div>
+    <a href="../../index.html" class="btn btn-ghost" style="width:100%;justify-content:center">Sign In with Email</a>
+    <a href="../../index.html" class="btn btn-primary" style="width:100%;justify-content:center">Create Account</a>
+  </div>
+  <span class="nav-split"><a href="../../pages/store.html" class="nav-split-label">Store</a><a href="../../index.html#store" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
+  <span class="nav-split"><a href="../../pages/games.html" class="nav-split-label">Games</a><a href="../../index.html#games" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
+  <span class="nav-split"><a href="../../pages/news.html" class="nav-split-label">News</a><a href="../../index.html#news" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
+  <span class="nav-split"><a href="../contents.html" class="nav-split-label" style="color:var(--color-secondary)">Content</a><a href="../contents.html" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
+</nav>
+
+<div class="article-hero">
+  <!-- ============================================================
+    HERO IMAGE — Replace this entire div with your image:
+    <img src="YOUR-IMAGE-URL" alt="Cloud gaming on multiple devices" style="width:100%;height:clamp(280px,45vw,520px);object-fit:cover;display:block;">
+    Recommended size: 1400 × 650px
+  ============================================================ -->
+  <div class="hero-img-placeholder">
+    <div class="placeholder-label">
+      <svg aria-hidden="true"><use href="#icon-image"/></svg>
+      <p>Hero Image</p>
+      <small>Recommended: 1400 × 650px</small>
+    </div>
+    <div class="hero-overlay"></div>
+  </div>
+</div>
+
+<main id="article-body">
+<div class="article-container">
+  <header class="article-header">
+    <div class="article-category"><span class="dot" aria-hidden="true"></span>Article · Gaming &amp; Technology</div>
+    <h1 class="article-title">Cloud Gaming Is Finally Here — And It's Changing Who Gets to Play</h1>
+    <p class="article-subtitle">For years, cloud gaming was a promise that kept almost delivering. In 2026, it stopped almost delivering and just delivered. Here's what changed — and why it matters more than the hardware wars ever did.</p>
+    <div class="article-meta">
+      <div class="author-chip">
+        <div class="author-avatar">EX</div>
+        <div class="author-info"><span class="author-name">ExoraWorld Team</span><span class="author-role">Gaming &amp; Tech</span></div>
+      </div>
+      <span class="meta-divider"></span>
+      <span class="meta-item"><svg class="icon" aria-hidden="true"><use href="#icon-calendar"/></svg>August 9, 2026</span>
+      <span class="meta-divider"></span>
+      <span class="meta-item"><svg class="icon" aria-hidden="true"><use href="#icon-clock"/></svg>7 min read</span>
+    </div>
+    <div class="article-tags">
+      <span class="tag">Cloud Gaming</span><span class="tag">Gaming</span><span class="tag">Technology</span><span class="tag">Accessibility</span><span class="tag">2026</span>
+    </div>
+  </header>
+
+  <article class="article-body">
+    <p class="drop-cap">There's a moment that keeps coming up when you talk to gamers who grew up without powerful hardware. The moment they realised they could play a game that should have been impossible on their device — not because of an emulator or a port, but because the actual game was running somewhere else and being streamed to them in real time. For a lot of people, that moment arrived in 2026. And it wasn't a gimmick. It just worked.</p>
+
+    <p>Cloud gaming has been "almost there" for most of the last decade. The technology worked in ideal conditions. The conditions were rarely ideal. Latency made fast games feel broken, compression turned detailed graphics into blurs, and the services kept shutting down or pivoting before anyone had time to trust them. The promise outlasted the products, repeatedly, until it became background noise — something tech journalists wrote about every two years without anyone taking seriously.</p>
+
+    <!-- ============================================================
+      IMAGE 1 — Replace this div with your image:
+      <figure>
+        <img src="YOUR-IMAGE-URL" alt="Cloud gaming on a phone and tablet" style="width:100%;border-radius:22px;">
+        <figcaption style="text-align:center;font-size:.8rem;color:#6B6864;font-style:italic;margin-top:.75rem;">Caption here</figcaption>
+      </figure>
+      Recommended size: 1200 × 525px (wide landscape)
+    ============================================================ -->
+    <div class="img-placeholder wide">
+      <div class="img-placeholder-inner">
+        <svg aria-hidden="true"><use href="#icon-image"/></svg>
+        <strong>Image Placeholder</strong>
+        <span>Cloud gaming on phone &amp; tablet · 1200 × 525px recommended</span>
+      </div>
+    </div>
+    <p class="img-caption">Cloud gaming finally working on any device — phone, tablet, budget laptop.</p>
+
+    <h2>What Actually Changed</h2>
+    <p>Three things converged in 2025–2026 that didn't exist in combination before. Internet infrastructure got meaningfully faster and more consistent in markets that previously couldn't sustain cloud gaming — particularly across South Asia, Southeast Asia, and Latin America. Data centre footprints expanded dramatically, pushing processing closer to end users and cutting the round-trip times that caused perceptible lag. And the encoding technology improved enough that the visual quality at reasonable bitrates stopped being the obvious weak point that killed immersion.</p>
+    <p>None of these is a single dramatic breakthrough. That's partly why cloud gaming's arrival has felt underwhelming in tech coverage — there was no one announcement to write about. It just gradually stopped being broken, and then it was good, and then it became the obvious way for a large portion of the world to access games that a $700 console or a $1,500 gaming PC would otherwise lock out.</p>
+
+    <blockquote class="pullquote">"Cloud gaming's breakthrough wasn't a product launch. It was infrastructure quietly catching up to a decade of premature promises."<cite>— Gaming Trends Analysis, 2026</cite></blockquote>
+
+    <h2>Who This Is Actually For</h2>
+    <p>The marketing around cloud gaming has always focused on convenience for existing gamers — play your library on your phone, switch from TV to laptop seamlessly. That's real and it's useful. But the more significant shift is happening with people who couldn't access this content at all before.</p>
+    <p>In markets where a mid-range smartphone is the primary computing device and a gaming console costs two months of average wages, cloud gaming isn't a convenience feature. It's the only viable path into a hobby that's been economically gated for decades. When the infrastructure works — and in growing parts of the world it now does — those barriers dissolve.</p>
+
+    <!-- ============================================================
+      IMAGE 2 — Replace this div with your image:
+      <figure>
+        <img src="YOUR-IMAGE-URL" alt="Mobile gaming in emerging markets" style="width:100%;border-radius:22px;">
+        <figcaption style="text-align:center;font-size:.8rem;color:#6B6864;font-style:italic;margin-top:.75rem;">Caption here</figcaption>
+      </figure>
+      Recommended size: 900 × 506px
+    ============================================================ -->
+    <div class="img-placeholder medium">
+      <div class="img-placeholder-inner">
+        <svg aria-hidden="true"><use href="#icon-image"/></svg>
+        <strong>Image Placeholder</strong>
+        <span>Mobile gaming, emerging markets · 900 × 506px recommended</span>
+      </div>
+    </div>
+    <p class="img-caption">For mobile-first markets, cloud gaming is the entry point into AAA gaming — not a luxury upgrade.</p>
+
+    <div class="stat-row">
+      <div class="stat-box"><span class="stat-number">3.4B</span><span class="stat-label">Estimated global gamers in 2026, the majority on mobile-first devices</span></div>
+      <div class="stat-box"><span class="stat-number">89%</span><span class="stat-label">Of top multiplayer games now support full crossplay across all platforms</span></div>
+      <div class="stat-box"><span class="stat-number">&lt;20ms</span><span class="stat-label">Average latency achievable in major metro areas with modern cloud infrastructure</span></div>
+    </div>
+
+    <h2>The Hardware Wars Look Different Now</h2>
+    <p>Sony, Microsoft, and Nintendo still sell hardware. They will for the foreseeable future. But the conversation around which console is "winning" feels increasingly beside the point when a growing fraction of players have never owned one and don't intend to. The real competition isn't between console manufacturers anymore — it's between cloud platforms for those users, and between cloud and mobile-native games for their attention.</p>
+    <p>Gaming ecosystem smartphones — devices purpose-built with gaming-grade cooling, displays optimised for low latency, and controller attachment systems — are one of <strong>August 2026's biggest hardware trends</strong>. These aren't gaming phones in the old sense of a gimmick with a logo. They're the primary gaming device for people for whom a console was never an option, now capable of running cloud-streamed AAA content that would have required a dedicated rig two years ago.</p>
+
+    <!-- ============================================================
+      IMAGE 3 — Replace this div with your image:
+      <figure>
+        <img src="YOUR-IMAGE-URL" alt="Gaming ecosystem smartphone with controller attachment" style="width:100%;border-radius:22px;">
+        <figcaption>Caption here</figcaption>
+      </figure>
+      Recommended size: 900 × 506px
+    ============================================================ -->
+    <div class="img-placeholder medium">
+      <div class="img-placeholder-inner">
+        <svg aria-hidden="true"><use href="#icon-image"/></svg>
+        <strong>Image Placeholder</strong>
+        <span>Gaming ecosystem smartphone · 900 × 506px recommended</span>
+      </div>
+    </div>
+    <p class="img-caption">Gaming smartphones in 2026 are purpose-built for cloud streaming — not a side feature, the main event.</p>
+
+    <h2>What Comes Next</h2>
+    <p>The near-term story is latency. Sub-20ms round trips are achievable in major metro areas now. Getting that performance to rural areas, smaller cities, and developing markets is the next phase of the infrastructure buildout — and it's happening, just unevenly. As it spreads, the addressable audience for cloud gaming grows with it.</p>
+    <p>The more interesting long-term question is what cloud gaming does to game design itself. When developers don't need to worry about running on consumer hardware — when the compute budget is effectively unlimited and handled server-side — some of the constraints that have shaped game design for forty years start to disappear. What do games look like when they're not designed around what a $500 box can render locally? Nobody has a definitive answer. But developers are starting to ask the question seriously, and that's where the next genuinely new ideas are likely to come from.</p>
+    <p>Cloud gaming arrived without a parade. It just got good enough, then better, then quietly became the way a lot of the world plays games. That's a bigger deal than most of the hardware announcements of the last decade.</p>
+  </article>
+
+  <div class="article-end">
+    <p class="article-end-label">Share this article</p>
+    <div class="share-row">
+      <button class="share-btn twitter" onclick="window.open('https://twitter.com/intent/tweet?text=Cloud+Gaming+Is+Finally+Here&url='+encodeURIComponent(location.href))">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Post on X
+      </button>
+      <button class="share-btn copy" onclick="navigator.clipboard.writeText(location.href).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy link',2000)})">Copy link</button>
+    </div>
+  </div>
+
+  <nav class="article-nav">
+    <a href="../contents.html" class="back-link"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg>Back to Content Hub</a>
+    <a href="../../index.html" class="back-link"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg>Back to ExoraWorld</a>
+  </nav>
+</div>
+</main>
+
+<footer class="article-footer">
+  <div class="container">
+    <div class="article-footer-inner">
+      <span>&copy; <span id="footerYear"></span> ExoraWorld. All rights reserved.</span>
+      <a href="../contents.html" style="color:var(--color-secondary);font-weight:600;">More Articles →</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{const a=document.getElementById('article-body');if(!a)return;const t=a.getBoundingClientRect().top+window.scrollY,h=a.offsetHeight,s=window.scrollY-t,p=Math.min(100,Math.max(0,(s/h)*100));document.getElementById('readingProgress').style.width=p+'%';},{passive:true});
+document.getElementById('themeToggle')?.addEventListener('click',()=>{const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);});
+(function(){const t=document.getElementById('navToggle'),l=document.getElementById('navLinks'),b=document.getElementById('navBackdrop'),c=document.getElementById('navPanelClose');function o(){l.classList.add('open');t.classList.add('active');t.setAttribute('aria-expanded','true');b?.classList.add('open');document.body.classList.add('no-scroll');}function s(){l.classList.remove('open');t.classList.remove('active');t.setAttribute('aria-expanded','false');b?.classList.remove('open');document.body.classList.remove('no-scroll');}window._closeNav=s;t?.addEventListener('click',()=>l.classList.contains('open')?s():o());c?.addEventListener('click',s);b?.addEventListener('click',s);document.getElementById('navGoogleBtn')?.addEventListener('click',()=>{s();window.ExoAuth?.signInGoogle().catch(()=>{});});document.getElementById('navFbBtn')?.addEventListener('click',()=>{s();window.ExoAuth?.signInFacebook().catch(()=>{});});})();
+document.getElementById('footerYear').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
