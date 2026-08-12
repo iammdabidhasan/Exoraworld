@@ -1,422 +1,374 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>ExoraWorld — Content Hub</title>
-<meta name="description" content="Explore articles, posts, galleries, and videos from the ExoraWorld team and community." />
-<meta name="theme-color" content="#E8A430" />
-<meta name="mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23E8A430'/%3E%3Ccircle cx='12' cy='12' r='5' fill='%2317171A'/%3E%3C/svg%3E" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<meta name="description" content="Articles, posts, galleries and videos from ExoraWorld."/>
+<meta name="theme-color" content="#E8A430"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet"/>
 <script type="module" src="../js/exora-auth.js"></script>
-<script>
-  (function(){
-    try {
-      var d = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      document.documentElement.setAttribute('data-theme', d ? 'dark' : 'light');
-    } catch(e){}
-  })();
-</script>
+<script>(function(){try{var d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
 <style>
-  /* ── DESIGN TOKENS ─────────────────────────────────────────── */
-  :root {
-    --color-bg: #F8F7F3; --color-bg-alt: #F1ECE0;
-    --color-surface: #FFFFFF; --color-text: #17171A;
-    --color-text-muted: #6B6864; --color-border: #E4DFD2;
-    --color-primary: #E8A430; --color-primary-hover: #D6952A;
-    --color-on-primary: #17171A;
-    --color-secondary: #12756B; --color-secondary-hover: #0D5A52;
-    --color-coral: #DE5B4C;
-    --color-navbar-bg: rgba(248,247,243,0.82);
-    --font-display: 'Bricolage Grotesque','Segoe UI',sans-serif;
-    --font-body: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    --space-xs: .75rem; --space-sm: 1.25rem; --space-md: 2rem; --space-lg: 3rem;
-    --nav-height: 76px; --container-width: 1200px;
-    --radius-sm: 8px; --radius-md: 14px; --radius-lg: 22px; --radius-full: 999px;
-    --shadow-sm: 0 1px 3px rgba(20,18,10,.08);
-    --shadow-md: 0 10px 30px rgba(20,18,10,.10);
-    --shadow-lg: 0 24px 48px rgba(20,18,10,.16);
-    --transition-fast: .2s ease; --transition-base: .35s cubic-bezier(.4,0,.2,1);
-  }
-  [data-theme="dark"] {
-    --color-bg: #121214; --color-bg-alt: #18181B;
-    --color-surface: #1D1D21; --color-text: #F5F3EE;
-    --color-text-muted: #9E9B95; --color-border: #2B2B30;
-    --color-primary: #F0AC42; --color-primary-hover: #F5BE6B;
-    --color-secondary: #2DD4BF; --color-secondary-hover: #5EEAD4;
-    --color-coral: #EC6B5C;
-    --color-navbar-bg: rgba(18,18,20,.78);
-    --shadow-sm: 0 1px 3px rgba(0,0,0,.35);
-    --shadow-md: 0 10px 30px rgba(0,0,0,.45);
-    --shadow-lg: 0 24px 48px rgba(0,0,0,.55);
-  }
+/* ── TOKENS ─────────────────────────────── */
+:root{
+  --color-bg:#F8F7F3;--color-bg-alt:#F1ECE0;--color-surface:#FFFFFF;
+  --color-text:#17171A;--color-text-muted:#6B6864;--color-border:#E4DFD2;
+  --color-primary:#E8A430;--color-primary-hover:#D6952A;--color-on-primary:#17171A;
+  --color-secondary:#12756B;--color-coral:#DE5B4C;
+  --color-navbar-bg:rgba(248,247,243,0.88);
+  --c-article:#12756B;--c-post:#E8A430;--c-pic:#DE5B4C;--c-video:#7C3AED;
+  --font-display:'Bricolage Grotesque','Segoe UI',sans-serif;
+  --font-body:'Inter',-apple-system,sans-serif;
+  --font-prose:'Lora','Georgia',serif;
+  --nav-height:76px;--container:1260px;
+  --r-sm:8px;--r-md:14px;--r-lg:20px;--r-xl:28px;--r-full:999px;
+  --sh-sm:0 1px 3px rgba(20,18,10,.07);
+  --sh-md:0 8px 24px rgba(20,18,10,.10);
+  --sh-lg:0 20px 48px rgba(20,18,10,.15);
+  --tr:.22s ease;--tr-slow:.4s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="dark"]{
+  --color-bg:#0F0F11;--color-bg-alt:#18181B;--color-surface:#1C1C1F;
+  --color-text:#F5F3EE;--color-text-muted:#9E9B95;--color-border:#2B2B30;
+  --color-primary:#F0AC42;--color-secondary:#2DD4BF;--color-coral:#EC6B5C;
+  --color-navbar-bg:rgba(15,15,17,.88);
+  --sh-sm:0 1px 3px rgba(0,0,0,.3);--sh-md:0 8px 24px rgba(0,0,0,.4);--sh-lg:0 20px 48px rgba(0,0,0,.5);
+}
 
-  /* ── RESET ──────────────────────────────────────────────────── */
-  *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
-  html { scroll-behavior:smooth; scroll-padding-top:var(--nav-height); }
-  body { font-family:var(--font-body); background:var(--color-bg); color:var(--color-text);
-    line-height:1.6; -webkit-font-smoothing:antialiased;
-    transition:background-color var(--transition-base),color var(--transition-base); overflow-x:hidden; }
-  body.no-scroll { overflow:hidden; }
-  img,svg { display:block; max-width:100%; }
-  a { color:inherit; text-decoration:none; }
-  button,input,select { font:inherit; color:inherit; }
-  ul { list-style:none; }
-  h1,h2,h3,h4 { font-family:var(--font-display); line-height:1.15; font-weight:700; letter-spacing:-.01em; }
-  :focus-visible { outline:2px solid var(--color-secondary); outline-offset:3px; }
-  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
-  .skip-link { position:absolute; left:-9999px; top:0; z-index:5000; background:var(--color-surface); color:var(--color-text); padding:.9rem 1.4rem; border-radius:var(--radius-sm); box-shadow:var(--shadow-md); }
-  .skip-link:focus { left:var(--space-sm); top:var(--space-sm); }
+/* ── RESET ──────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-height)+4rem);}
+body{font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body.no-scroll{overflow:hidden;}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button,input{font:inherit;color:inherit;}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.15;font-weight:700;letter-spacing:-.01em;}
+:focus-visible{outline:2px solid var(--color-secondary);outline-offset:3px;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+.skip-link{position:absolute;left:-9999px;top:0;z-index:5000;background:var(--color-surface);color:var(--color-text);padding:.9rem 1.4rem;border-radius:var(--r-sm);}
+.skip-link:focus{left:1.25rem;top:1.25rem;}
+.icon{width:1.2em;height:1.2em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+.wrap{width:100%;max-width:var(--container);margin-inline:auto;padding-inline:clamp(1rem,3vw,2rem);}
 
-  /* ── LAYOUT ─────────────────────────────────────────────────── */
-  .container { width:100%; max-width:var(--container-width); margin-inline:auto; padding-inline:clamp(1.25rem,4vw,2rem); }
-  .reveal { opacity:0; transform:translateY(18px); transition:opacity .6s ease,transform .6s ease; transition-delay:calc(var(--i,0)*.07s); }
-  .reveal.in-view { opacity:1; transform:translateY(0); }
-  .icon { width:1.25em; height:1.25em; stroke:currentColor; flex-shrink:0; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+/* ── BUTTONS ────────────────────────────── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;padding:.8rem 1.5rem;border-radius:var(--r-md);border:none;font-weight:600;font-size:.9rem;cursor:pointer;white-space:nowrap;transition:transform var(--tr),background-color var(--tr),box-shadow var(--tr);}
+.btn:hover{transform:translateY(-2px);}
+.btn-primary{background:var(--color-primary);color:var(--color-on-primary);}
+.btn-primary:hover{background:var(--color-primary-hover);}
+.btn-secondary{background:transparent;color:var(--color-text);border:1.5px solid var(--color-border);}
+.btn-secondary:hover{border-color:var(--color-text);}
+.btn-ghost{background:transparent;color:var(--color-text-muted);padding:.5rem .85rem;}
+.btn-ghost:hover{color:var(--color-secondary);transform:none;}
+.btn-sm{padding:.5rem 1rem;font-size:.82rem;}
 
-  /* ── BUTTONS ────────────────────────────────────────────────── */
-  .btn { display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
-    padding:.85rem 1.6rem; border-radius:var(--radius-md); border:none;
-    font-weight:600; font-size:.95rem; cursor:pointer; white-space:nowrap;
-    transition:transform var(--transition-fast),box-shadow var(--transition-fast),background-color var(--transition-fast),border-color var(--transition-fast); }
-  .btn:hover { transform:translateY(-2px); }
-  .btn:active { transform:translateY(0); }
-  .btn-primary { background:var(--color-primary); color:var(--color-on-primary); box-shadow:var(--shadow-sm); }
-  .btn-primary:hover { background:var(--color-primary-hover); box-shadow:var(--shadow-md); }
-  .btn-secondary { background:transparent; color:var(--color-text); border:1.5px solid var(--color-border); }
-  .btn-secondary:hover { border-color:var(--color-text); }
-  .btn-ghost { background:transparent; color:var(--color-text); padding:.85rem 1rem; }
-  .btn-ghost:hover { color:var(--color-secondary); transform:none; }
-  .btn-sm { padding:.55rem 1.1rem; font-size:.85rem; }
-  .btn-block { width:100%; }
+/* ── GRADIENTS ──────────────────────────── */
+.grad-1{background:linear-gradient(135deg,var(--color-primary),var(--color-coral));}
+.grad-2{background:linear-gradient(135deg,var(--color-secondary),var(--color-primary));}
+.grad-3{background:linear-gradient(135deg,var(--color-coral),var(--color-secondary));}
+.grad-4{background:linear-gradient(135deg,#17171A,var(--color-secondary));}
+.grad-5{background:linear-gradient(135deg,var(--color-primary),#17171A);}
+.grad-6{background:linear-gradient(135deg,var(--color-secondary),var(--color-coral));}
 
-  /* ── GRADIENTS ──────────────────────────────────────────────── */
-  .grad-1 { background:linear-gradient(135deg,var(--color-primary),var(--color-coral)); }
-  .grad-2 { background:linear-gradient(135deg,var(--color-secondary),var(--color-primary)); }
-  .grad-3 { background:linear-gradient(135deg,var(--color-coral),var(--color-secondary)); }
-  .grad-4 { background:linear-gradient(135deg,#17171A,var(--color-secondary)); }
-  .grad-5 { background:linear-gradient(135deg,var(--color-primary),#17171A); }
-  .grad-6 { background:linear-gradient(135deg,var(--color-secondary),var(--color-coral)); }
+/* ── NAVBAR ─────────────────────────────── */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-height);display:flex;align-items:center;background:var(--color-navbar-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--color-border);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:var(--container);margin-inline:auto;padding-inline:clamp(1rem,3vw,2rem);gap:1rem;}
+.nav-logo{display:flex;align-items:center;gap:.55rem;font-family:var(--font-display);font-weight:800;font-size:1.2rem;flex-shrink:0;}
+.nav-logo .logo-mark{width:32px;height:32px;border-radius:9px;background:var(--color-primary);display:flex;align-items:center;justify-content:center;color:var(--color-on-primary);}
+.nav-logo .logo-mark .icon{width:17px;height:17px;}
+.nav-breadcrumb{display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:var(--color-text-muted);flex:1;padding-inline:.75rem;overflow:hidden;}
+.nav-breadcrumb a:hover{color:var(--color-secondary);}
+.nav-breadcrumb .cur{color:var(--color-text);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.navbar-actions{display:flex;align-items:center;gap:.4rem;flex-shrink:0;}
+.theme-toggle{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--color-border);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background var(--tr);}
+.theme-toggle:hover{background:var(--color-bg-alt);}
+[data-theme="light"] .icon-moon{display:none;}
+[data-theme="dark"] .icon-sun{display:none;}
+.nav-auth-desktop{display:flex;align-items:center;gap:.4rem;}
+.nav-user-desktop{display:none;}
+.nav-toggle{display:none;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--color-border);background:transparent;cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:4px;padding:9px;}
+.nav-toggle span{display:block;height:2px;background:var(--color-text);border-radius:2px;width:100%;transition:transform var(--tr-slow),opacity var(--tr);}
+.nav-toggle.active span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.nav-toggle.active span:nth-child(2){opacity:0;}
+.nav-toggle.active span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.nav-user-chip{display:flex;align-items:center;gap:.45rem;padding:.35rem .85rem .35rem .35rem;border:1.5px solid var(--color-border);border-radius:var(--r-full);background:var(--color-surface);cursor:pointer;position:relative;transition:border-color var(--tr);}
+.nav-user-chip:hover{border-color:var(--color-text-muted);}
+.nav-user-avatar{width:26px;height:26px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;color:var(--color-on-primary);overflow:hidden;flex-shrink:0;}
+.nav-user-avatar img{width:100%;height:100%;object-fit:cover;}
+.nav-user-name{font-size:.82rem;font-weight:600;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.nav-user-caret{width:12px;height:12px;transition:transform var(--tr);}
+.nav-user-chip[aria-expanded="true"] .nav-user-caret{transform:rotate(180deg);}
+.nav-user-dropdown{display:none;position:absolute;top:calc(100% + 8px);right:0;min-width:210px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--r-md);box-shadow:var(--sh-lg);overflow:hidden;z-index:10;}
+.nav-user-dropdown.open{display:block;}
+.nav-user-dropdown-info{display:flex;align-items:center;gap:.7rem;padding:.8rem 1rem;border-bottom:1px solid var(--color-border);}
+.nav-user-dropdown-info .nav-user-avatar{width:36px;height:36px;font-size:.9rem;}
+.nav-user-dropdown-name{display:block;font-weight:700;font-size:.88rem;}
+.nav-user-dropdown-email{display:block;font-size:.75rem;color:var(--color-text-muted);}
+.nav-user-dropdown-item,.nav-user-dropdown-signout{display:block;width:100%;padding:.65rem 1rem;font-size:.85rem;text-align:left;background:none;border:none;cursor:pointer;transition:background var(--tr);}
+.nav-user-dropdown-item:hover,.nav-user-dropdown-signout:hover{background:var(--color-bg-alt);}
+.nav-user-dropdown-signout{color:var(--color-coral);}
 
-  /* ── NAVBAR ─────────────────────────────────────────────────── */
-  .navbar { position:fixed; top:0; left:0; right:0; z-index:1000; height:var(--nav-height);
-    display:flex; align-items:center;
-    background:var(--color-navbar-bg); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-    border-bottom:1px solid var(--color-border); }
-  .nav-inner { display:flex; align-items:center; justify-content:space-between; height:var(--nav-height); width:100%; max-width:var(--container-width); margin-inline:auto; padding-inline:clamp(1.25rem,4vw,2rem); gap:1rem; }
-  .nav-logo { display:flex; align-items:center; gap:.55rem; font-family:var(--font-display); font-weight:800; font-size:1.25rem; flex-shrink:0; }
-  .nav-logo .logo-mark { width:32px; height:32px; border-radius:9px; background:var(--color-primary); display:flex; align-items:center; justify-content:center; color:var(--color-on-primary); }
-  .nav-logo .logo-mark .icon { width:18px; height:18px; }
-  .nav-links-desktop { display:flex; align-items:center; gap:.35rem; flex:1; justify-content:center; }
-  .nav-split { display:inline-flex; align-items:stretch; height:36px; border:1.5px solid var(--color-border); border-radius:var(--radius-full); overflow:hidden; background:var(--color-surface); transition:box-shadow var(--transition-fast),border-color var(--transition-fast); }
-  .nav-split:hover { border-color:var(--color-text-muted); box-shadow:var(--shadow-sm); }
-  .nav-split-label { display:flex; align-items:center; padding-inline:.85rem; font-size:.82rem; font-weight:600; gap:.35rem; transition:color var(--transition-fast); }
-  .nav-split-label:hover { color:var(--color-secondary); }
-  .nav-split-arrow { display:flex; align-items:center; justify-content:center; width:32px; border-left:1.5px solid var(--color-border); transition:background var(--transition-fast); }
-  .nav-split-arrow:hover { background:var(--color-bg-alt); }
-  .nav-split-arrow .icon { width:12px; height:12px; }
-  .navbar-actions { display:flex; align-items:center; gap:.5rem; flex-shrink:0; }
-  .theme-toggle { width:38px; height:38px; border-radius:50%; border:1.5px solid var(--color-border); background:transparent; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background var(--transition-fast); }
-  .theme-toggle:hover { background:var(--color-bg-alt); }
-  .theme-toggle .icon { width:16px; height:16px; }
-  [data-theme="light"] .icon-moon { display:none; }
-  [data-theme="dark"] .icon-sun { display:none; }
-  .nav-auth-desktop { display:flex; align-items:center; gap:.5rem; }
-  .nav-user-desktop { display:none; }
-  .nav-toggle { display:none; width:40px; height:40px; border-radius:50%; border:1.5px solid var(--color-border); background:transparent; cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:5px; padding:10px; }
-  .nav-toggle span { display:block; height:2px; background:var(--color-text); border-radius:2px; width:100%; transition:transform var(--transition-base),opacity var(--transition-fast); }
-  .nav-toggle.active span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
-  .nav-toggle.active span:nth-child(2) { opacity:0; }
-  .nav-toggle.active span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
-  .nav-user-chip { display:flex; align-items:center; gap:.5rem; padding:.4rem .9rem .4rem .4rem; border:1.5px solid var(--color-border); border-radius:var(--radius-full); background:var(--color-surface); cursor:pointer; position:relative; transition:border-color var(--transition-fast); }
-  .nav-user-chip:hover { border-color:var(--color-text-muted); }
-  .nav-user-avatar { width:28px; height:28px; border-radius:50%; background:var(--color-primary); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.8rem; color:var(--color-on-primary); overflow:hidden; flex-shrink:0; }
-  .nav-user-avatar img { width:100%; height:100%; object-fit:cover; }
-  .nav-user-initial { font-weight:700; }
-  .nav-user-name { font-size:.85rem; font-weight:600; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .nav-user-caret { width:14px; height:14px; transition:transform var(--transition-fast); }
-  .nav-user-chip[aria-expanded="true"] .nav-user-caret { transform:rotate(180deg); }
-  .nav-user-dropdown { display:none; position:absolute; top:calc(100% + 8px); right:0; min-width:220px; background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-md); box-shadow:var(--shadow-lg); overflow:hidden; z-index:10; }
-  .nav-user-dropdown.open { display:block; }
-  .nav-user-dropdown-info { display:flex; align-items:center; gap:.75rem; padding:.85rem 1rem; border-bottom:1px solid var(--color-border); }
-  .nav-user-dropdown-info .nav-user-avatar { width:38px; height:38px; font-size:1rem; }
-  .nav-user-dropdown-name { display:block; font-weight:700; font-size:.9rem; }
-  .nav-user-dropdown-email { display:block; font-size:.78rem; color:var(--color-text-muted); }
-  .nav-user-dropdown-sep { height:1px; background:var(--color-border); }
-  .nav-user-dropdown-item,.nav-user-dropdown-signout { display:block; width:100%; padding:.7rem 1rem; font-size:.88rem; text-align:left; background:none; border:none; cursor:pointer; transition:background var(--transition-fast); }
-  .nav-user-dropdown-item:hover,.nav-user-dropdown-signout:hover { background:var(--color-bg-alt); }
-  .nav-user-dropdown-signout { color:var(--color-coral); }
+/* ── MOBILE NAV ─────────────────────────── */
+.nav-backdrop{position:fixed;inset:0;z-index:997;background:rgba(10,10,12,.55);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity var(--tr-slow);}
+.nav-backdrop.open{opacity:1;pointer-events:auto;}
+.nav-links{display:none;}
+.nav-panel-header{display:none;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid var(--color-border);flex-shrink:0;}
+.nav-panel-close{width:36px;height:36px;border-radius:50%;border:1px solid var(--color-border);background:var(--color-bg-alt);color:var(--color-text);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.nav-social-btns{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;}
+.nav-social-btn{display:flex;align-items:center;justify-content:center;gap:.55rem;width:100%;height:44px;border-radius:var(--r-md);font-size:.88rem;font-weight:600;cursor:pointer;border:1px solid var(--color-border);}
+.nav-social-btn svg{width:17px;height:17px;flex-shrink:0;}
+.nav-google-btn{background:var(--color-surface);color:var(--color-text);}
+.nav-fb-btn{background:#1877F2;color:#fff;border-color:#1877F2;}
+.nav-auth-divider{display:flex;align-items:center;gap:.6rem;color:var(--color-text-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;}
+.nav-auth-divider::before,.nav-auth-divider::after{content:'';flex:1;height:1px;background:var(--color-border);}
+.nav-user-chip-mob{display:flex;align-items:center;gap:.7rem;padding:.85rem 1rem;border-radius:var(--r-md);background:var(--color-bg-alt);border:1px solid var(--color-border);}
 
-  /* ── MOBILE NAV BACKDROP & PANEL ────────────────────────────── */
-  /* Hidden on desktop — shown only via the 1180px media query */
-  .nav-links { display:none; }
-  .nav-backdrop { position:fixed; inset:0; z-index:997; background:rgba(10,10,12,.52); backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px); opacity:0; pointer-events:none; transition:opacity var(--transition-base); }
-  .nav-backdrop.open { opacity:1; pointer-events:auto; }
-  .nav-panel-header { display:none; align-items:center; justify-content:space-between; padding:1.1rem 1.5rem; border-bottom:1px solid var(--color-border); flex-shrink:0; }
-  .nav-panel-close { width:38px; height:38px; border-radius:50%; border:1px solid var(--color-border); background:var(--color-bg-alt); color:var(--color-text); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background var(--transition-fast); flex-shrink:0; }
-  .nav-panel-close:hover { background:var(--color-border); }
-  .nav-social-btns { display:grid; grid-template-columns:1fr 1fr; gap:.65rem; }
-  .nav-social-btn { display:flex; align-items:center; justify-content:center; gap:.6rem; width:100%; height:46px; border-radius:var(--radius-md); font-size:.9rem; font-weight:600; cursor:pointer; border:1px solid var(--color-border); transition:opacity var(--transition-fast); }
-  .nav-social-btn:hover { opacity:.85; }
-  .nav-social-btn svg { width:18px; height:18px; flex-shrink:0; }
-  .nav-google-btn { background:var(--color-surface); color:var(--color-text); }
-  .nav-fb-btn { background:#1877F2; color:#fff; border-color:#1877F2; }
-  .nav-auth-divider { display:flex; align-items:center; gap:.65rem; color:var(--color-text-muted); font-size:.78rem; font-weight:500; text-transform:uppercase; letter-spacing:.06em; }
-  .nav-auth-divider::before,.nav-auth-divider::after { content:''; flex:1; height:1px; background:var(--color-border); }
-  .nav-user-chip-mob { display:flex; align-items:center; gap:.75rem; padding:.9rem 1rem; border-radius:var(--radius-md); background:var(--color-bg-alt); border:1px solid var(--color-border); }
+/* ── TICKER ─────────────────────────────── */
+.ticker-bar{position:sticky;top:var(--nav-height);z-index:990;background:var(--color-secondary);color:#fff;height:36px;display:flex;align-items:center;overflow:hidden;}
+.ticker-label{flex-shrink:0;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:0 1rem;display:flex;align-items:center;gap:.45rem;border-right:1px solid rgba(255,255,255,.2);}
+.ticker-live{width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse 1.4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.ticker-wrap{flex:1;overflow:hidden;height:100%;display:flex;align-items:center;}
+.ticker-track{display:flex;align-items:center;white-space:nowrap;animation:ticker 45s linear infinite;}
+.ticker-track:hover{animation-play-state:paused;}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-item{display:inline-flex;align-items:center;gap:.5rem;padding:0 2rem;font-size:.78rem;font-weight:500;opacity:.9;}
+.ticker-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.td-article{background:#fff;}.td-post{background:var(--color-primary);}.td-pic{background:var(--color-coral);}.td-video{background:#A78BFA;}
 
-  /* ── TICKER BAR ─────────────────────────────────────────────── */
-  .ticker-bar { position:sticky; top:var(--nav-height); z-index:990; background:var(--color-secondary); color:#fff; height:38px; display:flex; align-items:center; overflow:hidden; }
-  .ticker-label { flex-shrink:0; font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; padding:0 1rem; display:flex; align-items:center; gap:.5rem; border-right:1px solid rgba(255,255,255,.2); }
-  .ticker-live { width:7px; height:7px; border-radius:50%; background:#fff; animation:pulse-dot 1.5s ease-in-out infinite; }
-  @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.35} }
-  .ticker-wrap { flex:1; overflow:hidden; height:100%; display:flex; align-items:center; }
-  .ticker-track { display:flex; align-items:center; gap:0; white-space:nowrap; animation:ticker-scroll 40s linear infinite; }
-  .ticker-track:hover { animation-play-state:paused; }
-  @keyframes ticker-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-  .ticker-item { display:inline-flex; align-items:center; gap:.55rem; padding:0 2rem; font-size:.8rem; font-weight:500; opacity:.9; cursor:default; }
-  .ticker-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
-  .ticker-dot.type-article { background:#fff; }
-  .ticker-dot.type-post { background:var(--color-primary); }
-  .ticker-dot.type-pic { background:var(--color-coral); }
-  .ticker-dot.type-video { background:#A78BFA; }
+/* ── PAGE HEADER ────────────────────────── */
+.page-header{padding-block:clamp(2.5rem,5vw,4rem) clamp(1.5rem,3vw,2.5rem);background:var(--color-bg);}
+.page-header-inner{max-width:700px;}
+.eyebrow{display:inline-flex;align-items:center;gap:.5rem;color:var(--color-secondary);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--color-secondary);}
+.page-header h1{font-size:clamp(2rem,5vw,3.25rem);margin-bottom:.6rem;}
+.page-header p{color:var(--color-text-muted);font-size:1rem;line-height:1.65;}
 
-  /* ── PAGE HEADER / SEARCH / FILTERS ────────────────────────── */
-  .content-header { padding-block:clamp(2.5rem,6vw,4rem) clamp(1.5rem,3vw,2rem); background:var(--color-bg); }
-  .content-header-inner { max-width:680px; }
-  .eyebrow { display:inline-block; color:var(--color-secondary); font-weight:700; font-size:.78rem; letter-spacing:.09em; text-transform:uppercase; margin-bottom:.75rem; }
-  .content-header h1 { font-size:clamp(2rem,5vw,3.25rem); margin-bottom:.65rem; }
-  .content-header p { color:var(--color-text-muted); font-size:1.05rem; margin-bottom:2rem; }
-  .search-bar { position:relative; margin-bottom:1.25rem; }
-  .search-bar input { width:100%; height:52px; padding:0 3rem 0 3.2rem; border:1.5px solid var(--color-border); border-radius:var(--radius-full); background:var(--color-surface); font-size:.95rem; transition:border-color var(--transition-fast),box-shadow var(--transition-fast); }
-  .search-bar input:focus { border-color:var(--color-secondary); box-shadow:0 0 0 3px rgba(18,117,107,.12); outline:none; }
-  .search-bar input::placeholder { color:var(--color-text-muted); }
-  .search-icon { position:absolute; left:1rem; top:50%; transform:translateY(-50%); width:18px; height:18px; color:var(--color-text-muted); pointer-events:none; }
-  .search-clear { position:absolute; right:.75rem; top:50%; transform:translateY(-50%); width:28px; height:28px; border-radius:50%; border:none; background:var(--color-border); color:var(--color-text); cursor:pointer; display:none; align-items:center; justify-content:center; transition:background var(--transition-fast); }
-  .search-clear:hover { background:var(--color-text-muted); color:#fff; }
-  .search-clear .icon { width:12px; height:12px; }
-  .filter-tabs { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
-  .filter-tab { height:36px; padding:0 1.1rem; border-radius:var(--radius-full); border:1.5px solid var(--color-border); background:transparent; font-size:.85rem; font-weight:600; cursor:pointer; color:var(--color-text-muted); transition:all var(--transition-fast); display:flex; align-items:center; gap:.4rem; }
-  .filter-tab svg { width:14px; height:14px; }
-  .filter-tab:hover { border-color:var(--color-text-muted); color:var(--color-text); }
-  .filter-tab.active { background:var(--color-text); color:var(--color-bg); border-color:var(--color-text); }
+/* ── STICKY FILTER BAR ──────────────────── */
+.filter-bar{position:sticky;top:calc(var(--nav-height) + 36px);z-index:980;background:var(--color-bg);border-bottom:1px solid var(--color-border);padding-block:.9rem;}
+.filter-bar-inner{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.search-wrap{position:relative;flex:1;min-width:200px;max-width:380px;}
+.search-wrap input{width:100%;height:42px;padding:0 2.5rem 0 2.8rem;border:1.5px solid var(--color-border);border-radius:var(--r-full);background:var(--color-surface);font-size:.88rem;transition:border-color var(--tr),box-shadow var(--tr);}
+.search-wrap input:focus{border-color:var(--color-secondary);box-shadow:0 0 0 3px rgba(18,117,107,.1);outline:none;}
+.search-wrap input::placeholder{color:var(--color-text-muted);}
+.search-icon{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--color-text-muted);pointer-events:none;}
+.search-clear{position:absolute;right:.7rem;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;border:none;background:var(--color-border);cursor:pointer;display:none;align-items:center;justify-content:center;}
+.search-clear .icon{width:11px;height:11px;}
+.filter-tabs{display:flex;align-items:center;gap:.35rem;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;}
+.filter-tabs::-webkit-scrollbar{display:none;}
+.ftab{height:36px;padding:0 1rem;border-radius:var(--r-full);border:1.5px solid var(--color-border);background:transparent;font-size:.82rem;font-weight:600;cursor:pointer;color:var(--color-text-muted);transition:all var(--tr);display:flex;align-items:center;gap:.35rem;white-space:nowrap;flex-shrink:0;}
+.ftab svg{width:13px;height:13px;}
+.ftab:hover{border-color:var(--color-text-muted);color:var(--color-text);}
+.ftab.active{background:var(--color-text);color:var(--color-bg);border-color:var(--color-text);}
+.ftab .count{font-size:.7rem;opacity:.7;font-weight:500;}
+.view-toggle{display:flex;align-items:center;gap:0;border:1.5px solid var(--color-border);border-radius:var(--r-md);overflow:hidden;flex-shrink:0;margin-left:auto;}
+.vtab{width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--color-text-muted);transition:background var(--tr),color var(--tr);}
+.vtab:hover{color:var(--color-text);}
+.vtab.active{background:var(--color-text);color:var(--color-bg);}
+.vtab .icon{width:14px;height:14px;}
 
-  /* ── HERO FEATURED ──────────────────────────────────────────── */
-  .hero-section { padding-block:clamp(2rem,4vw,3rem); background:var(--color-bg-alt); border-block:1px solid var(--color-border); }
-  .hero-eyebrow { display:flex; align-items:center; gap:.65rem; margin-bottom:1.25rem; }
-  .hero-eyebrow .icon-fire { color:var(--color-coral); }
-  .hero-grid { display:grid; grid-template-columns:1fr 340px; gap:1.25rem; align-items:stretch; }
-  .hero-main-card { display:flex; flex-direction:column; border-radius:var(--radius-lg); overflow:hidden; background:var(--color-surface); box-shadow:var(--shadow-md); text-decoration:none; color:inherit; transition:transform var(--transition-fast),box-shadow var(--transition-fast); }
-  .hero-main-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); }
-  .hero-main-thumb { position:relative; height:280px; overflow:hidden; }
-  .hero-main-thumb img { width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
-  .hero-main-card:hover .hero-main-thumb img { transform:scale(1.04); }
-  .hero-main-thumb .thumb-icon { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:52px; height:52px; color:rgba(255,255,255,.6); }
-  .hero-main-body { padding:1.5rem; flex:1; }
-  .hero-main-title { font-size:clamp(1.2rem,2.5vw,1.6rem); margin:.6rem 0 .5rem; }
-  .hero-main-excerpt { color:var(--color-text-muted); font-size:.95rem; line-height:1.55; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-  .hero-side { display:flex; flex-direction:column; gap:1.25rem; }
-  .hero-side-card { display:flex; flex-direction:column; border-radius:var(--radius-lg); overflow:hidden; background:var(--color-surface); box-shadow:var(--shadow-sm); text-decoration:none; color:inherit; flex:1; transition:transform var(--transition-fast),box-shadow var(--transition-fast); }
-  .hero-side-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-md); }
-  .hero-side-thumb { position:relative; height:120px; overflow:hidden; flex-shrink:0; }
-  .hero-side-thumb img { width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
-  .hero-side-card:hover .hero-side-thumb img { transform:scale(1.05); }
-  .hero-side-body { padding:1rem; }
-  .hero-side-title { font-size:.95rem; font-weight:700; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+/* ── TAG CLOUD ──────────────────────────── */
+.tag-cloud{padding-block:.65rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
+.tag-cloud-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-muted);flex-shrink:0;margin-right:.25rem;}
+.tag-pill{font-size:.72rem;font-weight:600;color:var(--color-text-muted);background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--r-full);padding:.2rem .65rem;cursor:pointer;transition:all var(--tr);white-space:nowrap;}
+.tag-pill:hover{background:var(--color-secondary);color:#fff;border-color:var(--color-secondary);}
+.tag-pill.active{background:var(--color-secondary);color:#fff;border-color:var(--color-secondary);}
 
-  /* ── TYPE BADGES ────────────────────────────────────────────── */
-  .card-type-badge { display:inline-flex; align-items:center; font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; padding:.25rem .65rem; border-radius:var(--radius-full); }
-  .type-article { background:var(--color-secondary); color:#fff; }
-  .type-post { background:var(--color-primary); color:var(--color-on-primary); }
-  .type-pic { background:var(--color-coral); color:#fff; }
-  .type-video { background:#7C3AED; color:#fff; }
+/* ── TYPE BADGES ────────────────────────── */
+.badge{display:inline-flex;align-items:center;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:.22rem .6rem;border-radius:var(--r-full);}
+.badge-article{background:var(--c-article);color:#fff;}
+.badge-post{background:var(--c-post);color:var(--color-on-primary);}
+.badge-pic{background:var(--c-pic);color:#fff;}
+.badge-video{background:var(--c-video);color:#fff;}
 
-  /* ── CONTENT GRID ───────────────────────────────────────────── */
-  .content-section { padding-block:clamp(2.5rem,5vw,3.5rem); }
-  .grid-meta { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
-  .results-count { font-size:.85rem; color:var(--color-text-muted); font-weight:500; }
-  .content-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
-  .content-card { display:flex; flex-direction:column; border-radius:var(--radius-lg); overflow:hidden; background:var(--color-surface); box-shadow:var(--shadow-sm); border:1px solid var(--color-border); text-decoration:none; color:inherit; transition:transform var(--transition-fast),box-shadow var(--transition-fast); }
-  .content-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-md); }
-  .card-thumb { position:relative; height:180px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
-  .card-thumb img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
-  .content-card:hover .card-thumb img { transform:scale(1.05); }
-  .card-thumb .thumb-icon { width:40px; height:40px; color:rgba(255,255,255,.55); }
-  .card-thumb .card-type-badge { position:absolute; top:.75rem; left:.75rem; z-index:1; }
-  .card-body { padding:1.1rem; display:flex; flex-direction:column; gap:.5rem; flex:1; }
-  .card-tags { display:flex; gap:.4rem; flex-wrap:wrap; }
-  .tag { font-size:.7rem; font-weight:600; color:var(--color-text-muted); background:var(--color-bg-alt); border:1px solid var(--color-border); border-radius:var(--radius-full); padding:.15rem .55rem; }
-  .card-title { font-size:1rem; font-weight:700; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-  .card-excerpt { font-size:.85rem; color:var(--color-text-muted); line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-  .card-meta { display:flex; align-items:center; gap:.75rem; font-size:.78rem; color:var(--color-text-muted); margin-top:auto; padding-top:.35rem; }
-  .card-meta span { display:flex; align-items:center; gap:.3rem; }
+/* ── FEATURED BENTO HERO ────────────────── */
+.featured-section{padding-block:clamp(1.5rem,3vw,2.5rem);background:var(--color-bg-alt);border-block:1px solid var(--color-border);}
+.section-title{display:flex;align-items:center;gap:.6rem;margin-bottom:1.25rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--color-text-muted);}
+.section-title-icon{color:var(--color-coral);}
+.bento{display:grid;grid-template-columns:1fr 320px;grid-template-rows:260px 200px;gap:1rem;}
+.bento-main{grid-row:1/3;position:relative;border-radius:var(--r-xl);overflow:hidden;background:var(--color-surface);text-decoration:none;color:#fff;display:flex;flex-direction:column;}
+.bento-side{position:relative;border-radius:var(--r-lg);overflow:hidden;background:var(--color-surface);text-decoration:none;color:#fff;display:flex;flex-direction:column;}
+.bento-thumb{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.bento-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
+.bento-main:hover .bento-thumb img,.bento-side:hover .bento-thumb img{transform:scale(1.05);}
+.bento-thumb .thumb-icon{width:44px;height:44px;color:rgba(255,255,255,.5);}
+.bento-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.2) 50%,transparent 100%);}
+.bento-body{position:absolute;bottom:0;left:0;right:0;padding:1.25rem 1.5rem;}
+.bento-main .bento-body{padding:1.5rem 2rem;}
+.bento-badge{margin-bottom:.5rem;}
+.bento-title{font-size:clamp(1rem,2vw,1.35rem);font-weight:700;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,.3);}
+.bento-main .bento-title{font-size:clamp(1.3rem,2.5vw,1.9rem);margin-bottom:.5rem;}
+.bento-excerpt{font-size:.88rem;opacity:.85;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.bento-meta{display:flex;align-items:center;gap:.65rem;font-size:.75rem;opacity:.75;margin-top:.5rem;}
+.bento-meta-dot{width:3px;height:3px;border-radius:50%;background:currentColor;}
 
-  /* ── SKELETON LOADERS ───────────────────────────────────────── */
-  @keyframes shimmer { 0%{background-position:-400px 0} 100%{background-position:400px 0} }
-  .skeleton-card { border-radius:var(--radius-lg); overflow:hidden; background:var(--color-surface); border:1px solid var(--color-border); }
-  .skeleton-thumb { height:180px; background:linear-gradient(90deg,var(--color-bg-alt) 25%,var(--color-border) 37%,var(--color-bg-alt) 63%); background-size:400px 100%; animation:shimmer 1.4s ease-in-out infinite; }
-  .skeleton-body { padding:1.1rem; display:flex; flex-direction:column; gap:.65rem; }
-  .skeleton-line { height:14px; border-radius:var(--radius-full); background:linear-gradient(90deg,var(--color-bg-alt) 25%,var(--color-border) 37%,var(--color-bg-alt) 63%); background-size:400px 100%; animation:shimmer 1.4s ease-in-out infinite; }
-  .skeleton-line.w-20 { width:20%; height:10px; }
-  .skeleton-line.w-80 { width:80%; }
-  .skeleton-line.w-60 { width:60%; }
-  .skeleton-line.w-40 { width:40%; height:10px; }
+/* ── CAROUSEL SECTIONS ──────────────────── */
+.carousel-section{padding-block:clamp(1.5rem,3vw,2.5rem);}
+.carousel-section+.carousel-section{border-top:1px solid var(--color-border);}
+.carousel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;}
+.carousel-nav{display:flex;gap:.4rem;}
+.carousel-btn{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--color-border);background:var(--color-surface);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--tr);color:var(--color-text-muted);}
+.carousel-btn:hover{border-color:var(--color-text);color:var(--color-text);}
+.carousel-btn .icon{width:13px;height:13px;}
+.carousel-btn:disabled{opacity:.35;cursor:default;}
+.carousel{display:flex;gap:1.1rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding-bottom:.25rem;}
+.carousel::-webkit-scrollbar{display:none;}
 
-  /* ── HERO SKELETONS ─────────────────────────────────────────── */
-  .skeleton-hero-main { border-radius:var(--radius-lg); overflow:hidden; }
-  .skeleton-hero-main .skeleton-thumb { height:280px; }
-  .skeleton-hero-side-wrap { display:flex; flex-direction:column; gap:1.25rem; }
-  .skeleton-hero-side { border-radius:var(--radius-lg); overflow:hidden; flex:1; }
-  .skeleton-hero-side .skeleton-thumb { height:120px; }
+/* ── CARD BASE ──────────────────────────── */
+.card{border-radius:var(--r-lg);overflow:hidden;background:var(--color-surface);border:1px solid var(--color-border);text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform var(--tr),box-shadow var(--tr);}
+.card:hover{transform:translateY(-4px);box-shadow:var(--sh-md);}
+.card-in-carousel{scroll-snap-align:start;flex:0 0 280px;}
+.card-in-grid{width:100%;}
 
-  /* ── EMPTY & ERROR STATES ───────────────────────────────────── */
-  .empty-state { grid-column:1/-1; text-align:center; padding:4rem 2rem; display:flex; flex-direction:column; align-items:center; gap:1rem; }
-  .empty-icon { width:52px; height:52px; color:var(--color-border); margin-bottom:.5rem; }
-  .empty-state h3 { font-size:1.2rem; font-weight:700; }
-  .empty-state p { color:var(--color-text-muted); max-width:360px; font-size:.95rem; }
-  .error-state h3 { color:var(--color-coral); }
+/* ARTICLE CARD */
+.card-article .card-thumb{position:relative;height:175px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.card-article .card-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.card-article:hover .card-thumb img{transform:scale(1.06);}
+.card-article .card-thumb .thumb-icon{width:36px;height:36px;color:rgba(255,255,255,.5);}
+.card-article .card-thumb .badge{position:absolute;top:.65rem;left:.65rem;z-index:1;}
+.card-article .card-body{padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.45rem;flex:1;}
+.card-article .card-tags{display:flex;gap:.3rem;flex-wrap:wrap;}
+.card-article .tag{font-size:.67rem;font-weight:600;color:var(--color-text-muted);background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--r-full);padding:.15rem .5rem;}
+.card-article .card-title{font-size:.97rem;font-weight:700;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.card-article .card-excerpt{font-family:var(--font-prose);font-size:.82rem;color:var(--color-text-muted);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-style:italic;}
+.card-article .card-meta{display:flex;align-items:center;gap:.6rem;font-size:.75rem;color:var(--color-text-muted);margin-top:auto;padding-top:.35rem;}
+.card-article .card-meta .sep{width:3px;height:3px;border-radius:50%;background:var(--color-border);}
 
-  /* ── LOAD MORE ──────────────────────────────────────────────── */
-  .load-more-wrap { text-align:center; margin-top:2.5rem; }
+/* POST CARD — compact, left accent */
+.card-post{border-left:3px solid var(--c-post);}
+.card-post .card-body{padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.45rem;}
+.card-post .card-head{display:flex;align-items:center;justify-content:space-between;}
+.card-post .card-date{font-size:.73rem;color:var(--color-text-muted);}
+.card-post .card-title{font-size:.95rem;font-weight:700;line-height:1.3;}
+.card-post .card-excerpt{font-size:.82rem;color:var(--color-text-muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
 
-  /* ── FOOTER ─────────────────────────────────────────────────── */
-  .content-footer { border-top:1px solid var(--color-border); padding:1.75rem 0; background:var(--color-bg-alt); }
-  .content-footer-inner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.85rem; color:var(--color-text-muted); }
-  .footer-back { display:inline-flex; align-items:center; gap:.4rem; font-weight:600; color:var(--color-text); transition:color var(--transition-fast); }
-  .footer-back:hover { color:var(--color-secondary); }
-  .footer-back .icon { width:14px; height:14px; }
+/* PIC CARD — image dominant */
+.card-pic{border:none;}
+.card-pic .card-thumb-full{position:relative;height:220px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.card-pic .card-thumb-full img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.card-pic:hover .card-thumb-full img{transform:scale(1.08);}
+.card-pic .card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,transparent 55%);display:flex;flex-direction:column;justify-content:flex-end;padding:1rem;}
+.card-pic .card-overlay .badge{margin-bottom:.4rem;}
+.card-pic .card-overlay .card-title{color:#fff;font-size:.95rem;font-weight:700;line-height:1.3;text-shadow:0 1px 4px rgba(0,0,0,.4);}
 
-  /* ── RESPONSIVE ─────────────────────────────────────────────── */
-  @media (max-width:980px) {
-    .hero-grid { grid-template-columns:1fr; }
-    .hero-side { flex-direction:row; }
-    .hero-side-card { flex:1; }
-    .content-grid { grid-template-columns:repeat(2,1fr); }
-    .nav-links-desktop { display:none; }
-    .nav-toggle { display:flex; }
-    .nav-auth-desktop { display:none; }
-    .nav-user-desktop { display:none !important; }
-  }
-  @media (max-width:640px) {
-    .hero-side { flex-direction:column; }
-    .content-grid { grid-template-columns:1fr; }
-    .filter-tabs { gap:.35rem; }
-    .content-footer-inner { flex-direction:column; align-items:flex-start; }
-  }
-  @media (max-width:1180px) {
-    .nav-links-desktop { display:none; }
-    .nav-toggle { display:flex; }
-    .nav-auth-desktop { display:none; }
-    .nav-user-desktop { display:none !important; }
-    .nav-links { display:flex; position:fixed; inset:0; z-index:998; width:100%; background:var(--color-bg);
-      flex-direction:column; align-items:stretch; justify-content:flex-start; gap:0;
-      transform:translateX(100%); transition:transform .38s cubic-bezier(.4,0,.2,1);
-      overflow-y:auto; overflow-x:hidden; padding:0; }
-    .nav-links.open { transform:translateX(0); }
-    .nav-panel-header { display:flex; }
-    .nav-auth-mobile { display:flex; flex-direction:column; gap:.75rem; padding:1.25rem 1.5rem; border-bottom:1px solid var(--color-border); width:100%; max-width:none; }
-    .nav-user-mobile { flex-direction:column; gap:.75rem; padding:1.25rem 1.5rem; border-bottom:1px solid var(--color-border); width:100%; max-width:none; }
-    .nav-split { display:flex; width:100%; height:56px; border-radius:0; border:none; border-bottom:1px solid var(--color-border); transition:background var(--transition-fast); }
-    .nav-split:hover { background:var(--color-bg-alt); border-color:var(--color-border); box-shadow:none; }
-    .nav-split-label { flex:1; padding-inline:1.5rem; font-size:1rem; font-weight:700; display:flex; align-items:center; }
-    .nav-split-arrow { width:56px; border-left:1px solid var(--color-border); display:flex; align-items:center; justify-content:center; }
-  }
-  @media (prefers-reduced-motion:reduce) {
-    .ticker-track { animation:none; }
-    .reveal { opacity:1; transform:none; transition:none; }
-    * { transition-duration:.01ms !important; animation-duration:.01ms !important; }
-  }
+/* VIDEO CARD */
+.card-video .card-thumb{position:relative;height:165px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#0a0a0f;}
+.card-video .card-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.8;transition:opacity .3s ease;}
+.card-video:hover .card-thumb img{opacity:1;}
+.card-video .play-btn{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;z-index:1;transition:transform var(--tr);}
+.card-video:hover .play-btn{transform:scale(1.1);}
+.card-video .play-btn .icon{width:18px;height:18px;stroke:none;fill:#0a0a0f;margin-left:3px;}
+.card-video .card-thumb .badge{position:absolute;top:.65rem;left:.65rem;z-index:1;}
+.card-video .card-body{padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.35rem;}
+.card-video .card-title{font-size:.93rem;font-weight:700;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.card-video .card-meta{font-size:.75rem;color:var(--color-text-muted);}
+
+/* ── ALL CONTENT GRID ───────────────────── */
+.all-section{padding-block:clamp(2rem,4vw,3rem);}
+.all-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem;}
+.results-label{font-size:.82rem;color:var(--color-text-muted);font-weight:500;}
+.content-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.35rem;}
+.content-grid.list-view{grid-template-columns:1fr;}
+.content-grid.list-view .card-article{flex-direction:row;}
+.content-grid.list-view .card-article .card-thumb{width:200px;height:130px;flex-shrink:0;}
+.content-grid.list-view .card-article .card-excerpt{-webkit-line-clamp:3;}
+.content-grid.list-view .card-pic .card-thumb-full{height:130px;width:200px;flex-shrink:0;}
+.content-grid.list-view .card-pic{flex-direction:row;}
+.content-grid.list-view .card-pic .card-overlay{width:200px;position:relative;height:auto;}
+
+/* ── LOAD MORE ──────────────────────────── */
+.load-more-wrap{text-align:center;padding-top:2rem;}
+
+/* ── EMPTY / ERROR ──────────────────────── */
+.empty-state{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:4rem 2rem;gap:1rem;}
+.empty-state .empty-icon{width:52px;height:52px;color:var(--color-border);margin-bottom:.5rem;}
+.empty-state h3{font-size:1.15rem;}
+.empty-state p{color:var(--color-text-muted);max-width:360px;font-size:.9rem;}
+
+/* ── SKELETONS ──────────────────────────── */
+@keyframes shimmer{0%{background-position:-600px 0}100%{background-position:600px 0}}
+.sk{border-radius:var(--r-lg);overflow:hidden;background:var(--color-surface);border:1px solid var(--color-border);}
+.sk-thumb{background:linear-gradient(90deg,var(--color-bg-alt) 25%,var(--color-border) 37%,var(--color-bg-alt) 63%);background-size:600px 100%;animation:shimmer 1.4s ease-in-out infinite;}
+.sk-body{padding:1rem;display:flex;flex-direction:column;gap:.6rem;}
+.sk-line{height:13px;border-radius:var(--r-full);background:linear-gradient(90deg,var(--color-bg-alt) 25%,var(--color-border) 37%,var(--color-bg-alt) 63%);background-size:600px 100%;animation:shimmer 1.4s ease-in-out infinite;}
+.sk-line.w20{width:20%;height:10px;}.sk-line.w80{width:80%;}.sk-line.w60{width:60%;}.sk-line.w40{width:40%;height:10px;}
+
+/* ── FOOTER ─────────────────────────────── */
+.site-footer{border-top:1px solid var(--color-border);padding:1.6rem 0;background:var(--color-bg-alt);}
+.site-footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.82rem;color:var(--color-text-muted);}
+.footer-back{display:inline-flex;align-items:center;gap:.4rem;font-weight:600;color:var(--color-text);transition:color var(--tr);}
+.footer-back:hover{color:var(--color-secondary);}
+
+/* ── CARD REVEAL ────────────────────────── */
+.card-reveal{opacity:0;transform:translateY(14px);transition:opacity .4s ease,transform .4s ease;}
+.card-reveal.in{opacity:1;transform:translateY(0);}
+
+/* ── RESPONSIVE ─────────────────────────── */
+@media(max-width:1024px){.content-grid{grid-template-columns:repeat(2,1fr);}.bento{grid-template-columns:1fr 260px;}}
+@media(max-width:768px){
+  .bento{grid-template-columns:1fr;grid-template-rows:auto;}.bento-main{height:300px;}.bento-side{height:180px;}
+  .content-grid{grid-template-columns:repeat(2,1fr);}
+  .filter-bar-inner{flex-wrap:wrap;}.search-wrap{max-width:100%;width:100%;}
+}
+@media(max-width:540px){.content-grid{grid-template-columns:1fr;}.card-in-carousel{flex:0 0 260px;}}
+@media(max-width:1180px){
+  .nav-auth-desktop{display:none;}.nav-user-desktop{display:none!important;}.nav-toggle{display:flex;}
+  .nav-links{display:flex;position:fixed;inset:0;z-index:998;width:100%;background:var(--color-bg);flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;transform:translateX(100%);transition:transform .38s cubic-bezier(.4,0,.2,1);overflow-y:auto;overflow-x:hidden;padding:0;}
+  .nav-links.open{transform:translateX(0);}
+  .nav-panel-header{display:flex;}
+  .nav-auth-mobile{display:flex;flex-direction:column;gap:.7rem;padding:1.15rem 1.5rem;border-bottom:1px solid var(--color-border);}
+  .nav-user-mobile{flex-direction:column;gap:.7rem;padding:1.15rem 1.5rem;border-bottom:1px solid var(--color-border);}
+  .nav-split{display:flex;width:100%;height:54px;border-radius:0;border:none;border-bottom:1px solid var(--color-border);transition:background var(--tr);}
+  .nav-split:hover{background:var(--color-bg-alt);}
+  .nav-split-label{flex:1;padding-inline:1.5rem;font-size:.97rem;font-weight:700;display:flex;align-items:center;}
+  .nav-split-arrow{width:54px;border-left:1px solid var(--color-border);display:flex;align-items:center;justify-content:center;}
+  .nav-split-arrow .icon{width:13px;height:13px;}
+}
+@media(prefers-reduced-motion:reduce){.ticker-track,.card-reveal,*{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
 </style>
 </head>
 <body>
 
-<!-- ── SVG SPRITE ─────────────────────────────────────────────── -->
+<!-- SVG SPRITE -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
-  <symbol id="icon-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-  </symbol>
-  <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-  </symbol>
-  <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-  </symbol>
-  <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="6 9 12 15 18 9"/>
-  </symbol>
-  <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-  </symbol>
-  <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
-  </symbol>
-  <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-  </symbol>
-  <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-  </symbol>
-  <symbol id="icon-newspaper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
-    <path d="M18 14h-8M15 18h-5M10 6h8v4h-8V6Z"/>
-  </symbol>
-  <symbol id="icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-  </symbol>
-  <symbol id="icon-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><polyline points="21 15 16 10 5 21"/>
-  </symbol>
-  <symbol id="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <polygon points="5 3 19 12 5 21 5 3"/>
-  </symbol>
-  <symbol id="icon-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"/>
-  </symbol>
-  <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-  </symbol>
+  <symbol id="icon-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+  <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+  <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></symbol>
+  <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+  <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+  <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+  <symbol id="icon-newspaper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8V6Z"/></symbol>
+  <symbol id="icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="icon-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><polyline points="21 15 16 10 5 21"/></symbol>
+  <symbol id="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></symbol>
+  <symbol id="icon-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"/></symbol>
+  <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="icon-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
+  <symbol id="icon-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></symbol>
+  <symbol id="icon-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></symbol>
 </svg>
 
 <a href="#main" class="skip-link">Skip to content</a>
 
-<!-- Mobile nav backdrop (outside header — backdrop-filter safe) -->
+<!-- Backdrop (outside header — avoids backdrop-filter bug) -->
 <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
 
-<!-- ── NAVBAR ─────────────────────────────────────────────────── -->
+<!-- NAVBAR -->
 <header class="navbar" id="navbar">
   <div class="nav-inner">
     <a href="../index.html" class="nav-logo" aria-label="ExoraWorld home">
       <span class="logo-mark"><svg class="icon" aria-hidden="true"><use href="#icon-spark"/></svg></span>
       ExoraWorld
     </a>
-
-    <nav class="nav-links-desktop" aria-label="Main navigation">
-      <span class="nav-split">
-        <a href="../pages/store.html" class="nav-split-label">Store</a>
-        <a href="../index.html#store" class="nav-split-arrow" aria-label="Store section"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
-      </span>
-      <span class="nav-split">
-        <a href="../pages/games.html" class="nav-split-label">Games</a>
-        <a href="../index.html#games" class="nav-split-arrow" aria-label="Games section"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
-      </span>
-      <span class="nav-split">
-        <a href="../pages/news.html" class="nav-split-label">News</a>
-        <a href="../index.html#news" class="nav-split-arrow" aria-label="News section"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
-      </span>
-      <span class="nav-split">
-        <a href="../pages/gallery.html" class="nav-split-label">Gallery</a>
-        <a href="../index.html#gallery" class="nav-split-arrow" aria-label="Gallery section"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
-      </span>
-      <span class="nav-split" aria-current="page">
-        <a href="contents.html" class="nav-split-label" style="color:var(--color-secondary)">Content</a>
-        <a href="#main" class="nav-split-arrow" aria-label="Content hub"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
-      </span>
+    <nav class="nav-breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a><span aria-hidden="true">›</span>
+      <span class="cur">Content Hub</span>
     </nav>
-
     <div class="navbar-actions">
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
         <svg class="icon icon-sun" aria-hidden="true"><use href="#icon-sun"/></svg>
@@ -427,139 +379,123 @@
         <a href="../index.html" class="btn btn-primary btn-sm">Sign Up</a>
       </div>
       <div class="nav-user-desktop" id="navUserDesktop"></div>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
 </header>
 
-<!-- ── MOBILE NAV PANEL (outside header — backdrop-filter safe) ── -->
+<!-- MOBILE NAV (outside header) -->
 <nav class="nav-links" id="navLinks" aria-label="Mobile navigation">
   <div class="nav-panel-header">
-    <a href="../index.html" class="nav-logo">
-      <span class="logo-mark"><svg class="icon"><use href="#icon-spark"/></svg></span>
-      ExoraWorld
-    </a>
-    <button class="nav-panel-close" id="navPanelClose" aria-label="Close menu">
-      <svg class="icon"><use href="#icon-close"/></svg>
-    </button>
+    <a href="../index.html" class="nav-logo"><span class="logo-mark"><svg class="icon"><use href="#icon-spark"/></svg></span>ExoraWorld</a>
+    <button class="nav-panel-close" id="navPanelClose" aria-label="Close menu"><svg class="icon"><use href="#icon-close"/></svg></button>
   </div>
   <div class="nav-user-mobile" id="navUserMobile" style="display:none"></div>
   <div class="nav-auth-mobile" id="navAuthMobile">
     <div class="nav-social-btns">
       <button class="nav-social-btn nav-google-btn" id="navGoogleBtn" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-        </svg>
-        Google
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>Google
       </button>
       <button class="nav-social-btn nav-fb-btn" id="navFbBtn" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#fff"/>
-        </svg>
-        Facebook
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#fff"/></svg>Facebook
       </button>
     </div>
     <div class="nav-auth-divider"><span>or</span></div>
-    <a href="../index.html" class="btn btn-ghost btn-block">Sign In with Email</a>
-    <a href="../index.html" class="btn btn-primary btn-block">Create Account</a>
+    <a href="../index.html" class="btn btn-ghost" style="width:100%;justify-content:center">Sign In with Email</a>
+    <a href="../index.html" class="btn btn-primary" style="width:100%;justify-content:center">Create Account</a>
   </div>
   <span class="nav-split"><a href="../pages/store.html" class="nav-split-label">Store</a><a href="../index.html#store" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
   <span class="nav-split"><a href="../pages/games.html" class="nav-split-label">Games</a><a href="../index.html#games" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
   <span class="nav-split"><a href="../pages/news.html" class="nav-split-label">News</a><a href="../index.html#news" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
-  <span class="nav-split"><a href="../pages/gallery.html" class="nav-split-label">Gallery</a><a href="../index.html#gallery" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
   <span class="nav-split"><a href="contents.html" class="nav-split-label" style="color:var(--color-secondary)">Content</a><a href="#main" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
   <span class="nav-split"><a href="../pages/about.html" class="nav-split-label">About</a><a href="../index.html#about" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
-  <span class="nav-split"><a href="../pages/help.html" class="nav-split-label">Help</a><a href="../index.html#help" class="nav-split-arrow"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a></span>
 </nav>
 
-<!-- ── MAIN CONTENT ───────────────────────────────────────────── -->
 <main id="main">
 
   <!-- TICKER -->
   <div class="ticker-bar" id="tickerBar" aria-hidden="true">
-    <span class="ticker-label">
-      <span class="ticker-live"></span>
-      Latest
-    </span>
-    <div class="ticker-wrap">
-      <div class="ticker-track" id="tickerTrack">
-        <span class="ticker-item" style="opacity:.6">Loading latest content…</span>
+    <span class="ticker-label"><span class="ticker-live"></span>Latest</span>
+    <div class="ticker-wrap"><div class="ticker-track" id="tickerTrack"><span class="ticker-item" style="opacity:.55">Fetching latest content…</span></div></div>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <section class="page-header" style="margin-top:var(--nav-height)">
+    <div class="wrap">
+      <div class="page-header-inner">
+        <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Content Hub</div>
+        <h1>Explore ExoraWorld</h1>
+        <p>Articles, posts, galleries and videos — everything from the team and community.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKY FILTER BAR -->
+  <div class="filter-bar" id="filterBar">
+    <div class="wrap">
+      <div class="filter-bar-inner">
+        <!-- Search -->
+        <div class="search-wrap" role="search">
+          <svg class="search-icon icon" aria-hidden="true"><use href="#icon-search"/></svg>
+          <input type="search" id="searchInput" placeholder="Search articles, topics, tags…" autocomplete="off" aria-label="Search content"/>
+          <button class="search-clear" id="searchClear" aria-label="Clear search"><svg class="icon"><use href="#icon-close"/></svg></button>
+        </div>
+        <!-- Type tabs -->
+        <div class="filter-tabs" role="tablist" aria-label="Filter by type" id="filterTabs">
+          <button class="ftab active" data-type="all" role="tab" aria-selected="true">All <span class="count" id="countAll"></span></button>
+          <button class="ftab" data-type="article" role="tab" aria-selected="false"><svg class="icon" aria-hidden="true"><use href="#icon-newspaper"/></svg>Articles <span class="count" id="countArticle"></span></button>
+          <button class="ftab" data-type="post" role="tab" aria-selected="false"><svg class="icon" aria-hidden="true"><use href="#icon-chat"/></svg>Posts <span class="count" id="countPost"></span></button>
+          <button class="ftab" data-type="pic" role="tab" aria-selected="false"><svg class="icon" aria-hidden="true"><use href="#icon-image"/></svg>Pics <span class="count" id="countPic"></span></button>
+          <button class="ftab" data-type="video" role="tab" aria-selected="false"><svg class="icon" aria-hidden="true"><use href="#icon-play"/></svg>Videos <span class="count" id="countVideo"></span></button>
+        </div>
+        <!-- View toggle -->
+        <div class="view-toggle" role="group" aria-label="View mode">
+          <button class="vtab active" id="gridViewBtn" aria-label="Grid view"><svg class="icon" aria-hidden="true"><use href="#icon-grid"/></svg></button>
+          <button class="vtab" id="listViewBtn" aria-label="List view"><svg class="icon" aria-hidden="true"><use href="#icon-list"/></svg></button>
+        </div>
+      </div>
+      <!-- Tag cloud -->
+      <div class="tag-cloud" id="tagCloud" aria-label="Filter by tag" style="display:none">
+        <span class="tag-cloud-label"><svg class="icon" style="width:11px;height:11px;display:inline;vertical-align:middle" aria-hidden="true"><use href="#icon-tag"/></svg> Tags</span>
       </div>
     </div>
   </div>
 
-  <!-- PAGE HEADER -->
-  <section class="content-header" aria-labelledby="hub-title">
-    <div class="container">
-      <div class="content-header-inner">
-        <span class="eyebrow">Content Hub</span>
-        <h1 id="hub-title">Explore ExoraWorld</h1>
-        <p>Articles, posts, galleries, and videos — everything from the team and community, all in one place.</p>
-
-        <div class="search-bar" role="search">
-          <svg class="search-icon icon" aria-hidden="true"><use href="#icon-search"/></svg>
-          <input type="search" id="searchInput" placeholder="Search by title, topic, or tag…" autocomplete="off" aria-label="Search content" />
-          <button class="search-clear" id="searchClear" aria-label="Clear search">
-            <svg class="icon"><use href="#icon-close"/></svg>
-          </button>
-        </div>
-
-        <div class="filter-tabs" role="tablist" aria-label="Filter by type">
-          <button class="filter-tab active" data-type="all" role="tab" aria-selected="true">All</button>
-          <button class="filter-tab" data-type="article" role="tab" aria-selected="false">
-            <svg class="icon" aria-hidden="true"><use href="#icon-newspaper"/></svg>Articles
-          </button>
-          <button class="filter-tab" data-type="post" role="tab" aria-selected="false">
-            <svg class="icon" aria-hidden="true"><use href="#icon-chat"/></svg>Posts
-          </button>
-          <button class="filter-tab" data-type="pic" role="tab" aria-selected="false">
-            <svg class="icon" aria-hidden="true"><use href="#icon-image"/></svg>Pics
-          </button>
-          <button class="filter-tab" data-type="video" role="tab" aria-selected="false">
-            <svg class="icon" aria-hidden="true"><use href="#icon-play"/></svg>Videos
-          </button>
+  <!-- FEATURED BENTO HERO -->
+  <section class="featured-section" id="featuredSection" aria-labelledby="featured-label">
+    <div class="wrap">
+      <div class="section-title">
+        <svg class="icon section-title-icon" aria-hidden="true" style="width:14px;height:14px"><use href="#icon-fire"/></svg>
+        <span id="featured-label">Featured</span>
+      </div>
+      <div class="bento" id="bentoGrid">
+        <!-- skeleton -->
+        <div class="sk bento-main" style="height:100%"><div class="sk-thumb" style="height:100%"></div></div>
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          <div class="sk" style="flex:1"><div class="sk-thumb" style="height:100%"></div></div>
+          <div class="sk" style="flex:1"><div class="sk-thumb" style="height:100%"></div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- HERO FEATURED -->
-  <section class="hero-section" id="heroSection" aria-labelledby="featured-title">
-    <div class="container">
-      <div class="hero-eyebrow">
-        <svg class="icon icon-fire" aria-hidden="true"><use href="#icon-fire"/></svg>
-        <span class="eyebrow" id="featured-title">Featured</span>
-      </div>
-      <div class="hero-grid" id="heroGrid">
-        <!-- Skeleton while loading -->
-        <div class="skeleton-hero-main skeleton-card"><div class="skeleton-thumb" style="height:280px"></div><div class="skeleton-body"><div class="skeleton-line w-20"></div><div class="skeleton-line w-80"></div><div class="skeleton-line w-60"></div></div></div>
-        <div class="skeleton-hero-side-wrap">
-          <div class="skeleton-card"><div class="skeleton-thumb" style="height:120px"></div><div class="skeleton-body"><div class="skeleton-line w-80"></div><div class="skeleton-line w-40"></div></div></div>
-          <div class="skeleton-card"><div class="skeleton-thumb" style="height:120px"></div><div class="skeleton-body"><div class="skeleton-line w-80"></div><div class="skeleton-line w-40"></div></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- CAROUSELS PER TYPE (rendered by JS) -->
+  <div id="carouselSections"></div>
 
-  <!-- CONTENT GRID -->
-  <section class="content-section" aria-labelledby="all-content-title">
-    <div class="container">
-      <div class="grid-meta">
-        <h2 id="all-content-title" class="sr-only">All Content</h2>
-        <div class="results-count" id="resultsCount" aria-live="polite"></div>
+  <!-- ALL CONTENT GRID -->
+  <section class="all-section" id="allSection">
+    <div class="wrap">
+      <div class="all-header">
+        <div class="results-label" id="resultsLabel" aria-live="polite"></div>
       </div>
-      <div class="content-grid" id="contentGrid" aria-label="Content cards">
-        <!-- Skeletons injected by JS while Firebase loads -->
+      <div class="content-grid" id="contentGrid">
+        <!-- skeletons injected by JS -->
       </div>
       <div class="load-more-wrap">
         <button class="btn btn-secondary" id="loadMoreBtn" style="display:none">
-          Load More
-          <svg class="icon" aria-hidden="true"><use href="#icon-chevron-down"/></svg>
+          Load More <svg class="icon" aria-hidden="true"><use href="#icon-chevron-down"/></svg>
         </button>
       </div>
     </div>
@@ -567,27 +503,23 @@
 
 </main>
 
-<!-- ── FOOTER ─────────────────────────────────────────────────── -->
-<footer class="content-footer">
-  <div class="container">
-    <div class="content-footer-inner">
-      <a href="../index.html" class="footer-back">
-        <svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg>
-        Back to ExoraWorld
-      </a>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="site-footer-inner">
+      <a href="../index.html" class="footer-back"><svg class="icon" aria-hidden="true" style="width:13px;height:13px"><use href="#icon-arrow-left"/></svg>Back to ExoraWorld</a>
       <span>&copy; <span id="footerYear"></span> ExoraWorld. All rights reserved.</span>
+      <a href="contents.html" style="color:var(--color-secondary);font-weight:600;font-size:.82rem">Content Hub ↑</a>
     </div>
   </div>
 </footer>
 
-<!-- ── FIREBASE + PAGE LOGIC ──────────────────────────────────── -->
+<!-- FIREBASE + PAGE LOGIC -->
 <script type="module">
 import { initializeApp, getApps, getApp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getFirestore, initializeFirestore, collection, getDocs }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-/* ── Firebase ───────────────────────────────────────────────────── */
 const CFG = {
   apiKey: "AIzaSyBsTIxhaIqIQ3Hxkz3IZNAKlA-65h_7BD4",
   authDomain: "exoraworld01.firebaseapp.com",
@@ -597,407 +529,311 @@ const CFG = {
   appId: "1:711731946739:web:4b8582ea122e6546604386"
 };
 const app = getApps().length ? getApp() : initializeApp(CFG);
-
-// Force long-polling instead of WebSockets — fixes Cloudflare proxy interference
 let db;
 try {
-  db = initializeFirestore(app, {
-    experimentalForceLongPolling: true,
-    useFetchStreams: false
-  });
-} catch(e) {
-  // Already initialized (e.g. by exora-cart.js) — just get the instance
-  db = getFirestore(app);
-}
+  db = initializeFirestore(app, { experimentalForceLongPolling: true, useFetchStreams: false });
+} catch(e) { db = getFirestore(app); }
 
-/* ── State ─────────────────────────────────────────────────────── */
-let allContent  = [];   // all published docs from Firestore
-let filtered    = [];   // current filter/search result
-let activeType  = 'all';
-let searchTerm  = '';
-let visibleCount = 9;
-const PAGE_SIZE  = 9;
+/* ── State ──────────────────────────────── */
+let allContent = [], filtered = [], activeType = 'all', searchTerm = '', activeTag = '', viewMode = 'grid', visibleCount = 9;
+const PAGE_SIZE = 9;
 
-/* ── Type config ───────────────────────────────────────────────── */
+/* ── Config ─────────────────────────────── */
 const TYPES = {
-  article: { label:'Article', grad:'grad-2', icon:'#icon-newspaper' },
-  post:    { label:'Post',    grad:'grad-5', icon:'#icon-chat'      },
-  pic:     { label:'Pics',   grad:'grad-6', icon:'#icon-image'     },
-  video:   { label:'Video',  grad:'grad-1', icon:'#icon-play'      }
+  article:{ label:'Article', grad:'grad-2', icon:'#icon-newspaper', badgeClass:'badge-article', sectionLabel:'Latest Articles' },
+  post:   { label:'Post',    grad:'grad-5', icon:'#icon-chat',      badgeClass:'badge-post',    sectionLabel:'Posts & Updates' },
+  pic:    { label:'Pics',    grad:'grad-6', icon:'#icon-image',     badgeClass:'badge-pic',     sectionLabel:'Pics & Galleries' },
+  video:  { label:'Video',  grad:'grad-1', icon:'#icon-play',      badgeClass:'badge-video',   sectionLabel:'Videos' }
 };
-function typeCfg(t) { return TYPES[t] || TYPES.article; }
+function tc(t){ return TYPES[t] || TYPES.article; }
 
-/* ── Helpers ───────────────────────────────────────────────────── */
-function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function fmtDate(d) {
-  if (!d) return '';
-  const dt = d.toDate ? d.toDate() : new Date(d);
-  return dt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-}
+/* ── Helpers ────────────────────────────── */
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmtDate(d){ if(!d)return ''; const dt=d.toDate?d.toDate():new Date(d); return dt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+function thumbBg(item){ return item.thumbnail ? '' : tc(item.type).grad; }
 
-/* ── Load from Firestore ───────────────────────────────────────── */
-async function loadContent() {
-  showSkeletons(9);
+/* ── LOAD ───────────────────────────────── */
+async function loadContent(){
+  showSkeletons(6);
   try {
-    console.log('[ExoraContent] Fetching Firestore...');
-
-    // Wrap getDocs in a 8-second timeout — Cloudflare can stall WebChannel
     const snap = await Promise.race([
-      getDocs(collection(db, 'content')),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('TIMEOUT')), 8000)
-      )
+      getDocs(collection(db,'content')),
+      new Promise((_,r)=>setTimeout(()=>r(new Error('TIMEOUT')),8000))
     ]);
-
-    console.log('[ExoraContent] Snapshot size:', snap.size);
-    allContent = snap.docs
-      .map(d => ({ id: d.id, ...d.data() }))
-      .filter(d => d.published !== false)
-      .sort((a, b) => {
-        const da = a.date?.toDate ? a.date.toDate() : new Date(a.date || 0);
-        const db_ = b.date?.toDate ? b.date.toDate() : new Date(b.date || 0);
-        return db_ - da;
-      });
-
-    console.log('[ExoraContent] Items to render:', allContent.length);
-    initTicker();
-    renderHero();
-    applyFilters();
-
-  } catch (err) {
-    if (err.message === 'TIMEOUT') {
-      // Firebase WebChannel timed out — fall back to Firestore REST API
-      console.warn('[ExoraContent] WebChannel timeout — trying REST fallback...');
-      await loadViaRest();
-    } else {
-      console.error('[ExoraContent] Error:', err.code, err.message);
-      showError(err.message);
-    }
+    allContent = snap.docs.map(d=>({id:d.id,...d.data()})).filter(d=>d.published!==false)
+      .sort((a,b)=>{ const da=a.date?.toDate?a.date.toDate():new Date(a.date||0),db_=b.date?.toDate?b.date.toDate():new Date(b.date||0); return db_-da; });
+    onDataReady();
+  } catch(err){
+    if(err.message==='TIMEOUT') await loadViaRest(); else showError(err.message);
   }
 }
 
-// Direct Firestore REST runQuery — bypasses WebChannel entirely
-async function loadViaRest() {
-  try {
-    console.log('[ExoraContent] Trying REST runQuery fallback...');
-    const url = 'https://firestore.googleapis.com/v1/projects/exoraworld01/databases/default/documents:runQuery?key=AIzaSyBsTIxhaIqIQ3Hxkz3IZNAKlA-65h_7BD4';
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        structuredQuery: {
-          from: [{ collectionId: 'content' }]
-        }
-      })
+async function loadViaRest(){
+  try{
+    const res = await fetch('https://firestore.googleapis.com/v1/projects/exoraworld01/databases/default/documents:runQuery?key=AIzaSyBsTIxhaIqIQ3Hxkz3IZNAKlA-65h_7BD4',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({structuredQuery:{from:[{collectionId:'content'}]}})
     });
-    if (!res.ok) throw new Error('REST runQuery failed: ' + res.status);
+    if(!res.ok) throw new Error('REST '+res.status);
     const rows = await res.json();
-    console.log('[ExoraContent] REST rows received:', rows.length);
-
-    allContent = rows
-      .filter(r => r.document)
-      .map(r => {
-        const f = r.document.fields || {};
-        const str  = k => f[k]?.stringValue  || '';
-        const bool = k => f[k]?.booleanValue;
-        const num  = k => Number(f[k]?.integerValue || f[k]?.doubleValue || 0);
-        return {
-          id:        r.document.name.split('/').pop(),
-          title:     str('title'),
-          type:      str('type') || 'article',
-          excerpt:   str('excerpt'),
-          slug:      str('slug'),
-          thumbnail: str('thumbnail'),
-          readTime:  num('readTime'),
-          featured:  bool('featured') || false,
-          published: bool('published') !== false,
-          tags:      (f.tags?.arrayValue?.values || []).map(v => v.stringValue || ''),
-          date:      f.date?.timestampValue ? new Date(f.date.timestampValue) : new Date(0)
-        };
-      })
-      .filter(d => d.published !== false)
-      .sort((a, b) => b.date - a.date);
-
-    console.log('[ExoraContent] REST items loaded:', allContent.length);
-    initTicker();
-    renderHero();
-    applyFilters();
-  } catch (err) {
-    console.error('[ExoraContent] REST fallback failed:', err.message);
-    showError('Could not load content. Please try refreshing the page.');
-  }
+    allContent = rows.filter(r=>r.document).map(r=>{
+      const f=r.document.fields||{};
+      const str=k=>f[k]?.stringValue||'', bool=k=>f[k]?.booleanValue, num=k=>Number(f[k]?.integerValue||f[k]?.doubleValue||0);
+      return { id:r.document.name.split('/').pop(), title:str('title'), type:str('type')||'article', excerpt:str('excerpt'), slug:str('slug'), thumbnail:str('thumbnail'), readTime:num('readTime'), featured:bool('featured')||false, published:bool('published')!==false, tags:(f.tags?.arrayValue?.values||[]).map(v=>v.stringValue||''), date:f.date?.timestampValue?new Date(f.date.timestampValue):new Date(0) };
+    }).filter(d=>d.published!==false).sort((a,b)=>b.date-a.date);
+    onDataReady();
+  } catch(err){ showError(err.message); }
 }
 
-/* ── Ticker ────────────────────────────────────────────────────── */
-function initTicker() {
-  const track = document.getElementById('tickerTrack');
-  if (!track) return;
-  if (!allContent.length) {
-    document.getElementById('tickerBar')?.remove();
-    return;
-  }
-  // Duplicate for seamless CSS loop
-  const items = [...allContent, ...allContent];
-  track.innerHTML = items.map(item => `
-    <span class="ticker-item">
-      <span class="ticker-dot type-${esc(item.type)}"></span>
-      ${esc(item.title)}
-    </span>
-  `).join('');
+/* ── On data ready ──────────────────────── */
+function onDataReady(){
+  updateCounts();
+  buildTagCloud();
+  initTicker();
+  renderBento();
+  renderCarousels();
+  applyFilters();
 }
 
-/* ── Hero featured ─────────────────────────────────────────────── */
-function renderHero() {
-  const section = document.getElementById('heroSection');
-  const grid    = document.getElementById('heroGrid');
-  const featured = allContent.filter(i => i.featured).slice(0,3);
+/* ── Counts ─────────────────────────────── */
+function updateCounts(){
+  const counts = {all:allContent.length, article:0, post:0, pic:0, video:0};
+  allContent.forEach(d=>{ if(counts[d.type]!==undefined) counts[d.type]++; });
+  ['all','article','post','pic','video'].forEach(t=>{
+    const el=document.getElementById('count'+t.charAt(0).toUpperCase()+t.slice(1));
+    if(el) el.textContent = counts[t]>0?`(${counts[t]})`:'';
+  });
+}
 
-  if (!featured.length) { section.style.display = 'none'; return; }
+/* ── Tag cloud ──────────────────────────── */
+function buildTagCloud(){
+  const tagMap = {};
+  allContent.forEach(d=>(d.tags||[]).forEach(t=>{ if(t) tagMap[t]=(tagMap[t]||0)+1; }));
+  const tags = Object.keys(tagMap).sort((a,b)=>tagMap[b]-tagMap[a]).slice(0,12);
+  if(!tags.length) return;
+  const cloud = document.getElementById('tagCloud');
+  const label = cloud.querySelector('.tag-cloud-label');
+  cloud.innerHTML = '';
+  cloud.appendChild(label);
+  tags.forEach(tag=>{
+    const btn = document.createElement('button');
+    btn.className='tag-pill'; btn.textContent=tag; btn.setAttribute('aria-label','Filter by '+tag);
+    btn.addEventListener('click',()=>{ activeTag=activeTag===tag?'':tag; document.querySelectorAll('.tag-pill').forEach(p=>p.classList.toggle('active',p.textContent===activeTag)); applyFilters(); });
+    cloud.appendChild(btn);
+  });
+  cloud.style.display='flex';
+}
 
-  const [main, ...sides] = featured;
-  const mc = typeCfg(main.type);
+/* ── Ticker ─────────────────────────────── */
+function initTicker(){
+  const track=document.getElementById('tickerTrack');
+  if(!track||!allContent.length){ document.getElementById('tickerBar')?.remove(); return; }
+  const items=[...allContent,...allContent];
+  track.innerHTML=items.map(i=>`<span class="ticker-item"><span class="ticker-dot td-${esc(i.type)}"></span>${esc(i.title)}</span>`).join('');
+}
 
-  const mainCard = `
-    <a href="${esc(main.slug||'#')}" class="hero-main-card reveal" style="--i:0">
-      <div class="hero-main-thumb ${main.thumbnail?'':''+mc.grad}">
-        ${main.thumbnail
-          ? `<img src="${esc(main.thumbnail)}" alt="${esc(main.title)}" loading="lazy">`
-          : `<svg class="thumb-icon icon" aria-hidden="true"><use href="${mc.icon}"/></svg>`}
-        <span class="card-type-badge type-${esc(main.type)}" style="position:absolute;top:.85rem;left:.85rem">${mc.label}</span>
+/* ── Bento Hero ─────────────────────────── */
+function renderBento(){
+  const grid=document.getElementById('bentoGrid');
+  const featured=allContent.filter(i=>i.featured).slice(0,3);
+  if(!featured.length){ document.getElementById('featuredSection').style.display='none'; return; }
+  const [main,...sides]=featured;
+  const mc=tc(main.type);
+  grid.innerHTML=`
+    <a href="${esc(main.slug||'#')}" class="bento-main ${thumbBg(main)}" style="min-height:460px">
+      <div class="bento-thumb">${main.thumbnail?`<img src="${esc(main.thumbnail)}" alt="${esc(main.title)}" loading="lazy">`:`<svg class="thumb-icon icon" aria-hidden="true"><use href="${mc.icon}"/></svg>`}</div>
+      <div class="bento-overlay"></div>
+      <div class="bento-body">
+        <div class="bento-badge"><span class="badge ${mc.badgeClass}">${mc.label}</span></div>
+        <h2 class="bento-title">${esc(main.title)}</h2>
+        ${main.excerpt?`<p class="bento-excerpt">${esc(main.excerpt)}</p>`:''}
+        <div class="bento-meta">${main.date?`<span>${fmtDate(main.date)}</span>`:''}${main.readTime?`<span class="bento-meta-dot" aria-hidden="true"></span><span>${main.readTime} min read</span>`:''}</div>
       </div>
-      <div class="hero-main-body">
-        <h2 class="hero-main-title">${esc(main.title)}</h2>
-        ${main.excerpt?`<p class="hero-main-excerpt">${esc(main.excerpt)}</p>`:''}
-        <div class="card-meta" style="margin-top:.75rem">
-          ${main.date?`<span>${fmtDate(main.date)}</span>`:''}
-          ${main.readTime?`<span><svg class="icon" aria-hidden="true"><use href="#icon-clock"/></svg>${main.readTime} min read</span>`:''}
-        </div>
-      </div>
-    </a>`;
+    </a>
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      ${sides.length?sides.map(s=>{const sc=tc(s.type);return `<a href="${esc(s.slug||'#')}" class="bento-side ${thumbBg(s)}" style="flex:1"><div class="bento-thumb">${s.thumbnail?`<img src="${esc(s.thumbnail)}" alt="${esc(s.title)}" loading="lazy">`:`<svg class="thumb-icon icon" aria-hidden="true"><use href="${sc.icon}"/></svg>`}</div><div class="bento-overlay"></div><div class="bento-body"><div class="bento-badge"><span class="badge ${sc.badgeClass}">${sc.label}</span></div><h3 class="bento-title">${esc(s.title)}</h3><div class="bento-meta">${s.date?`<span>${fmtDate(s.date)}</span>`:''}</div></div></a>`;}).join(''):'<div class="sk" style="flex:1;border-radius:20px;background:var(--color-bg-alt)"></div><div class="sk" style="flex:1;border-radius:20px;background:var(--color-bg-alt)"></div>'}
+    </div>`;
+}
 
-  const sideCards = sides.map((item,i) => {
-    const sc = typeCfg(item.type);
-    return `
-      <a href="${esc(item.slug||'#')}" class="hero-side-card reveal" style="--i:${i+1}">
-        <div class="hero-side-thumb ${item.thumbnail?'':sc.grad}">
-          ${item.thumbnail?`<img src="${esc(item.thumbnail)}" alt="${esc(item.title)}" loading="lazy">`:''}
-          <span class="card-type-badge type-${esc(item.type)}" style="position:absolute;top:.6rem;left:.6rem">${sc.label}</span>
-        </div>
-        <div class="hero-side-body">
-          <h3 class="hero-side-title">${esc(item.title)}</h3>
-          <div class="card-meta" style="margin-top:.4rem;font-size:.75rem">
-            ${item.date?`<span>${fmtDate(item.date)}</span>`:''}
+/* ── Carousels ──────────────────────────── */
+function renderCarousels(){
+  const container=document.getElementById('carouselSections');
+  container.innerHTML='';
+  ['article','post','pic','video'].forEach(type=>{
+    const items=allContent.filter(d=>d.type===type);
+    if(items.length<2) return;
+    const cfg=tc(type);
+    const id='carousel-'+type;
+    const section=document.createElement('section');
+    section.className='carousel-section'; section.setAttribute('aria-labelledby','cs-'+type);
+    section.innerHTML=`
+      <div class="wrap">
+        <div class="carousel-header">
+          <div class="section-title" id="cs-${type}">${cfg.sectionLabel}</div>
+          <div class="carousel-nav">
+            <button class="carousel-btn" data-dir="-1" data-id="${id}" aria-label="Scroll left"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg></button>
+            <button class="carousel-btn" data-dir="1"  data-id="${id}" aria-label="Scroll right"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></button>
           </div>
         </div>
-      </a>`;
-  }).join('');
-
-  grid.innerHTML = mainCard + (sides.length?`<div class="hero-side">${sideCards}</div>`:'');
-
-  // Trigger reveal animations
-  requestAnimationFrame(() =>
-    grid.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'))
-  );
-}
-
-/* ── Filter & Search ───────────────────────────────────────────── */
-function applyFilters() {
-  const term = searchTerm.toLowerCase().trim();
-  filtered = allContent.filter(item => {
-    const matchType = activeType === 'all' || item.type === activeType;
-    const matchSearch = !term
-      || item.title?.toLowerCase().includes(term)
-      || item.excerpt?.toLowerCase().includes(term)
-      || (item.tags||[]).some(t => t.toLowerCase().includes(term));
-    return matchType && matchSearch;
-  });
-
-  const countEl = document.getElementById('resultsCount');
-  if (countEl) {
-    countEl.textContent = filtered.length
-      ? `${filtered.length} ${filtered.length===1?'result':'results'}${activeType!=='all'?' · '+activeType:''}${searchTerm?' for "'+searchTerm+'"':''}`
-      : '';
-  }
-
-  visibleCount = PAGE_SIZE;
-  renderGrid();
-}
-
-/* ── Render grid cards ─────────────────────────────────────────── */
-function renderGrid() {
-  const grid  = document.getElementById('contentGrid');
-  const lmBtn = document.getElementById('loadMoreBtn');
-  const slice = filtered.slice(0, visibleCount);
-
-  if (!slice.length) {
-    grid.innerHTML = `
-      <div class="empty-state">
-        <svg class="empty-icon icon" aria-hidden="true"><use href="#icon-search"/></svg>
-        <h3>${searchTerm?`No results for &ldquo;${esc(searchTerm)}&rdquo;`:'No content published yet'}</h3>
-        <p>${searchTerm?'Try different keywords or browse all content.':'Check back soon — great content is on its way.'}</p>
-        ${searchTerm?`<button class="btn btn-secondary btn-sm" onclick="window._clearSearch()">Clear search</button>`:''}
+        <div class="carousel" id="${id}" role="list">
+          ${items.map(item=>`<div role="listitem" class="card-in-carousel">${buildCard(item,0,true)}</div>`).join('')}
+        </div>
       </div>`;
-    lmBtn.style.display = 'none';
-    return;
-  }
-
-  grid.innerHTML = slice.map((item,i) => buildCard(item,i)).join('');
-  lmBtn.style.display = visibleCount < filtered.length ? 'flex' : 'none';
-
-  // Stagger reveal
-  requestAnimationFrame(() =>
-    grid.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'))
-  );
+    container.appendChild(section);
+  });
+  // Wire carousel buttons
+  document.querySelectorAll('.carousel-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const c=document.getElementById(btn.dataset.id);
+      if(c) c.scrollBy({left:Number(btn.dataset.dir)*300,behavior:'smooth'});
+    });
+  });
 }
 
-/* ── Build a single card ───────────────────────────────────────── */
-function buildCard(item, i) {
-  const cfg = typeCfg(item.type);
-  const hasImg = !!item.thumbnail;
-  return `
-    <a href="${esc(item.slug||'#')}" class="content-card reveal" style="--i:${i%PAGE_SIZE}" aria-label="${esc(item.title)}">
-      <div class="card-thumb${hasImg?'':' '+cfg.grad}">
-        ${hasImg?`<img src="${esc(item.thumbnail)}" alt="${esc(item.title)}" loading="lazy">`
-                :`<svg class="thumb-icon icon" aria-hidden="true"><use href="${cfg.icon}"/></svg>`}
-        <span class="card-type-badge type-${esc(item.type)}">${cfg.label}</span>
+/* ── Filters ────────────────────────────── */
+function applyFilters(){
+  const term=searchTerm.toLowerCase().trim();
+  filtered=allContent.filter(item=>{
+    const mt=activeType==='all'||item.type===activeType;
+    const ms=!term||(item.title||'').toLowerCase().includes(term)||(item.excerpt||'').toLowerCase().includes(term)||(item.tags||[]).some(t=>t.toLowerCase().includes(term));
+    const mtag=!activeTag||(item.tags||[]).includes(activeTag);
+    return mt&&ms&&mtag;
+  });
+  const lbl=document.getElementById('resultsLabel');
+  if(lbl) lbl.textContent=filtered.length?`${filtered.length} ${filtered.length===1?'result':'results'}${activeType!=='all'?' · '+tc(activeType).label:''}${searchTerm?' for "'+searchTerm+'"':''}${activeTag?' · #'+activeTag:''}` : '';
+  visibleCount=PAGE_SIZE;
+  renderGrid(true);
+}
+
+/* ── Grid ───────────────────────────────── */
+function renderGrid(animate=false){
+  const grid=document.getElementById('contentGrid');
+  const btn=document.getElementById('loadMoreBtn');
+  const slice=filtered.slice(0,visibleCount);
+  grid.className='content-grid'+(viewMode==='list'?' list-view':'');
+
+  if(!slice.length){
+    grid.innerHTML=`<div class="empty-state"><svg class="empty-icon icon" aria-hidden="true"><use href="#icon-search"/></svg><h3>${searchTerm||activeTag?'No results found':'No content yet'}</h3><p>${searchTerm||activeTag?'Try a different search or clear the filters.':'Great content is on its way — check back soon.'}</p>${searchTerm?`<button class="btn btn-secondary btn-sm" onclick="window._clearSearch()">Clear search</button>`:''}</div>`;
+    btn.style.display='none'; return;
+  }
+
+  if(animate){
+    grid.innerHTML='';
+    slice.forEach((item,i)=>{
+      const div=document.createElement('div');
+      div.innerHTML=buildCard(item,i);
+      const el=div.firstElementChild;
+      if(el){ el.classList.add('card-reveal'); grid.appendChild(el); requestAnimationFrame(()=>setTimeout(()=>el.classList.add('in'),i*45)); }
+    });
+  } else {
+    // Appending (load more)
+    const next=filtered.slice(visibleCount-PAGE_SIZE,visibleCount);
+    next.forEach((item,i)=>{ const d=document.createElement('div'); d.innerHTML=buildCard(item,i); const el=d.firstElementChild; if(el){el.classList.add('card-reveal');grid.appendChild(el);requestAnimationFrame(()=>setTimeout(()=>el.classList.add('in'),i*45));} });
+  }
+  btn.style.display=visibleCount<filtered.length?'flex':'none';
+}
+
+/* ── Build card ─────────────────────────── */
+function buildCard(item, i, inCarousel=false){
+  const cfg=tc(item.type);
+  const cls=`card card-${esc(item.type)}${inCarousel?'':' card-in-grid'}`;
+  const href=esc(item.slug||'#');
+  const hasImg=!!item.thumbnail;
+  const date=fmtDate(item.date);
+
+  if(item.type==='pic'){
+    return `<a href="${href}" class="${cls}" aria-label="${esc(item.title)}">
+      <div class="card-thumb-full ${hasImg?'':cfg.grad}">
+        ${hasImg?`<img src="${esc(item.thumbnail)}" alt="${esc(item.title)}" loading="lazy">`:`<svg class="thumb-icon icon" style="position:absolute;width:36px;height:36px;color:rgba(255,255,255,.5)" aria-hidden="true"><use href="${cfg.icon}"/></svg>`}
+        <div class="card-overlay"><span class="badge ${cfg.badgeClass}">${cfg.label}</span><h3 class="card-title">${esc(item.title)}</h3>${date?`<div style="font-size:.73rem;color:rgba(255,255,255,.7);margin-top:.25rem">${date}</div>`:''}</div>
+      </div></a>`;
+  }
+  if(item.type==='video'){
+    return `<a href="${href}" class="${cls}" aria-label="${esc(item.title)}">
+      <div class="card-thumb ${hasImg?'':cfg.grad}">
+        ${hasImg?`<img src="${esc(item.thumbnail)}" alt="${esc(item.title)}" loading="lazy">`:''}
+        <div class="play-btn"><svg class="icon" aria-hidden="true"><use href="#icon-play"/></svg></div>
+        <span class="badge ${cfg.badgeClass}" style="position:absolute;top:.65rem;left:.65rem">${cfg.label}</span>
       </div>
       <div class="card-body">
         ${(item.tags||[]).length?`<div class="card-tags">${item.tags.slice(0,2).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}
         <h3 class="card-title">${esc(item.title)}</h3>
+        <div class="card-meta">${date?`<span>${date}</span>`:''}</div>
+      </div></a>`;
+  }
+  if(item.type==='post'){
+    return `<a href="${href}" class="${cls}" aria-label="${esc(item.title)}">
+      <div class="card-body">
+        <div class="card-head"><span class="badge ${cfg.badgeClass}">${cfg.label}</span>${date?`<span class="card-date">${date}</span>`:''}</div>
+        <h3 class="card-title">${esc(item.title)}</h3>
         ${item.excerpt?`<p class="card-excerpt">${esc(item.excerpt)}</p>`:''}
-        <div class="card-meta">
-          ${item.date?`<span>${fmtDate(item.date)}</span>`:''}
-          ${item.readTime?`<span><svg class="icon" aria-hidden="true" style="width:12px;height:12px"><use href="#icon-clock"/></svg>${item.readTime} min</span>`:''}
-        </div>
-      </div>
-    </a>`;
+        ${(item.tags||[]).length?`<div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.35rem">${item.tags.slice(0,2).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}
+      </div></a>`;
+  }
+  // article (default)
+  return `<a href="${href}" class="${cls}" aria-label="${esc(item.title)}">
+    <div class="card-thumb ${hasImg?'':cfg.grad}">
+      ${hasImg?`<img src="${esc(item.thumbnail)}" alt="${esc(item.title)}" loading="lazy">`:`<svg class="thumb-icon icon" aria-hidden="true"><use href="${cfg.icon}"/></svg>`}
+      <span class="badge ${cfg.badgeClass}">${cfg.label}</span>
+    </div>
+    <div class="card-body">
+      ${(item.tags||[]).length?`<div class="card-tags">${item.tags.slice(0,2).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}
+      <h3 class="card-title">${esc(item.title)}</h3>
+      ${item.excerpt?`<p class="card-excerpt">${esc(item.excerpt)}</p>`:''}
+      <div class="card-meta">${date?`<span>${date}</span>`:''} ${item.readTime?`<span class="sep" aria-hidden="true"></span><span><svg class="icon" style="width:11px;height:11px" aria-hidden="true"><use href="#icon-clock"/></svg>${item.readTime} min</span>`:''}</div>
+    </div></a>`;
 }
 
-/* ── Load More ─────────────────────────────────────────────────── */
-function loadMore() {
-  const grid  = document.getElementById('contentGrid');
-  const lmBtn = document.getElementById('loadMoreBtn');
-  const next  = filtered.slice(visibleCount, visibleCount + PAGE_SIZE);
-  visibleCount += PAGE_SIZE;
-  grid.insertAdjacentHTML('beforeend', next.map((item,i) => buildCard(item, visibleCount-PAGE_SIZE+i)).join(''));
-  lmBtn.style.display = visibleCount < filtered.length ? 'flex' : 'none';
-  requestAnimationFrame(() =>
-    grid.querySelectorAll('.reveal:not(.in-view)').forEach(el => el.classList.add('in-view'))
-  );
+/* ── Load More ──────────────────────────── */
+document.getElementById('loadMoreBtn')?.addEventListener('click',()=>{ visibleCount+=PAGE_SIZE; renderGrid(false); });
+
+/* ── Skeletons ──────────────────────────── */
+function showSkeletons(n){
+  document.getElementById('contentGrid').innerHTML=Array.from({length:n},()=>`<div class="sk"><div class="sk-thumb" style="height:170px"></div><div class="sk-body"><div class="sk-line w20"></div><div class="sk-line w80"></div><div class="sk-line w60"></div><div class="sk-line w40"></div></div></div>`).join('');
+}
+function showError(msg){
+  document.getElementById('featuredSection').style.display='none';
+  document.getElementById('carouselSections').innerHTML='';
+  document.getElementById('contentGrid').innerHTML=`<div class="empty-state"><h3 style="color:var(--color-coral)">Couldn't load content</h3><p>${esc(msg)}</p><button class="btn btn-primary btn-sm" onclick="location.reload()">Retry</button></div>`;
 }
 
-/* ── Skeleton loaders ──────────────────────────────────────────── */
-function showSkeletons(n) {
-  document.getElementById('contentGrid').innerHTML =
-    Array.from({length:n},()=>`
-      <div class="skeleton-card">
-        <div class="skeleton-thumb"></div>
-        <div class="skeleton-body">
-          <div class="skeleton-line w-20"></div>
-          <div class="skeleton-line w-80"></div>
-          <div class="skeleton-line w-60"></div>
-          <div class="skeleton-line w-40"></div>
-        </div>
-      </div>`).join('');
-}
+/* ── Search ─────────────────────────────── */
+window._clearSearch=function(){ const inp=document.getElementById('searchInput'); if(inp)inp.value=''; searchTerm=''; document.getElementById('searchClear').style.display='none'; applyFilters(); };
+document.getElementById('searchInput')?.addEventListener('input',function(){ searchTerm=this.value; document.getElementById('searchClear').style.display=searchTerm?'flex':'none'; applyFilters(); });
+document.getElementById('searchClear')?.addEventListener('click',window._clearSearch);
 
-/* ── Error state ───────────────────────────────────────────────── */
-function showError(msg) {
-  document.getElementById('heroSection').style.display = 'none';
-  document.getElementById('contentGrid').innerHTML = `
-    <div class="empty-state error-state">
-      <svg class="empty-icon icon" aria-hidden="true" style="color:var(--color-coral)"><use href="#icon-fire"/></svg>
-      <h3>Couldn't load content</h3>
-      <p>Check your connection or Firestore setup. Error: ${esc(msg)}</p>
-      <button class="btn btn-primary btn-sm" onclick="location.reload()">Try again</button>
-    </div>`;
-}
-
-/* ── Search ────────────────────────────────────────────────────── */
-window._clearSearch = function() {
-  const input = document.getElementById('searchInput');
-  if (input) input.value = '';
-  searchTerm = '';
-  document.getElementById('searchClear').style.display = 'none';
-  applyFilters();
-};
-
-document.getElementById('searchInput')?.addEventListener('input', function() {
-  searchTerm = this.value;
-  document.getElementById('searchClear').style.display = searchTerm ? 'flex' : 'none';
-  applyFilters();
+/* ── Filter tabs ────────────────────────── */
+document.getElementById('filterTabs')?.addEventListener('click',e=>{
+  const btn=e.target.closest('.ftab'); if(!btn) return;
+  document.querySelectorAll('.ftab').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-selected','false');});
+  btn.classList.add('active'); btn.setAttribute('aria-selected','true');
+  activeType=btn.dataset.type; applyFilters();
 });
 
-document.getElementById('searchClear')?.addEventListener('click', window._clearSearch);
+/* ── View toggle ────────────────────────── */
+document.getElementById('gridViewBtn')?.addEventListener('click',()=>{ viewMode='grid'; document.getElementById('gridViewBtn').classList.add('active'); document.getElementById('listViewBtn').classList.remove('active'); renderGrid(true); });
+document.getElementById('listViewBtn')?.addEventListener('click',()=>{ viewMode='list'; document.getElementById('listViewBtn').classList.add('active'); document.getElementById('gridViewBtn').classList.remove('active'); renderGrid(true); });
 
-/* ── Filter tabs ───────────────────────────────────────────────── */
-document.querySelectorAll('.filter-tab').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.filter-tab').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-    this.classList.add('active');
-    this.setAttribute('aria-selected','true');
-    activeType = this.dataset.type;
-    applyFilters();
-  });
-});
-
-/* ── Load More button ──────────────────────────────────────────── */
-document.getElementById('loadMoreBtn')?.addEventListener('click', loadMore);
-
-/* ── Mobile nav ────────────────────────────────────────────────── */
-(function() {
-  const toggle   = document.getElementById('navToggle');
-  const links    = document.getElementById('navLinks');
-  const backdrop = document.getElementById('navBackdrop');
-  const panelClose = document.getElementById('navPanelClose');
-
-  function openNav() {
-    links.classList.add('open'); toggle.classList.add('active'); toggle.setAttribute('aria-expanded','true');
-    if(backdrop){backdrop.classList.add('open');backdrop.setAttribute('aria-hidden','false');}
-    document.body.classList.add('no-scroll');
-  }
-  function closeNav() {
-    links.classList.remove('open'); toggle.classList.remove('active'); toggle.setAttribute('aria-expanded','false');
-    if(backdrop){backdrop.classList.remove('open');backdrop.setAttribute('aria-hidden','true');}
-    document.body.classList.remove('no-scroll');
-  }
-  window._closeNav = closeNav;
-
-  toggle?.addEventListener('click', () => links.classList.contains('open') ? closeNav() : openNav());
-  panelClose?.addEventListener('click', closeNav);
-  backdrop?.addEventListener('click', closeNav);
-  links?.querySelectorAll('.nav-split-label,.nav-split-arrow').forEach(l => l.addEventListener('click', closeNav));
-
-  // Social auth in nav panel
-  document.getElementById('navGoogleBtn')?.addEventListener('click', () => {
-    closeNav();
-    window.ExoAuth?.signInGoogle().catch(()=>{});
-  });
-  document.getElementById('navFbBtn')?.addEventListener('click', () => {
-    closeNav();
-    window.ExoAuth?.signInFacebook().catch(()=>{});
-  });
+/* ── Mobile nav ─────────────────────────── */
+(function(){
+  const t=document.getElementById('navToggle'),l=document.getElementById('navLinks'),b=document.getElementById('navBackdrop'),c=document.getElementById('navPanelClose');
+  function o(){l.classList.add('open');t.classList.add('active');t.setAttribute('aria-expanded','true');b?.classList.add('open');document.body.classList.add('no-scroll');}
+  function s(){l.classList.remove('open');t.classList.remove('active');t.setAttribute('aria-expanded','false');b?.classList.remove('open');document.body.classList.remove('no-scroll');}
+  window._closeNav=s;
+  t?.addEventListener('click',()=>l.classList.contains('open')?s():o());
+  c?.addEventListener('click',s); b?.addEventListener('click',s);
+  document.getElementById('navGoogleBtn')?.addEventListener('click',()=>{s();window.ExoAuth?.signInGoogle().catch(()=>{});});
+  document.getElementById('navFbBtn')?.addEventListener('click',()=>{s();window.ExoAuth?.signInFacebook().catch(()=>{});});
+  l?.querySelectorAll('.nav-split-label,.nav-split-arrow').forEach(el=>el.addEventListener('click',s));
 })();
 
-/* ── Theme toggle ──────────────────────────────────────────────── */
-document.getElementById('themeToggle')?.addEventListener('click', () => {
-  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-});
+/* ── Theme ──────────────────────────────── */
+document.getElementById('themeToggle')?.addEventListener('click',()=>{ const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'; document.documentElement.setAttribute('data-theme',n); });
 
-/* ── Reveal observer ───────────────────────────────────────────── */
-const revealObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('in-view'); revealObs.unobserve(e.target); }});
-}, { threshold:0.1 });
-document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+/* ── Footer year ────────────────────────── */
+const yr=document.getElementById('footerYear'); if(yr) yr.textContent=new Date().getFullYear();
 
-/* ── Footer year ───────────────────────────────────────────────── */
-const yearEl = document.getElementById('footerYear');
-if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-/* ── Start ─────────────────────────────────────────────────────── */
+/* ── Go ─────────────────────────────────── */
 loadContent();
 </script>
 </body>
