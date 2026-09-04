@@ -1,642 +1,852 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<meta name="description" content="ExoraWorld Terms and Conditions — Read our terms of service before using the platform.">
-<meta name="theme-color" content="#080c14">
-<title>Terms & Conditions — ExoraWorld</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="ExoraWorld Terms and Conditions — Full terms of service, content policies, copyright declaration, gallery sourcing, news aggregation, and platform rules." />
+<meta name="theme-color" content="#E8A430" />
+<title>Terms &amp; Conditions — ExoraWorld</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<!-- Inline theme init: runs before paint to avoid flash -->
+<script>
+(function(){
+  try {
+    var ovr = JSON.parse(sessionStorage.getItem('exo_theme_ovr')||'null');
+    var stored = (ovr && Date.now() < ovr.exp) ? ovr.t : null;
+    var h = new Date().getHours();
+    var timeTheme = (h >= 6 && h < 19) ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', stored || timeTheme);
+  } catch(e){}
+})();
+</script>
+
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; font-size: 16px; }
-body {
-  font-family: 'Outfit', sans-serif;
-  background: #080c14;
-  color: #e8eaf0;
-  overflow-x: hidden;
-  cursor: none;
-  -webkit-font-smoothing: antialiased;
-}
-a { text-decoration: none; color: inherit; }
-img { max-width: 100%; display: block; }
-button { cursor: none; font-family: inherit; border: none; background: none; }
-ul { list-style: none; }
-::selection { background: #00f0c820; color: #00f0c8; }
-
+/* ============================================================
+   DESIGN TOKENS — mirrors index.html exactly
+   ============================================================ */
 :root {
-  --accent: #00f0c8;
-  --accent2: #7b5cfa;
-  --bg: #080c14;
-  --bg2: #0d1220;
-  --surface: #151d2e;
-  --surface2: #1a2340;
-  --border: rgba(255,255,255,0.07);
-  --text: #e8eaf0;
-  --text2: #8892a4;
-  --text3: #4a5568;
-  --font-display: 'Syne', sans-serif;
-  --font-mono: 'Space Mono', monospace;
-  --font-body: 'Outfit', sans-serif;
-  --nav-h: 72px;
-  --radius: 12px;
-  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  --color-bg: #F8F7F3;
+  --color-bg-alt: #F1ECE0;
+  --color-surface: #FFFFFF;
+  --color-text: #17171A;
+  --color-text-muted: #6B6864;
+  --color-border: #E4DFD2;
+  --color-primary: #E8A430;
+  --color-primary-hover: #D6952A;
+  --color-on-primary: #17171A;
+  --color-secondary: #12756B;
+  --color-secondary-hover: #0D5A52;
+  --color-coral: #DE5B4C;
+  --color-navbar-bg: rgba(248,247,243,0.82);
+  --shadow-color: 220 20% 10%;
+  --font-display: 'Bricolage Grotesque','Segoe UI',sans-serif;
+  --font-body: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --space-xs: 0.75rem;
+  --space-sm: 1.25rem;
+  --space-md: 2rem;
+  --space-lg: 3rem;
+  --nav-height: 76px;
+  --container-width: 1200px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-full: 999px;
+  --shadow-sm: 0 1px 3px hsl(var(--shadow-color)/.08);
+  --shadow-md: 0 10px 30px hsl(var(--shadow-color)/.10);
+  --shadow-lg: 0 24px 48px hsl(var(--shadow-color)/.16);
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+[data-theme="dark"] {
+  --color-bg: #121214;
+  --color-bg-alt: #18181B;
+  --color-surface: #1D1D21;
+  --color-text: #F5F3EE;
+  --color-text-muted: #9E9B95;
+  --color-border: #2B2B30;
+  --color-primary: #F0AC42;
+  --color-primary-hover: #F5BE6B;
+  --color-on-primary: #17171A;
+  --color-secondary: #2DD4BF;
+  --color-secondary-hover: #5EEAD4;
+  --color-coral: #EC6B5C;
+  --color-navbar-bg: rgba(18,18,20,0.76);
+  --shadow-color: 0 0% 0%;
+  --shadow-sm: 0 1px 3px hsl(var(--shadow-color)/.35);
+  --shadow-md: 0 10px 30px hsl(var(--shadow-color)/.45);
+  --shadow-lg: 0 24px 48px hsl(var(--shadow-color)/.55);
 }
 
-/* Noise */
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 9990;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.025; pointer-events: none;
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-height)+1.5rem);}
+body{font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background-color var(--transition-base),color var(--transition-base);overflow-x:hidden;word-break:break-word;overflow-wrap:break-word;}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;word-break:break-all;}
+button,input{font:inherit;color:inherit;}
+ul{list-style:none;}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.15;font-weight:700;letter-spacing:-0.01em;overflow-wrap:break-word;word-break:break-word;}
+:focus-visible{outline:2px solid var(--color-secondary);outline-offset:3px;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container{width:100%;max-width:var(--container-width);margin-inline:auto;padding-inline:clamp(1.25rem,4vw,2rem);}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-height);
+  display:flex;align-items:center;
+  background:var(--color-navbar-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;
+  transition:border-color var(--transition-base),box-shadow var(--transition-base);
+}
+.navbar.scrolled{border-color:var(--color-border);box-shadow:var(--shadow-sm);}
+.navbar-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.nav-logo{display:flex;align-items:center;gap:0.55rem;font-family:var(--font-display);font-weight:800;font-size:1.25rem;flex-shrink:0;}
+.logo-mark{width:32px;height:32px;border-radius:9px;background:var(--color-primary);display:flex;align-items:center;justify-content:center;color:var(--color-on-primary);font-size:1rem;font-weight:800;}
+.nav-right{display:flex;align-items:center;gap:0.75rem;}
+.nav-back{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  padding:0.5rem 1rem;border-radius:var(--radius-full);
+  border:1.5px solid var(--color-border);font-size:0.85rem;font-weight:600;
+  transition:border-color var(--transition-fast),color var(--transition-fast),background-color var(--transition-fast);
+}
+.nav-back:hover{border-color:var(--color-secondary);color:var(--color-secondary);}
+.nav-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.theme-toggle{
+  width:40px;height:40px;border-radius:50%;border:1.5px solid var(--color-border);
+  background:var(--color-surface);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--color-text);transition:transform var(--transition-fast),border-color var(--transition-fast);
+}
+.theme-toggle:hover{transform:rotate(-14deg);border-color:var(--color-primary);}
+.icon-sun,.icon-moon{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+[data-theme="light"] .icon-moon{display:none;}
+[data-theme="dark"] .icon-sun{display:none;}
+[data-theme="dark"] .icon-moon{display:block;}
+
+/* ============================================================
+   PAGE HERO
+   ============================================================ */
+.page-hero{
+  padding-top:calc(var(--nav-height) + clamp(3rem,7vw,5rem));
+  padding-bottom:clamp(2.5rem,5vw,4rem);
+  text-align:center;
+  border-bottom:1px solid var(--color-border);
+  background:var(--color-bg-alt);
+  position:relative;overflow:hidden;
+}
+.page-hero::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:600px;height:600px;
+  background:radial-gradient(circle,var(--color-primary) 0%,transparent 65%);
+  opacity:0.07;filter:blur(40px);pointer-events:none;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:0.45rem;
+  color:var(--color-secondary);font-weight:700;
+  font-size:0.78rem;letter-spacing:0.09em;text-transform:uppercase;margin-bottom:1rem;
+}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--color-coral);}
+.page-hero h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:800;margin-bottom:1rem;line-height:1.08;}
+.page-hero h1 .accent{color:var(--color-primary);}
+.page-hero .lead{font-size:1.05rem;color:var(--color-text-muted);max-width:580px;margin:0 auto 2rem;line-height:1.7;}
+.meta-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0.75rem 1.25rem;font-size:0.82rem;color:var(--color-text-muted);}
+.meta-row span{display:flex;align-items:center;gap:0.4rem;white-space:nowrap;}
+.meta-row svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:0.6;}
+@media(max-width:400px){
+  .meta-row{flex-direction:column;gap:0.5rem;}
+  .page-hero h1{font-size:1.8rem;}
 }
 
-/* Cursor */
-#cursor-dot {
-  position: fixed; top: 0; left: 0; z-index: 9999;
-  width: 8px; height: 8px; background: var(--accent);
-  border-radius: 50%; pointer-events: none;
-  transform: translate(-50%,-50%);
-  transition: width .2s, height .2s, background .2s;
-  mix-blend-mode: screen;
+/* Summary pills */
+.summary-row{
+  display:flex;flex-wrap:wrap;gap:0.6rem;justify-content:center;
+  padding:0 clamp(1rem,4vw,2rem);margin-top:1.75rem;
 }
-#cursor-ring {
-  position: fixed; top: 0; left: 0; z-index: 9998;
-  width: 36px; height: 36px;
-  border: 1.5px solid rgba(0,240,200,0.5);
-  border-radius: 50%; pointer-events: none;
-  transform: translate(-50%,-50%);
-  transition: width .25s, height .25s, border-color .25s;
+.pill{
+  display:inline-flex;align-items:center;gap:0.45rem;
+  padding:0.4rem 0.9rem;border-radius:var(--radius-full);
+  border:1.5px solid var(--color-border);
+  background:var(--color-surface);font-size:0.78rem;font-weight:600;
+  color:var(--color-text-muted);
+  box-shadow:var(--shadow-sm);
 }
-body.cursor-hover #cursor-dot { width: 14px; height: 14px; }
-body.cursor-hover #cursor-ring { width: 52px; height: 52px; border-color: var(--accent); }
-body.cursor-click #cursor-dot { transform: translate(-50%,-50%) scale(0.5); }
-@media (pointer: coarse) {
-  #cursor-dot, #cursor-ring { display: none; }
-  body { cursor: auto; }
-  a, button { cursor: pointer; }
-}
+.pill-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 
-/* Scroll progress */
-#scroll-progress {
-  position: fixed; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  transform-origin: left; transform: scaleX(0);
-  z-index: 9997; transition: transform .1s;
+/* ============================================================
+   LEGAL LAYOUT — sidebar TOC + main content
+   ============================================================ */
+.legal-wrap{
+  max-width:1100px;margin-inline:auto;
+  padding:clamp(2.5rem,5vw,4rem) clamp(1.25rem,4vw,2rem) clamp(4rem,8vw,7rem);
+  display:grid;grid-template-columns:220px 1fr;gap:clamp(2rem,5vw,4rem);align-items:start;
 }
+@media(max-width:860px){.legal-wrap{grid-template-columns:1fr;}}
 
-/* Navbar */
-#navbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  height: var(--nav-h);
-  display: flex; align-items: center;
-  padding: 0 clamp(16px,5vw,60px);
-  background: rgba(8,12,20,0.92);
-  backdrop-filter: blur(20px) saturate(1.4);
-  box-shadow: 0 1px 0 var(--border);
+/* TOC sidebar */
+.toc-sidebar{position:sticky;top:calc(var(--nav-height)+1.5rem);max-height:calc(100vh - var(--nav-height) - 3rem);overflow-y:auto;}
+.toc-sidebar::-webkit-scrollbar{width:3px;}
+.toc-sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:3px;}
+.toc-label{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:0.85rem;}
+.toc-list{display:flex;flex-direction:column;gap:1px;}
+.toc-item{
+  display:flex;align-items:center;gap:0.6rem;
+  padding:0.5rem 0.75rem;border-radius:var(--radius-sm);font-size:0.82rem;font-weight:500;
+  color:var(--color-text-muted);border-left:2px solid transparent;
+  transition:all var(--transition-fast);line-height:1.4;
 }
-.nav-logo {
-  font-family: var(--font-display); font-size: 20px; font-weight: 800;
-  letter-spacing: -0.02em; color: var(--text);
-  display: flex; align-items: center; gap: 8px;
-}
-.nav-logo span { color: var(--accent); }
-.nav-logo-mark {
-  width: 26px; height: 26px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  border-radius: 6px; display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 800; color: #080c14;
-}
-.nav-back {
-  margin-left: auto;
-  display: inline-flex; align-items: center; gap: 6px;
-  font-family: var(--font-mono); font-size: 11px; color: var(--text2);
-  letter-spacing: 0.08em; text-transform: uppercase;
-  border: 1px solid var(--border); padding: 7px 14px; border-radius: 8px;
-  transition: all var(--transition);
-}
-.nav-back:hover { border-color: var(--accent); color: var(--accent); }
-.nav-back svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+.toc-item:hover{color:var(--color-text);background:var(--color-bg-alt);border-left-color:var(--color-primary);}
+.toc-item.active{color:var(--color-secondary);background:rgba(18,117,107,0.08);border-left-color:var(--color-secondary);}
+.toc-num{font-size:0.7rem;font-weight:700;color:var(--color-text-muted);opacity:0.55;flex-shrink:0;font-variant-numeric:tabular-nums;}
+@media(max-width:860px){.toc-sidebar{display:none;}}
 
-/* Page hero */
-.page-hero {
-  padding: calc(var(--nav-h) + 60px) clamp(16px,5vw,60px) 0;
-  max-width: 900px; margin: 0 auto;
-  text-align: center;
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.legal-content{min-width:0;max-width:100%;overflow:hidden;}
+.legal-section{
+  margin-bottom:3.5rem;padding-bottom:3.5rem;border-bottom:1px solid var(--color-border);
+  opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease;
 }
-.page-label {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--font-mono); font-size: 11px; color: var(--accent);
-  letter-spacing: 0.12em; text-transform: uppercase;
-  border: 1px solid rgba(0,240,200,0.2); background: rgba(0,240,200,0.05);
-  padding: 5px 14px; border-radius: 100px; margin-bottom: 22px;
+.legal-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.legal-section.visible{opacity:1;transform:none;}
+.section-num{
+  display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;
+  font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--color-secondary);
 }
-.page-title {
-  font-family: var(--font-display); font-size: clamp(32px,6vw,58px);
-  font-weight: 800; letter-spacing: -0.03em; color: var(--text);
-  line-height: 1.05; margin-bottom: 16px;
+.section-num::after{content:'';display:inline-block;width:32px;height:1.5px;background:var(--color-border);border-radius:1px;vertical-align:middle;}
+.legal-section h2{font-size:clamp(1.2rem,2.5vw,1.55rem);font-weight:700;margin-bottom:1.1rem;color:var(--color-text);}
+.legal-section h3{font-size:1rem;font-weight:700;margin:1.5rem 0 0.65rem;color:var(--color-text);}
+.legal-section p{font-size:0.925rem;color:var(--color-text-muted);line-height:1.8;margin-bottom:0.85rem;overflow-wrap:break-word;word-break:break-word;}
+.legal-section p:last-child{margin-bottom:0;}
+.legal-section ul{margin:0.75rem 0 1rem;display:flex;flex-direction:column;gap:0.55rem;}
+.legal-section ul li{
+  font-size:0.9rem;color:var(--color-text-muted);line-height:1.75;
+  padding-left:1.4rem;position:relative;overflow-wrap:break-word;word-break:break-word;
 }
-.page-title em { font-style: normal; color: var(--accent); }
-.page-meta {
-  font-family: var(--font-mono); font-size: 12px; color: var(--text3);
-  letter-spacing: 0.06em; margin-bottom: 10px;
+.legal-section ul li::before{
+  content:'';position:absolute;left:0;top:0.62em;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--color-primary);flex-shrink:0;
 }
-.page-desc {
-  font-size: 15px; color: var(--text2); line-height: 1.7; max-width: 600px; margin: 0 auto;
-}
+.legal-section strong{color:var(--color-text);font-weight:600;}
+.legal-section a{color:var(--color-secondary);font-weight:500;}
+.legal-section a:hover{text-decoration:underline;}
 
-/* Divider */
-.divider-line {
-  border: none; border-top: 1px solid var(--border);
-  max-width: 900px; margin: 50px auto 0;
+/* Callout boxes */
+.callout{
+  border-radius:var(--radius-md);padding:1.1rem 1.25rem;margin:1.25rem 0;
+  border:1.5px solid var(--color-border);background:var(--color-bg-alt);
+  border-left:4px solid var(--color-primary);
 }
+.callout.teal{border-left-color:var(--color-secondary);background:var(--color-bg-alt);}
+.callout.coral{border-left-color:var(--color-coral);background:var(--color-bg-alt);}
+.callout.amber{border-left-color:var(--color-primary);background:var(--color-bg-alt);}
+.callout p{font-size:0.875rem;margin:0;color:var(--color-text-muted);line-height:1.75;}
+.callout p+p{margin-top:0.65rem;}
 
-/* Main layout */
-.legal-layout {
-  max-width: 1100px; margin: 0 auto;
-  padding: 60px clamp(16px,5vw,60px) 100px;
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 60px; align-items: start;
+/* Content-type cards (section 03) */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr));gap:0.9rem;margin:1.25rem 0;}
+@media(max-width:400px){.type-grid{grid-template-columns:1fr;}}
+.type-card{
+  background:var(--color-surface);border:1.5px solid var(--color-border);
+  border-radius:var(--radius-md);padding:1.1rem 1rem;
+  transition:border-color var(--transition-fast),box-shadow var(--transition-fast);
 }
-@media (max-width: 800px) {
-  .legal-layout { grid-template-columns: 1fr; gap: 40px; }
+.type-card:hover{border-color:var(--color-primary);box-shadow:var(--shadow-sm);}
+.type-badge{
+  display:inline-block;padding:0.2rem 0.6rem;border-radius:var(--radius-full);
+  font-size:0.68rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;
+  margin-bottom:0.6rem;
 }
+.badge-amber{background:rgba(232,164,48,0.15);color:var(--color-primary);}
+.badge-teal{background:rgba(18,117,107,0.14);color:var(--color-secondary);}
+.badge-coral{background:rgba(222,91,76,0.14);color:var(--color-coral);}
+.badge-dark{background:rgba(23,23,26,0.10);color:var(--color-text);}
+.type-card-title{font-family:var(--font-display);font-size:0.9rem;font-weight:700;color:var(--color-text);margin-bottom:0.35rem;}
+.type-card-desc{font-size:0.78rem;color:var(--color-text-muted);line-height:1.55;}
 
-/* Sidebar TOC */
-.toc {
-  position: sticky; top: calc(var(--nav-h) + 20px);
+/* ============================================================
+   FOOTER — matches index.html
+   ============================================================ */
+.site-footer{
+  border-top:1px solid var(--color-border);background:var(--color-bg-alt);
+  padding:2rem clamp(1.25rem,4vw,2rem);
 }
-.toc-title {
-  font-family: var(--font-mono); font-size: 10px; color: var(--text3);
-  letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 14px;
+.footer-bottom{
+  max-width:var(--container-width);margin-inline:auto;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;
 }
-.toc-list { display: flex; flex-direction: column; gap: 2px; }
-.toc-item {
-  font-size: 13px; color: var(--text2); padding: 7px 12px; border-radius: 7px;
-  transition: all 0.2s; border-left: 2px solid transparent;
-  display: flex; align-items: center; gap: 8px;
-  line-height: 1.4;
-}
-.toc-item:hover { color: var(--text); background: rgba(255,255,255,0.04); border-left-color: var(--accent); }
-.toc-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(0,240,200,0.05); }
-.toc-num { font-family: var(--font-mono); font-size: 10px; color: var(--text3); flex-shrink: 0; }
+.footer-copyright{font-size:0.82rem;color:var(--color-text-muted);}
+.footer-links-row{display:flex;gap:1.25rem;flex-wrap:wrap;}
+.footer-links-row a{font-size:0.82rem;color:var(--color-text-muted);transition:color var(--transition-fast);}
+.footer-links-row a:hover{color:var(--color-secondary);}
+.footer-links-row a.current{color:var(--color-primary);font-weight:600;}
 
-@media (max-width: 800px) {
-  .toc { display: none; }
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+  position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--color-text);color:var(--color-bg);padding:0.75rem 1.4rem;
+  border-radius:var(--radius-full);font-size:0.88rem;font-weight:600;
+  box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;
+  transition:opacity 0.3s ease,transform 0.3s ease;z-index:9000;white-space:nowrap;
 }
-
-/* Legal content */
-.legal-content { }
-.legal-section {
-  margin-bottom: 56px;
-  opacity: 0; transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.legal-section.visible { opacity: 1; transform: none; }
-
-.section-anchor { scroll-margin-top: calc(var(--nav-h) + 30px); }
-
-.legal-section-num {
-  font-family: var(--font-mono); font-size: 10px; color: var(--accent);
-  letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 10px;
-  display: flex; align-items: center; gap: 8px;
-}
-.legal-section-num::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-.legal-section h2 {
-  font-family: var(--font-display); font-size: clamp(18px,3vw,24px);
-  font-weight: 700; color: var(--text); letter-spacing: -0.015em;
-  margin-bottom: 18px; line-height: 1.2;
-}
-.legal-section p {
-  font-size: 14.5px; color: var(--text2); line-height: 1.8; margin-bottom: 14px;
-}
-.legal-section p:last-child { margin-bottom: 0; }
-.legal-section ul {
-  margin: 12px 0 14px 0; display: flex; flex-direction: column; gap: 8px;
-}
-.legal-section ul li {
-  font-size: 14px; color: var(--text2); line-height: 1.7;
-  padding-left: 18px; position: relative;
-}
-.legal-section ul li::before {
-  content: '—'; position: absolute; left: 0;
-  color: var(--accent); font-family: var(--font-mono); font-size: 11px;
-}
-.legal-section strong { color: var(--text); font-weight: 600; }
-.legal-section a { color: var(--accent); transition: opacity 0.2s; }
-.legal-section a:hover { opacity: 0.75; }
-
-.callout {
-  background: var(--surface); border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
-  border-radius: var(--radius); padding: 18px 20px; margin: 20px 0;
-}
-.callout.warn { border-left-color: #f05060; }
-.callout.info { border-left-color: #38bdf8; }
-.callout p { font-size: 13.5px; margin: 0; }
-
-/* Footer */
-footer {
-  background: var(--bg); border-top: 1px solid var(--border);
-  padding: 40px clamp(16px,5vw,60px);
-}
-.footer-bottom {
-  max-width: 1100px; margin: 0 auto;
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
-}
-.footer-copy { font-family: var(--font-mono); font-size: 11px; color: var(--text3); letter-spacing: 0.05em; }
-.footer-legal { display: flex; gap: 20px; flex-wrap: wrap; }
-.footer-legal a { font-family: var(--font-mono); font-size: 11px; color: var(--text3); transition: color 0.2s; }
-.footer-legal a:hover { color: var(--text2); }
-.footer-legal a.active-page { color: var(--accent); }
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
 
-<div id="scroll-progress"></div>
-<div id="cursor-dot"></div>
-<div id="cursor-ring"></div>
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="nav-logo" aria-label="ExoraWorld Home">
+      <div class="logo-mark">E</div>
+      ExoraWorld
+    </a>
+    <div class="nav-right">
+      <a href="index.html" class="nav-back">
+        <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Home
+      </a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" aria-pressed="false">
+        <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
 
-<nav id="navbar">
-  <a href="../index.html" class="nav-logo">
-    <div class="nav-logo-mark">E</div>
-    Exora<span>World</span>
-  </a>
-  <a href="../index.html" class="nav-back">
-    <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-    Back to Home
-  </a>
-</nav>
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="eyebrow"><span class="eyebrow-dot"></span> Legal Document</div>
+    <h1>Terms &amp; <span class="accent">Conditions</span></h1>
+    <p class="lead">Read these Terms carefully before using ExoraWorld. By accessing or using our platform in any way, you confirm you have read, understood, and agree to be legally bound by these Terms and our Privacy Policy.</p>
+    <div class="meta-row">
+      <span>
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Last updated: September 3, 2026
+      </span>
+      <span>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Effective immediately
+      </span>
+      <span>
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        25 sections
+      </span>
+    </div>
+    <div class="summary-row">
+      <span class="pill"><span class="pill-dot" style="background:var(--color-primary)"></span>Gallery: Public Domain &amp; Original</span>
+      <span class="pill"><span class="pill-dot" style="background:var(--color-secondary)"></span>News: Open-Source RSS Feeds</span>
+      <span class="pill"><span class="pill-dot" style="background:#6366f1"></span>Games &amp; Tools: 100% Original</span>
+      <span class="pill"><span class="pill-dot" style="background:var(--color-coral)"></span>No Liability for Third-Party Data</span>
+    </div>
+  </div>
+</section>
 
-<div class="page-hero">
-  <div class="page-label">Legal Document</div>
-  <h1 class="page-title">Terms &amp; <em>Conditions</em></h1>
-  <p class="page-meta">Last updated: May 2, 2025 &nbsp;·&nbsp; Effective immediately</p>
-  <p class="page-desc">Please read these Terms and Conditions carefully before using ExoraWorld. By accessing or using our platform, you agree to be bound by these terms.</p>
-</div>
-<hr class="divider-line">
+<!-- LEGAL LAYOUT -->
+<div class="legal-wrap">
 
-<div class="legal-layout">
-
-  <!-- Sidebar TOC -->
-  <aside class="toc">
-    <div class="toc-title">Contents</div>
-    <ul class="toc-list" id="toc-list">
-      <li><a href="#s1" class="toc-item"><span class="toc-num">01</span>Acceptance of Terms</a></li>
-      <li><a href="#s2" class="toc-item"><span class="toc-num">02</span>About ExoraWorld</a></li>
-      <li><a href="#s3" class="toc-item"><span class="toc-num">03</span>Eligibility</a></li>
-      <li><a href="#s4" class="toc-item"><span class="toc-num">04</span>User Accounts</a></li>
-      <li><a href="#s5" class="toc-item"><span class="toc-num">05</span>Products &amp; Orders</a></li>
-      <li><a href="#s6" class="toc-item"><span class="toc-num">06</span>Payments</a></li>
-      <li><a href="#s7" class="toc-item"><span class="toc-num">07</span>Delivery &amp; Fulfillment</a></li>
-      <li><a href="#s8" class="toc-item"><span class="toc-num">08</span>Refunds &amp; Disputes</a></li>
-      <li><a href="#s9" class="toc-item"><span class="toc-num">09</span>Gallery &amp; Downloads</a></li>
-      <li><a href="#s10" class="toc-item"><span class="toc-num">10</span>Intellectual Property</a></li>
-      <li><a href="#s11" class="toc-item"><span class="toc-num">11</span>Prohibited Conduct</a></li>
-      <li><a href="#s12" class="toc-item"><span class="toc-num">12</span>Data Collection &amp; Consent</a></li>
-      <li><a href="#s12b" class="toc-item"><span class="toc-num">13</span>Advertising &amp; Partners</a></li>
-      <li><a href="#s12c" class="toc-item"><span class="toc-num">14</span>Third-Party Liability</a></li>
-      <li><a href="#s13" class="toc-item"><span class="toc-num">15</span>Disclaimers</a></li>
-      <li><a href="#s14" class="toc-item"><span class="toc-num">16</span>Limitation of Liability</a></li>
-      <li><a href="#s15" class="toc-item"><span class="toc-num">17</span>Changes to Terms</a></li>
-      <li><a href="#s16" class="toc-item"><span class="toc-num">18</span>Governing Law</a></li>
-      <li><a href="#s17" class="toc-item"><span class="toc-num">19</span>Contact Us</a></li>
-    </ul>
+  <!-- SIDEBAR TOC -->
+  <aside class="toc-sidebar" aria-label="Table of contents">
+    <div class="toc-label">Contents</div>
+    <nav class="toc-list" id="tocList">
+      <a href="#s1" class="toc-item"><span class="toc-num">01</span>Acceptance of Terms</a>
+      <a href="#s2" class="toc-item"><span class="toc-num">02</span>About ExoraWorld</a>
+      <a href="#s3" class="toc-item"><span class="toc-num">03</span>How Our Platform Works</a>
+      <a href="#s4" class="toc-item"><span class="toc-num">04</span>Gallery &amp; Visual Content</a>
+      <a href="#s5" class="toc-item"><span class="toc-num">05</span>News Aggregation</a>
+      <a href="#s6" class="toc-item"><span class="toc-num">06</span>Games — Original Creations</a>
+      <a href="#s7" class="toc-item"><span class="toc-num">07</span>Store &amp; Digital Tools</a>
+      <a href="#s8" class="toc-item"><span class="toc-num">08</span>Content Hub</a>
+      <a href="#s9" class="toc-item"><span class="toc-num">09</span>Eligibility</a>
+      <a href="#s10" class="toc-item"><span class="toc-num">10</span>User Accounts</a>
+      <a href="#s11" class="toc-item"><span class="toc-num">11</span>Products &amp; Orders</a>
+      <a href="#s12" class="toc-item"><span class="toc-num">12</span>Payments</a>
+      <a href="#s13" class="toc-item"><span class="toc-num">13</span>Delivery &amp; Fulfillment</a>
+      <a href="#s14" class="toc-item"><span class="toc-num">14</span>Refunds &amp; Disputes</a>
+      <a href="#s15" class="toc-item"><span class="toc-num">15</span>Intellectual Property</a>
+      <a href="#s16" class="toc-item"><span class="toc-num">16</span>DMCA &amp; Copyright Claims</a>
+      <a href="#s17" class="toc-item"><span class="toc-num">17</span>Prohibited Conduct</a>
+      <a href="#s18" class="toc-item"><span class="toc-num">18</span>Data Collection &amp; Consent</a>
+      <a href="#s19" class="toc-item"><span class="toc-num">19</span>Advertising &amp; Partners</a>
+      <a href="#s20" class="toc-item"><span class="toc-num">20</span>Third-Party Liability</a>
+      <a href="#s21" class="toc-item"><span class="toc-num">21</span>Disclaimers</a>
+      <a href="#s22" class="toc-item"><span class="toc-num">22</span>Limitation of Liability</a>
+      <a href="#s23" class="toc-item"><span class="toc-num">23</span>Changes to Terms</a>
+      <a href="#s24" class="toc-item"><span class="toc-num">24</span>Governing Law</a>
+      <a href="#s25" class="toc-item"><span class="toc-num">25</span>Contact Us</a>
+    </nav>
   </aside>
 
-  <!-- Content -->
+  <!-- MAIN CONTENT -->
   <main class="legal-content">
 
-    <div class="legal-section section-anchor" id="s1">
-      <div class="legal-section-num">01 &nbsp; Acceptance of Terms</div>
+    <div class="legal-section" id="s1">
+      <div class="section-num">01</div>
       <h2>Acceptance of Terms</h2>
-      <div class="callout">
-        <p><strong>By accessing or using ExoraWorld in any way</strong> — including browsing, purchasing, downloading, or creating an account — you confirm that you have read, understood, and agree to be legally bound by these Terms and Conditions and our Privacy Policy.</p>
+      <div class="callout amber">
+        <p><strong>By accessing or using ExoraWorld in any way</strong> — including browsing, purchasing, downloading, playing games, reading news, or creating an account — you confirm that you have read, understood, and agree to be legally bound by these Terms and Conditions and our <a href="privacy.html">Privacy Policy</a>.</p>
       </div>
-      <p>If you do not agree with any part of these terms, you must not use ExoraWorld. These Terms constitute a legally binding agreement between you ("User," "Customer," or "you") and ExoraWorld ("we," "us," or "our").</p>
-      <p>We reserve the right to update or modify these Terms at any time. Continued use of the platform after changes are posted constitutes your acceptance of the revised Terms.</p>
+      <p>If you do not agree with any part of these Terms, you must immediately stop using ExoraWorld. These Terms constitute a legally binding agreement between you ("User," "Visitor," "Customer," or "you") and ExoraWorld ("we," "us," "our," or "the Platform").</p>
+      <p>We reserve the right to update, amend, or replace these Terms at any time. When material changes occur, we will update the effective date at the top of this page. Your continued use of ExoraWorld after any changes constitutes your acceptance of the revised Terms.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="s2">
-      <div class="legal-section-num">02 &nbsp; About ExoraWorld</div>
+    <div class="legal-section" id="s2">
+      <div class="section-num">02</div>
       <h2>About ExoraWorld</h2>
-      <p>ExoraWorld is a digital platform offering a variety of services including but not limited to:</p>
-      <ul>
-        <li>A digital product store where customers can browse and purchase digital goods</li>
-        <li>A photo gallery where users can browse and download images</li>
-        <li>A content hub featuring articles, guides, and resources</li>
-        <li>News and updates related to the platform and community</li>
-        <li>Application listings and recommendations (coming soon)</li>
-      </ul>
-      <p>ExoraWorld operates as an independent digital marketplace. All products and services are provided "as described" on individual listing pages. We are not affiliated with any payment processors, third-party services, or platforms beyond stated partnerships.</p>
+      <p>ExoraWorld is an all-in-one independent digital platform operated from Bangladesh. We offer a wide range of free and paid digital experiences, products, and services across multiple sections of the platform — including a visual gallery, live news hub, browser games, a digital product store, and an original content hub.</p>
+      <p>ExoraWorld is independently owned and operated. We are not affiliated with, endorsed by, or formally partnered with any third-party companies beyond explicitly stated technical integrations (e.g. Firebase by Google for authentication, and rss2json.com for news feed parsing). Our platform is built on open-source and publicly available technologies and is committed to full transparency about how every section works.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="s3">
-      <div class="legal-section-num">03 &nbsp; Eligibility</div>
+    <div class="legal-section" id="s3">
+      <div class="section-num">03</div>
+      <h2>How Our Platform Works — A Clear Overview</h2>
+      <p>ExoraWorld consists of several distinct sections, each operating under its own content model. The following overview is provided so users, copyright holders, advertisers, and search engines understand exactly what ExoraWorld is and how each section sources and presents its content.</p>
+      <div class="type-grid">
+        <div class="type-card">
+          <span class="type-badge badge-amber">Gallery</span>
+          <div class="type-card-title">Visual Gallery</div>
+          <div class="type-card-desc">Owner's original photography + verified public domain &amp; Creative Commons imagery. All content is monetization-safe and copyright-clear.</div>
+        </div>
+        <div class="type-card">
+          <span class="type-badge badge-teal">News</span>
+          <div class="type-card-title">News Hub</div>
+          <div class="type-card-desc">Live headlines aggregated from open public RSS feeds (BBC, IGN, Daily Star Bangladesh). We link back to all original sources.</div>
+        </div>
+        <div class="type-card">
+          <span class="type-badge badge-dark">Games</span>
+          <div class="type-card-title">Platform Games</div>
+          <div class="type-card-desc">100% original browser-based games — designed, coded, and published by ExoraWorld. All assets and code are our intellectual property.</div>
+        </div>
+        <div class="type-card">
+          <span class="type-badge badge-amber">Store</span>
+          <div class="type-card-title">Digital Store</div>
+          <div class="type-card-desc">Original digital products — website templates, resume templates, tools, game codes — all independently created by ExoraWorld.</div>
+        </div>
+        <div class="type-card">
+          <span class="type-badge badge-coral">Content</span>
+          <div class="type-card-title">Content Hub</div>
+          <div class="type-card-desc">Original articles, guides, tutorials, and posts authored and published entirely by ExoraWorld.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="legal-section" id="s4">
+      <div class="section-num">04</div>
+      <h2>Gallery &amp; Visual Content — Sources, Fair Use &amp; Copyright Declaration</h2>
+      <p>ExoraWorld's Gallery ("Lumina Gallery") hosts and displays visual content including photographs and digital images. We are fully transparent about the origin and legal status of every category of content we display or offer for download.</p>
+      <h3>Content Sources</h3>
+      <ul>
+        <li><strong>Owner's Original Photography:</strong> A significant portion of the gallery consists of photographs personally taken and created by the ExoraWorld owner. These are the exclusive intellectual property of ExoraWorld. All rights are retained, and these images may be displayed, shared publicly, and monetized by ExoraWorld without restriction</li>
+        <li><strong>Public Domain Images:</strong> We source images from verified public domain repositories including Unsplash, Pexels, Pixabay, Wikimedia Commons (CC0), and similar platforms where content has been irrevocably released under CC0 or equivalent licenses. These images are free from copyright restrictions worldwide and may be used commercially</li>
+        <li><strong>Creative Commons Licensed Content:</strong> Where applicable, we use images under Creative Commons licenses that permit redistribution and commercial use (CC BY, CC BY-SA, or equivalent). Attribution is provided where required by the specific license</li>
+        <li><strong>Fair Use Content:</strong> A limited selection of images may be used under the doctrine of fair use (U.S. Copyright Act, 17 U.S.C. § 107) or equivalent doctrines in other jurisdictions, for purposes of commentary, education, or transformative presentation within the platform context</li>
+      </ul>
+      <div class="callout teal">
+        <p><strong>Copyright Compliance Declaration:</strong> ExoraWorld does not knowingly host, display, or offer for download any image that infringes upon a valid copyright. All gallery content has been sourced from authorized public domain, Creative Commons, or original-creation channels. The monetization of this platform through advertising or product sales does not constitute unauthorized commercial exploitation of any third-party copyrighted work, as all displayed content is either original, public domain, or appropriately licensed for commercial use.</p>
+      </div>
+      <h3>User Download Rights</h3>
+      <ul>
+        <li><strong>Free Downloads:</strong> Images marked as free to download may be used for personal, non-commercial purposes unless otherwise stated on the image page</li>
+        <li><strong>Premium Downloads:</strong> Certain high-resolution images or curated collections may require purchase. Specific usage rights are stated on each listing</li>
+        <li><strong>Attribution:</strong> Where attribution is required by the source license, users must credit ExoraWorld or the noted original creator when publishing the downloaded content</li>
+        <li><strong>No Ownership Transfer:</strong> Downloading an image does not transfer copyright or ownership to you. ExoraWorld and/or the original creator retain all intellectual property rights</li>
+        <li><strong>Prohibited Use:</strong> You may not redistribute, resell, sublicense, or commercially exploit downloaded images without explicit written permission from ExoraWorld</li>
+      </ul>
+    </div>
+
+    <div class="legal-section" id="s5">
+      <div class="section-num">05</div>
+      <h2>News Aggregation — Open-Source RSS &amp; Third-Party Attribution</h2>
+      <p>ExoraWorld's News section is a <strong>news aggregator</strong>. We do not author, write, or create news content. We fetch and display publicly available news headlines, brief excerpts, and metadata from legitimate open-source RSS feeds provided by established media organizations.</p>
+      <h3>News Sources We Aggregate</h3>
+      <ul>
+        <li><strong>BBC News</strong> (bbc.co.uk) — via official public RSS: World news, Technology, Business, Science &amp; Environment</li>
+        <li><strong>IGN</strong> (ign.com) — via public RSS: Gaming and entertainment news</li>
+        <li><strong>The Daily Star Bangladesh</strong> (thedailystar.net) — via official public RSS: Bangladesh national and regional news</li>
+        <li>Additional news sources may be added at any time via their officially available RSS feeds</li>
+      </ul>
+      <h3>How News Aggregation Works</h3>
+      <ul>
+        <li>We use the rss2json.com API service to parse publicly available RSS feeds into displayable content</li>
+        <li>We display only the article <strong>title</strong>, a brief <strong>description or excerpt</strong>, the <strong>source publication name</strong>, and the <strong>publication date</strong></li>
+        <li>Every news item includes a <strong>direct link back to the original article</strong> on the publisher's own website</li>
+        <li>We do not store, copy, reproduce, or host full article text from any news source</li>
+        <li>All original news content remains the property of the respective publishing organization</li>
+      </ul>
+      <div class="callout teal">
+        <p><strong>Fair Use &amp; News Aggregation:</strong> The display of news headlines, brief descriptions, and publication metadata for the purpose of directing users to original sources is widely recognized as fair use under copyright law (17 U.S.C. § 107 and equivalent international provisions) and is standard practice for news aggregators. ExoraWorld operates in full compliance with this principle. We do not reproduce full copyrighted articles. All attribution is clearly displayed. Source publications benefit from referral traffic generated through our aggregation.</p>
+      </div>
+      <p>ExoraWorld asserts no copyright claim over news content it aggregates. All news content is the property of the respective publishers. If you are a representative of a news organization with concerns about how your content is displayed, please contact us at the details in Section 25 and we will respond within 48 hours.</p>
+    </div>
+
+    <div class="legal-section" id="s6">
+      <div class="section-num">06</div>
+      <h2>Games — 100% Original Platform Creations</h2>
+      <p>All games available on ExoraWorld — including <strong>VoidRunner X</strong> and any future titles — are entirely original works created, designed, coded, and published by ExoraWorld. This includes all game mechanics, source code, visual design, UI, and any narrative or audio elements.</p>
+      <ul>
+        <li><strong>Full Ownership:</strong> ExoraWorld owns all intellectual property rights to its games, including copyright in source code, visual design, and game concepts</li>
+        <li><strong>User License:</strong> Accessing our games grants you a limited, personal, non-transferable, non-exclusive license to play them for personal entertainment only</li>
+        <li><strong>No Copying or Redistribution:</strong> You may not copy, reproduce, decompile, reverse-engineer, extract, distribute, or republish any portion of ExoraWorld's game code or assets without explicit written permission</li>
+        <li><strong>Gameplay Data:</strong> Games may collect session data such as scores and statistics for leaderboard functionality and platform improvement</li>
+        <li><strong>No Third-Party IP:</strong> Our games do not incorporate third-party copyrighted characters, assets, or code without explicit license or permitted open-source terms</li>
+      </ul>
+    </div>
+
+    <div class="legal-section" id="s7">
+      <div class="section-num">07</div>
+      <h2>Store &amp; Digital Tools — Original Products</h2>
+      <p>All digital products available in the ExoraWorld Store — including website templates, resume templates, productivity tools, browser tools, game codes, and any other digital goods — are original works created by ExoraWorld. These products have been independently designed, developed, and produced by us.</p>
+      <ul>
+        <li><strong>Original Creation:</strong> We do not resell, redistribute, or rebrand third-party products. Every item in our store is an original ExoraWorld creation unless explicitly stated otherwise on the product listing page</li>
+        <li><strong>Purchase License:</strong> Purchasing a digital product grants you a personal, non-exclusive, non-transferable license to use that product for its stated purpose. This does not transfer copyright or ownership</li>
+        <li><strong>No Resale:</strong> You may not resell, redistribute, sublicense, or commercially exploit any ExoraWorld product without explicit written authorization</li>
+        <li><strong>As-Is Delivery:</strong> Digital products are delivered as described on the listing page. We are not responsible for compatibility issues caused by the buyer's specific environment unless clearly warranted on the product page</li>
+      </ul>
+    </div>
+
+    <div class="legal-section" id="s8">
+      <div class="section-num">08</div>
+      <h2>Content Hub — Authored by ExoraWorld</h2>
+      <p>All articles, posts, tutorials, guides, and written content published in the ExoraWorld Content Hub are original works authored by ExoraWorld — independently researched, written, edited, and published by us.</p>
+      <ul>
+        <li><strong>Copyright:</strong> All original content is protected by copyright. Reproduction or republication without written permission is prohibited</li>
+        <li><strong>Fair Quotation:</strong> Brief quotation for commentary, criticism, or educational purposes with attribution to ExoraWorld and a link to the original constitutes fair use and is permitted</li>
+        <li><strong>No Plagiarism:</strong> We do not knowingly publish content that plagiarizes third-party works. Where we reference external sources, we credit them appropriately</li>
+      </ul>
+    </div>
+
+    <div class="legal-section" id="s9">
+      <div class="section-num">09</div>
       <h2>Eligibility</h2>
       <p>By using ExoraWorld, you represent and warrant that:</p>
       <ul>
-        <li>You are at least 13 years of age. Users under 18 must have parental or guardian consent</li>
-        <li>You have the legal capacity to enter into a binding agreement</li>
-        <li>You are not prohibited by any applicable law from using this platform</li>
-        <li>You will provide accurate and complete information when making purchases or creating an account</li>
-        <li>You will use the platform only for lawful purposes</li>
+        <li>You are at least 13 years of age. Users under 18 must have verifiable parental or guardian consent</li>
+        <li>You have the full legal capacity to enter into a binding contractual agreement</li>
+        <li>You are not prohibited by any applicable law or regulation from using this platform or receiving our services</li>
+        <li>You will provide accurate, truthful, and complete information when creating an account or making a purchase</li>
+        <li>You will use ExoraWorld only for lawful purposes and in accordance with these Terms</li>
       </ul>
-      <p>We reserve the right to refuse service, terminate accounts, or cancel orders at our sole discretion if we believe eligibility requirements are not met.</p>
+      <p>ExoraWorld reserves the right to refuse service, terminate accounts, or cancel orders at our sole discretion if we believe eligibility requirements are not met or if we suspect misuse, fraud, or violation of these Terms.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="s4">
-      <div class="legal-section-num">04 &nbsp; User Accounts</div>
-      <h2>User Accounts</h2>
-      <p>Certain features of ExoraWorld may require you to provide contact information such as an email address or phone number for order processing and delivery. By providing this information, you agree to:</p>
+    <div class="legal-section" id="s10">
+      <div class="section-num">10</div>
+      <h2>User Accounts &amp; Firebase Authentication</h2>
+      <p>ExoraWorld uses <strong>Firebase Authentication</strong> (provided by Google LLC) to manage user accounts. You may sign in or register using your Google account, Facebook account, or email and password.</p>
       <ul>
-        <li>Provide truthful, accurate, current, and complete information</li>
-        <li>Keep your contact information up to date</li>
-        <li>Not impersonate any person or entity or misrepresent your identity</li>
-        <li>Accept responsibility for all activity conducted through your contact details</li>
+        <li><strong>Account Accuracy:</strong> You agree to provide truthful, accurate, current, and complete information during registration, and to keep your account information up to date</li>
+        <li><strong>Account Security:</strong> You are responsible for maintaining the confidentiality of your account credentials and for all activity that occurs under your account</li>
+        <li><strong>Third-Party Sign-In:</strong> When signing in via Google or Facebook, those services transmit certain profile data (name, email, profile picture) to ExoraWorld via Firebase. Their respective privacy policies govern their own data practices</li>
+        <li><strong>No Impersonation:</strong> You may not impersonate any person, entity, ExoraWorld staff, or other user</li>
+        <li><strong>Compromised Accounts:</strong> If you believe your account has been compromised, notify us immediately</li>
+        <li><strong>Account Termination:</strong> We reserve the right to suspend or permanently terminate any account used fraudulently, abusively, or in violation of these Terms</li>
       </ul>
-      <p>If you believe your account information has been compromised or misused, notify us immediately at our contact email. We reserve the right to suspend or terminate any account that we determine has been used fraudulently or in violation of these Terms.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="s5">
-      <div class="legal-section-num">05 &nbsp; Products &amp; Orders</div>
+    <div class="legal-section" id="s11">
+      <div class="section-num">11</div>
       <h2>Products &amp; Orders</h2>
-      <p>All products listed on ExoraWorld are digital goods unless explicitly stated otherwise. Product descriptions, prices, and availability are subject to change without notice.</p>
+      <p>All products listed on ExoraWorld are digital goods unless explicitly stated otherwise. Product descriptions, prices, and availability are subject to change without prior notice.</p>
       <ul>
-        <li><strong>Product Listings:</strong> Each listing includes a description, price, and available stock at the time of display. We make every effort to ensure accuracy, but we do not guarantee that all information is error-free</li>
-        <li><strong>Order Acceptance:</strong> Placing an order does not constitute a confirmed sale. Orders are considered accepted only after payment verification and our explicit confirmation</li>
-        <li><strong>Stock Availability:</strong> We do not guarantee stock availability at the time of payment. If a product becomes unavailable after your payment is received, we will offer a substitute or full refund</li>
-        <li><strong>Order Cancellation:</strong> We reserve the right to cancel any order for reasons including pricing errors, suspected fraud, or technical issues</li>
-        <li><strong>Digital Nature:</strong> All digital products are non-tangible. Once delivered, the product cannot be "returned" in the traditional sense. Please review our Refund Policy before purchasing</li>
+        <li><strong>Product Listings:</strong> Each listing includes a description, price, and available stock. We make every effort to ensure accuracy but do not guarantee all information is error-free</li>
+        <li><strong>Order Acceptance:</strong> Placing an order does not constitute a confirmed sale. Orders are accepted only after successful payment verification and our explicit confirmation</li>
+        <li><strong>Stock Availability:</strong> We do not guarantee stock at the time of payment. If a product becomes unavailable after payment, we will offer a suitable substitute or a full refund</li>
+        <li><strong>Order Cancellation:</strong> We reserve the right to cancel any order due to pricing errors, suspected fraud, or technical failures</li>
+        <li><strong>Digital Nature:</strong> All digital products are non-tangible and cannot be returned in the traditional sense. Please review all product details before purchasing</li>
       </ul>
     </div>
 
-    <div class="legal-section section-anchor" id="s6">
-      <div class="legal-section-num">06 &nbsp; Payments</div>
+    <div class="legal-section" id="s12">
+      <div class="section-num">12</div>
       <h2>Payments</h2>
-      <p>ExoraWorld accepts payments through multiple methods including Bkash, Nagad, Cellfin, Bank Transfer, AirTM, Skrill, Payoneer, and other methods as listed. Payment account details are provided on product listing pages.</p>
-      <p>By making a payment, you agree to the following:</p>
+      <p>ExoraWorld accepts payments through: <strong>Bkash, Nagad, Cellfin, Bank Transfer (Bangladesh), AirTM, Skrill, and Payoneer</strong>. Payment account details are displayed on individual product listing pages only.</p>
       <ul>
-        <li><strong>Manual Verification:</strong> All payments are manually verified by our team. This process typically takes 1–6 hours during business hours</li>
-        <li><strong>Proof of Payment:</strong> You are required to submit a clear screenshot or proof of your transaction after sending payment. Proof must include the transaction ID, amount, date, and sender details</li>
-        <li><strong>Accurate Amounts:</strong> You must send the exact amount stated on the listing. Under or over payments may delay or cancel your order</li>
-        <li><strong>Currency:</strong> Prices may be listed in BDT (Bangladeshi Taka) or USD. Ensure you confirm the currency and exchange rate before transacting through international payment methods</li>
-        <li><strong>Transaction Fees:</strong> Any fees charged by the payment method (transaction fees, conversion fees) are the responsibility of the buyer unless explicitly stated otherwise</li>
-        <li><strong>Fraudulent Payments:</strong> Any attempt to submit false payment proof or initiate chargebacks fraudulently will result in permanent account ban and may be reported to relevant authorities</li>
+        <li><strong>Manual Verification:</strong> All payments are manually verified by our team, typically within 1–6 hours during business hours</li>
+        <li><strong>Proof of Payment:</strong> After sending payment, you must submit a clear screenshot that includes: transaction ID, amount, date, and sender details</li>
+        <li><strong>Exact Amounts:</strong> Send the exact amount stated. Under- or over-payments may delay or cancel your order</li>
+        <li><strong>Currency:</strong> Prices may be listed in BDT or USD. Confirm the currency before transacting</li>
+        <li><strong>Transaction Fees:</strong> Any fees charged by the payment provider are the responsibility of the buyer unless stated otherwise</li>
+        <li><strong>Fraudulent Payments:</strong> Submitting false payment proof or initiating fraudulent chargebacks will result in permanent account ban and may be reported to relevant authorities</li>
       </ul>
-      <div class="callout warn">
-        <p><strong>Warning:</strong> Never share your payment passwords or PINs with us. We will never ask for them. Only send payment to the accounts listed on official ExoraWorld product pages.</p>
+      <div class="callout coral">
+        <p><strong>Security Warning:</strong> ExoraWorld will never ask for your payment passwords, PINs, or OTPs. Only send payment to accounts listed on official ExoraWorld product pages. Beware of impersonators using similar names or handles.</p>
       </div>
     </div>
 
-    <div class="legal-section section-anchor" id="s7">
-      <div class="legal-section-num">07 &nbsp; Delivery &amp; Fulfillment</div>
+    <div class="legal-section" id="s13">
+      <div class="section-num">13</div>
       <h2>Delivery &amp; Fulfillment</h2>
-      <p>Digital products are delivered electronically — typically via email or phone number — after your payment has been verified.</p>
+      <p>Digital products are delivered electronically — via email or phone number — after payment verification is complete.</p>
       <ul>
         <li><strong>Delivery Time:</strong> Most orders are fulfilled within 1–12 hours of payment confirmation. Complex or high-volume orders may take longer</li>
-        <li><strong>Delivery Method:</strong> Products are delivered to the email address or phone number you provided when placing your order</li>
-        <li><strong>Non-Delivery:</strong> If you have not received your product within 24 hours of payment confirmation, contact us immediately with your order reference and payment proof</li>
-        <li><strong>Accuracy of Contact Info:</strong> We are not responsible for non-delivery caused by incorrect contact information provided by the customer. Redelivery due to customer error may incur additional handling charges</li>
-        <li><strong>Download Links:</strong> Some products may be delivered as download links. These links may be time-limited or single-use. Download promptly and store your files securely</li>
+        <li><strong>Delivery Method:</strong> Products are sent to the contact details you provided at checkout</li>
+        <li><strong>Non-Delivery:</strong> If you have not received your product within 24 hours of confirmation, contact us immediately with your order reference and payment proof</li>
+        <li><strong>Incorrect Contact Info:</strong> We are not responsible for non-delivery caused by inaccurate contact information provided by the buyer</li>
+        <li><strong>Download Links:</strong> Some products are delivered via download links. These may be time-limited or single-use. Download and store your files securely upon receipt</li>
       </ul>
     </div>
 
-    <div class="legal-section section-anchor" id="s8">
-      <div class="legal-section-num">08 &nbsp; Refunds &amp; Disputes</div>
+    <div class="legal-section" id="s14">
+      <div class="section-num">14</div>
       <h2>Refunds &amp; Disputes</h2>
-      <p>Due to the digital nature of our products, all sales are generally final. However, we handle disputes fairly and on a case-by-case basis.</p>
+      <p>Due to the digital and immediately deliverable nature of our products, all sales are generally final. We handle all disputes fairly and on a case-by-case basis.</p>
       <ul>
-        <li><strong>Eligible for Refund:</strong> Product was never delivered after payment was confirmed; product delivered is significantly different from the description; duplicate payment made in error</li>
-        <li><strong>Not Eligible for Refund:</strong> You changed your mind after purchase; you provided incorrect contact information; the product was delivered correctly but does not meet personal expectations; partial use of a digital product</li>
-        <li><strong>Dispute Window:</strong> Refund or dispute requests must be submitted within 72 hours of order confirmation. We cannot process claims submitted after this window</li>
-        <li><strong>Dispute Process:</strong> Contact us with your order details, payment proof, and a description of the issue. We aim to resolve all disputes within 5 business days</li>
-        <li><strong>Refund Method:</strong> Approved refunds are issued through the same payment method used during purchase, or an agreed alternative if that is not feasible</li>
+        <li><strong>Eligible for Refund:</strong> Product was never delivered after payment was confirmed; product delivered is significantly and demonstrably different from the description; duplicate payment made in clear error</li>
+        <li><strong>Not Eligible for Refund:</strong> Change of mind after purchase; incorrect contact information provided; product delivered correctly but does not meet personal expectations; partial or full use of a digital product</li>
+        <li><strong>Dispute Window:</strong> All requests must be submitted within 72 hours of order confirmation. Claims after this window cannot be processed</li>
+        <li><strong>Dispute Process:</strong> Contact us with your order details, payment proof, and full description of the issue. We aim to resolve all disputes within 5 business days</li>
+        <li><strong>Refund Method:</strong> Approved refunds are issued via the same payment method used during purchase, or an agreed alternative where that is not feasible</li>
       </ul>
     </div>
 
-    <div class="legal-section section-anchor" id="s9">
-      <div class="legal-section-num">09 &nbsp; Gallery &amp; Downloads</div>
-      <h2>Gallery &amp; Downloads</h2>
-      <p>ExoraWorld's photo gallery allows users to browse and download images. By using the gallery, you agree to the following:</p>
+    <div class="legal-section" id="s15">
+      <div class="section-num">15</div>
+      <h2>Intellectual Property &amp; Ownership</h2>
       <ul>
-        <li><strong>Free Downloads:</strong> Images marked as "Free Download" may be downloaded for personal and non-commercial use unless otherwise stated</li>
-        <li><strong>Premium Downloads:</strong> Some images or collections may require purchase. Usage rights will be specified on the listing</li>
-        <li><strong>Attribution:</strong> Where required, you must credit ExoraWorld or the original creator when using downloaded content</li>
-        <li><strong>Prohibited Use:</strong> You may not redistribute, resell, or sublicense downloaded images without explicit written permission from ExoraWorld</li>
-        <li><strong>Ownership:</strong> Downloading an image does not transfer copyright or ownership to you. ExoraWorld or respective creators retain all rights to uploaded content</li>
-        <li><strong>Content Standards:</strong> All gallery content is moderated. We reserve the right to remove any content that violates our standards or applicable laws</li>
+        <li><strong>Platform &amp; Brand:</strong> The ExoraWorld name, logo, branding, design system, and platform code are the exclusive intellectual property of ExoraWorld. Unauthorized use is prohibited</li>
+        <li><strong>Original Content:</strong> All original articles, game code, tool code, templates, and photography created by ExoraWorld are protected by copyright</li>
+        <li><strong>Public Domain &amp; Licensed Content:</strong> Public domain images and Creative Commons licensed content displayed on ExoraWorld remain subject to their original license terms. ExoraWorld makes no copyright claim over such content beyond the selection and curation thereof</li>
+        <li><strong>Aggregated News:</strong> ExoraWorld claims no copyright ownership over news headlines or metadata aggregated from third-party RSS feeds. All such content is the property of the respective news publishers</li>
+        <li><strong>User-Provided Data:</strong> By submitting content (payment proof, messages, account information) to ExoraWorld, you grant us a limited license to use that data solely for the purpose of operating and improving our services</li>
+        <li><strong>Infringement Claims:</strong> If you believe any content on ExoraWorld infringes your intellectual property rights, please refer to Section 16 below</li>
       </ul>
     </div>
 
-    <div class="legal-section section-anchor" id="s10">
-      <div class="legal-section-num">10 &nbsp; Intellectual Property</div>
-      <h2>Intellectual Property</h2>
-      <p>All content on ExoraWorld — including but not limited to text, graphics, logos, icons, images, audio, video, and software — is the property of ExoraWorld or its respective content owners and is protected by applicable intellectual property laws.</p>
+    <div class="legal-section" id="s16">
+      <div class="section-num">16</div>
+      <h2>DMCA &amp; Copyright Claims — Takedown Procedure</h2>
+      <p>ExoraWorld respects the intellectual property rights of others. If you are a copyright owner or authorized agent who believes content on ExoraWorld infringes your copyright, you may submit a notice in accordance with the Digital Millennium Copyright Act (DMCA) or equivalent applicable law.</p>
+      <h3>To Submit a Copyright Notice, Provide:</h3>
       <ul>
-        <li>You may not copy, reproduce, modify, distribute, or create derivative works from any content on ExoraWorld without explicit written permission</li>
-        <li>The ExoraWorld name, logo, and branding are our trademarks and may not be used without authorization</li>
-        <li>Users who upload content to ExoraWorld grant us a non-exclusive, royalty-free license to display, distribute, and promote that content on the platform</li>
-        <li>If you believe any content on ExoraWorld infringes your intellectual property rights, contact us with full details and we will investigate promptly</li>
+        <li>Your name, address, email, and telephone number</li>
+        <li>A description of the copyrighted work you claim has been infringed</li>
+        <li>The location of the allegedly infringing content on ExoraWorld (URL or specific page)</li>
+        <li>A good-faith statement that the use is not authorized by the copyright owner, its agent, or the law</li>
+        <li>A statement that the information in your notice is accurate, and under penalty of perjury, that you are the copyright owner or authorized to act on their behalf</li>
+        <li>Your electronic or physical signature</li>
       </ul>
+      <div class="callout teal">
+        <p>Submit copyright notices to our contact email listed in Section 25 with subject line "DMCA Notice — [Your Name]." We will investigate all legitimate notices promptly and take appropriate action, which may include removing or disabling access to the allegedly infringing content. Repeat infringers will have their accounts terminated.</p>
+      </div>
+      <p>If you believe your content was removed in error, you may submit a counter-notification with: your contact information; identification of the removed content; a statement under penalty of perjury that the material was removed by mistake or misidentification; and consent to jurisdiction of the relevant court. False DMCA claims may subject the claimant to legal liability.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="s11">
-      <div class="legal-section-num">11 &nbsp; Prohibited Conduct</div>
+    <div class="legal-section" id="s17">
+      <div class="section-num">17</div>
       <h2>Prohibited Conduct</h2>
-      <p>The following activities are strictly prohibited on ExoraWorld:</p>
+      <p>The following are strictly prohibited on ExoraWorld. Violations may result in account suspension, permanent ban, and referral to relevant legal authorities.</p>
       <ul>
-        <li>Submitting false, fraudulent, or misleading payment proofs</li>
-        <li>Initiating unauthorized chargebacks or payment reversals</li>
-        <li>Attempting to access, tamper with, or disrupt platform systems or servers</li>
-        <li>Scraping, crawling, or data-harvesting from the platform without permission</li>
-        <li>Impersonating ExoraWorld staff, other users, or any entity</li>
-        <li>Using the platform for any unlawful purpose or in violation of any regulations</li>
-        <li>Distributing malware, viruses, or harmful code through the platform</li>
-        <li>Attempting to reverse-engineer any part of the platform</li>
-        <li>Reselling purchased digital products without written authorization</li>
-        <li>Harassing, abusing, or threatening other users or staff</li>
+        <li>Submitting false, fabricated, or manipulated payment proofs</li>
+        <li>Initiating unauthorized chargebacks or fraudulent payment reversals</li>
+        <li>Attempting to access, tamper with, exploit, or disrupt ExoraWorld's systems, servers, or databases</li>
+        <li>Scraping or systematically extracting data from the platform without prior written permission</li>
+        <li>Impersonating ExoraWorld staff, other users, or any person or entity</li>
+        <li>Using the platform for any unlawful purpose or in violation of any applicable law</li>
+        <li>Distributing malware, ransomware, viruses, or harmful code via the platform</li>
+        <li>Reverse-engineering, decompiling, or attempting to extract the source code of any part of the platform</li>
+        <li>Reselling ExoraWorld's digital products without explicit written authorization</li>
+        <li>Harassing, threatening, or abusing other users or ExoraWorld staff in any channel</li>
+        <li>Using automated bots to interact with the platform without express written permission</li>
+        <li>Filing false DMCA claims or takedown notices in bad faith</li>
       </ul>
-      <p>Violations may result in immediate account suspension, order cancellation, and reporting to relevant legal authorities.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="s12">
-      <div class="legal-section-num">12 &nbsp; Data Collection &amp; User Consent</div>
+    <div class="legal-section" id="s18">
+      <div class="section-num">18</div>
       <h2>Data Collection &amp; User Consent</h2>
-      <div class="callout">
-        <p><strong>By accessing or using ExoraWorld in any capacity</strong> — including browsing, downloading, making a purchase, or simply visiting any page — you expressly acknowledge and agree that ExoraWorld may collect, store, process, and use your data as described in these Terms and our <a href="privacy.html">Privacy Policy</a>. Continued use of the platform constitutes your ongoing, affirmative consent to these practices.</p>
+      <div class="callout amber">
+        <p><strong>By accessing or using ExoraWorld in any capacity</strong> — including browsing, downloading, purchasing, playing games, or simply visiting any page — you expressly consent to ExoraWorld collecting, storing, processing, and using your data as described in these Terms and our <a href="privacy.html">Privacy Policy</a>. Continued use constitutes ongoing, affirmative consent to these practices.</p>
       </div>
-      <p>ExoraWorld collects a range of data from users for legitimate business, operational, technological, and commercial purposes. The categories of data we collect include, but are not limited to:</p>
+      <p>We collect data for legitimate operational, business, and commercial purposes, including:</p>
       <ul>
-        <li><strong>Identity &amp; Contact Data:</strong> Name, email address, phone number, and any other identifiers you provide when placing orders, contacting us, or interacting with the platform</li>
-        <li><strong>Behavioral &amp; Usage Data:</strong> Pages visited, content interacted with, time spent, clicks, scroll patterns, search queries, gallery views, downloads, and navigation paths across all ExoraWorld pages and services</li>
-        <li><strong>Technical &amp; Device Data:</strong> IP address, browser type and version, operating system, device type, screen resolution, language settings, referring URLs, and connection data</li>
-        <li><strong>Transaction &amp; Payment Data:</strong> Order history, product selections, payment method used, transaction reference numbers, payment amounts, and payment proof submissions</li>
-        <li><strong>Communication Data:</strong> All messages, inquiries, support requests, and correspondence sent to ExoraWorld through any channel, including email and social media</li>
-        <li><strong>Cookie &amp; Tracking Data:</strong> Persistent and session cookies, pixel data, local storage tokens, analytics identifiers, and advertising-related identifiers placed on your device during your visit</li>
-        <li><strong>Inferred &amp; Derived Data:</strong> Interests, preferences, and behavioral profiles inferred from your interactions with our platform and content</li>
+        <li><strong>Identity &amp; Contact Data:</strong> Name, email, phone number, and any identifiers you provide when registering, ordering, or contacting us</li>
+        <li><strong>Behavioral &amp; Usage Data:</strong> Pages visited, content interacted with, time spent, clicks, gallery views, downloads, game sessions, and navigation paths</li>
+        <li><strong>Technical &amp; Device Data:</strong> IP address, browser type, operating system, device type, screen resolution, language settings, and connection data</li>
+        <li><strong>Transaction Data:</strong> Order history, products selected, payment methods, transaction IDs, and payment proof submissions</li>
+        <li><strong>Firebase Authentication Data:</strong> Account identifiers, login provider (Google, Facebook, or email), profile picture, and linked email address</li>
+        <li><strong>Cookie &amp; Tracking Data:</strong> Session and persistent cookies, analytics identifiers, and advertising-related identifiers placed on your device</li>
+        <li><strong>Communication Data:</strong> All messages, support requests, and correspondence sent to ExoraWorld through any channel</li>
       </ul>
-      <p>We collect this data through direct interaction (when you provide it), automated means (when you browse or use the platform), and through trusted third-party tools including analytics platforms, advertising networks, and service providers integrated into ExoraWorld.</p>
-      <p>You grant ExoraWorld a broad, irrevocable, worldwide, royalty-free license to collect, store, process, analyze, and use your data — including aggregated, anonymized, or pseudonymized forms thereof — to operate, maintain, improve, and expand ExoraWorld's services, technology, artificial intelligence systems, content recommendations, and commercial offerings, for as long as reasonably necessary for those purposes.</p>
-      <div class="callout warn">
-        <p><strong>Important:</strong> If you do not consent to data collection and use as described in these Terms, you must immediately cease using ExoraWorld. Continued use of any part of the platform constitutes irrevocable consent to these practices.</p>
+      <div class="callout coral">
+        <p><strong>Important:</strong> If you do not consent to data collection as described in these Terms and our Privacy Policy, you must immediately cease using ExoraWorld. Continued use of any part of the platform constitutes ongoing consent to these practices.</p>
       </div>
     </div>
 
-    <div class="legal-section section-anchor" id="s12b">
-      <div class="legal-section-num">13 &nbsp; Advertising, Sponsors &amp; Commercial Partners</div>
+    <div class="legal-section" id="s19">
+      <div class="section-num">19</div>
       <h2>Advertising, Sponsors &amp; Commercial Partners</h2>
-      <p>ExoraWorld operates in a commercial environment and may now or in the future display advertisements, sponsored content, affiliate links, and promotional materials from third-party partners. By using ExoraWorld, you acknowledge and agree to the following:</p>
+      <p>ExoraWorld operates in a commercial environment and may display advertisements, sponsored content, affiliate links, and promotional materials from third-party partners now or in the future.</p>
       <ul>
-        <li><strong>Advertising Networks:</strong> ExoraWorld may integrate advertising platforms including but not limited to Google AdSense, Google Ad Manager, Meta Audience Network, and other programmatic advertising networks. These networks may serve ads based on your interests, browsing history, location, and other behavioral signals</li>
-        <li><strong>Data Shared with Advertising Partners:</strong> To facilitate relevant advertising, ExoraWorld may share or make accessible certain data — including usage behavior, device identifiers, cookie data, and inferred interests — with advertising partners, demand-side platforms, and ad exchanges. This data sharing enables personalized and contextual advertising</li>
-        <li><strong>Sponsors &amp; Brand Partners:</strong> ExoraWorld may enter into sponsorship or promotional agreements with companies, brands, or individuals. Sponsored content will be clearly labeled where required by law. Your data may be shared with sponsors in aggregated, non-personally-identifiable form unless you provide explicit consent for more specific sharing</li>
-        <li><strong>Affiliate Relationships:</strong> ExoraWorld may earn commission from products or services recommended through affiliate links. Clicking such links may result in third-party cookies being placed on your device, enabling those companies to track conversions</li>
-        <li><strong>Technology &amp; AI Partners:</strong> We may share aggregated behavioral and usage data with technology partners to improve artificial intelligence systems, recommendation engines, content classification models, and platform optimization tools — all in service of improving ExoraWorld's products and services</li>
-        <li><strong>Analytics &amp; Measurement Partners:</strong> We use third-party analytics tools such as Google Analytics, Cloudflare Analytics, and similar services to measure platform performance. These tools may independently collect certain data about your visit under their own privacy policies</li>
+        <li><strong>Advertising Networks:</strong> ExoraWorld may integrate platforms including Google AdSense, Google Ad Manager, Meta Audience Network, and other programmatic networks. These may serve ads based on your interests, browsing history, and behavioral signals</li>
+        <li><strong>Data Shared with Ad Partners:</strong> To facilitate relevant advertising, ExoraWorld may share usage behavior, device identifiers, and cookie data with advertising partners and ad exchanges</li>
+        <li><strong>Sponsors &amp; Brand Partners:</strong> ExoraWorld may enter into sponsorship or promotional agreements. Sponsored content will be clearly labeled where required by law</li>
+        <li><strong>Affiliate Relationships:</strong> ExoraWorld may earn commission from products recommended through affiliate links. Clicking such links may result in third-party cookies being placed on your device</li>
+        <li><strong>Analytics Partners:</strong> We use third-party analytics tools (e.g. Google Analytics, Cloudflare Analytics) to measure performance. These may independently collect visit data under their own privacy policies</li>
       </ul>
-      <div class="callout info">
-        <p>You may opt out of personalized advertising by adjusting your browser's cookie settings, using your Google ad preferences at <strong>adssettings.google.com</strong>, or through the Network Advertising Initiative opt-out at <strong>optout.networkadvertising.org</strong>. Note that opting out of personalized ads does not mean you will see no ads — you may still see non-personalized advertisements.</p>
+      <div class="callout teal">
+        <p>You may opt out of personalized advertising via your browser cookie settings, at <strong>adssettings.google.com</strong>, or through the Network Advertising Initiative opt-out at <strong>optout.networkadvertising.org</strong>. Opting out of personalized ads does not mean you will see no ads — you may still see non-personalized advertisements.</p>
       </div>
-      <p>ExoraWorld reserves the right to introduce, modify, expand, or remove advertising integrations, sponsorships, and commercial partnerships at any time without prior notice to users. Your continued use of the platform after such changes constitutes acceptance of those changes.</p>
+      <p>ExoraWorld reserves the right to introduce, modify, expand, or remove advertising integrations and commercial partnerships at any time without prior notice. Continued use after such changes constitutes acceptance.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="s12c">
-      <div class="legal-section-num">14 &nbsp; Third-Party Data Responsibility &amp; Liability</div>
-      <h2>Third-Party Data Responsibility &amp; Liability</h2>
-      <p>ExoraWorld may share, transmit, or make accessible certain user data to third-party partners, advertising networks, service providers, sponsors, and technology companies as described in these Terms. By using ExoraWorld, you expressly acknowledge and agree to the following terms regarding third-party data handling:</p>
+    <div class="legal-section" id="s20">
+      <div class="section-num">20</div>
+      <h2>Third-Party Data Responsibility &amp; Liability Disclaimer</h2>
+      <p>ExoraWorld may share, transmit, or make accessible certain user data to third-party partners, advertising networks, service providers, and technology companies as described in these Terms. By using ExoraWorld, you expressly acknowledge and agree that:</p>
       <ul>
-        <li><strong>Independent Controllers:</strong> Third parties who receive your data from ExoraWorld — including advertising networks, analytics providers, sponsors, and affiliates — operate as independent data controllers. Once data is transmitted to or accessed by these third parties, it is governed by their own privacy policies, terms of service, and applicable legal obligations</li>
-        <li><strong>No Control Over Third-Party Use:</strong> ExoraWorld does not control, monitor, or take responsibility for how third parties use, process, store, share, or otherwise handle data after it has been transmitted to them. ExoraWorld makes no representations or warranties regarding the data practices of any third party</li>
-        <li><strong>No Liability for Third-Party Misuse:</strong> ExoraWorld shall not be held liable, responsible, or accountable for any unauthorized use, misuse, breach, disclosure, loss, theft, or illegal processing of your data by any third party — including advertising partners, analytics providers, sponsors, or any other entity — even if such data was originally shared by ExoraWorld. Your recourse in such circumstances is directly against the relevant third party</li>
-        <li><strong>Illegal Use by Third Parties:</strong> If any third party uses your data in a manner that is unlawful, unauthorized, or otherwise in violation of applicable law, that liability rests solely with the third party. ExoraWorld expressly disclaims any and all liability, direct or indirect, for such third-party conduct. ExoraWorld is not a joint controller, co-processor, or guarantor of third-party compliance</li>
-        <li><strong>Support &amp; Assistance:</strong> While ExoraWorld bears no legal liability for third-party data misuse, we are committed to supporting users to the extent reasonably possible. If you believe your data has been mishandled by a third party in connection with ExoraWorld, you may contact us and we will make reasonable efforts to assist, including providing information about the relevant third party to help you exercise your rights</li>
-        <li><strong>Third-Party Policies:</strong> We strongly encourage all users to review the privacy policies and terms of service of any third-party platforms, advertising networks, or services that may interact with your data. ExoraWorld provides links to relevant third-party policies where reasonably practicable</li>
+        <li><strong>Independent Controllers:</strong> Third parties who receive your data from ExoraWorld operate as independent data controllers under their own privacy policies and legal obligations</li>
+        <li><strong>No Control Over Third-Party Use:</strong> Once data is transmitted to or accessed by these third parties, ExoraWorld does not control, monitor, or take responsibility for how those parties use, process, store, or handle that data</li>
+        <li><strong>No Liability for Third-Party Misuse:</strong> ExoraWorld shall not be held liable, responsible, or accountable for any unauthorized use, misuse, breach, disclosure, loss, theft, or illegal processing of your data by any third party — even if that data was originally shared by ExoraWorld. Your recourse lies directly against the relevant third party</li>
+        <li><strong>Illegal Third-Party Use:</strong> If a third party uses your data unlawfully, that liability rests solely with the third party. ExoraWorld expressly disclaims all liability for such conduct and is not a joint controller, co-processor, or guarantor of third-party compliance</li>
+        <li><strong>Third-Party Policies:</strong> We strongly encourage all users to review the privacy policies of any third-party platforms, advertising networks, or services that may interact with your data</li>
+        <li><strong>Reasonable Assistance:</strong> While ExoraWorld bears no legal liability for third-party data misuse, we are committed to supporting users where reasonably possible. Contact us if you believe your data has been mishandled by a third party in connection with ExoraWorld</li>
       </ul>
-      <div class="callout warn">
+      <div class="callout coral">
         <p><strong>Legal Notice:</strong> By continuing to use ExoraWorld, you irrevocably waive any claims against ExoraWorld arising from third-party data use, misuse, or breach, to the maximum extent permitted by applicable law. Nothing in this clause limits your rights against the relevant third party directly.</p>
       </div>
     </div>
 
-    <div class="legal-section section-anchor" id="s13">
-      <div class="legal-section-num">13 &nbsp; Disclaimers</div>
+    <div class="legal-section" id="s21">
+      <div class="section-num">21</div>
       <h2>Disclaimers</h2>
-      <p>ExoraWorld is provided on an "as is" and "as available" basis. We make no warranties, express or implied, regarding:</p>
+      <p>ExoraWorld is provided on an <strong>"as is"</strong> and <strong>"as available"</strong> basis. We specifically disclaim:</p>
       <ul>
-        <li>The uninterrupted or error-free operation of the platform</li>
-        <li>The accuracy, completeness, or reliability of any content or product descriptions</li>
-        <li>The fitness of any product for a particular purpose</li>
-        <li>The security of data transmitted to or from the platform</li>
+        <li>Any warranty that the platform will operate without interruption, error, or data loss</li>
+        <li>Any warranty regarding the accuracy, completeness, or reliability of content, product descriptions, or news aggregation</li>
+        <li>Any warranty that the platform is free from security vulnerabilities, malware, or harmful components</li>
+        <li>Any warranty that news aggregated from third-party RSS feeds is accurate, current, or complete — news publishers are solely responsible for their own content</li>
+        <li>Any warranty as to the fitness of any product or service for a particular purpose</li>
+        <li>Any liability for device damage, data loss, or harm arising from use of ExoraWorld or content downloaded from it</li>
       </ul>
-      <p>We do not guarantee that the platform will be free from viruses or other harmful components, and we are not liable for any damage to your device or data arising from use of ExoraWorld.</p>
+      <p>ExoraWorld does not endorse, guarantee, or take responsibility for the accuracy of news content published by third-party media organizations whose feeds we aggregate. All views, opinions, and facts in aggregated news remain the sole responsibility of the original publisher.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="s14">
-      <div class="legal-section-num">14 &nbsp; Limitation of Liability</div>
+    <div class="legal-section" id="s22">
+      <div class="section-num">22</div>
       <h2>Limitation of Liability</h2>
-      <p>To the maximum extent permitted by law, ExoraWorld and its operators shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform, including but not limited to:</p>
+      <p>To the maximum extent permitted by applicable law, ExoraWorld and its owners, operators, and representatives shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of — or inability to use — the platform, including but not limited to:</p>
       <ul>
-        <li>Loss of data, revenue, profits, or business opportunities</li>
-        <li>Errors or interruptions in service</li>
-        <li>Unauthorized access to your account or personal data</li>
-        <li>Any actions or content of third-party services or payment processors</li>
+        <li>Loss of data, revenue, profits, goodwill, or business opportunities</li>
+        <li>Errors, interruptions, or outages in platform services</li>
+        <li>Unauthorized access to your account, personal data, or payment information</li>
+        <li>Any actions, errors, or content of third-party services, payment processors, or advertising partners</li>
+        <li>Inaccurate, misleading, or harmful third-party news content displayed on the platform</li>
+        <li>Any technical failure of Firebase, third-party APIs, or payment gateways</li>
       </ul>
-      <p>Our total liability to you for any claim arising from these Terms shall not exceed the amount you paid to ExoraWorld in the 30 days preceding the claim.</p>
+      <p>Our total aggregate liability to you for any claim arising from these Terms shall not exceed the total amount you paid to ExoraWorld in the thirty (30) days immediately preceding the event giving rise to the claim. If you have made no payments, our liability shall be zero.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="s15">
-      <div class="legal-section-num">15 &nbsp; Changes to Terms</div>
-      <h2>Changes to Terms</h2>
-      <p>We reserve the right to modify these Terms and Conditions at any time. When we make material changes, we will update the "Last updated" date at the top of this page and, where appropriate, notify users via email or a prominent notice on the platform.</p>
-      <p>Your continued use of ExoraWorld after any changes to these Terms constitutes your acceptance of the new Terms. If you do not agree with the updated Terms, you must stop using the platform.</p>
+    <div class="legal-section" id="s23">
+      <div class="section-num">23</div>
+      <h2>Changes to These Terms</h2>
+      <p>We reserve the right to modify these Terms and Conditions at any time. When we make material changes, we will update the "Last updated" date at the top of this page and, where appropriate, notify registered users via email or a prominent platform notice.</p>
+      <p>Your continued use of ExoraWorld after any changes constitutes your acceptance of the revised Terms. If you do not agree with the updated Terms, you must stop using the platform immediately. We encourage you to review this page periodically.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="s16">
-      <div class="legal-section-num">16 &nbsp; Governing Law</div>
-      <h2>Governing Law</h2>
-      <p>These Terms and Conditions shall be governed by and construed in accordance with applicable laws. Any disputes arising from these Terms or your use of ExoraWorld shall first be attempted to be resolved through good-faith negotiation between you and us.</p>
-      <p>If a dispute cannot be resolved informally, both parties agree to submit to binding arbitration or the jurisdiction of competent courts as applicable under local law.</p>
+    <div class="legal-section" id="s24">
+      <div class="section-num">24</div>
+      <h2>Governing Law &amp; Jurisdiction</h2>
+      <p>These Terms and Conditions are governed by and construed in accordance with the laws of the People's Republic of Bangladesh and applicable international law where relevant. ExoraWorld is operated from Bangladesh, and these Terms reflect our legal operating environment.</p>
+      <p>Any disputes arising from these Terms or your use of ExoraWorld shall first be attempted to be resolved through good-faith negotiation. If a dispute cannot be resolved informally, both parties agree to submit to binding arbitration or the jurisdiction of competent courts in Bangladesh, as applicable under local law.</p>
+      <p>International users acknowledge that use of ExoraWorld is subject to these Terms regardless of local laws that may differ. Nothing in these Terms affects statutory rights you may have under the laws of your own country that cannot be contractually excluded.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="s17">
-      <div class="legal-section-num">17 &nbsp; Contact Us</div>
+    <div class="legal-section" id="s25">
+      <div class="section-num">25</div>
       <h2>Contact Us</h2>
-      <p>If you have any questions, concerns, or requests related to these Terms and Conditions, please contact us:</p>
+      <p>If you have any questions, concerns, copyright notices, DMCA claims, or requests related to these Terms and Conditions, please contact us through the following channels. We aim to respond to all inquiries within 1–3 business days.</p>
       <ul>
-        <li><strong>Email:</strong> <a href="mailto:your@email.com">Add your email here</a></li>
-        <li><strong>Facebook:</strong> <a href="#">Add your Facebook page link</a></li>
-        <li><strong>Response Time:</strong> We aim to respond to all inquiries within 1–3 business days</li>
+        <li><strong>Email:</strong> <a href="mailto:theexoraworld@gmail.com">theexoraworld@gmail.com</a> — For all legal, copyright, and formal inquiries</li>
+        <li><strong>Facebook:</strong> <a href="#">ExoraWorld Facebook Page</a> — For general inquiries and community support</li>
+        <li><strong>DMCA / Copyright Notices:</strong> Email with subject line <strong>"DMCA Notice — [Your Name]"</strong> for fastest routing</li>
+        <li><strong>Order Issues:</strong> Always include your order reference number and payment proof for fastest resolution</li>
       </ul>
-      <p>For order-specific issues, always include your order reference number and payment proof in your message so we can assist you faster.</p>
+      <div class="callout teal">
+        <p>Thank you for reading our Terms and Conditions. ExoraWorld is built with transparency and fairness at its core — we believe every user deserves to know exactly how this platform works and what their rights are. If anything here is unclear, please reach out and we'll be happy to explain.</p>
+      </div>
     </div>
 
   </main>
 </div>
 
-<footer>
+<!-- FOOTER -->
+<footer class="site-footer">
   <div class="footer-bottom">
-    <div class="footer-copy">© 2025 ExoraWorld. All rights reserved.</div>
-    <div class="footer-legal">
-      <a href="terms.html" class="active-page">Terms</a>
+    <p class="footer-copyright">© <span id="yr"></span> ExoraWorld. All rights reserved.</p>
+    <nav class="footer-links-row">
+      <a href="terms.html" class="current">Terms</a>
       <a href="privacy.html">Privacy</a>
-      <a href="refund.html">Refund</a>
-      <a href="cookies.html">Cookies</a>
-      <a href="../index.html">Home</a>
-    </div>
+      <a href="index.html">Home</a>
+    </nav>
   </div>
 </footer>
 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
-// Cursor
-(function() {
-  if (window.matchMedia('(pointer: coarse)').matches) return;
-  const dot = document.getElementById('cursor-dot');
-  const ring = document.getElementById('cursor-ring');
-  let mx = -100, my = -100, rx = -100, ry = -100;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    dot.style.left = mx+'px'; dot.style.top = my+'px';
-  });
-  function anim() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(anim); }
-  anim();
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-  });
-  document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
-  document.addEventListener('mouseup', () => document.body.classList.remove('cursor-click'));
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Theme toggle
+(function(){
+  var root = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var OVR_KEY = 'exo_theme_ovr';
+  function autoTheme(){ var h=new Date().getHours(); return (h>=6&&h<19)?'light':'dark'; }
+  function saveOverride(t){ try{ sessionStorage.setItem(OVR_KEY, JSON.stringify({t:t,exp:Date.now()+3600000})); }catch(e){} }
+  function loadOverride(){ try{ var d=JSON.parse(sessionStorage.getItem(OVR_KEY)||'null'); if(d&&Date.now()<d.exp)return d.t; sessionStorage.removeItem(OVR_KEY); }catch(e){} return null; }
+  function applyTheme(t){ root.setAttribute('data-theme',t); toggle.setAttribute('aria-pressed',t==='dark'?'true':'false'); }
+  applyTheme(loadOverride()||autoTheme());
+  toggle.addEventListener('click',function(){ var next=root.getAttribute('data-theme')==='dark'?'light':'dark'; applyTheme(next); saveOverride(next); });
+  setInterval(function(){ var desired=loadOverride()||autoTheme(); if(root.getAttribute('data-theme')!==desired) applyTheme(desired); }, 60000);
 })();
 
-// Scroll progress
-const bar = document.getElementById('scroll-progress');
-window.addEventListener('scroll', () => {
-  const s = document.documentElement;
-  bar.style.transform = `scaleX(${window.scrollY/(s.scrollHeight-s.clientHeight)})`;
-}, {passive:true});
+// Navbar shadow on scroll
+(function(){
+  var nav = document.getElementById('navbar');
+  function onScroll(){ nav.classList.toggle('scrolled', window.scrollY > 20); }
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+})();
 
-// Reveal sections
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.06 });
-document.querySelectorAll('.legal-section').forEach(el => observer.observe(el));
+// Reveal sections on scroll
+(function(){
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, {threshold:0.06});
+  document.querySelectorAll('.legal-section').forEach(function(el){ obs.observe(el); });
+})();
 
-// TOC active state
-const sections = document.querySelectorAll('.section-anchor');
-const tocItems = document.querySelectorAll('.toc-item');
-const scrollSpy = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      tocItems.forEach(t => t.classList.remove('active'));
-      const active = document.querySelector(`.toc-item[href="#${e.target.id}"]`);
-      if (active) active.classList.add('active');
-    }
-  });
-}, { rootMargin: '-20% 0px -70% 0px' });
-sections.forEach(s => scrollSpy.observe(s));
+// TOC scroll spy
+(function(){
+  var sections = document.querySelectorAll('.legal-section[id]');
+  var items = document.querySelectorAll('.toc-item');
+  var spy = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        items.forEach(function(t){ t.classList.remove('active'); });
+        var a = document.querySelector('.toc-item[href="#'+e.target.id+'"]');
+        if(a) a.classList.add('active');
+      }
+    });
+  }, {rootMargin:'-20% 0px -70% 0px'});
+  sections.forEach(function(s){ spy.observe(s); });
+})();
 </script>
 </body>
 </html>
