@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="ExoraWorld Help Center — Get support for orders, games, accounts, and technical issues. Reach out for partnerships, sponsorships, advertising, and collaborations." />
+<meta name="theme-color" content="#E8A430" />
+<title>Help Center — ExoraWorld</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<script>
+(function(){
+  try {
+    var ovr = JSON.parse(sessionStorage.getItem('exo_theme_ovr')||'null');
+    var stored = (ovr && Date.now() < ovr.exp) ? ovr.t : null;
+    var h = new Date().getHours();
+    document.documentElement.setAttribute('data-theme', stored || ((h>=6&&h<19)?'light':'dark'));
+  } catch(e){}
+})();
+</script>
+
+<style>
+/* ============================================================
+   DESIGN TOKENS — mirrors index.html exactly
+   ============================================================ */
+:root {
+  --color-bg: #F8F7F3;
+  --color-bg-alt: #F1ECE0;
+  --color-surface: #FFFFFF;
+  --color-text: #17171A;
+  --color-text-muted: #6B6864;
+  --color-border: #E4DFD2;
+  --color-primary: #E8A430;
+  --color-primary-hover: #D6952A;
+  --color-on-primary: #17171A;
+  --color-secondary: #12756B;
+  --color-secondary-hover: #0D5A52;
+  --color-coral: #DE5B4C;
+  --color-navbar-bg: rgba(248,247,243,0.82);
+  --shadow-color: 220 20% 10%;
+  --font-display: 'Bricolage Grotesque','Segoe UI',sans-serif;
+  --font-body: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --nav-height: 76px;
+  --container-width: 1200px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-full: 999px;
+  --shadow-sm: 0 1px 3px hsl(var(--shadow-color)/.08);
+  --shadow-md: 0 10px 30px hsl(var(--shadow-color)/.10);
+  --shadow-lg: 0 24px 48px hsl(var(--shadow-color)/.16);
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.35s cubic-bezier(0.4,0,0.2,1);
+  --section-pad: clamp(3.5rem,7vw,6rem);
+}
+[data-theme="dark"] {
+  --color-bg: #121214;
+  --color-bg-alt: #18181B;
+  --color-surface: #1D1D21;
+  --color-text: #F5F3EE;
+  --color-text-muted: #9E9B95;
+  --color-border: #2B2B30;
+  --color-primary: #F0AC42;
+  --color-primary-hover: #F5BE6B;
+  --color-on-primary: #17171A;
+  --color-secondary: #2DD4BF;
+  --color-secondary-hover: #5EEAD4;
+  --color-coral: #EC6B5C;
+  --color-navbar-bg: rgba(18,18,20,0.76);
+  --shadow-color: 0 0% 0%;
+  --shadow-sm: 0 1px 3px hsl(var(--shadow-color)/.35);
+  --shadow-md: 0 10px 30px hsl(var(--shadow-color)/.45);
+  --shadow-lg: 0 24px 48px hsl(var(--shadow-color)/.55);
+}
+
+/* ============================================================ RESET */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-height)+1.5rem);}
+body{font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background-color var(--transition-base),color var(--transition-base);overflow-x:hidden;word-break:break-word;overflow-wrap:break-word;}
+img{display:block;max-width:100%;height:auto;}
+svg{display:block;flex-shrink:0;}
+a{color:inherit;text-decoration:none;}
+button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;}
+ul,ol{list-style:none;}
+h1,h2,h3,h4,h5{font-family:var(--font-display);line-height:1.12;font-weight:700;letter-spacing:-0.02em;overflow-wrap:break-word;}
+:focus-visible{outline:2px solid var(--color-secondary);outline-offset:3px;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+/* ============================================================ LAYOUT */
+.container{width:100%;max-width:var(--container-width);margin-inline:auto;padding-inline:clamp(1.25rem,4vw,2rem);}
+.section{padding-block:var(--section-pad);}
+.section-alt{background:var(--color-bg-alt);}
+
+/* ============================================================ BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.75rem 1.5rem;border-radius:var(--radius-full);font-size:0.92rem;font-weight:700;line-height:1;transition:all var(--transition-fast);border:1.5px solid transparent;cursor:pointer;white-space:nowrap;}
+.btn:hover{transform:translateY(-1px);}
+.btn:active{transform:translateY(0);}
+.btn-primary{background:var(--color-primary);color:var(--color-on-primary);box-shadow:var(--shadow-sm);}
+.btn-primary:hover{background:var(--color-primary-hover);box-shadow:var(--shadow-md);}
+.btn-secondary{background:transparent;color:var(--color-text);border-color:var(--color-border);}
+.btn-secondary:hover{border-color:var(--color-text);}
+.btn-teal{background:var(--color-secondary);color:#fff;}
+.btn-teal:hover{background:var(--color-secondary-hover);box-shadow:var(--shadow-md);}
+.btn-sm{padding:0.5rem 1rem;font-size:0.84rem;}
+.btn-block{width:100%;justify-content:center;}
+.btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ============================================================ NAVBAR */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-height);display:flex;align-items:center;background:var(--color-navbar-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color var(--transition-base),box-shadow var(--transition-base);}
+.navbar.scrolled{border-color:var(--color-border);box-shadow:var(--shadow-sm);}
+.navbar-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.nav-logo{display:flex;align-items:center;gap:0.55rem;font-family:var(--font-display);font-weight:800;font-size:1.25rem;flex-shrink:0;}
+.logo-mark{width:32px;height:32px;border-radius:9px;background:var(--color-primary);display:flex;align-items:center;justify-content:center;color:var(--color-on-primary);font-size:1.1rem;font-weight:800;line-height:1;}
+.nav-right{display:flex;align-items:center;gap:0.75rem;}
+.nav-back{display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:var(--radius-full);border:1.5px solid var(--color-border);font-size:0.85rem;font-weight:600;transition:border-color var(--transition-fast),color var(--transition-fast);}
+.nav-back:hover{border-color:var(--color-secondary);color:var(--color-secondary);}
+.nav-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.theme-toggle{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--color-border);background:var(--color-surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-text);transition:transform var(--transition-fast),border-color var(--transition-fast);}
+.theme-toggle:hover{transform:rotate(-14deg);border-color:var(--color-primary);}
+.icon-sun,.icon-moon{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+[data-theme="light"] .icon-moon{display:none;}
+[data-theme="dark"] .icon-sun{display:none;}
+[data-theme="dark"] .icon-moon{display:block;}
+@media(max-width:400px){.nav-back-text{display:none;}}
+
+/* ============================================================ REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.in-view{opacity:1;transform:none;}
+.reveal[style*="--i:1"]{transition-delay:0.08s;}
+.reveal[style*="--i:2"]{transition-delay:0.16s;}
+.reveal[style*="--i:3"]{transition-delay:0.24s;}
+.reveal[style*="--i:4"]{transition-delay:0.32s;}
+
+/* ============================================================ SECTION HEADER */
+.section-header{text-align:center;margin-bottom:clamp(2.5rem,5vw,3.5rem);}
+.section-header h2{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;margin-bottom:0.75rem;}
+.section-header p{font-size:0.975rem;color:var(--color-text-muted);max-width:500px;margin-inline:auto;line-height:1.7;}
+.eyebrow{display:inline-flex;align-items:center;gap:0.45rem;color:var(--color-secondary);font-weight:700;font-size:0.78rem;letter-spacing:0.09em;text-transform:uppercase;margin-bottom:0.85rem;}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--color-coral);animation:pulse-dot 2s ease-in-out infinite;flex-shrink:0;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:0.35;}}
+
+/* ============================================================ HERO */
+.hero{
+  padding-top:calc(var(--nav-height) + clamp(3.5rem,8vw,6rem));
+  padding-bottom:clamp(3rem,6vw,5rem);
+  text-align:center;position:relative;overflow:hidden;
+}
+.hero::before{content:'';position:absolute;top:-15%;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(circle,var(--color-secondary) 0%,transparent 65%);opacity:0.07;filter:blur(55px);pointer-events:none;}
+.hero::after{content:'';position:absolute;top:20%;right:5%;width:250px;height:250px;background:radial-gradient(circle,var(--color-primary) 0%,transparent 65%);opacity:0.06;filter:blur(35px);pointer-events:none;}
+.hero-inner{position:relative;z-index:1;max-width:780px;margin-inline:auto;}
+.hero h1{font-size:clamp(2.4rem,6vw,4rem);font-weight:800;line-height:1.06;margin-bottom:1.1rem;}
+.hero h1 .accent-teal{color:var(--color-secondary);}
+.hero h1 .accent-amber{color:var(--color-primary);}
+.hero-lead{font-size:clamp(0.95rem,2vw,1.1rem);color:var(--color-text-muted);max-width:560px;margin:0 auto 2.5rem;line-height:1.75;}
+.hero-search{
+  display:flex;gap:0.6rem;max-width:500px;margin:0 auto 2.25rem;
+  background:var(--color-surface);border:1.5px solid var(--color-border);
+  border-radius:var(--radius-full);padding:0.4rem 0.4rem 0.4rem 1.25rem;
+  box-shadow:var(--shadow-sm);transition:border-color var(--transition-fast),box-shadow var(--transition-fast);
+}
+.hero-search:focus-within{border-color:var(--color-secondary);box-shadow:var(--shadow-md);}
+.hero-search input{flex:1;background:none;border:none;font:inherit;font-size:0.92rem;color:var(--color-text);outline:none;min-width:0;}
+.hero-search input::placeholder{color:var(--color-text-muted);}
+.hero-search button{flex-shrink:0;background:var(--color-secondary);color:#fff;border:none;border-radius:var(--radius-full);padding:0.6rem 1.1rem;font-size:0.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:0.4rem;transition:background var(--transition-fast);}
+.hero-search button:hover{background:var(--color-secondary-hover);}
+.hero-search button svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:0.35rem;
+  padding:0.3rem 0.8rem;border-radius:var(--radius-full);
+  font-size:0.76rem;font-weight:600;color:var(--color-text-muted);
+  border:1.5px solid var(--color-border);background:var(--color-surface);
+  cursor:pointer;transition:all var(--transition-fast);
+}
+.hero-tag:hover{border-color:var(--color-secondary);color:var(--color-secondary);}
+
+/* ============================================================ QUICK HELP CARDS */
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:1rem;}
+.quick-card{
+  background:var(--color-surface);border:1.5px solid var(--color-border);
+  border-radius:var(--radius-lg);padding:1.5rem;
+  display:flex;flex-direction:column;align-items:flex-start;gap:0.85rem;
+  transition:border-color var(--transition-fast),box-shadow var(--transition-fast),transform var(--transition-fast);
+  position:relative;overflow:hidden;
+}
+.quick-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--qc-a),var(--qc-b));opacity:0;transition:opacity var(--transition-fast);}
+.quick-card:hover{border-color:var(--color-border);box-shadow:var(--shadow-md);transform:translateY(-3px);}
+.quick-card:hover::after{opacity:1;}
+.quick-icon{width:44px;height:44px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;}
+.quick-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.quick-card h3{font-size:0.98rem;font-weight:700;color:var(--color-text);}
+.quick-card p{font-size:0.82rem;color:var(--color-text-muted);line-height:1.6;flex:1;}
+.quick-response{font-size:0.74rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;padding:0.2rem 0.65rem;border-radius:var(--radius-full);background:rgba(18,117,107,0.10);color:var(--color-secondary);}
+
+/* ============================================================ TOPIC PILLS */
+.topics-row{display:flex;flex-wrap:wrap;gap:0.6rem;justify-content:center;margin-bottom:2.5rem;}
+.topic-pill{
+  display:inline-flex;align-items:center;gap:0.45rem;
+  padding:0.45rem 1rem;border-radius:var(--radius-full);font-size:0.82rem;font-weight:600;
+  border:1.5px solid var(--color-border);background:var(--color-surface);color:var(--color-text-muted);
+  cursor:pointer;transition:all var(--transition-fast);
+}
+.topic-pill:hover,.topic-pill.active{border-color:var(--color-secondary);color:var(--color-secondary);background:rgba(18,117,107,0.07);}
+.topic-pill svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ============================================================ FAQ */
+.faq-list{display:flex;flex-direction:column;gap:0.6rem;max-width:820px;margin-inline:auto;}
+.faq-item{background:var(--color-surface);border:1.5px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;transition:border-color var(--transition-fast);}
+.faq-item.open{border-color:var(--color-secondary);}
+.faq-question{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:1.1rem 1.25rem;font-size:0.92rem;font-weight:600;color:var(--color-text);
+  text-align:left;cursor:pointer;background:none;border:none;transition:color var(--transition-fast);
+}
+.faq-question:hover{color:var(--color-secondary);}
+.faq-question svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;transition:transform var(--transition-fast);}
+.faq-item.open .faq-question svg{transform:rotate(180deg);stroke:var(--color-secondary);}
+.faq-item.open .faq-question{color:var(--color-secondary);}
+.faq-body{display:none;padding:0 1.25rem 1.1rem;font-size:0.88rem;color:var(--color-text-muted);line-height:1.8;}
+.faq-body a{color:var(--color-secondary);font-weight:600;}
+.faq-body a:hover{text-decoration:underline;}
+.faq-item.open .faq-body{display:block;}
+
+/* FAQ Category label */
+.faq-cat{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  font-size:0.7rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;
+  padding:0.15rem 0.6rem;border-radius:var(--radius-full);margin-bottom:0.5rem;
+}
+
+/* ============================================================ CONTACT SECTION */
+.contact-grid{display:grid;grid-template-columns:1fr 400px;gap:clamp(1.5rem,4vw,3rem);align-items:start;}
+@media(max-width:900px){.contact-grid{grid-template-columns:1fr;}}
+
+/* Form card */
+.form-card{background:var(--color-surface);border:1.5px solid var(--color-border);border-radius:var(--radius-lg);padding:clamp(1.5rem,3vw,2.25rem);}
+.form-card-title{font-size:1.25rem;font-weight:800;margin-bottom:0.4rem;}
+.form-card-sub{font-size:0.875rem;color:var(--color-text-muted);margin-bottom:1.75rem;line-height:1.6;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+@media(max-width:500px){.form-row{grid-template-columns:1fr;}}
+.form-group{display:flex;flex-direction:column;gap:0.45rem;margin-bottom:1rem;}
+.form-group label{font-size:0.82rem;font-weight:600;color:var(--color-text);}
+.form-group .hint{font-size:0.74rem;color:var(--color-text-muted);margin-top:-0.25rem;}
+.input{
+  width:100%;padding:0.7rem 0.95rem;border-radius:var(--radius-md);
+  border:1.5px solid var(--color-border);background:var(--color-bg);
+  font:inherit;font-size:0.9rem;color:var(--color-text);
+  transition:border-color var(--transition-fast),box-shadow var(--transition-fast);
+  outline:none;
+}
+.input:focus{border-color:var(--color-secondary);box-shadow:0 0 0 3px rgba(18,117,107,0.12);}
+.input::placeholder{color:var(--color-text-muted);opacity:0.6;}
+select.input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6864' stroke-width='2' stroke-linecap='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.9rem center;}
+textarea.input{resize:vertical;min-height:130px;line-height:1.6;}
+.char-count{font-size:0.72rem;color:var(--color-text-muted);text-align:right;margin-top:-0.5rem;}
+.form-notice{font-size:0.78rem;color:var(--color-text-muted);line-height:1.6;margin-top:0.75rem;}
+.form-notice a{color:var(--color-secondary);}
+
+/* Submit button states */
+#submitBtn{position:relative;overflow:hidden;}
+#submitBtn.sending{opacity:0.75;pointer-events:none;}
+.success-msg{display:none;background:rgba(18,117,107,0.08);border:1.5px solid rgba(18,117,107,0.25);border-radius:var(--radius-md);padding:1rem 1.1rem;font-size:0.88rem;color:var(--color-secondary);margin-top:1rem;line-height:1.6;}
+.success-msg.show{display:block;}
+
+/* Sidebar info */
+.info-sidebar{display:flex;flex-direction:column;gap:1.1rem;}
+.info-card{background:var(--color-surface);border:1.5px solid var(--color-border);border-radius:var(--radius-lg);padding:1.4rem;}
+.info-card-title{font-size:0.88rem;font-weight:700;color:var(--color-text);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
+.info-card-title svg{width:15px;height:15px;stroke:var(--color-secondary);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.contact-item{display:flex;align-items:flex-start;gap:0.85rem;margin-bottom:0.9rem;}
+.contact-item:last-child{margin-bottom:0;}
+.contact-icon{width:34px;height:34px;border-radius:var(--radius-sm);background:rgba(18,117,107,0.10);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.contact-icon svg{width:15px;height:15px;stroke:var(--color-secondary);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.contact-item-label{font-size:0.72rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:0.2rem;}
+.contact-item-value{font-size:0.88rem;font-weight:600;color:var(--color-text);}
+.contact-item-value a{color:var(--color-secondary);transition:opacity var(--transition-fast);}
+.contact-item-value a:hover{opacity:0.75;text-decoration:underline;}
+.response-badge{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.74rem;font-weight:700;color:var(--color-secondary);background:rgba(18,117,107,0.08);padding:0.2rem 0.65rem;border-radius:var(--radius-full);}
+.response-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--color-secondary);animation:pulse-dot 2s ease-in-out infinite;}
+
+/* Socials in sidebar */
+.social-grid{display:flex;flex-wrap:wrap;gap:0.55rem;}
+.social-btn{display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;width:36px;height:36px;border-radius:var(--radius-sm);border:1.5px solid var(--color-border);color:var(--color-text-muted);transition:all var(--transition-fast);}
+.social-btn:hover{border-color:var(--color-text);color:var(--color-text);box-shadow:var(--shadow-sm);}
+.social-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.social-btn.fb:hover{border-color:#1877F2;color:#1877F2;}
+.social-btn.yt:hover{border-color:#FF0000;color:#FF0000;}
+.social-btn.ig:hover{border-color:#E1306C;color:#E1306C;}
+.social-btn.dc:hover{border-color:#5865F2;color:#5865F2;}
+.social-btn.tw:hover{border-color:var(--color-text);color:var(--color-text);}
+
+/* ============================================================ BUSINESS / PARTNERSHIP SECTION */
+.biz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:1.25rem;}
+.biz-card{
+  background:var(--color-surface);border:1.5px solid var(--color-border);
+  border-radius:var(--radius-lg);padding:1.75rem;
+  display:flex;flex-direction:column;gap:1rem;
+  transition:border-color var(--transition-fast),box-shadow var(--transition-fast),transform var(--transition-fast);
+  position:relative;overflow:hidden;
+}
+.biz-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--bc-a),var(--bc-b));border-radius:var(--radius-lg) var(--radius-lg) 0 0;}
+.biz-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);}
+.biz-icon{width:46px;height:46px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;}
+.biz-icon svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.biz-badge{display:inline-flex;align-items:center;gap:0.35rem;font-size:0.7rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.2rem 0.65rem;border-radius:var(--radius-full);align-self:flex-start;}
+.biz-card h3{font-size:1.05rem;font-weight:700;color:var(--color-text);}
+.biz-card p{font-size:0.86rem;color:var(--color-text-muted);line-height:1.7;flex:1;}
+.biz-cta{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.84rem;font-weight:700;color:var(--color-secondary);transition:gap var(--transition-fast);margin-top:0.25rem;}
+.biz-cta:hover{gap:0.65rem;}
+.biz-cta svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ============================================================ RESPONSE TIMES */
+.response-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:1rem;margin-top:2rem;}
+.response-card{background:var(--color-surface);border:1.5px solid var(--color-border);border-radius:var(--radius-md);padding:1.1rem;text-align:center;}
+.response-time{font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:var(--color-primary);display:block;margin-bottom:0.3rem;}
+.response-label{font-size:0.78rem;color:var(--color-text-muted);font-weight:500;line-height:1.4;}
+
+/* ============================================================ CTA BAND */
+.cta-band{background:linear-gradient(135deg,var(--color-secondary) 0%,#1a9987 50%,var(--color-primary) 100%);border-radius:var(--radius-lg);padding:clamp(2.25rem,5vw,3.5rem);text-align:center;position:relative;overflow:hidden;}
+.cta-band::before{content:'';position:absolute;top:-40%;right:-10%;width:350px;height:350px;border-radius:50%;background:rgba(255,255,255,0.07);pointer-events:none;}
+.cta-band h2{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;color:#fff;margin-bottom:0.75rem;position:relative;z-index:1;}
+.cta-band p{font-size:0.95rem;color:rgba(255,255,255,0.82);max-width:460px;margin:0 auto 2rem;line-height:1.7;position:relative;z-index:1;}
+.cta-btns{display:flex;flex-wrap:wrap;gap:0.85rem;justify-content:center;position:relative;z-index:1;}
+.btn-white{background:#fff;color:#17171A;font-weight:700;box-shadow:var(--shadow-md);}
+.btn-white:hover{box-shadow:var(--shadow-lg);}
+.btn-outline-white{background:rgba(255,255,255,0.15);color:#fff;border:1.5px solid rgba(255,255,255,0.4);backdrop-filter:blur(8px);}
+.btn-outline-white:hover{background:rgba(255,255,255,0.25);}
+
+/* ============================================================ FOOTER */
+.site-footer{border-top:1px solid var(--color-border);background:var(--color-bg-alt);padding:2rem clamp(1.25rem,4vw,2rem);}
+.footer-inner{max-width:var(--container-width);margin-inline:auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-copy{font-size:0.82rem;color:var(--color-text-muted);}
+.footer-links{display:flex;gap:1.25rem;flex-wrap:wrap;}
+.footer-links a{font-size:0.82rem;color:var(--color-text-muted);transition:color var(--transition-fast);}
+.footer-links a:hover{color:var(--color-secondary);}
+.footer-links a.current{color:var(--color-primary);font-weight:600;}
+
+/* Toast */
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--color-text);color:var(--color-bg);padding:0.75rem 1.4rem;border-radius:var(--radius-full);font-size:0.88rem;font-weight:600;box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:opacity 0.3s ease,transform 0.3s ease;z-index:9000;white-space:nowrap;max-width:calc(100vw - 2rem);text-align:center;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ============================================================ MOBILE */
+@media(max-width:480px){
+  .hero h1{font-size:2rem;}
+  .cta-btns{flex-direction:column;align-items:stretch;}
+  .cta-btns .btn{width:100%;justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================ NAVBAR -->
+<header class="navbar" id="navbar">
+  <div class="container navbar-inner">
+    <a href="../index.html" class="nav-logo" aria-label="ExoraWorld Home">
+      <div class="logo-mark">E</div>
+      ExoraWorld
+    </a>
+    <div class="nav-right">
+      <a href="../index.html" class="nav-back">
+        <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        <span class="nav-back-text">Home</span>
+      </a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" aria-pressed="false">
+        <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================ HERO -->
+<section class="hero" id="top">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span> Help Center</div>
+      <h1 class="reveal">
+        How can we<br>
+        <span class="accent-teal">help</span> you <span class="accent-amber">today?</span>
+      </h1>
+      <p class="hero-lead reveal">Search our FAQs, browse by topic, send a message, or explore how to partner with ExoraWorld. We respond to every inquiry personally — no bots, no templates.</p>
+      <div class="hero-search reveal" role="search">
+        <input type="search" id="faqSearch" placeholder="Search FAQs — e.g. 'refund', 'account', 'partnership'…" aria-label="Search FAQs" />
+        <button type="button" id="searchBtn" aria-label="Search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Search
+        </button>
+      </div>
+      <div class="hero-tags reveal" role="list" aria-label="Quick-filter topics">
+        <button class="hero-tag topic-filter" data-topic="account" role="listitem">Account</button>
+        <button class="hero-tag topic-filter" data-topic="order">Orders &amp; Store</button>
+        <button class="hero-tag topic-filter" data-topic="game">Games</button>
+        <button class="hero-tag topic-filter" data-topic="gallery">Gallery</button>
+        <button class="hero-tag topic-filter" data-topic="news">News</button>
+        <button class="hero-tag topic-filter" data-topic="payment">Payments</button>
+        <button class="hero-tag topic-filter" data-topic="business">Business</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ QUICK HELP CARDS -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span> Get Help Faster</div>
+      <h2 class="reveal">Choose how to reach us</h2>
+      <p class="reveal">Pick the channel that works best for your question — we're available across all of them.</p>
+    </div>
+    <div class="quick-grid">
+
+      <div class="quick-card reveal" style="--i:0;--qc-a:#E8A430;--qc-b:#F0B85A;">
+        <div class="quick-icon" style="background:rgba(232,164,48,0.12);color:var(--color-primary);">
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
+        </div>
+        <h3>Email Us</h3>
+        <p>Send us a direct email for orders, legal, copyright, or detailed support requests. Every email is read by a real person.</p>
+        <span class="response-badge">Within 24 hours</span>
+        <a href="mailto:theexoraworld@gmail.com" class="btn btn-sm btn-secondary">theexoraworld@gmail.com</a>
+      </div>
+
+      <div class="quick-card reveal" style="--i:1;--qc-a:#5865F2;--qc-b:#7B89F5;">
+        <div class="quick-icon" style="background:rgba(88,101,242,0.12);color:#5865F2;">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>Discord Community</h3>
+        <p>Join our Discord server to chat with the community, get quick help from fellow members, and stay updated on platform news.</p>
+        <span class="response-badge">Often instant</span>
+        <a href="https://discord.gg/f84dEvu2q" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-secondary">Join Discord</a>
+      </div>
+
+      <div class="quick-card reveal" style="--i:2;--qc-a:#12756B;--qc-b:#2DD4BF;">
+        <div class="quick-icon" style="background:rgba(18,117,107,0.12);color:var(--color-secondary);">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3>Contact Form</h3>
+        <p>Use the form below to send a structured request — ideal for orders, technical issues, partnerships, and business inquiries.</p>
+        <span class="response-badge">Within 24 hours</span>
+        <a href="#contact" class="btn btn-sm btn-secondary">Go to Form ↓</a>
+      </div>
+
+      <div class="quick-card reveal" style="--i:3;--qc-a:#DE5B4C;--qc-b:#F08070;">
+        <div class="quick-icon" style="background:rgba(222,91,76,0.12);color:var(--color-coral);">
+          <svg viewBox="0 0 24 24"><path d="M16 8h-2a2 2 0 0 0-2 2v10"/><path d="M9 13h5"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
+        </div>
+        <h3>Facebook Page</h3>
+        <p>Reach out via our Facebook page for general questions, community updates, and announcements from the ExoraWorld team.</p>
+        <span class="response-badge">Within 48 hours</span>
+        <a href="https://facebook.com/exoraworld" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-secondary">Message on Facebook</a>
+      </div>
+
+    </div>
+    <div class="response-row reveal">
+      <div class="response-card"><span class="response-time">24h</span><span class="response-label">Email &amp; Contact Form Response</span></div>
+      <div class="response-card"><span class="response-time">48h</span><span class="response-label">DMCA &amp; Copyright Notices</span></div>
+      <div class="response-card"><span class="response-time">5 days</span><span class="response-label">Dispute &amp; Refund Resolution</span></div>
+      <div class="response-card"><span class="response-time">30 days</span><span class="response-label">Data Access &amp; Privacy Requests</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FAQ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span> FAQs</div>
+      <h2 class="reveal">Frequently Asked Questions</h2>
+      <p class="reveal">Browse by topic or use the search above. If you don't find your answer here, use the contact form below.</p>
+    </div>
+
+    <div class="topics-row reveal" role="group" aria-label="Filter FAQs by topic">
+      <button class="topic-pill active" data-filter="all">All Questions</button>
+      <button class="topic-pill" data-filter="account">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Account
+      </button>
+      <button class="topic-pill" data-filter="order">
+        <svg viewBox="0 0 24 24"><path d="M6 8h12l-1 13H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg> Orders &amp; Store
+      </button>
+      <button class="topic-pill" data-filter="payment">
+        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg> Payments
+      </button>
+      <button class="topic-pill" data-filter="game">
+        <svg viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="10" rx="5"/><line x1="7" y1="11" x2="7" y2="15"/><line x1="5" y1="13" x2="9" y2="13"/></svg> Games
+      </button>
+      <button class="topic-pill" data-filter="gallery">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> Gallery
+      </button>
+      <button class="topic-pill" data-filter="news">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="14" height="16" rx="1"/><path d="M17 9h4v9a2 2 0 0 1-2 2h-2"/></svg> News
+      </button>
+      <button class="topic-pill" data-filter="legal">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Legal &amp; Privacy
+      </button>
+      <button class="topic-pill" data-filter="business">
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg> Business
+      </button>
+    </div>
+
+    <div class="faq-list" id="faqList">
+
+      <!-- ACCOUNT -->
+      <div class="faq-item" data-topic="account">
+        <button class="faq-question" aria-expanded="false">
+          How do I create an ExoraWorld account?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(18,117,107,0.1);color:var(--color-secondary);">Account</span>
+          <p>Head to the <a href="../index.html">ExoraWorld homepage</a> and click the <strong>Sign Up</strong> button in the top navigation. You can register using your <strong>Google account</strong>, <strong>Facebook account</strong>, or with an <strong>email and password</strong>. Account creation is completely free and takes under a minute.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-topic="account">
+        <button class="faq-question" aria-expanded="false">
+          How do I reset or change my password?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(18,117,107,0.1);color:var(--color-secondary);">Account</span>
+          <p>On the login screen, click <strong>Forgot Password?</strong> and enter your registered email address. A password reset link will be sent within a few minutes. Check your spam/junk folder if it doesn't appear. If you signed up via Google or Facebook, your password is managed by those services directly.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-topic="account">
+        <button class="faq-question" aria-expanded="false">
+          Can I use ExoraWorld without an account?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(18,117,107,0.1);color:var(--color-secondary);">Account</span>
+          <p>Yes. You can browse the <a href="gallery.html">Gallery</a>, read <a href="news.html">News</a>, play <a href="games.html">Games</a>, and view <a href="../content/contents.html">Content</a> without an account. An account is required to access the full gallery (favorites, recently viewed), purchase from the <a href="store.html">Store</a>, and save your game progress and leaderboard scores.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-topic="account">
+        <button class="faq-question" aria-expanded="false">
+          How do I delete my account and data?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(18,117,107,0.1);color:var(--color-secondary);">Account</span>
+          <p>To request account and data deletion, contact us at <a href="mailto:theexoraworld@gmail.com">theexoraworld@gmail.com</a> with the subject line <strong>"Account Deletion Request"</strong>. Include the email address associated with your account. We will process your request and confirm deletion within 30 days, as outlined in our <a href="privacy.html">Privacy Policy</a>. Order records required by law may be retained for up to 2 years.</p>
+        </div>
+      </div>
+
+      <!-- ORDERS & STORE -->
+      <div class="faq-item" data-topic="order">
+        <button class="faq-question" aria-expanded="false">
+          How do I buy something from the ExoraWorld Store?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(232,164,48,0.12);color:var(--color-primary);">Store</span>
+          <p>Browse products in the <a href="store.html">Store</a>, click the product you want, and follow the listed payment instructions. Send payment to the account details shown on the product page, then submit your payment proof (screenshot including transaction ID, amount, and date) through the form on that page. We verify payment and deliver your product within <strong>1–12 hours</strong>.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-topic="order">
+        <button class="faq-question" aria-expanded="false">
+          I paid but haven't received my order. What do I do?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(232,164,48,0.12);color:var(--color-primary);">Store</span>
+          <p>First, check your spam/junk folder — some email providers filter automated messages. If you still haven't received your product within <strong>24 hours</strong> of payment confirmation, contact us at <a href="mailto:theexoraworld@gmail.com">theexoraworld@gmail.com</a> with your <strong>order reference</strong> and a clear screenshot of your payment proof. We will resolve it as a priority.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-topic="order">
+        <button class="faq-question" aria-expanded="false">
+          Can I get a refund on a digital product?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(232,164,48,0.12);color:var(--color-primary);">Store</span>
+          <p>Refunds are issued when: the product was <strong>never delivered</strong> after payment confirmation; the product delivered is <strong>significantly different</strong> from what was described; or a <strong>duplicate payment</strong> was made in error. Refunds are not available for change of mind, incorrect contact info provided, or products that have already been used. Requests must be submitted within <strong>72 hours</strong> of order confirmation. See our full <a href="terms.html">Terms &amp; Conditions</a> for details.</p>
+        </div>
+      </div>
+
+      <!-- PAYMENTS -->
+      <div class="faq-item" data-topic="payment">
+        <button class="faq-question" aria-expanded="false">
+          What payment methods does ExoraWorld accept?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(222,91,76,0.12);color:var(--color-coral);">Payment</span>
+          <p>We accept: <strong>Bkash, Nagad, Cellfin, Bank Transfer</strong> (Bangladesh local methods) and <strong>AirTM, Skrill, Payoneer</strong> (international). The exact payment account details are listed on each individual product page in the Store. Always pay the exact listed amount and submit proof with your transaction ID, amount, date, and sender information.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-topic="payment">
+        <button class="faq-question" aria-expanded="false">
+          Is it safe to send payment to ExoraWorld?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(222,91,76,0.12);color:var(--color-coral);">Payment</span>
+          <p>Yes — payment accounts are listed directly on official ExoraWorld product pages only. <strong>We will never ask for your payment password, PIN, or OTP.</strong> Be cautious of impersonators using similar names. If you are ever unsure whether an account is official, contact us at <a href="mailto:theexoraworld@gmail.com">theexoraworld@gmail.com</a> before sending any payment.</p>
+        </div>
+      </div>
+
+      <!-- GAMES -->
+      <div class="faq-item" data-topic="game">
+        <button class="faq-question" aria-expanded="false">
+          Are ExoraWorld's games free to play?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(99,102,241,0.12);color:#6366f1;">Games</span>
+          <p>Yes — all browser games on ExoraWorld, including <strong>VoidRunner X</strong>, are free to play. Some games may offer premium features or bonus content available for purchase in the Store. No account is required to play, though signing in lets you save scores to the leaderboard and track your progress.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-topic="game">
+        <button class="faq-question" aria-expanded="false">
+          How do I report a bug or issue in a game?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(99,102,241,0.12);color:#6366f1;">Games</span>
+          <p>Use the <a href="#contact">contact form below</a> and select <strong>"Game Bug Report"</strong> as the topic. Please include: the game name, the device and browser you're using, a description of the bug, and steps to reproduce it if possible. Screenshots or screen recordings are very helpful. You can also report bugs directly on our <a href="https://discord.gg/f84dEvu2q" target="_blank" rel="noopener noreferrer">Discord server</a>.</p>
+        </div>
+      </div>
+
+      <!-- GALLERY -->
+      <div class="faq-item" data-topic="gallery">
+        <button class="faq-question" aria-expanded="false">
+          Can I download and use images from the Gallery?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(232,164,48,0.12);color:var(--color-primary);">Gallery</span>
+          <p>Images marked as free to download may be used for <strong>personal, non-commercial purposes</strong>. Premium images may require purchase and have specific usage rights stated on their listing page. You may not redistribute, resell, or commercially exploit gallery images without written permission. All gallery content is either original photography by ExoraWorld, verified public domain (CC0), or Creative Commons licensed — no copyrighted third-party material is hosted here. See our <a href="terms.html">Terms</a> for full details.</p>
+        </div>
+      </div>
+
+      <!-- NEWS -->
+      <div class="faq-item" data-topic="news">
+        <button class="faq-question" aria-expanded="false">
+          Where does ExoraWorld's news content come from?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(18,117,107,0.1);color:var(--color-secondary);">News</span>
+          <p>ExoraWorld is a <strong>news aggregator</strong> — we do not write news ourselves. We display headlines and brief excerpts from publicly available RSS feeds published by <strong>BBC News, IGN, and The Daily Star Bangladesh</strong>, parsed via the rss2json.com API. Every article links directly back to the original publisher. All news content remains the property of the respective publishers.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-topic="news">
+        <button class="faq-question" aria-expanded="false">
+          A news article on ExoraWorld contains incorrect information — who is responsible?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(18,117,107,0.1);color:var(--color-secondary);">News</span>
+          <p>ExoraWorld aggregates news from third-party publishers and does not author, edit, or verify news content. Responsibility for accuracy lies solely with the original publisher. Click the article link to visit the source, and if the content is incorrect, report it directly to that publisher. ExoraWorld disclaims all liability for the accuracy of aggregated news content.</p>
+        </div>
+      </div>
+
+      <!-- LEGAL -->
+      <div class="faq-item" data-topic="legal">
+        <button class="faq-question" aria-expanded="false">
+          How do I submit a DMCA or copyright takedown notice?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(222,91,76,0.12);color:var(--color-coral);">Legal</span>
+          <p>Email us at <a href="mailto:theexoraworld@gmail.com">theexoraworld@gmail.com</a> with the subject <strong>"DMCA Notice — [Your Name]"</strong>. Include: your name and contact details, a description of the copyrighted work you claim has been infringed, the URL of the allegedly infringing content on ExoraWorld, and a statement under penalty of perjury that you are the rights holder or authorized agent. We will respond within <strong>48 hours</strong> and take appropriate action. Full procedure is in our <a href="terms.html">Terms &amp; Conditions, Section 16</a>.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-topic="legal">
+        <button class="faq-question" aria-expanded="false">
+          How does ExoraWorld handle my personal data?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(222,91,76,0.12);color:var(--color-coral);">Legal</span>
+          <p>We collect data to operate the platform, process orders, and serve advertising. Data is stored via Firebase (Google) and may be shared with advertising networks and analytics providers. Full details are in our <a href="privacy.html">Privacy Policy</a>. You have the right to access, correct, or delete your data at any time — email us at <a href="mailto:theexoraworld@gmail.com">theexoraworld@gmail.com</a> with your request.</p>
+        </div>
+      </div>
+
+      <!-- BUSINESS -->
+      <div class="faq-item" data-topic="business">
+        <button class="faq-question" aria-expanded="false">
+          How can I advertise on ExoraWorld?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(18,117,107,0.1);color:var(--color-secondary);">Business</span>
+          <p>ExoraWorld offers both <strong>programmatic advertising</strong> (via Google AdSense and other networks) and <strong>direct sponsorship placements</strong> for relevant brands. For direct advertising inquiries — including banner placements, newsletter sponsorships, or featured content — use the <a href="#contact">contact form</a> below and select <strong>"Advertising Inquiry"</strong>, or email us with your brand details, target audience, and campaign goals.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-topic="business">
+        <button class="faq-question" aria-expanded="false">
+          How do I propose a partnership or collaboration?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(18,117,107,0.1);color:var(--color-secondary);">Business</span>
+          <p>We welcome partnerships with creators, brands, developers, and organizations that align with ExoraWorld's values. Use the <a href="#contact">contact form</a> below and select <strong>"Partnership &amp; Collaboration"</strong>. Include a brief description of who you are, what you're proposing, and what value the collaboration offers to both sides. We review all proposals and respond within 5 business days.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-topic="business">
+        <button class="faq-question" aria-expanded="false">
+          Does ExoraWorld accept sponsored content or brand deals?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(18,117,107,0.1);color:var(--color-secondary);">Business</span>
+          <p>Yes — ExoraWorld considers sponsorship and brand deal opportunities that are relevant to our audience. Sponsored content will always be clearly labeled as such, in compliance with applicable advertising standards. Contact us with <strong>"Sponsorship Inquiry"</strong> as your subject. We do not accept sponsorships for products or services that conflict with our values or community guidelines.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-topic="business">
+        <button class="faq-question" aria-expanded="false">
+          Is ExoraWorld open to content creator collaborations?
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body">
+          <span class="faq-cat" style="background:rgba(18,117,107,0.1);color:var(--color-secondary);">Business</span>
+          <p>Absolutely. We collaborate with YouTubers, bloggers, streamers, photographers, and digital creators whose audience and content align with ExoraWorld's platform. Whether it's featuring your content, cross-promotion, or building something together — reach out via the <a href="#contact">contact form</a> or email us directly. Include your channel/profile links and a brief idea of what you have in mind.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="reveal" style="text-align:center;margin-top:2.5rem;">
+      <p style="font-size:0.9rem;color:var(--color-text-muted);margin-bottom:1rem;">Still can't find your answer? Send us a message directly.</p>
+      <a href="#contact" class="btn btn-teal">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
+        Contact Us
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ BUSINESS / PARTNERSHIP -->
+<section class="section section-alt" id="business">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span> Work With Us</div>
+      <h2 class="reveal">Business &amp; Partnership Opportunities</h2>
+      <p class="reveal">ExoraWorld is open to meaningful collaborations. Here's how you can work with us.</p>
+    </div>
+    <div class="biz-grid">
+
+      <div class="biz-card reveal" style="--i:0;--bc-a:#E8A430;--bc-b:#F0B85A;">
+        <div class="biz-icon" style="background:rgba(232,164,48,0.12);color:var(--color-primary);">
+          <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
+        <span class="biz-badge" style="background:rgba(232,164,48,0.12);color:var(--color-primary);">Advertising</span>
+        <h3>Advertise on ExoraWorld</h3>
+        <p>Reach ExoraWorld's growing global audience of 50,000+ members across Bangladesh and 80+ countries. We offer direct banner placements, newsletter sponsorships, and featured content slots alongside our existing Google AdSense network. Ideal for digital tools, gaming brands, tech services, and any product relevant to our audience.</p>
+        <a href="#contact" class="biz-cta">
+          Get in touch <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <div class="biz-card reveal" style="--i:1;--bc-a:#12756B;--bc-b:#2DD4BF;">
+        <div class="biz-icon" style="background:rgba(18,117,107,0.12);color:var(--color-secondary);">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <span class="biz-badge" style="background:rgba(18,117,107,0.10);color:var(--color-secondary);">Partnership</span>
+        <h3>Platform Partnership</h3>
+        <p>We welcome partnerships with brands, developers, organizations, and digital platforms that align with what ExoraWorld stands for. Whether it's cross-promotion, co-creating content, integrating tools, or building something together — we're open to exploring what that looks like. Partnership proposals are reviewed within 5 business days.</p>
+        <a href="#contact" class="biz-cta">
+          Propose a partnership <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <div class="biz-card reveal" style="--i:2;--bc-a:#6366f1;--bc-b:#8B5CF6;">
+        <div class="biz-icon" style="background:rgba(99,102,241,0.12);color:#6366f1;">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <span class="biz-badge" style="background:rgba(99,102,241,0.12);color:#6366f1;">Sponsorship</span>
+        <h3>Sponsor ExoraWorld</h3>
+        <p>Sponsoring ExoraWorld gives your brand visibility across the platform — gallery pages, the news hub, game screens, and our content sections. All sponsorships are clearly labeled as required by advertising law. We do not accept sponsors whose products conflict with our community values. Tell us about your brand and what you have in mind.</p>
+        <a href="#contact" class="biz-cta">
+          Discuss sponsorship <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <div class="biz-card reveal" style="--i:3;--bc-a:#DE5B4C;--bc-b:#F08070;">
+        <div class="biz-icon" style="background:rgba(222,91,76,0.12);color:var(--color-coral);">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <span class="biz-badge" style="background:rgba(222,91,76,0.12);color:var(--color-coral);">Creator Collab</span>
+        <h3>Creator Collaboration</h3>
+        <p>YouTubers, streamers, photographers, bloggers, and digital artists — we'd love to collaborate. Whether it's featuring your work in our gallery, co-creating content, or building an audience together, ExoraWorld supports independent creators. Send us your profile links and a brief idea of what you'd like to build together.</p>
+        <a href="#contact" class="biz-cta">
+          Start a conversation <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <div class="biz-card reveal" style="--i:4;--bc-a:#E8A430;--bc-b:#12756B;">
+        <div class="biz-icon" style="background:rgba(232,164,48,0.12);color:var(--color-primary);">
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="17"/><line x1="9" y1="14.5" x2="15" y2="14.5"/></svg>
+        </div>
+        <span class="biz-badge" style="background:rgba(232,164,48,0.12);color:var(--color-primary);">Press &amp; Media</span>
+        <h3>Press &amp; Media Inquiries</h3>
+        <p>Journalists, bloggers, and media outlets are welcome to reach out for quotes, platform information, founder interviews, or press-related inquiries. We'll provide accurate information about the platform and are happy to be featured in relevant publications, podcasts, or media channels.</p>
+        <a href="#contact" class="biz-cta">
+          Media inquiry <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <div class="biz-card reveal" style="--i:5;--bc-a:#12756B;--bc-b:#6366f1;">
+        <div class="biz-icon" style="background:rgba(18,117,107,0.12);color:var(--color-secondary);">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
+        </div>
+        <span class="biz-badge" style="background:rgba(18,117,107,0.10);color:var(--color-secondary);">International</span>
+        <h3>International Opportunities</h3>
+        <p>ExoraWorld is based in Bangladesh but serves a global audience across 80+ countries. We are open to international business development, cross-border partnerships, and opportunities that help us grow our reach in new regions. If you represent a brand or organization outside Bangladesh, we're especially interested in hearing from you.</p>
+        <a href="#contact" class="biz-cta">
+          Let's talk globally <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CONTACT FORM -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span> Contact</div>
+      <h2 class="reveal">Send us a message</h2>
+      <p class="reveal">Fill in the form below and we'll get back to you personally. No bots — a real person reads every message.</p>
+    </div>
+
+    <div class="contact-grid">
+
+      <!-- FORM -->
+      <div class="form-card reveal">
+        <h3 class="form-card-title">What do you need help with?</h3>
+        <p class="form-card-sub">Tell us what's going on and we'll take it from there. For business inquiries, please include as much detail as possible so we can give you a proper response.</p>
+
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="contactName">Your Name <span style="color:var(--color-coral)">*</span></label>
+              <input type="text" id="contactName" name="name" class="input" required autocomplete="name" placeholder="Full name" />
+            </div>
+            <div class="form-group">
+              <label for="contactEmail">Email Address <span style="color:var(--color-coral)">*</span></label>
+              <input type="email" id="contactEmail" name="email" class="input" required autocomplete="email" placeholder="you@email.com" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="contactSubject">Topic <span style="color:var(--color-coral)">*</span></label>
+            <select id="contactSubject" name="subject" class="input" required>
+              <option value="">— Select a topic —</option>
+              <optgroup label="Support">
+                <option value="General Inquiry">General Inquiry</option>
+                <option value="Order Support">Order Support</option>
+                <option value="Payment Issue">Payment Issue</option>
+                <option value="Game Bug Report">Game Bug Report</option>
+                <option value="Gallery Issue">Gallery Issue</option>
+                <option value="Account Issue">Account Issue</option>
+                <option value="Technical Issue">Technical Issue</option>
+                <option value="Refund Request">Refund Request</option>
+              </optgroup>
+              <optgroup label="Legal">
+                <option value="Copyright / DMCA Notice">Copyright / DMCA Notice</option>
+                <option value="Privacy / Data Request">Privacy / Data Request</option>
+              </optgroup>
+              <optgroup label="Business">
+                <option value="Advertising Inquiry">Advertising Inquiry</option>
+                <option value="Sponsorship Inquiry">Sponsorship Inquiry</option>
+                <option value="Partnership &amp; Collaboration">Partnership &amp; Collaboration</option>
+                <option value="Creator Collaboration">Creator Collaboration</option>
+                <option value="Press / Media Inquiry">Press / Media Inquiry</option>
+                <option value="International Business">International Business</option>
+              </optgroup>
+              <optgroup label="Other">
+                <option value="Feedback &amp; Suggestions">Feedback &amp; Suggestions</option>
+                <option value="Other">Other</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="form-group" id="orderRefGroup" style="display:none;">
+            <label for="orderRef">Order Reference (if applicable)</label>
+            <input type="text" id="orderRef" name="order_ref" class="input" placeholder="Your order ID or transaction reference" />
+            <span class="hint">Helps us find your order much faster.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="contactMessage">Message <span style="color:var(--color-coral)">*</span></label>
+            <textarea id="contactMessage" name="message" class="input" required minlength="20" maxlength="2000" placeholder="Describe your issue, inquiry, or proposal in as much detail as possible…"></textarea>
+            <div class="char-count"><span id="charCount">0</span> / 2000</div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Send Message
+          </button>
+          <p class="form-notice">By submitting this form, you agree to our <a href="terms.html">Terms &amp; Conditions</a> and <a href="privacy.html">Privacy Policy</a>. Your message is sent securely via Formspree. We will never share your contact details with third parties for marketing purposes.</p>
+        </form>
+        <div class="success-msg" id="successMsg">
+          ✅ <strong>Your message has been sent!</strong> We'll get back to you at the email you provided within 24 hours. For urgent issues, you can also reach us at <a href="mailto:theexoraworld@gmail.com">theexoraworld@gmail.com</a> directly.
+        </div>
+      </div>
+
+      <!-- SIDEBAR INFO -->
+      <div class="info-sidebar">
+
+        <div class="info-card reveal" style="--i:1">
+          <div class="info-card-title">
+            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
+            Contact Details
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></div>
+            <div>
+              <div class="contact-item-label">Email</div>
+              <div class="contact-item-value"><a href="mailto:theexoraworld@gmail.com">theexoraworld@gmail.com</a></div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg></div>
+            <div>
+              <div class="contact-item-label">Platform</div>
+              <div class="contact-item-value">ExoraWorld — Bangladesh &amp; Global</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div>
+              <div class="contact-item-label">Response Time</div>
+              <div class="contact-item-value"><span class="response-badge">Within 24 hours</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-card reveal" style="--i:2">
+          <div class="info-card-title">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            Follow ExoraWorld
+          </div>
+          <div class="social-grid">
+            <a href="https://facebook.com/exoraworld" target="_blank" rel="noopener noreferrer" class="social-btn fb" aria-label="Facebook" title="Facebook">
+              <svg viewBox="0 0 24 24"><path d="M16 8h-2a2 2 0 0 0-2 2v10"/><path d="M9 13h5"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
+            </a>
+            <a href="https://www.youtube.com/@ExoraWorld" target="_blank" rel="noopener noreferrer" class="social-btn yt" aria-label="YouTube" title="YouTube">
+              <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="4"/><polygon points="10 9 16 12 10 15" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="https://instagram.com/theexoraworld" target="_blank" rel="noopener noreferrer" class="social-btn ig" aria-label="Instagram" title="Instagram">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="https://discord.gg/f84dEvu2q" target="_blank" rel="noopener noreferrer" class="social-btn dc" aria-label="Discord" title="Discord">
+              <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </a>
+            <a href="https://x.com/Exoraworld" target="_blank" rel="noopener noreferrer" class="social-btn tw" aria-label="Twitter / X" title="Twitter / X">
+              <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.9 3H22l-7.4 8.5L23 21h-6.9l-5.4-6.6L4.4 21H1.3l7.9-9-7.7-9H9l4.9 6.1L18.9 3z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="info-card reveal" style="--i:3">
+          <div class="info-card-title">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Useful Links
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0.55rem;">
+            <a href="terms.html" style="font-size:0.86rem;color:var(--color-secondary);display:flex;align-items:center;gap:0.45rem;font-weight:600;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Terms &amp; Conditions
+            </a>
+            <a href="privacy.html" style="font-size:0.86rem;color:var(--color-secondary);display:flex;align-items:center;gap:0.45rem;font-weight:600;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Privacy Policy
+            </a>
+            <a href="about.html" style="font-size:0.86rem;color:var(--color-secondary);display:flex;align-items:center;gap:0.45rem;font-weight:600;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              About ExoraWorld
+            </a>
+            <a href="../index.html" style="font-size:0.86rem;color:var(--color-secondary);display:flex;align-items:center;gap:0.45rem;font-weight:600;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              Back to Homepage
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CTA BAND -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="cta-band reveal">
+      <h2>Not finding what you need?</h2>
+      <p>Email us directly — a real person will read your message and respond within 24 hours, no matter what the topic is.</p>
+      <div class="cta-btns">
+        <a href="mailto:theexoraworld@gmail.com" class="btn btn-white">
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
+          Email Directly
+        </a>
+        <a href="https://discord.gg/f84dEvu2q" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Join Discord
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="footer-copy">© <span id="yr"></span> ExoraWorld. All rights reserved.</p>
+    <nav class="footer-links">
+      <a href="help.html" class="current">Help</a>
+      <a href="about.html">About</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="../index.html">Home</a>
+    </nav>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* ---- Theme ---- */
+(function(){
+  var root=document.documentElement,toggle=document.getElementById('themeToggle'),KEY='exo_theme_ovr';
+  function auto(){var h=new Date().getHours();return(h>=6&&h<19)?'light':'dark';}
+  function save(t){try{sessionStorage.setItem(KEY,JSON.stringify({t:t,exp:Date.now()+3600000}));}catch(e){}}
+  function load(){try{var d=JSON.parse(sessionStorage.getItem(KEY)||'null');if(d&&Date.now()<d.exp)return d.t;sessionStorage.removeItem(KEY);}catch(e){}return null;}
+  function apply(t){root.setAttribute('data-theme',t);toggle.setAttribute('aria-pressed',t==='dark'?'true':'false');}
+  apply(load()||auto());
+  toggle.addEventListener('click',function(){var n=root.getAttribute('data-theme')==='dark'?'light':'dark';apply(n);save(n);});
+  setInterval(function(){var d=load()||auto();if(root.getAttribute('data-theme')!==d)apply(d);},60000);
+})();
+
+/* ---- Navbar scroll shadow ---- */
+(function(){
+  var nav=document.getElementById('navbar');
+  function s(){nav.classList.toggle('scrolled',window.scrollY>20);}
+  s();window.addEventListener('scroll',s,{passive:true});
+})();
+
+/* ---- Reveal ---- */
+(function(){
+  if(!('IntersectionObserver' in window)){document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in-view');});return;}
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in-view');obs.unobserve(e.target);}});},{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+})();
+
+/* ---- Toast ---- */
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._tid);t._tid=setTimeout(function(){t.classList.remove('show');},4000);
+}
+
+/* ---- FAQ accordion ---- */
+document.querySelectorAll('.faq-item').forEach(function(item){
+  item.querySelector('.faq-question').addEventListener('click',function(){
+    var open=item.classList.toggle('open');
+    this.setAttribute('aria-expanded',String(open));
+  });
+});
+
+/* ---- FAQ filter by topic buttons ---- */
+var filterBtns=document.querySelectorAll('[data-filter]');
+var faqItems=document.querySelectorAll('.faq-item[data-topic]');
+filterBtns.forEach(function(btn){
+  btn.addEventListener('click',function(){
+    filterBtns.forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    var f=btn.dataset.filter;
+    faqItems.forEach(function(item){
+      if(f==='all'||item.dataset.topic===f){item.style.display='';}
+      else{item.style.display='none';item.classList.remove('open');}
+    });
+  });
+});
+
+/* ---- Hero quick-filter tags ---- */
+document.querySelectorAll('.topic-filter').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var t=btn.dataset.topic;
+    document.querySelector('[data-filter="'+t+'"]') && document.querySelector('[data-filter="'+t+'"]').click();
+    document.getElementById('faq').scrollIntoView({behavior:'smooth'});
+  });
+});
+
+/* ---- FAQ search ---- */
+document.getElementById('searchBtn').addEventListener('click',runSearch);
+document.getElementById('faqSearch').addEventListener('keydown',function(e){if(e.key==='Enter')runSearch();});
+function runSearch(){
+  var q=document.getElementById('faqSearch').value.trim().toLowerCase();
+  if(!q)return;
+  filterBtns.forEach(function(b){b.classList.remove('active');});
+  document.querySelector('[data-filter="all"]').classList.add('active');
+  var found=0;
+  faqItems.forEach(function(item){
+    var txt=item.textContent.toLowerCase();
+    if(txt.includes(q)){item.style.display='';found++;}
+    else{item.style.display='none';item.classList.remove('open');}
+  });
+  if(found===0){showToast("No FAQs matched \""+q+"\" — try different keywords or use the contact form.");}
+  else{document.getElementById('faq').scrollIntoView({behavior:'smooth'});}
+}
+
+/* ---- Show order ref field for relevant topics ---- */
+document.getElementById('contactSubject').addEventListener('change',function(){
+  var orderTopics=['Order Support','Payment Issue','Refund Request'];
+  document.getElementById('orderRefGroup').style.display=orderTopics.includes(this.value)?'':'none';
+});
+
+/* ---- Character count ---- */
+document.getElementById('contactMessage').addEventListener('input',function(){
+  document.getElementById('charCount').textContent=this.value.length;
+});
+
+/* ---- Contact form submit (Formspree) ---- */
+document.getElementById('contactForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  var form=this;
+  if(!form.checkValidity()){form.reportValidity();return;}
+  var btn=document.getElementById('submitBtn');
+  btn.classList.add('sending');btn.textContent='Sending…';
+  var payload={
+    _subject:'📩 ExoraWorld — '+document.getElementById('contactSubject').value,
+    name:document.getElementById('contactName').value.trim(),
+    email:document.getElementById('contactEmail').value.trim(),
+    topic:document.getElementById('contactSubject').value,
+    order_ref:document.getElementById('orderRef').value.trim()||'N/A',
+    message:document.getElementById('contactMessage').value.trim()
+  };
+  fetch('https://formspree.io/f/maqaprqk',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify(payload)
+  }).then(function(res){
+    if(res.ok){
+      form.reset();
+      document.getElementById('charCount').textContent='0';
+      document.getElementById('orderRefGroup').style.display='none';
+      document.getElementById('successMsg').classList.add('show');
+      form.style.display='none';
+      showToast("Message sent! We'll reply within 24 hours.");
+    } else {
+      showToast("Couldn't send — please try again or email theexoraworld@gmail.com directly.");
+    }
+  }).catch(function(){
+    showToast("Couldn't send — please try again or email theexoraworld@gmail.com directly.");
+  }).finally(function(){
+    btn.classList.remove('sending');btn.textContent='Send Message';
+    var ic=document.createElement('svg');ic.setAttribute('viewBox','0 0 24 24');ic.style.cssText='width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;';ic.innerHTML='<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>';btn.prepend(ic);
+  });
+});
+</script>
+</body>
+</html>
