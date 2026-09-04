@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="About ExoraWorld — One home for tools, games, news, gallery, and content. Meet the founder, discover our mission, and learn how the platform was built." />
+<meta name="theme-color" content="#E8A430" />
+<title>About — ExoraWorld</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<script>
+(function(){
+  try {
+    var ovr = JSON.parse(sessionStorage.getItem('exo_theme_ovr')||'null');
+    var stored = (ovr && Date.now() < ovr.exp) ? ovr.t : null;
+    var h = new Date().getHours();
+    document.documentElement.setAttribute('data-theme', stored || ((h>=6&&h<19)?'light':'dark'));
+  } catch(e){}
+})();
+</script>
+
+<style>
+/* ============================================================
+   DESIGN TOKENS — mirrors index.html exactly
+   ============================================================ */
+:root {
+  --color-bg: #F8F7F3;
+  --color-bg-alt: #F1ECE0;
+  --color-surface: #FFFFFF;
+  --color-text: #17171A;
+  --color-text-muted: #6B6864;
+  --color-border: #E4DFD2;
+  --color-primary: #E8A430;
+  --color-primary-hover: #D6952A;
+  --color-on-primary: #17171A;
+  --color-secondary: #12756B;
+  --color-secondary-hover: #0D5A52;
+  --color-coral: #DE5B4C;
+  --color-navbar-bg: rgba(248,247,243,0.82);
+  --shadow-color: 220 20% 10%;
+  --font-display: 'Bricolage Grotesque','Segoe UI',sans-serif;
+  --font-body: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --nav-height: 76px;
+  --container-width: 1200px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-full: 999px;
+  --shadow-sm: 0 1px 3px hsl(var(--shadow-color)/.08);
+  --shadow-md: 0 10px 30px hsl(var(--shadow-color)/.10);
+  --shadow-lg: 0 24px 48px hsl(var(--shadow-color)/.16);
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.35s cubic-bezier(0.4,0,0.2,1);
+  --section-pad: clamp(4rem,8vw,7rem);
+}
+[data-theme="dark"] {
+  --color-bg: #121214;
+  --color-bg-alt: #18181B;
+  --color-surface: #1D1D21;
+  --color-text: #F5F3EE;
+  --color-text-muted: #9E9B95;
+  --color-border: #2B2B30;
+  --color-primary: #F0AC42;
+  --color-primary-hover: #F5BE6B;
+  --color-on-primary: #17171A;
+  --color-secondary: #2DD4BF;
+  --color-secondary-hover: #5EEAD4;
+  --color-coral: #EC6B5C;
+  --color-navbar-bg: rgba(18,18,20,0.76);
+  --shadow-color: 0 0% 0%;
+  --shadow-sm: 0 1px 3px hsl(var(--shadow-color)/.35);
+  --shadow-md: 0 10px 30px hsl(var(--shadow-color)/.45);
+  --shadow-lg: 0 24px 48px hsl(var(--shadow-color)/.55);
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-height)+1.5rem);}
+body{font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background-color var(--transition-base),color var(--transition-base);overflow-x:hidden;word-break:break-word;overflow-wrap:break-word;}
+img{display:block;max-width:100%;height:auto;}
+svg{display:block;}
+a{color:inherit;text-decoration:none;}
+button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;}
+ul,ol{list-style:none;}
+h1,h2,h3,h4,h5{font-family:var(--font-display);line-height:1.12;font-weight:700;letter-spacing:-0.02em;overflow-wrap:break-word;}
+:focus-visible{outline:2px solid var(--color-secondary);outline-offset:3px;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container{width:100%;max-width:var(--container-width);margin-inline:auto;padding-inline:clamp(1.25rem,4vw,2rem);}
+.section{padding-block:var(--section-pad);}
+.section-alt{background:var(--color-bg-alt);}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;
+  padding:0.75rem 1.5rem;border-radius:var(--radius-full);font-size:0.92rem;
+  font-weight:700;line-height:1;transition:all var(--transition-fast);
+  border:1.5px solid transparent;cursor:pointer;white-space:nowrap;
+}
+.btn:hover{transform:translateY(-1px);}
+.btn:active{transform:translateY(0);}
+.btn-primary{background:var(--color-primary);color:var(--color-on-primary);box-shadow:var(--shadow-sm);}
+.btn-primary:hover{background:var(--color-primary-hover);box-shadow:var(--shadow-md);}
+.btn-secondary{background:transparent;color:var(--color-text);border-color:var(--color-border);}
+.btn-secondary:hover{border-color:var(--color-text);}
+.btn-teal{background:var(--color-secondary);color:#fff;box-shadow:var(--shadow-sm);}
+.btn-teal:hover{background:var(--color-secondary-hover);box-shadow:var(--shadow-md);}
+.btn-sm{padding:0.55rem 1.1rem;font-size:0.84rem;}
+.btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-height);
+  display:flex;align-items:center;
+  background:var(--color-navbar-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;
+  transition:border-color var(--transition-base),box-shadow var(--transition-base);
+}
+.navbar.scrolled{border-color:var(--color-border);box-shadow:var(--shadow-sm);}
+.navbar-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.nav-logo{display:flex;align-items:center;gap:0.55rem;font-family:var(--font-display);font-weight:800;font-size:1.25rem;flex-shrink:0;}
+.logo-mark{width:32px;height:32px;border-radius:9px;background:var(--color-primary);display:flex;align-items:center;justify-content:center;color:var(--color-on-primary);font-size:1.1rem;font-weight:800;line-height:1;}
+.nav-right{display:flex;align-items:center;gap:0.75rem;}
+.nav-back{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  padding:0.5rem 1rem;border-radius:var(--radius-full);
+  border:1.5px solid var(--color-border);font-size:0.85rem;font-weight:600;
+  transition:border-color var(--transition-fast),color var(--transition-fast);
+}
+.nav-back:hover{border-color:var(--color-secondary);color:var(--color-secondary);}
+.nav-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.theme-toggle{
+  width:40px;height:40px;border-radius:50%;border:1.5px solid var(--color-border);
+  background:var(--color-surface);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--color-text);transition:transform var(--transition-fast),border-color var(--transition-fast);
+}
+.theme-toggle:hover{transform:rotate(-14deg);border-color:var(--color-primary);}
+.icon-sun,.icon-moon{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+[data-theme="light"] .icon-moon{display:none;}
+[data-theme="dark"] .icon-sun{display:none;}
+[data-theme="dark"] .icon-moon{display:block;}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  padding-top:calc(var(--nav-height) + clamp(4rem,9vw,7rem));
+  padding-bottom:clamp(4rem,8vw,6rem);
+  text-align:center;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-10%;left:50%;transform:translateX(-50%);
+  width:700px;height:700px;pointer-events:none;
+  background:radial-gradient(circle,var(--color-primary) 0%,transparent 65%);
+  opacity:0.08;filter:blur(55px);
+}
+.hero::after{
+  content:'';position:absolute;bottom:-5%;right:10%;
+  width:320px;height:320px;pointer-events:none;
+  background:radial-gradient(circle,var(--color-secondary) 0%,transparent 65%);
+  opacity:0.07;filter:blur(40px);
+}
+.hero-inner{position:relative;z-index:1;max-width:820px;margin-inline:auto;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:0.45rem;
+  color:var(--color-secondary);font-weight:700;
+  font-size:0.78rem;letter-spacing:0.09em;text-transform:uppercase;margin-bottom:1.1rem;
+}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--color-coral);animation:pulse-dot 2s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:0.35;}}
+.hero h1{
+  font-size:clamp(2.6rem,6.5vw,4.5rem);font-weight:800;
+  line-height:1.04;margin-bottom:1.35rem;
+}
+.hero h1 .line-amber{color:var(--color-primary);}
+.hero h1 .line-teal{color:var(--color-secondary);}
+.hero-lead{
+  font-size:clamp(1rem,2.2vw,1.2rem);color:var(--color-text-muted);
+  max-width:600px;margin:0 auto 2.5rem;line-height:1.75;
+}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3rem;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:0.6rem;justify-content:center;}
+.chip{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  padding:0.35rem 0.85rem;border-radius:var(--radius-full);
+  font-size:0.78rem;font-weight:600;color:var(--color-text-muted);
+  border:1.5px solid var(--color-border);background:var(--color-surface);
+}
+.chip-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+
+/* ============================================================
+   REVEAL ANIMATION
+   ============================================================ */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.65s ease,transform 0.65s ease;}
+.reveal.in-view{opacity:1;transform:none;}
+.reveal[style*="--i:1"]{transition-delay:0.1s;}
+.reveal[style*="--i:2"]{transition-delay:0.2s;}
+.reveal[style*="--i:3"]{transition-delay:0.3s;}
+.reveal[style*="--i:4"]{transition-delay:0.4s;}
+
+/* ============================================================
+   SECTION HEADER
+   ============================================================ */
+.section-header{text-align:center;margin-bottom:clamp(2.5rem,5vw,4rem);}
+.section-header h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;margin-bottom:0.85rem;}
+.section-header p{font-size:1rem;color:var(--color-text-muted);max-width:520px;margin-inline:auto;line-height:1.7;}
+
+/* ============================================================
+   STATS
+   ============================================================ */
+.stats-row{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;
+  margin-top:clamp(3rem,6vw,5rem);
+}
+@media(max-width:700px){.stats-row{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:360px){.stats-row{grid-template-columns:1fr;}}
+.stat-card{
+  background:var(--color-surface);border:1.5px solid var(--color-border);
+  border-radius:var(--radius-lg);padding:1.75rem 1.25rem;text-align:center;
+  transition:border-color var(--transition-fast),box-shadow var(--transition-fast);
+}
+.stat-card:hover{border-color:var(--color-primary);box-shadow:var(--shadow-md);}
+.stat-number{
+  display:block;font-family:var(--font-display);font-size:clamp(2rem,4vw,2.8rem);
+  font-weight:800;color:var(--color-primary);line-height:1;margin-bottom:0.4rem;
+}
+.stat-label{font-size:0.85rem;color:var(--color-text-muted);font-weight:500;}
+
+/* ============================================================
+   MISSION — two-column
+   ============================================================ */
+.mission-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:center;
+}
+@media(max-width:780px){.mission-grid{grid-template-columns:1fr;}}
+.mission-copy h2{font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;margin-bottom:1.25rem;}
+.mission-copy p{font-size:0.975rem;color:var(--color-text-muted);line-height:1.8;margin-bottom:1rem;}
+.mission-copy p:last-of-type{margin-bottom:1.5rem;}
+.mission-visual{
+  border-radius:var(--radius-lg);background:var(--color-bg-alt);
+  border:1.5px solid var(--color-border);padding:2rem;
+  display:flex;flex-direction:column;gap:1rem;
+}
+.mission-badge{
+  display:flex;align-items:center;gap:0.85rem;
+  padding:1rem 1.1rem;border-radius:var(--radius-md);
+  background:var(--color-surface);border:1.5px solid var(--color-border);
+  transition:border-color var(--transition-fast),box-shadow var(--transition-fast);
+}
+.mission-badge:hover{border-color:var(--color-primary);box-shadow:var(--shadow-sm);}
+.mission-badge-icon{
+  width:38px;height:38px;border-radius:var(--radius-sm);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.mission-badge-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.mission-badge-label{font-family:var(--font-display);font-size:0.9rem;font-weight:700;color:var(--color-text);}
+.mission-badge-sub{font-size:0.78rem;color:var(--color-text-muted);margin-top:0.1rem;}
+
+/* ============================================================
+   PLATFORM SECTIONS GRID
+   ============================================================ */
+.platform-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));
+  gap:1.25rem;
+}
+.platform-card{
+  background:var(--color-surface);border:1.5px solid var(--color-border);
+  border-radius:var(--radius-lg);padding:1.75rem;overflow:hidden;position:relative;
+  transition:border-color var(--transition-base),box-shadow var(--transition-base),transform var(--transition-base);
+  display:flex;flex-direction:column;gap:1rem;
+}
+.platform-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  background:linear-gradient(90deg,var(--card-a),var(--card-b));
+  opacity:0;transition:opacity var(--transition-fast);
+}
+.platform-card:hover{border-color:var(--color-border);box-shadow:var(--shadow-md);transform:translateY(-4px);}
+.platform-card:hover::before{opacity:1;}
+.platform-icon{
+  width:46px;height:46px;border-radius:var(--radius-md);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.platform-icon svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.platform-tag{
+  display:inline-block;padding:0.2rem 0.65rem;border-radius:var(--radius-full);
+  font-size:0.68rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;
+  margin-bottom:0.1rem;align-self:flex-start;
+}
+.platform-card h3{font-size:1.15rem;font-weight:700;color:var(--color-text);}
+.platform-card p{font-size:0.88rem;color:var(--color-text-muted);line-height:1.7;flex:1;}
+.platform-link{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  font-size:0.84rem;font-weight:700;color:var(--color-secondary);margin-top:0.25rem;
+  transition:gap var(--transition-fast);
+}
+.platform-link:hover{gap:0.7rem;}
+.platform-link svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ============================================================
+   FOUNDER
+   ============================================================ */
+.founder-section{
+  background:var(--color-surface);border:1.5px solid var(--color-border);
+  border-radius:var(--radius-lg);padding:clamp(2rem,5vw,3.5rem);
+  display:grid;grid-template-columns:auto 1fr;gap:clamp(2rem,5vw,4rem);
+  align-items:center;
+}
+@media(max-width:700px){.founder-section{grid-template-columns:1fr;text-align:center;}}
+.founder-avatar-wrap{
+  position:relative;width:160px;height:160px;flex-shrink:0;
+  margin-inline:auto;
+}
+.founder-avatar-wrap::before{
+  content:'';position:absolute;inset:-4px;
+  background:linear-gradient(135deg,var(--color-primary),var(--color-secondary));
+  border-radius:50%;z-index:0;opacity:0.7;
+  animation:avatar-rotate 6s linear infinite;
+}
+@keyframes avatar-rotate{to{transform:rotate(360deg);}}
+.founder-avatar-wrap::after{
+  content:'';position:absolute;inset:-1px;
+  background:var(--color-bg);border-radius:50%;z-index:1;
+}
+.founder-avatar{
+  position:relative;z-index:2;
+  width:100%;height:100%;border-radius:50%;overflow:hidden;
+  background:var(--color-bg-alt);
+  display:flex;align-items:center;justify-content:center;
+}
+.founder-avatar img{width:100%;height:100%;object-fit:cover;}
+.founder-avatar-fallback{
+  font-family:var(--font-display);font-size:3rem;font-weight:800;
+  color:var(--color-primary);
+}
+.founder-status-dot{
+  position:absolute;bottom:6px;right:6px;z-index:3;
+  width:16px;height:16px;border-radius:50%;
+  background:#22c55e;border:2.5px solid var(--color-bg);
+}
+.founder-copy .eyebrow{margin-bottom:0.6rem;}
+.founder-copy h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;margin-bottom:0.3rem;}
+.founder-role{font-size:0.95rem;color:var(--color-secondary);font-weight:600;margin-bottom:1.25rem;}
+.founder-bio{font-size:0.95rem;color:var(--color-text-muted);line-height:1.8;margin-bottom:1.75rem;}
+.founder-links{display:flex;flex-wrap:wrap;gap:0.75rem;}
+@media(max-width:700px){.founder-links{justify-content:center;}}
+
+/* ============================================================
+   VALUES / FEATURES
+   ============================================================ */
+.values-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));
+  gap:1.25rem;
+}
+.value-card{
+  background:var(--color-surface);border:1.5px solid var(--color-border);
+  border-radius:var(--radius-md);padding:1.75rem;
+  transition:border-color var(--transition-fast),box-shadow var(--transition-fast);
+}
+.value-card:hover{border-color:var(--color-secondary);box-shadow:var(--shadow-md);}
+.value-icon{
+  width:42px;height:42px;border-radius:var(--radius-sm);
+  background:rgba(18,117,107,0.10);
+  display:flex;align-items:center;justify-content:center;margin-bottom:1rem;
+}
+.value-icon svg{width:20px;height:20px;stroke:var(--color-secondary);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.value-card h3{font-size:1.05rem;font-weight:700;margin-bottom:0.55rem;color:var(--color-text);}
+.value-card p{font-size:0.875rem;color:var(--color-text-muted);line-height:1.7;}
+
+/* ============================================================
+   TECHNOLOGY STACK
+   ============================================================ */
+.tech-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));
+  gap:1rem;
+}
+.tech-card{
+  background:var(--color-surface);border:1.5px solid var(--color-border);
+  border-radius:var(--radius-md);padding:1.25rem;
+  display:flex;align-items:center;gap:0.9rem;
+  transition:border-color var(--transition-fast),box-shadow var(--transition-fast);
+}
+.tech-card:hover{border-color:var(--color-primary);box-shadow:var(--shadow-sm);}
+.tech-icon{
+  width:36px;height:36px;border-radius:var(--radius-sm);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(232,164,48,0.10);
+}
+.tech-icon svg{width:17px;height:17px;stroke:var(--color-primary);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.tech-name{font-family:var(--font-display);font-size:0.88rem;font-weight:700;color:var(--color-text);}
+.tech-desc{font-size:0.75rem;color:var(--color-text-muted);margin-top:0.1rem;line-height:1.4;}
+
+/* ============================================================
+   TIMELINE
+   ============================================================ */
+.timeline{display:flex;flex-direction:column;gap:0;max-width:700px;margin-inline:auto;}
+.timeline-item{
+  display:grid;grid-template-columns:80px 1fr;gap:0 1.5rem;
+  padding-bottom:2.5rem;position:relative;
+}
+.timeline-item:last-child{padding-bottom:0;}
+.timeline-item::after{
+  content:'';position:absolute;left:calc(80px + 0.75rem - 1px);top:24px;bottom:0;
+  width:2px;background:var(--color-border);
+}
+.timeline-item:last-child::after{display:none;}
+.timeline-year{
+  font-family:var(--font-display);font-size:0.78rem;font-weight:700;
+  color:var(--color-primary);text-align:right;padding-top:0.2rem;
+}
+.timeline-content{
+  background:var(--color-surface);border:1.5px solid var(--color-border);
+  border-radius:var(--radius-md);padding:1.1rem 1.25rem;position:relative;
+}
+.timeline-content::before{
+  content:'';position:absolute;left:-8px;top:14px;
+  width:14px;height:14px;border-radius:50%;
+  background:var(--color-primary);border:3px solid var(--color-bg);
+  box-shadow:0 0 0 2px var(--color-primary);
+}
+.timeline-content h4{font-size:0.95rem;font-weight:700;color:var(--color-text);margin-bottom:0.35rem;}
+.timeline-content p{font-size:0.84rem;color:var(--color-text-muted);line-height:1.6;}
+@media(max-width:480px){
+  .timeline-item{grid-template-columns:60px 1fr;gap:0 1rem;}
+  .timeline-item::after{left:calc(60px + 0.5rem - 1px);}
+}
+
+/* ============================================================
+   SOCIAL LINKS
+   ============================================================ */
+.social-row{display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center;}
+.social-btn{
+  display:inline-flex;align-items:center;gap:0.55rem;
+  padding:0.6rem 1.1rem;border-radius:var(--radius-full);
+  border:1.5px solid var(--color-border);font-size:0.85rem;font-weight:600;
+  color:var(--color-text-muted);background:var(--color-surface);
+  transition:all var(--transition-fast);
+}
+.social-btn:hover{border-color:var(--color-text);color:var(--color-text);box-shadow:var(--shadow-sm);}
+.social-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ============================================================
+   CTA BAND
+   ============================================================ */
+.cta-band{
+  background:linear-gradient(135deg,var(--color-primary) 0%,#F0B85A 50%,var(--color-secondary) 100%);
+  border-radius:var(--radius-lg);padding:clamp(2.5rem,6vw,4rem);
+  text-align:center;position:relative;overflow:hidden;
+}
+.cta-band::before{
+  content:'';position:absolute;top:-40%;right:-10%;
+  width:400px;height:400px;border-radius:50%;
+  background:rgba(255,255,255,0.08);pointer-events:none;
+}
+.cta-band::after{
+  content:'';position:absolute;bottom:-40%;left:-5%;
+  width:300px;height:300px;border-radius:50%;
+  background:rgba(0,0,0,0.06);pointer-events:none;
+}
+.cta-band h2{
+  font-size:clamp(1.7rem,4vw,2.8rem);font-weight:800;
+  color:#17171A;margin-bottom:0.85rem;position:relative;z-index:1;
+}
+.cta-band p{
+  font-size:1rem;color:rgba(23,23,26,0.72);max-width:480px;
+  margin:0 auto 2rem;line-height:1.7;position:relative;z-index:1;
+}
+.cta-band-btns{display:flex;flex-wrap:wrap;gap:0.9rem;justify-content:center;position:relative;z-index:1;}
+.btn-dark{background:#17171A;color:#F5F3EE;box-shadow:var(--shadow-md);}
+.btn-dark:hover{background:#000;box-shadow:var(--shadow-lg);}
+.btn-light{background:rgba(255,255,255,0.92);color:#17171A;box-shadow:var(--shadow-sm);}
+.btn-light:hover{background:#fff;box-shadow:var(--shadow-md);}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer{border-top:1px solid var(--color-border);background:var(--color-bg-alt);padding:2rem clamp(1.25rem,4vw,2rem);}
+.footer-inner{max-width:var(--container-width);margin-inline:auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-copy{font-size:0.82rem;color:var(--color-text-muted);}
+.footer-links{display:flex;gap:1.25rem;flex-wrap:wrap;}
+.footer-links a{font-size:0.82rem;color:var(--color-text-muted);transition:color var(--transition-fast);}
+.footer-links a:hover{color:var(--color-secondary);}
+.footer-links a.current{color:var(--color-primary);font-weight:600;}
+
+/* Toast */
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--color-text);color:var(--color-bg);padding:0.75rem 1.4rem;border-radius:var(--radius-full);font-size:0.88rem;font-weight:600;box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:opacity 0.3s ease,transform 0.3s ease;z-index:9000;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ============================================================
+   MOBILE TWEAKS
+   ============================================================ */
+@media(max-width:480px){
+  .hero h1{font-size:2.2rem;}
+  .hero-ctas{flex-direction:column;align-items:stretch;}
+  .hero-ctas .btn{width:100%;justify-content:center;}
+  .cta-band-btns{flex-direction:column;align-items:stretch;}
+  .cta-band-btns .btn{width:100%;justify-content:center;}
+}
+@media(max-width:400px){
+  .nav-back-text{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <div class="container navbar-inner">
+    <a href="../index.html" class="nav-logo" aria-label="ExoraWorld Home">
+      <div class="logo-mark">E</div>
+      ExoraWorld
+    </a>
+    <div class="nav-right">
+      <a href="../index.html" class="nav-back">
+        <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        <span class="nav-back-text">Home</span>
+      </a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" aria-pressed="false">
+        <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================ HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span> About ExoraWorld</div>
+      <h1 class="reveal">
+        One home for<br>
+        <span class="line-amber">everything</span> you<br>
+        <span class="line-teal">love online.</span>
+      </h1>
+      <p class="hero-lead reveal">ExoraWorld is an all-in-one independent digital platform built from Bangladesh — bringing together a visual gallery, live news, original browser games, a digital store, and fresh content, all in one place.</p>
+      <div class="hero-ctas reveal">
+        <a href="../index.html#store" class="btn btn-primary">
+          <svg viewBox="0 0 24 24"><path d="M6 8h12l-1 13H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          Explore the Store
+        </a>
+        <a href="../index.html#games" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="10" rx="5"/><line x1="7" y1="11" x2="7" y2="15"/><line x1="5" y1="13" x2="9" y2="13"/><circle cx="15" cy="12" r="1"/><circle cx="18" cy="14" r="1"/></svg>
+          Play Games
+        </a>
+      </div>
+      <div class="hero-chips reveal">
+        <span class="chip"><span class="chip-dot" style="background:var(--color-primary)"></span>Bangladesh-Based</span>
+        <span class="chip"><span class="chip-dot" style="background:var(--color-secondary)"></span>Independently Owned</span>
+        <span class="chip"><span class="chip-dot" style="background:var(--color-coral)"></span>Free to Use</span>
+        <span class="chip"><span class="chip-dot" style="background:#6366f1"></span>80+ Countries</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ STATS -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span> By the Numbers</div>
+      <h2 class="reveal">ExoraWorld in numbers</h2>
+      <p class="reveal">A growing community, real products, and a platform built to last.</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card reveal" style="--i:0">
+        <span class="stat-number" id="stat1">50,000+</span>
+        <span class="stat-label">Members Worldwide</span>
+      </div>
+      <div class="stat-card reveal" style="--i:1">
+        <span class="stat-number" id="stat2">120+</span>
+        <span class="stat-label">Games Featured</span>
+      </div>
+      <div class="stat-card reveal" style="--i:2">
+        <span class="stat-number" id="stat3">4.8 / 5</span>
+        <span class="stat-label">Average Rating</span>
+      </div>
+      <div class="stat-card reveal" style="--i:3">
+        <span class="stat-number" id="stat4">80+</span>
+        <span class="stat-label">Countries Reached</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ MISSION -->
+<section class="section">
+  <div class="container">
+    <div class="mission-grid">
+      <div class="mission-copy reveal">
+        <div class="eyebrow" style="margin-bottom:0.85rem;"><span class="eyebrow-dot"></span> Our Mission</div>
+        <h2>Built because scattered apps are exhausting.</h2>
+        <p>ExoraWorld started with one frustration: the tools you use, the games you play, the news and content you follow, and the store you shop from were all spread across a dozen different apps. Switching between them felt like a second job.</p>
+        <p>So we built one home for all of it. A platform where you can browse a gallery of original photography, read live world and gaming news, play browser games, buy original digital products, and read fresh content — without ever leaving.</p>
+        <p>Every product in the store is designed for real use. Every game on the platform is hand-built. Every photo in the gallery is either personally photographed or sourced from verified public domain collections. And every news item links straight back to the original source.</p>
+        <a href="../index.html" class="btn btn-primary">
+          Explore ExoraWorld
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+      <div class="mission-visual reveal" style="--i:1">
+        <div class="mission-badge">
+          <div class="mission-badge-icon" style="background:rgba(232,164,48,0.12);color:var(--color-primary);">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          </div>
+          <div>
+            <div class="mission-badge-label">Lumina Gallery</div>
+            <div class="mission-badge-sub">Original &amp; public domain photography</div>
+          </div>
+        </div>
+        <div class="mission-badge">
+          <div class="mission-badge-icon" style="background:rgba(18,117,107,0.12);color:var(--color-secondary);">
+            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="14" height="16" rx="1"/><path d="M17 9h4v9a2 2 0 0 1-2 2h-2"/><line x1="6" y1="9" x2="14" y2="9"/><line x1="6" y1="13" x2="14" y2="13"/><line x1="6" y1="17" x2="11" y2="17"/></svg>
+          </div>
+          <div>
+            <div class="mission-badge-label">Live News Hub</div>
+            <div class="mission-badge-sub">Open-source RSS from BBC, IGN &amp; more</div>
+          </div>
+        </div>
+        <div class="mission-badge">
+          <div class="mission-badge-icon" style="background:rgba(99,102,241,0.12);color:#6366f1;">
+            <svg viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="10" rx="5"/><line x1="7" y1="11" x2="7" y2="15"/><line x1="5" y1="13" x2="9" y2="13"/><circle cx="15" cy="12" r="1"/><circle cx="18" cy="14" r="1"/></svg>
+          </div>
+          <div>
+            <div class="mission-badge-label">Original Games</div>
+            <div class="mission-badge-sub">100% built in-house — VoidRunner X &amp; more</div>
+          </div>
+        </div>
+        <div class="mission-badge">
+          <div class="mission-badge-icon" style="background:rgba(222,91,76,0.12);color:var(--color-coral);">
+            <svg viewBox="0 0 24 24"><path d="M6 8h12l-1 13H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          </div>
+          <div>
+            <div class="mission-badge-label">Digital Store</div>
+            <div class="mission-badge-sub">Templates, tools &amp; game codes — all original</div>
+          </div>
+        </div>
+        <div class="mission-badge">
+          <div class="mission-badge-icon" style="background:rgba(232,164,48,0.12);color:var(--color-primary);">
+            <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <div>
+            <div class="mission-badge-label">Content Hub</div>
+            <div class="mission-badge-sub">Original articles, guides &amp; posts by ExoraWorld</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ PLATFORM SECTIONS -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span> The Platform</div>
+      <h2 class="reveal">Five sections. One world.</h2>
+      <p class="reveal">Everything on ExoraWorld is original, curated, or openly sourced and fully transparent about how it works.</p>
+    </div>
+    <div class="platform-grid">
+
+      <div class="platform-card reveal" style="--i:0;--card-a:#E8A430;--card-b:#F0B85A;">
+        <div class="platform-icon" style="background:rgba(232,164,48,0.12);color:var(--color-primary);">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </div>
+        <span class="platform-tag" style="background:rgba(232,164,48,0.14);color:var(--color-primary);">Gallery</span>
+        <h3>Lumina Gallery</h3>
+        <p>A curated collection of visuals spanning the world. Our gallery contains original photography personally taken by the ExoraWorld owner, alongside carefully sourced public domain and Creative Commons imagery from verified repositories. Every image is legally clear for display, sharing, and commercial use. Browse freely, download favorites, or discover rare shots you won't find elsewhere.</p>
+        <a href="gallery.html" class="platform-link">
+          Browse Gallery
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <div class="platform-card reveal" style="--i:1;--card-a:#12756B;--card-b:#2DD4BF;">
+        <div class="platform-icon" style="background:rgba(18,117,107,0.12);color:var(--color-secondary);">
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="14" height="16" rx="1"/><path d="M17 9h4v9a2 2 0 0 1-2 2h-2"/><line x1="6" y1="9" x2="14" y2="9"/><line x1="6" y1="13" x2="14" y2="13"/><line x1="6" y1="17" x2="11" y2="17"/></svg>
+        </div>
+        <span class="platform-tag" style="background:rgba(18,117,107,0.12);color:var(--color-secondary);">News</span>
+        <h3>Live News Hub</h3>
+        <p>Stay on top of everything without switching apps. Our News Hub aggregates headlines in real time from trusted open-source RSS feeds — including BBC News (world, tech, business, science), IGN (gaming and entertainment), and The Daily Star Bangladesh (national and regional news). We display titles and brief excerpts only, and every item links back directly to the original article. We do not write or store news — we surface it from where it already lives.</p>
+        <a href="news.html" class="platform-link">
+          Read News
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <div class="platform-card reveal" style="--i:2;--card-a:#6366f1;--card-b:#8B5CF6;">
+        <div class="platform-icon" style="background:rgba(99,102,241,0.12);color:#6366f1;">
+          <svg viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="10" rx="5"/><line x1="7" y1="11" x2="7" y2="15"/><line x1="5" y1="13" x2="9" y2="13"/><circle cx="15" cy="12" r="1"/><circle cx="18" cy="14" r="1"/></svg>
+        </div>
+        <span class="platform-tag" style="background:rgba(99,102,241,0.12);color:#6366f1;">Games</span>
+        <h3>Original Browser Games</h3>
+        <p>Every game on ExoraWorld is a 100% original creation — designed, coded, and published entirely in-house. Our flagship title, <strong>VoidRunner X</strong>, is a fast-paced browser-based experience built with pure web technology. No third-party game engines with licensing restrictions, no borrowed assets, and no copied mechanics. Just original work. More games are in development and ship regularly as part of our continuous release cycle.</p>
+        <a href="games.html" class="platform-link">
+          Play Now
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <div class="platform-card reveal" style="--i:3;--card-a:#DE5B4C;--card-b:#F08070;">
+        <div class="platform-icon" style="background:rgba(222,91,76,0.12);color:var(--color-coral);">
+          <svg viewBox="0 0 24 24"><path d="M6 8h12l-1 13H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        </div>
+        <span class="platform-tag" style="background:rgba(222,91,76,0.12);color:var(--color-coral);">Store</span>
+        <h3>Digital Product Store</h3>
+        <p>The ExoraWorld Store sells original digital products — all independently designed and built by us. Our catalog includes website templates, professional resume templates, browser productivity tools, and game codes. Every product listed is an original ExoraWorld creation. We accept multiple payment methods including Bkash, Nagad, Cellfin, AirTM, Skrill, and Payoneer, and deliver all products digitally within 1–12 hours of payment confirmation.</p>
+        <a href="store.html" class="platform-link">
+          Shop Now
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <div class="platform-card reveal" style="--i:4;--card-a:#E8A430;--card-b:#12756B;">
+        <div class="platform-icon" style="background:rgba(232,164,48,0.12);color:var(--color-primary);">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <span class="platform-tag" style="background:rgba(232,164,48,0.14);color:var(--color-primary);">Content</span>
+        <h3>Content Hub</h3>
+        <p>Original articles, guides, tutorials, posts, and media — authored, edited, and published entirely by ExoraWorld. From in-depth how-to guides to quick reads and community updates, the Content Hub is where ExoraWorld's voice lives. All content is original. Where we reference external sources, we credit them clearly. The Content Hub grows every month with fresh material.</p>
+        <a href="../content/contents.html" class="platform-link">
+          Read Content
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FOUNDER -->
+<section class="section">
+  <div class="container">
+    <div class="section-header" style="margin-bottom:clamp(2rem,4vw,3rem);">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span> Meet the Founder</div>
+      <h2 class="reveal">The person behind ExoraWorld</h2>
+    </div>
+    <div class="founder-section reveal">
+      <div class="founder-avatar-wrap">
+        <div class="founder-avatar">
+          <img src="../sources/mdexp-modified.png" alt="MD Abid Hasan — Founder of ExoraWorld" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <div class="founder-avatar-fallback" style="display:none;">A</div>
+        </div>
+        <span class="founder-status-dot" title="Active"></span>
+      </div>
+      <div class="founder-copy">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> Founder &amp; Creator</div>
+        <h2>MD Abid Hasan</h2>
+        <p class="founder-role">Founder, Designer &amp; Developer — ExoraWorld</p>
+        <p class="founder-bio">ExoraWorld is the platform I set out to build: one home for the tools and software you need, the games you love, fresh news and content to browse, and a store to shop from — without jumping between a dozen different apps. I designed and developed every corner of this platform independently, from the gallery system and live news aggregation to the original games and digital product store. ExoraWorld is built from Bangladesh with a global audience in mind, and I'm committed to growing and improving it every single month.</p>
+        <div class="founder-links">
+          <a href="https://iammdabidhasan.netlify.app/" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
+            Visit My Portfolio
+          </a>
+          <a href="mailto:theexoraworld@gmail.com" class="btn btn-secondary btn-sm">
+            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
+            Send a Message
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ VALUES -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span> Our Values</div>
+      <h2 class="reveal">What we stand for</h2>
+      <p class="reveal">The principles that guide every decision we make, every feature we build, and every piece of content we publish.</p>
+    </div>
+    <div class="values-grid">
+      <div class="value-card reveal" style="--i:0">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L14.2 9.8L22 12L14.2 14.2L12 22L9.8 14.2L2 12L9.8 9.8Z" stroke="none" fill="currentColor"/></svg>
+        </div>
+        <h3>Speed by Default</h3>
+        <p>Every page on ExoraWorld is optimized for fast load times. We minimize bloat, use modern web standards, and constantly refine the experience so you spend less time waiting and more time doing.</p>
+      </div>
+      <div class="value-card reveal" style="--i:1">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        </div>
+        <h3>Security by Design</h3>
+        <p>Your account, data, and payments are protected at every step. We use Firebase Authentication for secure sign-in, HTTPS for all data transmission, and clear policies about exactly who can access your information and why.</p>
+      </div>
+      <div class="value-card reveal" style="--i:2">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
+        </div>
+        <h3>Truly Global</h3>
+        <p>ExoraWorld is built from Bangladesh but designed for the world. Our members span 80+ countries, our payment methods include both local (Bkash, Nagad) and international (AirTM, Skrill, Payoneer) options, and our content covers global topics.</p>
+      </div>
+      <div class="value-card reveal" style="--i:3">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3>Originality Always</h3>
+        <p>From our games and store products to our gallery photography and written content — we create or carefully source everything. We don't copy, we don't rebrand, and we're fully transparent about where every piece of content comes from.</p>
+      </div>
+      <div class="value-card reveal" style="--i:4">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><polyline points="21 3 21 9 15 9"/></svg>
+        </div>
+        <h3>Always Improving</h3>
+        <p>New features, new games, new products, and new content ship every single month. ExoraWorld is not a static platform — it grows with its community. If you have feedback, it genuinely shapes what gets built next.</p>
+      </div>
+      <div class="value-card reveal" style="--i:5">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <h3>Real People, Real Answers</h3>
+        <p>When you contact ExoraWorld — for support, a dispute, or a copyright question — a real person reads and responds to your message. No bots, no canned form-letter replies. We treat every user the way we'd want to be treated.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ STORY / TIMELINE -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span> Our Story</div>
+      <h2 class="reveal">How ExoraWorld came to be</h2>
+      <p class="reveal">From a frustration with scattered apps to a fully featured all-in-one digital platform.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-year">The Idea</div>
+        <div class="timeline-content">
+          <h4>The frustration that started it all</h4>
+          <p>MD Abid Hasan wanted one place for tools, games, news, and content — and couldn't find it. So he decided to build it. ExoraWorld was conceived as a fully independent, all-in-one digital world operated from Bangladesh.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-year">Foundation</div>
+        <div class="timeline-content">
+          <h4>The platform is born</h4>
+          <p>ExoraWorld launches with its core sections: the Gallery, News Hub, and Content page. Firebase Authentication is integrated for secure Google and Facebook sign-in. The first original digital products appear in the Store.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-year">Games</div>
+        <div class="timeline-content">
+          <h4>VoidRunner X launches</h4>
+          <p>ExoraWorld releases its first fully original browser game — VoidRunner X. Built entirely in-house with no third-party game engines or licensed assets, it marks ExoraWorld's entry into original software development and becomes the flagship game of the platform.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-year">Growth</div>
+        <div class="timeline-content">
+          <h4>Community crosses 50,000 members</h4>
+          <p>The ExoraWorld community grows to 50,000+ members across 80+ countries. The store expands with new templates and tools. Live news aggregation from BBC, IGN, and The Daily Star goes live, powered by open-source RSS feeds parsed via rss2json.com.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-year">Today</div>
+        <div class="timeline-content">
+          <h4>One world, always growing</h4>
+          <p>ExoraWorld continues to expand — new games in development, new store products launching, new gallery collections added regularly, and fresh content published constantly. The mission stays the same: one home for everything you love online.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ TECHNOLOGY -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span> Built With</div>
+      <h2 class="reveal">The technology behind ExoraWorld</h2>
+      <p class="reveal">We believe in transparency. Here's exactly what powers the platform — no black boxes.</p>
+    </div>
+    <div class="tech-grid reveal">
+      <div class="tech-card">
+        <div class="tech-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div>
+          <div class="tech-name">Firebase Auth</div>
+          <div class="tech-desc">Google &amp; Facebook sign-in. Secure account management.</div>
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+        <div>
+          <div class="tech-name">Firebase Firestore</div>
+          <div class="tech-desc">Real-time database for user data, favorites &amp; gallery views.</div>
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="14" height="16" rx="1"/><path d="M17 9h4v9a2 2 0 0 1-2 2h-2"/><line x1="6" y1="9" x2="14" y2="9"/></svg></div>
+        <div>
+          <div class="tech-name">rss2json API</div>
+          <div class="tech-desc">Parses public RSS feeds from BBC, IGN &amp; Daily Star.</div>
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg></div>
+        <div>
+          <div class="tech-name">Open Web Standards</div>
+          <div class="tech-desc">Pure HTML, CSS &amp; JavaScript. No heavy frameworks.</div>
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <div>
+          <div class="tech-name">Public Domain Sources</div>
+          <div class="tech-desc">Unsplash, Pexels, Pixabay, Wikimedia (CC0) for gallery.</div>
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        <div>
+          <div class="tech-name">Formspree</div>
+          <div class="tech-desc">Contact form submissions handled securely &amp; reliably.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ COMMUNITY / SOCIAL -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span> Community</div>
+      <h2 class="reveal">Join 50,000+ members across the world</h2>
+      <p class="reveal">ExoraWorld isn't just a platform — it's a community. Follow us, join the conversation, and stay updated on everything we're building.</p>
+    </div>
+    <div class="social-row reveal">
+      <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M16 8h-2a2 2 0 0 0-2 2v10"/><path d="M9 13h5"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
+        Facebook
+      </a>
+      <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="YouTube">
+        <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="4"/><polygon points="10 9 16 12 10 15" fill="currentColor" stroke="none"/></svg>
+        YouTube
+      </a>
+      <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        Instagram
+      </a>
+      <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Discord">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Discord
+      </a>
+      <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Twitter / X">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 3H22l-7.4 8.5L23 21h-6.9l-5.4-6.6L4.4 21H1.3l7.9-9-7.7-9H9l4.9 6.1L18.9 3z"/></svg>
+        Twitter / X
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CTA BAND -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="cta-band reveal">
+      <h2>Ready to explore ExoraWorld?</h2>
+      <p>Create a free account and get access to the gallery, games, live news, and all the tools we've built — all in one place.</p>
+      <div class="cta-band-btns">
+        <a href="../index.html?auth=signup" class="btn btn-dark">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Create Free Account
+        </a>
+        <a href="../index.html" class="btn btn-light">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Go to Homepage
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="footer-copy">© <span id="yr"></span> ExoraWorld. All rights reserved.</p>
+    <nav class="footer-links">
+      <a href="about.html" class="current">About</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="../index.html">Home</a>
+    </nav>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Theme toggle — same logic as index.html
+(function(){
+  var root = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var OVR_KEY = 'exo_theme_ovr';
+  function autoTheme(){ var h=new Date().getHours(); return (h>=6&&h<19)?'light':'dark'; }
+  function saveOverride(t){ try{ sessionStorage.setItem(OVR_KEY,JSON.stringify({t:t,exp:Date.now()+3600000})); }catch(e){} }
+  function loadOverride(){ try{ var d=JSON.parse(sessionStorage.getItem(OVR_KEY)||'null'); if(d&&Date.now()<d.exp)return d.t; sessionStorage.removeItem(OVR_KEY); }catch(e){} return null; }
+  function applyTheme(t){ root.setAttribute('data-theme',t); toggle.setAttribute('aria-pressed',t==='dark'?'true':'false'); }
+  applyTheme(loadOverride()||autoTheme());
+  toggle.addEventListener('click',function(){ var next=root.getAttribute('data-theme')==='dark'?'light':'dark'; applyTheme(next); saveOverride(next); });
+  setInterval(function(){ var desired=loadOverride()||autoTheme(); if(root.getAttribute('data-theme')!==desired) applyTheme(desired); },60000);
+})();
+
+// Navbar shadow on scroll
+(function(){
+  var nav = document.getElementById('navbar');
+  function onScroll(){ nav.classList.toggle('scrolled',window.scrollY>20); }
+  onScroll();
+  window.addEventListener('scroll',onScroll,{passive:true});
+})();
+
+// Scroll reveal
+(function(){
+  if(!('IntersectionObserver' in window)){
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in-view');});
+    return;
+  }
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in-view'); obs.unobserve(e.target); }
+    });
+  },{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+})();
+</script>
+</body>
+</html>
