@@ -1,383 +1,433 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<meta name="description" content="ExoraWorld Privacy Policy — How we collect, use, and protect your personal data.">
-<meta name="theme-color" content="#080c14">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="ExoraWorld Privacy Policy — How we collect, use, protect, and share your data. Covers Firebase authentication, advertising partners, news aggregation, gallery content, and your rights." />
+<meta name="theme-color" content="#E8A430" />
 <title>Privacy Policy — ExoraWorld</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<script>
+(function(){
+  try {
+    var ovr = JSON.parse(sessionStorage.getItem('exo_theme_ovr')||'null');
+    var stored = (ovr && Date.now() < ovr.exp) ? ovr.t : null;
+    var h = new Date().getHours();
+    document.documentElement.setAttribute('data-theme', stored || ((h>=6&&h<19)?'light':'dark'));
+  } catch(e){}
+})();
+</script>
+
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; font-size: 16px; }
-body {
-  font-family: 'Outfit', sans-serif;
-  background: #080c14;
-  color: #e8eaf0;
-  overflow-x: hidden;
-  cursor: none;
-  -webkit-font-smoothing: antialiased;
-}
-a { text-decoration: none; color: inherit; }
-img { max-width: 100%; display: block; }
-button { cursor: none; font-family: inherit; border: none; background: none; }
-ul { list-style: none; }
-::selection { background: #7b5cfa20; color: #7b5cfa; }
-
+/* ============================================================
+   DESIGN TOKENS — mirrors index.html exactly
+   ============================================================ */
 :root {
-  --accent: #7b5cfa;
-  --accent2: #00f0c8;
-  --bg: #080c14;
-  --bg2: #0d1220;
-  --surface: #151d2e;
-  --surface2: #1a2340;
-  --border: rgba(255,255,255,0.07);
-  --text: #e8eaf0;
-  --text2: #8892a4;
-  --text3: #4a5568;
-  --font-display: 'Syne', sans-serif;
-  --font-mono: 'Space Mono', monospace;
-  --font-body: 'Outfit', sans-serif;
-  --nav-h: 72px;
-  --radius: 12px;
-  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  --color-bg: #F8F7F3;
+  --color-bg-alt: #F1ECE0;
+  --color-surface: #FFFFFF;
+  --color-text: #17171A;
+  --color-text-muted: #6B6864;
+  --color-border: #E4DFD2;
+  --color-primary: #E8A430;
+  --color-primary-hover: #D6952A;
+  --color-on-primary: #17171A;
+  --color-secondary: #12756B;
+  --color-secondary-hover: #0D5A52;
+  --color-coral: #DE5B4C;
+  --color-navbar-bg: rgba(248,247,243,0.82);
+  --shadow-color: 220 20% 10%;
+  --font-display: 'Bricolage Grotesque','Segoe UI',sans-serif;
+  --font-body: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --nav-height: 76px;
+  --container-width: 1200px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-full: 999px;
+  --shadow-sm: 0 1px 3px hsl(var(--shadow-color)/.08);
+  --shadow-md: 0 10px 30px hsl(var(--shadow-color)/.10);
+  --shadow-lg: 0 24px 48px hsl(var(--shadow-color)/.16);
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+[data-theme="dark"] {
+  --color-bg: #121214;
+  --color-bg-alt: #18181B;
+  --color-surface: #1D1D21;
+  --color-text: #F5F3EE;
+  --color-text-muted: #9E9B95;
+  --color-border: #2B2B30;
+  --color-primary: #F0AC42;
+  --color-primary-hover: #F5BE6B;
+  --color-on-primary: #17171A;
+  --color-secondary: #2DD4BF;
+  --color-secondary-hover: #5EEAD4;
+  --color-coral: #EC6B5C;
+  --color-navbar-bg: rgba(18,18,20,0.76);
+  --shadow-color: 0 0% 0%;
+  --shadow-sm: 0 1px 3px hsl(var(--shadow-color)/.35);
+  --shadow-md: 0 10px 30px hsl(var(--shadow-color)/.45);
+  --shadow-lg: 0 24px 48px hsl(var(--shadow-color)/.55);
 }
 
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 9990;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.025; pointer-events: none;
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-height)+1.5rem);}
+body{font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background-color var(--transition-base),color var(--transition-base);overflow-x:hidden;word-break:break-word;overflow-wrap:break-word;}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;word-break:break-all;}
+button,input{font:inherit;color:inherit;}
+ul{list-style:none;}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.15;font-weight:700;letter-spacing:-0.01em;overflow-wrap:break-word;word-break:break-word;}
+:focus-visible{outline:2px solid var(--color-secondary);outline-offset:3px;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container{width:100%;max-width:var(--container-width);margin-inline:auto;padding-inline:clamp(1.25rem,4vw,2rem);}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-height);
+  display:flex;align-items:center;
+  background:var(--color-navbar-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;
+  transition:border-color var(--transition-base),box-shadow var(--transition-base);
+}
+.navbar.scrolled{border-color:var(--color-border);box-shadow:var(--shadow-sm);}
+.navbar-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.nav-logo{display:flex;align-items:center;gap:0.55rem;font-family:var(--font-display);font-weight:800;font-size:1.25rem;flex-shrink:0;}
+.logo-mark{width:32px;height:32px;border-radius:9px;background:var(--color-primary);display:flex;align-items:center;justify-content:center;color:var(--color-on-primary);font-size:1rem;font-weight:800;}
+.nav-right{display:flex;align-items:center;gap:0.75rem;}
+.nav-back{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  padding:0.5rem 1rem;border-radius:var(--radius-full);
+  border:1.5px solid var(--color-border);font-size:0.85rem;font-weight:600;
+  transition:border-color var(--transition-fast),color var(--transition-fast);
+}
+.nav-back:hover{border-color:var(--color-secondary);color:var(--color-secondary);}
+.nav-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.theme-toggle{
+  width:40px;height:40px;border-radius:50%;border:1.5px solid var(--color-border);
+  background:var(--color-surface);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--color-text);transition:transform var(--transition-fast),border-color var(--transition-fast);
+}
+.theme-toggle:hover{transform:rotate(-14deg);border-color:var(--color-primary);}
+.icon-sun,.icon-moon{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+[data-theme="light"] .icon-moon{display:none;}
+[data-theme="dark"] .icon-sun{display:none;}
+[data-theme="dark"] .icon-moon{display:block;}
+
+/* ============================================================
+   PAGE HERO
+   ============================================================ */
+.page-hero{
+  padding-top:calc(var(--nav-height) + clamp(3rem,7vw,5rem));
+  padding-bottom:clamp(2.5rem,5vw,4rem);
+  text-align:center;
+  border-bottom:1px solid var(--color-border);
+  background:var(--color-bg-alt);
+  position:relative;overflow:hidden;
+}
+.page-hero::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:600px;height:600px;
+  background:radial-gradient(circle,var(--color-secondary) 0%,transparent 65%);
+  opacity:0.06;filter:blur(45px);pointer-events:none;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:0.45rem;
+  color:var(--color-secondary);font-weight:700;
+  font-size:0.78rem;letter-spacing:0.09em;text-transform:uppercase;margin-bottom:1rem;
+}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--color-secondary);}
+.page-hero h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:800;margin-bottom:1rem;line-height:1.08;}
+.page-hero h1 .accent{color:var(--color-secondary);}
+.page-hero .lead{font-size:1.05rem;color:var(--color-text-muted);max-width:580px;margin:0 auto 2rem;line-height:1.7;}
+.meta-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0.75rem 1.25rem;font-size:0.82rem;color:var(--color-text-muted);}
+.meta-row span{display:flex;align-items:center;gap:0.4rem;white-space:nowrap;}
+.meta-row svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:0.6;}
+@media(max-width:400px){
+  .meta-row{flex-direction:column;gap:0.5rem;}
+  .nav-back span{display:none;}
+  .page-hero h1{font-size:1.8rem;}
 }
 
-#cursor-dot {
-  position: fixed; top: 0; left: 0; z-index: 9999;
-  width: 8px; height: 8px; background: var(--accent);
-  border-radius: 50%; pointer-events: none;
-  transform: translate(-50%,-50%);
-  transition: width .2s, height .2s, background .2s;
-  mix-blend-mode: screen;
+/* At-a-glance data cards */
+.data-glance{
+  max-width:1100px;margin:0 auto;
+  padding:clamp(2rem,4vw,3rem) clamp(1.25rem,4vw,2rem) 0;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,210px),1fr));gap:1rem;
 }
-#cursor-ring {
-  position: fixed; top: 0; left: 0; z-index: 9998;
-  width: 36px; height: 36px;
-  border: 1.5px solid rgba(123,92,250,0.5);
-  border-radius: 50%; pointer-events: none;
-  transform: translate(-50%,-50%);
-  transition: width .25s, height .25s, border-color .25s;
+@media(max-width:480px){
+  .data-glance{grid-template-columns:1fr 1fr;}
 }
-body.cursor-hover #cursor-dot { width: 14px; height: 14px; }
-body.cursor-hover #cursor-ring { width: 52px; height: 52px; border-color: var(--accent); }
-body.cursor-click #cursor-dot { transform: translate(-50%,-50%) scale(0.5); }
-@media (pointer: coarse) {
-  #cursor-dot, #cursor-ring { display: none; }
-  body { cursor: auto; }
-  a, button { cursor: pointer; }
+@media(max-width:340px){
+  .data-glance{grid-template-columns:1fr;}
 }
+.data-card{
+  background:var(--color-surface);border:1.5px solid var(--color-border);
+  border-radius:var(--radius-md);padding:1.25rem;
+  display:flex;flex-direction:column;gap:0.6rem;
+  transition:border-color var(--transition-fast),box-shadow var(--transition-fast);
+}
+.data-card:hover{border-color:var(--color-primary);box-shadow:var(--shadow-sm);}
+.data-card-icon{
+  width:38px;height:38px;border-radius:var(--radius-sm);
+  display:flex;align-items:center;justify-content:center;
+}
+.data-card-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.data-card-title{font-family:var(--font-display);font-size:0.88rem;font-weight:700;color:var(--color-text);}
+.data-card-desc{font-size:0.8rem;color:var(--color-text-muted);line-height:1.55;}
 
-#scroll-progress {
-  position: fixed; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  transform-origin: left; transform: scaleX(0);
-  z-index: 9997; transition: transform .1s;
+/* ============================================================
+   LEGAL LAYOUT
+   ============================================================ */
+.legal-wrap{
+  max-width:1100px;margin-inline:auto;
+  padding:clamp(2.5rem,5vw,4rem) clamp(1.25rem,4vw,2rem) clamp(4rem,8vw,7rem);
+  display:grid;grid-template-columns:220px 1fr;gap:clamp(2rem,5vw,4rem);align-items:start;
 }
+@media(max-width:860px){.legal-wrap{grid-template-columns:1fr;}}
 
-#navbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  height: var(--nav-h);
-  display: flex; align-items: center;
-  padding: 0 clamp(16px,5vw,60px);
-  background: rgba(8,12,20,0.92);
-  backdrop-filter: blur(20px) saturate(1.4);
-  box-shadow: 0 1px 0 var(--border);
+.toc-sidebar{position:sticky;top:calc(var(--nav-height)+1.5rem);max-height:calc(100vh - var(--nav-height) - 3rem);overflow-y:auto;}
+.toc-sidebar::-webkit-scrollbar{width:3px;}
+.toc-sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:3px;}
+.toc-label{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:0.85rem;}
+.toc-list{display:flex;flex-direction:column;gap:1px;}
+.toc-item{
+  display:flex;align-items:center;gap:0.6rem;
+  padding:0.5rem 0.75rem;border-radius:var(--radius-sm);font-size:0.82rem;font-weight:500;
+  color:var(--color-text-muted);border-left:2px solid transparent;
+  transition:all var(--transition-fast);line-height:1.4;
 }
-.nav-logo {
-  font-family: var(--font-display); font-size: 20px; font-weight: 800;
-  letter-spacing: -0.02em; color: var(--text);
-  display: flex; align-items: center; gap: 8px;
-}
-.nav-logo span { color: var(--accent2); }
-.nav-logo-mark {
-  width: 26px; height: 26px;
-  background: linear-gradient(135deg, var(--accent2), var(--accent));
-  border-radius: 6px; display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 800; color: #080c14;
-}
-.nav-back {
-  margin-left: auto;
-  display: inline-flex; align-items: center; gap: 6px;
-  font-family: var(--font-mono); font-size: 11px; color: var(--text2);
-  letter-spacing: 0.08em; text-transform: uppercase;
-  border: 1px solid var(--border); padding: 7px 14px; border-radius: 8px;
-  transition: all var(--transition);
-}
-.nav-back:hover { border-color: var(--accent); color: var(--accent); }
-.nav-back svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+.toc-item:hover{color:var(--color-text);background:var(--color-bg-alt);border-left-color:var(--color-primary);}
+.toc-item.active{color:var(--color-secondary);background:rgba(18,117,107,0.08);border-left-color:var(--color-secondary);}
+.toc-num{font-size:0.7rem;font-weight:700;color:var(--color-text-muted);opacity:0.55;flex-shrink:0;}
+@media(max-width:860px){.toc-sidebar{display:none;}}
 
-.page-hero {
-  padding: calc(var(--nav-h) + 60px) clamp(16px,5vw,60px) 0;
-  max-width: 900px; margin: 0 auto;
-  text-align: center;
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.legal-content{min-width:0;max-width:100%;overflow:hidden;}
+.legal-section{
+  margin-bottom:3.5rem;padding-bottom:3.5rem;border-bottom:1px solid var(--color-border);
+  opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease;
 }
-.page-label {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--font-mono); font-size: 11px; color: var(--accent);
-  letter-spacing: 0.12em; text-transform: uppercase;
-  border: 1px solid rgba(123,92,250,0.25); background: rgba(123,92,250,0.06);
-  padding: 5px 14px; border-radius: 100px; margin-bottom: 22px;
+.legal-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.legal-section.visible{opacity:1;transform:none;}
+.section-num{
+  display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;
+  font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--color-secondary);
 }
-.page-title {
-  font-family: var(--font-display); font-size: clamp(32px,6vw,58px);
-  font-weight: 800; letter-spacing: -0.03em; color: var(--text);
-  line-height: 1.05; margin-bottom: 16px;
+.section-num::after{content:'';display:inline-block;width:32px;height:1.5px;background:var(--color-border);border-radius:1px;vertical-align:middle;}
+.legal-section h2{font-size:clamp(1.2rem,2.5vw,1.55rem);font-weight:700;margin-bottom:1.1rem;color:var(--color-text);}
+.legal-section h3{font-size:1rem;font-weight:700;margin:1.5rem 0 0.65rem;color:var(--color-text);}
+.legal-section p{font-size:0.925rem;color:var(--color-text-muted);line-height:1.8;margin-bottom:0.85rem;overflow-wrap:break-word;word-break:break-word;}
+.legal-section p:last-child{margin-bottom:0;}
+.legal-section ul{margin:0.75rem 0 1rem;display:flex;flex-direction:column;gap:0.55rem;}
+.legal-section ul li{
+  font-size:0.9rem;color:var(--color-text-muted);line-height:1.75;
+  padding-left:1.4rem;position:relative;overflow-wrap:break-word;word-break:break-word;
 }
-.page-title em { font-style: normal; color: var(--accent); }
-.page-meta {
-  font-family: var(--font-mono); font-size: 12px; color: var(--text3);
-  letter-spacing: 0.06em; margin-bottom: 10px;
+.legal-section ul li::before{
+  content:'';position:absolute;left:0;top:0.62em;
+  width:6px;height:6px;border-radius:50%;background:var(--color-secondary);flex-shrink:0;
 }
-.page-desc { font-size: 15px; color: var(--text2); line-height: 1.7; max-width: 600px; margin: 0 auto; }
+.legal-section strong{color:var(--color-text);font-weight:600;}
+.legal-section a{color:var(--color-secondary);font-weight:500;}
+.legal-section a:hover{text-decoration:underline;}
 
-.divider-line {
-  border: none; border-top: 1px solid var(--border);
-  max-width: 900px; margin: 50px auto 0;
+/* Callouts */
+.callout{
+  border-radius:var(--radius-md);padding:1.1rem 1.25rem;margin:1.25rem 0;
+  border:1.5px solid var(--color-border);background:var(--color-bg-alt);
+  border-left:4px solid var(--color-primary);
 }
-
-/* Data summary cards */
-.data-summary {
-  max-width: 1100px; margin: 0 auto;
-  padding: 50px clamp(16px,5vw,60px) 0;
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
-  gap: 12px;
-}
-.data-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 20px;
-  display: flex; flex-direction: column; gap: 10px;
-  transition: border-color 0.3s;
-}
-.data-card:hover { border-color: rgba(123,92,250,0.25); }
-.data-card-icon {
-  width: 36px; height: 36px; border-radius: 8px;
-  background: rgba(123,92,250,0.1);
-  display: flex; align-items: center; justify-content: center;
-}
-.data-card-icon svg { width: 18px; height: 18px; stroke: var(--accent); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.data-card-title { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text); }
-.data-card-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
-
-.legal-layout {
-  max-width: 1100px; margin: 0 auto;
-  padding: 60px clamp(16px,5vw,60px) 100px;
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 60px; align-items: start;
-}
-@media (max-width: 800px) {
-  .legal-layout { grid-template-columns: 1fr; gap: 40px; }
-}
-
-.toc { position: sticky; top: calc(var(--nav-h) + 20px); }
-.toc-title { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 14px; }
-.toc-list { display: flex; flex-direction: column; gap: 2px; }
-.toc-item {
-  font-size: 13px; color: var(--text2); padding: 7px 12px; border-radius: 7px;
-  transition: all 0.2s; border-left: 2px solid transparent;
-  display: flex; align-items: center; gap: 8px; line-height: 1.4;
-}
-.toc-item:hover { color: var(--text); background: rgba(255,255,255,0.04); border-left-color: var(--accent); }
-.toc-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(123,92,250,0.06); }
-.toc-num { font-family: var(--font-mono); font-size: 10px; color: var(--text3); flex-shrink: 0; }
-@media (max-width: 800px) { .toc { display: none; } }
-
-.legal-section {
-  margin-bottom: 56px;
-  opacity: 0; transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.legal-section.visible { opacity: 1; transform: none; }
-.section-anchor { scroll-margin-top: calc(var(--nav-h) + 30px); }
-
-.legal-section-num {
-  font-family: var(--font-mono); font-size: 10px; color: var(--accent);
-  letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 10px;
-  display: flex; align-items: center; gap: 8px;
-}
-.legal-section-num::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-.legal-section h2 {
-  font-family: var(--font-display); font-size: clamp(18px,3vw,24px);
-  font-weight: 700; color: var(--text); letter-spacing: -0.015em;
-  margin-bottom: 18px; line-height: 1.2;
-}
-.legal-section p { font-size: 14.5px; color: var(--text2); line-height: 1.8; margin-bottom: 14px; }
-.legal-section p:last-child { margin-bottom: 0; }
-.legal-section ul { margin: 12px 0 14px 0; display: flex; flex-direction: column; gap: 8px; }
-.legal-section ul li {
-  font-size: 14px; color: var(--text2); line-height: 1.7;
-  padding-left: 18px; position: relative;
-}
-.legal-section ul li::before {
-  content: '—'; position: absolute; left: 0;
-  color: var(--accent); font-family: var(--font-mono); font-size: 11px;
-}
-.legal-section strong { color: var(--text); font-weight: 600; }
-.legal-section a { color: var(--accent); transition: opacity 0.2s; }
-.legal-section a:hover { opacity: 0.75; }
-
-.callout {
-  background: var(--surface); border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
-  border-radius: var(--radius); padding: 18px 20px; margin: 20px 0;
-}
-.callout.warn { border-left-color: #f05060; }
-.callout.green { border-left-color: #00f0c8; }
-.callout p { font-size: 13.5px; margin: 0; }
+.callout.teal{border-left-color:var(--color-secondary);background:var(--color-bg-alt);}
+.callout.coral{border-left-color:var(--color-coral);background:var(--color-bg-alt);}
+.callout.amber{border-left-color:var(--color-primary);background:var(--color-bg-alt);}
+.callout p{font-size:0.875rem;margin:0;color:var(--color-text-muted);line-height:1.75;}
+.callout p+p{margin-top:0.65rem;}
 
 /* Data table */
-.data-table {
-  width: 100%; border-collapse: collapse; margin: 18px 0;
-  font-size: 13px;
+.table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:1rem 0;border-radius:var(--radius-md);border:1.5px solid var(--color-border);}
+.data-table{width:100%;min-width:480px;border-collapse:collapse;font-size:0.85rem;}
+.data-table th{
+  text-align:left;font-family:var(--font-display);font-size:0.72rem;font-weight:700;
+  letter-spacing:0.07em;text-transform:uppercase;
+  padding:0.75rem 1rem;background:var(--color-bg-alt);color:var(--color-text-muted);
+  border-bottom:1.5px solid var(--color-border);white-space:nowrap;
 }
-.data-table th {
-  text-align: left; font-family: var(--font-mono); font-size: 10px;
-  color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 10px 14px; border-bottom: 1px solid var(--border);
-  background: var(--surface2);
+.data-table td{padding:0.85rem 1rem;border-bottom:1px solid var(--color-border);color:var(--color-text-muted);line-height:1.6;vertical-align:top;word-break:break-word;overflow-wrap:break-word;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:var(--color-bg-alt);}
+.data-table td:first-child{color:var(--color-text);font-weight:600;white-space:normal;min-width:120px;}
+@media(max-width:600px){
+  .data-table{font-size:0.8rem;}
+  .data-table th,.data-table td{padding:0.65rem 0.75rem;}
 }
-.data-table td {
-  padding: 12px 14px; border-bottom: 1px solid var(--border);
-  color: var(--text2); line-height: 1.5; vertical-align: top;
-}
-.data-table tr:last-child td { border-bottom: none; }
-.data-table tr:hover td { background: rgba(255,255,255,0.02); }
-.data-table td:first-child { color: var(--text); font-weight: 500; white-space: nowrap; }
 
-.rights-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0;
+/* Rights grid */
+.rights-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:0.9rem;margin:1.25rem 0;}
+@media(max-width:520px){.rights-grid{grid-template-columns:1fr;}}
+.right-card{
+  background:var(--color-surface);border:1.5px solid var(--color-border);
+  border-radius:var(--radius-md);padding:1.1rem;
+  display:flex;align-items:flex-start;gap:0.9rem;
+  transition:border-color var(--transition-fast),box-shadow var(--transition-fast);
+  min-width:0;
 }
-@media (max-width: 600px) { .rights-grid { grid-template-columns: 1fr; } }
-.right-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 16px;
-  display: flex; align-items: flex-start; gap: 12px;
-  transition: border-color 0.3s;
+.right-card:hover{border-color:var(--color-secondary);box-shadow:var(--shadow-sm);}
+.right-icon{
+  width:32px;height:32px;border-radius:var(--radius-sm);flex-shrink:0;
+  background:rgba(18,117,107,0.12);
+  display:flex;align-items:center;justify-content:center;
 }
-.right-card:hover { border-color: rgba(123,92,250,0.25); }
-.right-icon {
-  width: 30px; height: 30px; border-radius: 7px;
-  background: rgba(123,92,250,0.1);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.right-icon svg { width: 15px; height: 15px; stroke: var(--accent); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.right-title { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-.right-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+.right-icon svg{width:15px;height:15px;stroke:var(--color-secondary);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.right-title{font-family:var(--font-display);font-size:0.88rem;font-weight:700;color:var(--color-text);margin-bottom:0.25rem;overflow-wrap:break-word;}
+.right-desc{font-size:0.78rem;color:var(--color-text-muted);line-height:1.5;overflow-wrap:break-word;}
 
-footer {
-  background: var(--bg); border-top: 1px solid var(--border);
-  padding: 40px clamp(16px,5vw,60px);
-}
-.footer-bottom {
-  max-width: 1100px; margin: 0 auto;
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
-}
-.footer-copy { font-family: var(--font-mono); font-size: 11px; color: var(--text3); letter-spacing: 0.05em; }
-.footer-legal { display: flex; gap: 20px; flex-wrap: wrap; }
-.footer-legal a { font-family: var(--font-mono); font-size: 11px; color: var(--text3); transition: color 0.2s; }
-.footer-legal a:hover { color: var(--text2); }
-.footer-legal a.active-page { color: var(--accent); }
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer{border-top:1px solid var(--color-border);background:var(--color-bg-alt);padding:2rem clamp(1.25rem,4vw,2rem);}
+.footer-bottom{max-width:var(--container-width);margin-inline:auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-copyright{font-size:0.82rem;color:var(--color-text-muted);}
+.footer-links-row{display:flex;gap:1.25rem;flex-wrap:wrap;}
+.footer-links-row a{font-size:0.82rem;color:var(--color-text-muted);transition:color var(--transition-fast);}
+.footer-links-row a:hover{color:var(--color-secondary);}
+.footer-links-row a.current{color:var(--color-primary);font-weight:600;}
+
+/* Toast */
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--color-text);color:var(--color-bg);padding:0.75rem 1.4rem;border-radius:var(--radius-full);font-size:0.88rem;font-weight:600;box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:opacity 0.3s ease,transform 0.3s ease;z-index:9000;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
 
-<div id="scroll-progress"></div>
-<div id="cursor-dot"></div>
-<div id="cursor-ring"></div>
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <div class="container navbar-inner">
+    <a href="index.html" class="nav-logo" aria-label="ExoraWorld Home">
+      <div class="logo-mark">E</div>
+      ExoraWorld
+    </a>
+    <div class="nav-right">
+      <a href="index.html" class="nav-back">
+        <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Home
+      </a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" aria-pressed="false">
+        <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
 
-<nav id="navbar">
-  <a href="../index.html" class="nav-logo">
-    <div class="nav-logo-mark">E</div>
-    Exora<span>World</span>
-  </a>
-  <a href="../index.html" class="nav-back">
-    <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-    Back to Home
-  </a>
-</nav>
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="eyebrow"><span class="eyebrow-dot"></span> Legal Document</div>
+    <h1><span class="accent">Privacy</span> Policy</h1>
+    <p class="lead">We take your privacy seriously. This policy explains exactly what data we collect, why we collect it, how we use it, who we share it with, and what rights you have over your information.</p>
+    <div class="meta-row">
+      <span>
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Last updated: September 3, 2026
+      </span>
+      <span>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Effective immediately
+      </span>
+      <span>
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Bangladesh &amp; International
+      </span>
+    </div>
+  </div>
+</section>
 
-<div class="page-hero">
-  <div class="page-label">Legal Document</div>
-  <h1 class="page-title"><em>Privacy</em> Policy</h1>
-  <p class="page-meta">Last updated: May 2, 2025 &nbsp;·&nbsp; Effective immediately</p>
-  <p class="page-desc">We take your privacy seriously. This policy explains exactly what data we collect, why we collect it, how we use it, and what rights you have over your information.</p>
-</div>
-<hr class="divider-line">
-
-<!-- Data at a glance cards -->
-<div class="data-summary">
+<!-- DATA AT A GLANCE -->
+<div class="data-glance">
   <div class="data-card">
-    <div class="data-card-icon">
+    <div class="data-card-icon" style="background:color-mix(in srgb,var(--color-primary) 12%,transparent);color:var(--color-primary);">
       <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     </div>
     <div class="data-card-title">What We Collect</div>
-    <div class="data-card-desc">Contact info, order details, payment proof, device and browser data, usage behavior, and advertising identifiers.</div>
+    <div class="data-card-desc">Contact info, order details, payment proof, device &amp; browser data, usage behavior, Firebase auth data, and advertising identifiers.</div>
   </div>
   <div class="data-card">
-    <div class="data-card-icon">
+    <div class="data-card-icon" style="background:color-mix(in srgb,var(--color-secondary) 12%,transparent);color:var(--color-secondary);">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
     </div>
     <div class="data-card-title">How Long We Keep It</div>
-    <div class="data-card-desc">Order records kept for 2 years. Analytics data for up to 12 months. You can request deletion anytime.</div>
+    <div class="data-card-desc">Order records kept for 2 years. Analytics data up to 12 months. You can request deletion anytime.</div>
   </div>
   <div class="data-card">
-    <div class="data-card-icon">
+    <div class="data-card-icon" style="background:color-mix(in srgb,var(--color-coral) 12%,transparent);color:var(--color-coral);">
       <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
     </div>
     <div class="data-card-title">Who Sees It</div>
-    <div class="data-card-desc">Our team, trusted service providers, advertising networks, and commercial partners as described in this policy.</div>
+    <div class="data-card-desc">Our team, Firebase (Google), advertising networks, and commercial partners as described in this policy.</div>
   </div>
   <div class="data-card">
-    <div class="data-card-icon">
+    <div class="data-card-icon" style="background:color-mix(in srgb,var(--color-secondary) 12%,transparent);color:var(--color-secondary);">
       <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
     </div>
     <div class="data-card-title">Your Rights</div>
-    <div class="data-card-desc">Access, correct, or delete your data. Opt out of personalized ads. Contact us anytime for support.</div>
+    <div class="data-card-desc">Access, correct, or delete your data. Opt out of personalized ads. Contact us anytime.</div>
   </div>
 </div>
 
-<div class="legal-layout">
+<!-- LEGAL LAYOUT -->
+<div class="legal-wrap">
 
-  <aside class="toc">
-    <div class="toc-title">Contents</div>
-    <ul class="toc-list">
-      <li><a href="#p1" class="toc-item"><span class="toc-num">01</span>Introduction</a></li>
-      <li><a href="#p2" class="toc-item"><span class="toc-num">02</span>Data We Collect</a></li>
-      <li><a href="#p3" class="toc-item"><span class="toc-num">03</span>How We Collect Data</a></li>
-      <li><a href="#p4" class="toc-item"><span class="toc-num">04</span>How We Use Data</a></li>
-      <li><a href="#p5" class="toc-item"><span class="toc-num">05</span>Platform &amp; AI Improvement</a></li>
-      <li><a href="#p6" class="toc-item"><span class="toc-num">06</span>Data Sharing &amp; Partners</a></li>
-      <li><a href="#p6b" class="toc-item"><span class="toc-num">07</span>Advertising &amp; AdSense</a></li>
-      <li><a href="#p6c" class="toc-item"><span class="toc-num">08</span>Third-Party Liability</a></li>
-      <li><a href="#p7" class="toc-item"><span class="toc-num">09</span>Cookies &amp; Tracking</a></li>
-      <li><a href="#p8" class="toc-item"><span class="toc-num">10</span>Data Retention</a></li>
-      <li><a href="#p9" class="toc-item"><span class="toc-num">11</span>Data Security</a></li>
-      <li><a href="#p10" class="toc-item"><span class="toc-num">12</span>Your Rights</a></li>
-      <li><a href="#p11" class="toc-item"><span class="toc-num">13</span>Children's Privacy</a></li>
-      <li><a href="#p12" class="toc-item"><span class="toc-num">14</span>International Users</a></li>
-      <li><a href="#p13" class="toc-item"><span class="toc-num">15</span>Third-Party Links</a></li>
-      <li><a href="#p14" class="toc-item"><span class="toc-num">16</span>Policy Updates</a></li>
-      <li><a href="#p15" class="toc-item"><span class="toc-num">17</span>Contact &amp; Requests</a></li>
-    </ul>
+  <!-- SIDEBAR TOC -->
+  <aside class="toc-sidebar" aria-label="Table of contents">
+    <div class="toc-label">Contents</div>
+    <nav class="toc-list" id="tocList">
+      <a href="#p1" class="toc-item"><span class="toc-num">01</span>Introduction</a>
+      <a href="#p2" class="toc-item"><span class="toc-num">02</span>Data We Collect</a>
+      <a href="#p3" class="toc-item"><span class="toc-num">03</span>How We Collect Data</a>
+      <a href="#p4" class="toc-item"><span class="toc-num">04</span>How We Use Your Data</a>
+      <a href="#p5" class="toc-item"><span class="toc-num">05</span>Platform &amp; AI Improvement</a>
+      <a href="#p6" class="toc-item"><span class="toc-num">06</span>Data Sharing &amp; Partners</a>
+      <a href="#p7" class="toc-item"><span class="toc-num">07</span>Advertising &amp; AdSense</a>
+      <a href="#p8" class="toc-item"><span class="toc-num">08</span>Third-Party Liability</a>
+      <a href="#p9" class="toc-item"><span class="toc-num">09</span>News Aggregation &amp; Privacy</a>
+      <a href="#p10" class="toc-item"><span class="toc-num">10</span>Gallery Content &amp; Privacy</a>
+      <a href="#p11" class="toc-item"><span class="toc-num">11</span>Cookies &amp; Tracking</a>
+      <a href="#p12" class="toc-item"><span class="toc-num">12</span>Data Retention</a>
+      <a href="#p13" class="toc-item"><span class="toc-num">13</span>Data Security</a>
+      <a href="#p14" class="toc-item"><span class="toc-num">14</span>Your Rights</a>
+      <a href="#p15" class="toc-item"><span class="toc-num">15</span>Children's Privacy</a>
+      <a href="#p16" class="toc-item"><span class="toc-num">16</span>International Users</a>
+      <a href="#p17" class="toc-item"><span class="toc-num">17</span>Third-Party Links</a>
+      <a href="#p18" class="toc-item"><span class="toc-num">18</span>Policy Updates</a>
+      <a href="#p19" class="toc-item"><span class="toc-num">19</span>Contact &amp; Data Requests</a>
+    </nav>
   </aside>
 
+  <!-- MAIN CONTENT -->
   <main class="legal-content">
 
-    <div class="legal-section section-anchor" id="p1">
-      <div class="legal-section-num">01 &nbsp; Introduction</div>
+    <div class="legal-section" id="p1">
+      <div class="section-num">01</div>
       <h2>Introduction</h2>
-      <div class="callout">
+      <div class="callout teal">
         <p><strong>By using ExoraWorld, you consent to the data practices described in this Privacy Policy.</strong> This includes data collection, processing, sharing with partners and advertising networks, and use for platform and technology improvement. If you do not agree, please do not use ExoraWorld.</p>
       </div>
       <p>This Privacy Policy applies to all users of ExoraWorld — including visitors, customers, and anyone who interacts with our platform in any capacity. It explains:</p>
@@ -385,17 +435,18 @@ footer {
         <li>What personal information we collect and why</li>
         <li>How that information is used, stored, and protected</li>
         <li>With whom it may be shared, including advertising and commercial partners</li>
+        <li>How our gallery, news, games, store, and content sections each relate to your privacy</li>
         <li>Your rights and choices regarding your data</li>
         <li>Our liability limitations with respect to third-party data use</li>
       </ul>
-      <p>Your continued use of ExoraWorld — including browsing any page, downloading content, or making a purchase — constitutes your ongoing, affirmative consent to all practices described in this policy. This consent is binding from the moment of your first interaction with the platform.</p>
+      <p>Your continued use of ExoraWorld — including browsing any page, downloading content, playing a game, or making a purchase — constitutes your ongoing, affirmative consent to all practices described in this policy. This consent is binding from the moment of your first interaction with the platform.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="p2">
-      <div class="legal-section-num">02 &nbsp; Data We Collect</div>
+    <div class="legal-section" id="p2">
+      <div class="section-num">02</div>
       <h2>Data We Collect</h2>
-      <p>We collect the following categories of data:</p>
-
+      <p>We collect the following categories of data from users of ExoraWorld:</p>
+      <div class="table-wrap">
       <table class="data-table">
         <thead>
           <tr>
@@ -406,9 +457,14 @@ footer {
         </thead>
         <tbody>
           <tr>
-            <td>Contact Information</td>
+            <td>Contact Info</td>
             <td>Email address, phone number</td>
             <td>Yes — for order delivery</td>
+          </tr>
+          <tr>
+            <td>Account Data</td>
+            <td>Name, profile picture, Firebase UID, login provider</td>
+            <td>Yes — for account features</td>
           </tr>
           <tr>
             <td>Order Information</td>
@@ -417,370 +473,380 @@ footer {
           </tr>
           <tr>
             <td>Payment Proof</td>
-            <td>Screenshot of transaction, transaction ID</td>
+            <td>Transaction screenshot, transaction ID</td>
             <td>Yes — for verification</td>
           </tr>
           <tr>
-            <td>Device &amp; Technical Data</td>
+            <td>Device &amp; Tech Data</td>
             <td>Browser type, OS, screen resolution, IP address</td>
             <td>Automatic</td>
           </tr>
           <tr>
             <td>Usage Data</td>
-            <td>Pages visited, time on site, clicks, scroll depth</td>
+            <td>Pages visited, clicks, scroll depth, gallery views, game sessions</td>
             <td>Automatic</td>
           </tr>
           <tr>
-            <td>Communications</td>
-            <td>Messages sent to us via email or contact forms</td>
+            <td>Cookie &amp; Tracking</td>
+            <td>Session cookies, analytics IDs, advertising identifiers</td>
+            <td>Automatic</td>
+          </tr>
+          <tr>
+            <td>Communication</td>
+            <td>Messages, support requests, contact form submissions</td>
             <td>When you contact us</td>
           </tr>
-          <tr>
-            <td>Cookies &amp; Identifiers</td>
-            <td>Session tokens, preference cookies, analytics IDs</td>
-            <td>Automatic</td>
-          </tr>
         </tbody>
       </table>
-
-      <p>We do not collect sensitive personal data such as national ID numbers, passport details, biometric data, or financial account credentials.</p>
+      </div>
     </div>
 
-    <div class="legal-section section-anchor" id="p3">
-      <div class="legal-section-num">03 &nbsp; How We Collect Data</div>
+    <div class="legal-section" id="p3">
+      <div class="section-num">03</div>
       <h2>How We Collect Data</h2>
-      <p>We collect data through the following means:</p>
+      <p>We collect data through the following methods:</p>
       <ul>
-        <li><strong>Directly from you:</strong> When you place an order, contact us, or submit payment proof, you provide us with personal information directly</li>
-        <li><strong>Automatically:</strong> When you browse ExoraWorld, we automatically collect technical and usage data through cookies, web analytics tools, and server logs</li>
-        <li><strong>From payment submissions:</strong> When you submit payment proof (screenshots), we receive the information contained in that proof including transaction IDs and sender details</li>
-        <li><strong>From communications:</strong> When you contact us via email, Facebook, or other channels, we collect the content of those communications</li>
-        <li><strong>From third-party tools:</strong> We may use analytics services (such as Cloudflare analytics) that collect aggregated and anonymized usage data about platform performance and visitor behavior</li>
+        <li><strong>Direct Interaction:</strong> When you create an account, place an order, submit payment proof, fill out a contact form, or communicate with us directly</li>
+        <li><strong>Firebase Authentication:</strong> When you sign in via Google or Facebook, Firebase transmits your name, email, and profile picture to ExoraWorld. Firebase also assigns a unique user ID (UID) that we use to associate your data with your account</li>
+        <li><strong>Automated Tracking:</strong> When you browse ExoraWorld, we automatically collect technical and behavioral data via analytics tools, cookies, and server-side logging</li>
+        <li><strong>Firestore (Firebase Database):</strong> For authenticated users, the gallery section stores favorites, recently viewed items, and view counts in Firebase Firestore, associated with your user account</li>
+        <li><strong>Third-Party Tools:</strong> Analytics platforms (e.g. Google Analytics), advertising networks (e.g. Google AdSense), and other integrated services may collect data about your visit independently under their own privacy policies</li>
+        <li><strong>Publicly Available Information:</strong> In some contexts, we may reference publicly available information about users or visitors as part of fraud prevention or security operations</li>
       </ul>
     </div>
 
-    <div class="legal-section section-anchor" id="p4">
-      <div class="legal-section-num">04 &nbsp; How We Use Data</div>
+    <div class="legal-section" id="p4">
+      <div class="section-num">04</div>
       <h2>How We Use Your Data</h2>
-      <p>Your data is used for the following purposes:</p>
+      <p>We use the data we collect for the following legitimate purposes:</p>
       <ul>
-        <li><strong>Order Fulfillment:</strong> To process your order, verify payment, and deliver your purchased product to your email or phone number</li>
-        <li><strong>Customer Support:</strong> To respond to your inquiries, resolve disputes, and assist with any issues related to your orders</li>
-        <li><strong>Fraud Prevention:</strong> To detect and prevent fraudulent payment submissions, chargebacks, or abuse of the platform</li>
-        <li><strong>Communications:</strong> To send you order confirmations, delivery notifications, and important service updates related to your purchases</li>
-        <li><strong>Platform Improvement:</strong> To analyze how users interact with ExoraWorld so we can improve the design, content, navigation, and overall experience</li>
-        <li><strong>Security:</strong> To monitor for suspicious activity, protect the integrity of the platform, and maintain safety for all users</li>
-        <li><strong>Legal Compliance:</strong> To comply with applicable laws, respond to legal requests, and enforce our Terms and Conditions</li>
+        <li><strong>Order Processing &amp; Delivery:</strong> To verify payments, fulfill digital product orders, and deliver products to the contact information you provided</li>
+        <li><strong>Account Management:</strong> To create and maintain your ExoraWorld account, authenticate you via Firebase, and provide account-specific features (gallery favorites, game history, etc.)</li>
+        <li><strong>Customer Support:</strong> To respond to your inquiries, resolve disputes, and provide assistance with orders or platform issues</li>
+        <li><strong>Platform Operation:</strong> To run, maintain, secure, and improve every section of ExoraWorld — including the gallery, news hub, games, store, and content sections</li>
+        <li><strong>Analytics &amp; Insights:</strong> To understand how users interact with our platform and improve user experience and content quality</li>
+        <li><strong>Advertising:</strong> To serve personalized and non-personalized advertisements through integrated advertising networks</li>
+        <li><strong>Communications:</strong> To send you transactional messages (order confirmations, delivery notifications) and, where you have opted in, platform updates and newsletters</li>
+        <li><strong>Legal Compliance &amp; Fraud Prevention:</strong> To detect, investigate, and prevent fraudulent transactions, policy violations, and illegal activities</li>
+        <li><strong>Security:</strong> To protect the platform, our users, and our business from unauthorized access, abuse, and threats</li>
       </ul>
-      <p>We do not use your data for automated decision-making that significantly affects you without human review.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="p5">
-      <div class="legal-section-num">05 &nbsp; Platform &amp; AI Improvement</div>
-      <h2>How We Use Data to Improve ExoraWorld &amp; Our Technology</h2>
-      <p>We collect and use data specifically to improve our platform, technology, artificial intelligence systems, and commercial services. This includes:</p>
+    <div class="legal-section" id="p5">
+      <div class="section-num">05</div>
+      <h2>Platform &amp; AI Improvement</h2>
+      <p>You grant ExoraWorld a broad, worldwide, royalty-free license to collect, store, process, analyze, and use your data — including in aggregated, anonymized, or pseudonymized forms — to operate, maintain, improve, and expand ExoraWorld's services, technology, artificial intelligence systems, content recommendation engines, and commercial offerings, for as long as reasonably necessary for those purposes.</p>
+      <p>Specifically, aggregated and anonymized usage data may be used to:</p>
       <ul>
-        <li><strong>Traffic Analysis:</strong> Tracking which pages are visited most, session duration, and traffic sources to understand what content is most valuable to our users</li>
-        <li><strong>Device Compatibility:</strong> Collecting device and browser data to identify and fix display or performance issues across different environments</li>
-        <li><strong>Error Monitoring:</strong> Logging technical errors and broken interactions so our team can identify and resolve bugs promptly</li>
-        <li><strong>AI &amp; Recommendation Systems:</strong> Using behavioral and interaction data to train, improve, and operate recommendation engines, content classification systems, and AI-driven features within ExoraWorld</li>
-        <li><strong>Gallery &amp; Content Engagement:</strong> Tracking which photos and videos are viewed and downloaded most to improve content curation and user experience</li>
-        <li><strong>A/B Testing:</strong> Testing different layouts, content, or designs with different user groups to identify what provides the best experience</li>
-        <li><strong>Advertising Optimization:</strong> Using behavioral data to improve the relevance, performance, and placement of advertisements displayed on the platform</li>
-        <li><strong>Product &amp; Service Development:</strong> Using aggregated usage insights to guide decisions about new features, products, and services offered by ExoraWorld</li>
+        <li>Train or improve content recommendation algorithms on ExoraWorld</li>
+        <li>Optimize the platform's design, navigation, and feature sets</li>
+        <li>Improve fraud detection and security systems</li>
+        <li>Share with technology partners for platform optimization purposes — always in aggregated, non-personally-identifiable form unless you have provided explicit consent for more specific sharing</li>
       </ul>
-      <div class="callout">
-        <p>Data used for platform and AI improvement may be shared with technology partners in aggregated or pseudonymized form. Individual user data may be used in non-identifiable form for machine learning and system training purposes.</p>
+      <div class="callout amber">
+        <p>No personally identifiable data is used to train third-party AI models without your explicit consent. Aggregated, anonymized data does not identify you individually and is used solely to improve the ExoraWorld experience.</p>
       </div>
     </div>
 
-    <div class="legal-section section-anchor" id="p6">
-      <div class="legal-section-num">06 &nbsp; Data Sharing &amp; Partners</div>
-      <h2>Data Sharing &amp; Commercial Partners</h2>
-      <p>ExoraWorld shares user data with select third parties for operational, commercial, and legal purposes. By using ExoraWorld, you consent to the data sharing described below:</p>
+    <div class="legal-section" id="p6">
+      <div class="section-num">06</div>
+      <h2>Data Sharing &amp; Partners</h2>
+      <p>ExoraWorld shares data with the following categories of third parties. We do not sell your personally identifiable data to third parties for their own independent marketing purposes.</p>
       <ul>
-        <li><strong>Advertising Networks:</strong> We share and make accessible user behavioral data, device identifiers, cookie data, and inferred interests with advertising networks — including Google AdSense, Google Ad Manager, and other programmatic advertising platforms — to enable personalized and contextual advertising on ExoraWorld and across the web</li>
-        <li><strong>Sponsors &amp; Commercial Partners:</strong> ExoraWorld may enter into commercial agreements with sponsors and brand partners. Aggregated and anonymized user data may be shared with these partners to demonstrate platform reach and audience characteristics. Personally identifiable data is only shared with sponsors with your explicit consent</li>
-        <li><strong>Analytics Providers:</strong> We use third-party analytics services — including Google Analytics and Cloudflare Analytics — which independently collect and process data about your visit under their own privacy policies</li>
-        <li><strong>Technology &amp; AI Partners:</strong> We may share aggregated behavioral and usage data with technology partners to develop and improve AI systems, recommendation models, and platform optimization tools</li>
-        <li><strong>Hosting &amp; Infrastructure Providers:</strong> Data is processed and stored through infrastructure providers including Cloudflare and GitHub, which operate under their own data security and privacy standards</li>
-        <li><strong>Legal &amp; Regulatory Bodies:</strong> We may disclose data if required by law, court order, or governmental authority, or to protect the rights, safety, or property of ExoraWorld or others</li>
-        <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or asset sale, user data may be transferred as part of that transaction, subject to the same privacy protections described herein</li>
+        <li><strong>Firebase (Google LLC):</strong> We use Firebase Authentication and Firestore for account management and data storage. Google processes your authentication data under Google's own Privacy Policy</li>
+        <li><strong>Advertising Networks:</strong> Google AdSense, Google Ad Manager, Meta Audience Network, and other programmatic advertising networks may receive cookie data, device identifiers, and behavioral signals to serve advertisements on ExoraWorld</li>
+        <li><strong>Analytics Providers:</strong> Google Analytics, Cloudflare Analytics, and similar services receive technical and usage data to help us understand platform performance</li>
+        <li><strong>RSS Feed Parsers:</strong> The rss2json.com API service processes our RSS feed requests to deliver news content. This service may log the requests made on our behalf</li>
+        <li><strong>Payment Processors:</strong> Payment platforms (Bkash, Nagad, Cellfin, AirTM, Skrill, Payoneer) handle your payment transactions independently under their own terms and privacy policies. ExoraWorld receives only the payment proof screenshot you submit to us</li>
+        <li><strong>Sponsors &amp; Brand Partners:</strong> Aggregate, non-personally-identifiable usage data may be shared with sponsors and brand partners. Personally identifiable data is only shared with such partners with your explicit consent</li>
+        <li><strong>Legal &amp; Safety Purposes:</strong> We may disclose your data to law enforcement, government authorities, or legal counsel when required by law or to protect the rights and safety of ExoraWorld, our users, or the public</li>
       </ul>
-      <p>ExoraWorld reserves the right to expand its list of data-sharing partners over time as the platform grows. Updates to this policy will reflect any material changes to sharing practices.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="p6b">
-      <div class="legal-section-num">07 &nbsp; Advertising &amp; Google AdSense</div>
-      <h2>Advertising, Google AdSense &amp; Personalized Ads</h2>
-      <p>ExoraWorld uses and may in the future use Google AdSense and other third-party advertising services to display advertisements on the platform. You should be aware of the following regarding advertising and your data:</p>
+    <div class="legal-section" id="p7">
+      <div class="section-num">07</div>
+      <h2>Advertising &amp; Google AdSense</h2>
+      <p>ExoraWorld may use Google AdSense and other advertising networks to display advertisements on the platform. Advertising helps us keep ExoraWorld's core features free for users.</p>
       <ul>
-        <li><strong>How AdSense Works:</strong> Google AdSense uses cookies and similar tracking technologies to serve advertisements based on your prior visits to ExoraWorld and other websites. Google's use of advertising cookies enables it and its partners to serve ads to you based on your interests and browsing behavior across the internet</li>
-        <li><strong>Data Collected by Advertisers:</strong> Third-party advertising partners, including Google, may independently collect data about your interactions with ads on ExoraWorld, including impressions, clicks, and conversions. This data is collected under their own privacy policies and is not controlled by ExoraWorld</li>
-        <li><strong>Interest-Based Advertising:</strong> Advertisements served on ExoraWorld may be personalized based on your interests as determined by advertising networks using data collected across multiple websites and platforms</li>
-        <li><strong>Advertising Cookies:</strong> By using ExoraWorld, you consent to the placement of advertising cookies by ExoraWorld and its advertising partners. These cookies may persist beyond your current session and may be used across multiple browsing sessions</li>
-        <li><strong>Revenue &amp; Commercial Purpose:</strong> Advertising revenue supports the operation and development of ExoraWorld. Display of advertisements is a legitimate commercial activity and a condition of using the free services provided by ExoraWorld</li>
+        <li><strong>How AdSense Works:</strong> Google AdSense uses cookies and device identifiers to serve ads based on your prior visits to ExoraWorld and other websites. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to our site and/or other sites on the Internet</li>
+        <li><strong>Personalized vs. Non-Personalized Ads:</strong> Depending on your consent and cookie settings, you may see personalized ads (based on your interests and browsing history) or non-personalized ads (contextual only)</li>
+        <li><strong>Third-Party Cookies:</strong> Advertisers and advertising networks may place cookies on your device independently. ExoraWorld does not control these cookies</li>
+        <li><strong>Ad Targeting Data:</strong> Usage behavior, device identifiers, and inferred interest data may be shared with advertising partners and ad exchanges to enable relevant advertising</li>
       </ul>
-      <div class="callout info">
-        <p>You may opt out of personalized advertising by visiting <strong>adssettings.google.com</strong>, adjusting your browser's cookie settings, or using the Network Advertising Initiative opt-out tool at <strong>optout.networkadvertising.org</strong>. Opting out of personalized ads means you may still see non-personalized advertisements on ExoraWorld.</p>
-      </div>
-      <p>For more information on how Google collects and uses data in connection with advertising, please review Google's Privacy Policy at <strong>policies.google.com/privacy</strong>.</p>
-    </div>
-
-    <div class="legal-section section-anchor" id="p6c">
-      <div class="legal-section-num">08 &nbsp; Third-Party Data Responsibility &amp; Liability</div>
-      <h2>Third-Party Data Responsibility &amp; Our Liability</h2>
-      <p>ExoraWorld shares data with various third parties as described in this policy. The following terms govern our liability — and your acknowledgment — with respect to how third parties handle your data:</p>
-      <ul>
-        <li><strong>Independent Data Controllers:</strong> Third parties who receive data from or through ExoraWorld — including Google, advertising networks, analytics providers, sponsors, and hosting services — operate as independent data controllers. They are solely responsible for their own data handling, security, and compliance with applicable law</li>
-        <li><strong>No Control After Transmission:</strong> Once data is transmitted to or becomes accessible by a third party, ExoraWorld does not control, monitor, or assume responsibility for how that third party processes, stores, shares, or uses that data</li>
-        <li><strong>No Liability for Third-Party Misuse:</strong> ExoraWorld shall not be liable for any unauthorized access, breach, misuse, illegal processing, loss, or unauthorized disclosure of your data by any third party, even where that data originated from ExoraWorld. Your legal recourse in such circumstances lies directly against the relevant third party</li>
-        <li><strong>Illegal Third-Party Conduct:</strong> If any third party uses data shared by ExoraWorld in a manner that is unlawful, unauthorized, or harmful, that liability rests exclusively with that third party. ExoraWorld expressly disclaims all liability, direct or indirect, for such conduct and does not act as guarantor of any third party's legal compliance</li>
-        <li><strong>Our Support Commitment:</strong> While ExoraWorld is not legally liable for third-party data misuse, we are committed to supporting affected users where reasonably possible. If you believe your data has been mishandled by a third party in connection with ExoraWorld, you may contact us and we will make reasonable efforts to assist — including providing relevant third-party contact information to help you assert your rights</li>
-      </ul>
-      <div class="callout warn">
-        <p><strong>Legal Acknowledgment:</strong> By using ExoraWorld, you acknowledge and accept that ExoraWorld bears no liability for the data practices of third-party partners, advertisers, or service providers. You irrevocably waive any claims against ExoraWorld arising from third-party data use or misuse, to the fullest extent permitted by applicable law.</p>
+      <div class="callout teal">
+        <p>You can opt out of personalized advertising by: visiting <strong>adssettings.google.com</strong> to adjust your Google ad preferences; using the Network Advertising Initiative opt-out at <strong>optout.networkadvertising.org</strong>; or adjusting your browser's cookie settings. Opting out of personalized ads does not mean you will see no ads — non-personalized advertisements may still appear.</p>
       </div>
     </div>
 
-    <div class="legal-section section-anchor" id="p7">
-      <div class="legal-section-num">09 &nbsp; Cookies &amp; Tracking Technologies</div>
+    <div class="legal-section" id="p8">
+      <div class="section-num">08</div>
+      <h2>Third-Party Data Liability Disclaimer</h2>
+      <p>ExoraWorld shares certain data with third parties as described in this policy. Once data is transmitted to or accessed by these third parties, it is governed by their own privacy policies and legal obligations.</p>
+      <ul>
+        <li><strong>No Control After Transfer:</strong> ExoraWorld does not control, monitor, or take responsibility for how third parties use, process, store, share, or otherwise handle data after it has been transmitted to them</li>
+        <li><strong>No Liability for Misuse:</strong> ExoraWorld shall not be held liable for any unauthorized use, misuse, breach, disclosure, loss, theft, or illegal processing of your data by any third party — even if such data was originally shared by ExoraWorld. Your recourse in such circumstances is directly against the relevant third party</li>
+        <li><strong>Independent Controllers:</strong> Third parties who receive your data operate as independent data controllers. ExoraWorld is not a joint controller, co-processor, or guarantor of third-party compliance</li>
+        <li><strong>Reasonable Assistance:</strong> While ExoraWorld bears no legal liability for third-party data misuse, we will make reasonable efforts to assist users who believe their data has been mishandled by a third party in connection with ExoraWorld</li>
+      </ul>
+      <div class="callout coral">
+        <p><strong>Legal Notice:</strong> By using ExoraWorld, you irrevocably waive any claims against ExoraWorld arising from third-party data use, misuse, or breach, to the maximum extent permitted by applicable law. Nothing in this clause limits your rights against the relevant third party directly.</p>
+      </div>
+    </div>
+
+    <div class="legal-section" id="p9">
+      <div class="section-num">09</div>
+      <h2>News Aggregation &amp; Privacy</h2>
+      <p>ExoraWorld's News section aggregates publicly available news headlines and brief descriptions from RSS feeds published by BBC News, IGN, The Daily Star Bangladesh, and other media organizations via the rss2json.com API.</p>
+      <ul>
+        <li><strong>No User Data Sent to Publishers:</strong> When ExoraWorld fetches news content from RSS feeds, we do not transmit any personally identifiable user data to those news publishers</li>
+        <li><strong>rss2json.com:</strong> This API service processes our RSS fetch requests and may log our server-side API calls. Users are not individually tracked by rss2json.com through ExoraWorld's news feature</li>
+        <li><strong>External Links:</strong> Clicking a news article link takes you to the original publisher's website. Once you leave ExoraWorld, that publisher's privacy policy applies. We have no control over their data practices</li>
+        <li><strong>No News Content Stored:</strong> We do not store or cache news article text in our own database. News content is fetched in real-time and displayed temporarily</li>
+      </ul>
+    </div>
+
+    <div class="legal-section" id="p10">
+      <div class="section-num">10</div>
+      <h2>Gallery Content &amp; Privacy</h2>
+      <p>ExoraWorld's Gallery (Lumina Gallery) hosts original photography by the platform owner and curated public domain / Creative Commons imagery. The gallery includes a Firebase-backed user feature set for authenticated users.</p>
+      <ul>
+        <li><strong>Favorites &amp; View History:</strong> Authenticated users can favorite images and track recently viewed items. This data is stored in Firebase Firestore under your user account and is not shared with third parties</li>
+        <li><strong>View Counts:</strong> Aggregate view counts are tracked per image for internal analytics. These are not linked to personally identifiable information</li>
+        <li><strong>Image Downloads:</strong> When you download an image, we may log the download event (image name and timestamp) to understand gallery usage. We do not log your identity in connection with individual downloads unless you are signed in</li>
+        <li><strong>Local Storage:</strong> For anonymous users, gallery favorites are temporarily stored in your browser's localStorage. If you later sign in, this local data is merged into your Firebase account</li>
+      </ul>
+    </div>
+
+    <div class="legal-section" id="p11">
+      <div class="section-num">11</div>
       <h2>Cookies &amp; Tracking Technologies</h2>
-      <p>ExoraWorld uses cookies and similar technologies to operate, improve, and monetize the platform. By using ExoraWorld, you consent to the placement and use of cookies as described below:</p>
-
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Cookie Type</th>
-            <th>Purpose</th>
-            <th>Duration</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Essential Cookies</td>
-            <td>Required for the site to function — session management, security tokens</td>
-            <td>Session</td>
-          </tr>
-          <tr>
-            <td>Preference Cookies</td>
-            <td>Remember your settings such as language or region preferences</td>
-            <td>Up to 1 year</td>
-          </tr>
-          <tr>
-            <td>Analytics Cookies</td>
-            <td>Track aggregate page views, traffic sources, and user behavior to improve the site (e.g., Google Analytics)</td>
-            <td>Up to 12 months</td>
-          </tr>
-          <tr>
-            <td>Advertising Cookies</td>
-            <td>Enable personalized advertising through Google AdSense and other ad networks; track ad impressions and clicks</td>
-            <td>Up to 24 months</td>
-          </tr>
-          <tr>
-            <td>Third-Party Cookies</td>
-            <td>Placed by third-party services (analytics, advertising, social media embeds) operating under their own policies</td>
-            <td>Varies by provider</td>
-          </tr>
-          <tr>
-            <td>Performance Cookies</td>
-            <td>Monitor load times, errors, and platform stability</td>
-            <td>Session – 30 days</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <p>You can control cookie behavior through your browser settings. Please note that disabling essential or advertising cookies may affect your experience and the ability of ExoraWorld to generate revenue that supports the platform's free services.</p>
-      <p>Our platform is served through Cloudflare, which may apply its own performance and security cookies. Google AdSense and other advertising partners may also place cookies independently. Please review the privacy policies of Google and other relevant third parties for full details on their cookie practices.</p>
+      <p>ExoraWorld uses the following types of cookies and tracking technologies:</p>
+      <ul>
+        <li><strong>Session Cookies:</strong> Temporary cookies that expire when you close your browser. Used to maintain your session state and preferences during a visit</li>
+        <li><strong>Persistent Cookies:</strong> Cookies that remain on your device for a set period. Used to remember your theme preference (light/dark mode) and other settings</li>
+        <li><strong>localStorage:</strong> Browser local storage is used to temporarily store gallery favorites for anonymous users and your theme override preference</li>
+        <li><strong>sessionStorage:</strong> Used to store your manual theme selection so it persists across pages within a single browsing session without reverting to the auto-time-based theme</li>
+        <li><strong>Analytics Cookies:</strong> Placed by Google Analytics and similar services to track page visits, session duration, user flows, and platform performance. These cookies are subject to Google's Privacy Policy</li>
+        <li><strong>Advertising Cookies:</strong> Placed by Google AdSense, Meta Audience Network, and other advertising networks to enable personalized advertising based on your browsing behavior</li>
+        <li><strong>Firebase Cookies:</strong> Firebase Authentication uses cookies and tokens to maintain your logged-in session on ExoraWorld</li>
+      </ul>
+      <p>You can control and manage cookies through your browser settings. Disabling cookies may affect certain features of ExoraWorld, including account login and gallery favorites. Our Cookie Policy (if separate) provides additional detail on cookie management.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="p8">
-      <div class="legal-section-num">10 &nbsp; Data Retention</div>
+    <div class="legal-section" id="p12">
+      <div class="section-num">12</div>
       <h2>Data Retention</h2>
-      <p>We retain your data only for as long as necessary to fulfil the purposes outlined in this policy:</p>
+      <p>We retain your data for as long as necessary to fulfill the purposes described in this policy, or as required by applicable law. Specific retention periods:</p>
       <ul>
-        <li><strong>Order &amp; Payment Records:</strong> Retained for up to 2 years for accounting, fraud prevention, and legal compliance</li>
-        <li><strong>Customer Communications:</strong> Retained for up to 1 year from the date of the last interaction</li>
-        <li><strong>Analytics &amp; Usage Data:</strong> Retained in aggregated or anonymized form for up to 12 months</li>
-        <li><strong>Payment Proof Screenshots:</strong> Retained for up to 90 days after order completion, then deleted unless required for an active dispute</li>
-        <li><strong>Technical Logs:</strong> Server and error logs retained for up to 30 days for security and debugging purposes</li>
+        <li><strong>Order Records:</strong> Retained for 2 years from the date of order for financial record-keeping, dispute resolution, and legal compliance</li>
+        <li><strong>Payment Proof Submissions:</strong> Retained for 2 years from the date of submission</li>
+        <li><strong>Account Data (Firebase):</strong> Retained for as long as your account is active. If you delete your account, your Firebase authentication record and associated Firestore data are deleted, subject to any legal retention requirements</li>
+        <li><strong>Analytics Data:</strong> Aggregated analytics data retained for up to 12 months. Google Analytics retains data per their own retention settings, which you can adjust in your Google account</li>
+        <li><strong>Communication Data:</strong> Messages and support correspondence retained for up to 2 years for reference and legal purposes</li>
+        <li><strong>Cookie Data:</strong> Session cookies expire when you close your browser. Persistent cookies expire per their individual expiry periods (typically 30–365 days)</li>
       </ul>
-      <p>You may request early deletion of your data at any time. See <a href="#p10">Your Rights</a> section for details.</p>
+      <p>You may request deletion of your personal data at any time by contacting us. Certain data may be retained beyond your deletion request where required by law or for legitimate fraud prevention purposes.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="p9">
-      <div class="legal-section-num">11 &nbsp; Data Security</div>
+    <div class="legal-section" id="p13">
+      <div class="section-num">13</div>
       <h2>Data Security</h2>
-      <p>We implement appropriate technical and organizational measures to protect your personal data from unauthorized access, loss, misuse, or disclosure:</p>
+      <p>We take reasonable and appropriate technical and organizational measures to protect your data from unauthorized access, alteration, disclosure, or destruction. These measures include:</p>
       <ul>
-        <li><strong>HTTPS Encryption:</strong> All data transmitted between your browser and our platform is encrypted using TLS/HTTPS</li>
-        <li><strong>Access Controls:</strong> Only authorized team members can access customer order data and payment proofs</li>
-        <li><strong>Cloudflare Protection:</strong> Our platform is served through Cloudflare, which provides DDoS protection, firewall rules, and threat monitoring</li>
-        <li><strong>Secure Storage:</strong> Sensitive data is stored in access-controlled environments and is not kept in publicly accessible systems</li>
-        <li><strong>Regular Review:</strong> We periodically review our data handling practices to ensure continued compliance with this policy</li>
+        <li><strong>Firebase Security:</strong> User authentication and Firestore database access is protected by Firebase security rules and Google's enterprise-grade infrastructure</li>
+        <li><strong>HTTPS:</strong> All data transmitted between your browser and ExoraWorld is encrypted via HTTPS/TLS</li>
+        <li><strong>Access Controls:</strong> Access to user data is restricted to authorized ExoraWorld personnel who need it to operate and improve the platform</li>
+        <li><strong>Payment Security:</strong> ExoraWorld does not store your payment credentials, card numbers, or account passwords. Payment transactions are handled entirely by the respective payment service providers (Bkash, Nagad, etc.)</li>
+        <li><strong>Fraud Detection:</strong> We monitor for suspicious activity such as fraudulent payment proof submissions and take appropriate action including account suspension</li>
       </ul>
-      <div class="callout warn">
-        <p><strong>Important:</strong> No method of transmission over the internet is 100% secure. While we strive to protect your data, we cannot guarantee absolute security. If you suspect your data has been compromised, contact us immediately.</p>
+      <div class="callout coral">
+        <p><strong>Important Limitation:</strong> No method of electronic transmission or storage is 100% secure. While we strive to protect your data, we cannot guarantee absolute security. In the event of a data breach that affects your rights or freedoms, we will notify affected users as required by applicable law, within 72 hours of becoming aware of the breach.</p>
       </div>
     </div>
 
-    <div class="legal-section section-anchor" id="p10">
-      <div class="legal-section-num">12 &nbsp; Your Rights</div>
+    <div class="legal-section" id="p14">
+      <div class="section-num">14</div>
       <h2>Your Rights</h2>
-      <p>You have the following rights regarding your personal data. To exercise any of these rights, contact us at our email:</p>
-
+      <p>You have the following rights regarding your personal data. To exercise any of these rights, contact us using the details in Section 19. We will respond to rights requests within 30 days.</p>
       <div class="rights-grid">
         <div class="right-card">
-          <div class="right-icon"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <div class="right-icon">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
           <div>
             <div class="right-title">Right to Access</div>
             <div class="right-desc">Request a copy of all personal data we hold about you.</div>
           </div>
         </div>
         <div class="right-card">
-          <div class="right-icon"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+          <div class="right-icon">
+            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </div>
           <div>
             <div class="right-title">Right to Correction</div>
             <div class="right-desc">Request correction of inaccurate or incomplete data we hold.</div>
           </div>
         </div>
         <div class="right-card">
-          <div class="right-icon"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></div>
+          <div class="right-icon">
+            <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+          </div>
           <div>
             <div class="right-title">Right to Deletion</div>
             <div class="right-desc">Request deletion of your personal data, subject to legal retention requirements.</div>
           </div>
         </div>
         <div class="right-card">
-          <div class="right-icon"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+          <div class="right-icon">
+            <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </div>
           <div>
             <div class="right-title">Right to Portability</div>
             <div class="right-desc">Request your data in a readable, portable format where technically feasible.</div>
           </div>
         </div>
         <div class="right-card">
-          <div class="right-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+          <div class="right-icon">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </div>
           <div>
             <div class="right-title">Right to Object</div>
             <div class="right-desc">Object to processing of your data for analytics or non-essential purposes.</div>
           </div>
         </div>
         <div class="right-card">
-          <div class="right-icon"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+          <div class="right-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
           <div>
             <div class="right-title">Opt-Out of Communications</div>
             <div class="right-desc">Unsubscribe from non-essential emails or updates at any time.</div>
           </div>
         </div>
       </div>
-
-      <p>We will respond to rights requests within 30 days. In some cases, we may need to verify your identity before processing your request. Certain data may need to be retained to fulfil legal obligations even if you request deletion.</p>
+      <p>We will respond to rights requests within 30 days. In some cases, we may need to verify your identity before processing your request. Certain data may be retained to fulfill legal obligations even if you request deletion.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="p11">
-      <div class="legal-section-num">13 &nbsp; Children's Privacy</div>
+    <div class="legal-section" id="p15">
+      <div class="section-num">15</div>
       <h2>Children's Privacy</h2>
       <p>ExoraWorld is not directed at children under the age of 13. We do not knowingly collect personal data from children under 13. If we become aware that we have inadvertently collected personal data from a child under 13, we will take steps to delete that information promptly.</p>
-      <p>Users between 13 and 17 years of age must have parental or guardian consent before using ExoraWorld or making purchases. Parents or guardians who believe their child's data has been collected without consent should contact us immediately.</p>
+      <p>Users between 13 and 17 years of age must have parental or guardian consent before using ExoraWorld or making purchases. Parents or guardians who believe their child's data has been collected without consent should contact us immediately at the details provided in Section 19.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="p12">
-      <div class="legal-section-num">14 &nbsp; International Users</div>
+    <div class="legal-section" id="p16">
+      <div class="section-num">16</div>
       <h2>International Users</h2>
-      <p>ExoraWorld is operated from Bangladesh and primarily serves users in Bangladesh and internationally through platforms like AirTM, Skrill, and Payoneer. If you are accessing ExoraWorld from outside Bangladesh, please be aware that your data may be processed and stored in locations subject to different data protection laws.</p>
+      <p>ExoraWorld is operated from Bangladesh and primarily serves users in Bangladesh and internationally through platforms like AirTM, Skrill, and Payoneer. If you are accessing ExoraWorld from outside Bangladesh, please be aware that your data may be processed and stored in locations subject to different data protection laws — including servers operated by Firebase/Google, which may be located in the United States or other jurisdictions.</p>
       <p>By using ExoraWorld, you consent to the transfer and processing of your data as described in this Privacy Policy, regardless of your country of residence. We make reasonable efforts to ensure that international data transfers comply with applicable legal requirements.</p>
+      <p>Users in the European Economic Area (EEA), United Kingdom, or California may have additional rights under GDPR, UK GDPR, or the California Consumer Privacy Act (CCPA). We honor these rights to the extent applicable. Contact us using the details in Section 19 to exercise any jurisdiction-specific rights.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="p13">
-      <div class="legal-section-num">15 &nbsp; Third-Party Links</div>
+    <div class="legal-section" id="p17">
+      <div class="section-num">17</div>
       <h2>Third-Party Links &amp; Services</h2>
-      <p>ExoraWorld may contain links to third-party websites, social media platforms (YouTube, Discord, Instagram, Facebook, Twitter), and payment services (Bkash, Nagad, Cellfin, AirTM, Skrill, Payoneer).</p>
-      <p>We are not responsible for the privacy practices or content of these third parties. When you leave ExoraWorld and interact with a third-party service, their own privacy policies govern how your data is handled. We strongly encourage you to review the privacy policies of any third-party services you use.</p>
+      <p>ExoraWorld contains links to third-party websites, social media platforms, news sources, and payment services. These include:</p>
+      <ul>
+        <li><strong>Social Media:</strong> YouTube, Discord, Instagram, Facebook, Twitter/X — links to our community and social pages</li>
+        <li><strong>Payment Services:</strong> Bkash, Nagad, Cellfin, AirTM, Skrill, Payoneer — for processing purchases</li>
+        <li><strong>News Publishers:</strong> BBC News, IGN, The Daily Star Bangladesh — linked as the original source of aggregated news articles</li>
+        <li><strong>External Tools &amp; Resources:</strong> Any tools, resources, or websites we recommend or reference in our content</li>
+      </ul>
+      <p>We are not responsible for the privacy practices, security, or content of these third parties. When you leave ExoraWorld and interact with a third-party service, their own privacy policies govern how your data is handled. We strongly encourage you to review the privacy policies of any third-party services you access via ExoraWorld.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="p14">
-      <div class="legal-section-num">16 &nbsp; Policy Updates</div>
+    <div class="legal-section" id="p18">
+      <div class="section-num">18</div>
       <h2>Updates to This Privacy Policy</h2>
       <p>We may update this Privacy Policy periodically to reflect changes in our practices, technology, legal requirements, or other factors. When we make significant changes, we will:</p>
       <ul>
         <li>Update the "Last updated" date at the top of this page</li>
-        <li>Where appropriate, notify existing customers via email or a prominent notice on the platform</li>
-        <li>If required by law, seek your explicit consent before applying material changes</li>
+        <li>Where appropriate, notify existing registered users via email or a prominent notice on the platform</li>
+        <li>If required by law, seek your explicit consent before applying material changes that affect how we use previously collected data</li>
       </ul>
-      <p>We encourage you to review this page periodically. Your continued use of ExoraWorld after changes are posted constitutes your acceptance of the updated Privacy Policy.</p>
+      <p>We encourage you to review this page periodically. Your continued use of ExoraWorld after changes are posted constitutes your acceptance of the updated Privacy Policy. If you do not agree with the updated policy, you must stop using ExoraWorld.</p>
     </div>
 
-    <div class="legal-section section-anchor" id="p15">
-      <div class="legal-section-num">17 &nbsp; Contact &amp; Requests</div>
+    <div class="legal-section" id="p19">
+      <div class="section-num">19</div>
       <h2>Contact Us &amp; Data Requests</h2>
-      <p>For any privacy-related questions, data access requests, deletion requests, or concerns, please contact us:</p>
+      <p>For any privacy-related questions, data access requests, deletion requests, or concerns, please contact us through the following channels. Privacy requests are handled within 30 days. Urgent concerns related to data breaches or security are addressed within 72 hours.</p>
       <ul>
-        <li><strong>Email:</strong> <a href="mailto:your@email.com">Add your email here</a></li>
-        <li><strong>Facebook:</strong> <a href="#">Add your Facebook page link</a></li>
-        <li><strong>Response Time:</strong> Privacy requests are handled within 30 days. Urgent concerns related to data breaches or security will be addressed within 72 hours</li>
+        <li><strong>Email:</strong> <a href="mailto:theexoraworld@gmail.com">theexoraworld@gmail.com</a> — For all formal privacy requests and data inquiries</li>
+        <li><strong>Facebook:</strong> <a href="#">ExoraWorld Facebook Page</a> — For general support and community questions</li>
+        <li><strong>Data Request Subject Line:</strong> Please use <strong>"Privacy Request — [Your Name]"</strong> for fastest routing</li>
+        <li><strong>What to Include:</strong> Your name or account identifier, the nature of your request, and any relevant order information to help us locate your data accurately</li>
       </ul>
-      <p>When submitting a data request, please include your name or identifier, the nature of your request, and any relevant order information. This helps us locate your data and respond accurately.</p>
-      <div class="callout green">
-        <p>We appreciate your trust in ExoraWorld. Protecting your privacy is a responsibility we take seriously. If you believe we have not handled your data correctly, you have the right to escalate your concern to the relevant data protection authority in your jurisdiction.</p>
+      <div class="callout teal">
+        <p>We appreciate your trust in ExoraWorld. Protecting your privacy is a responsibility we take seriously. If you believe we have not handled your data correctly, you have the right to escalate your concern to the relevant data protection authority in your jurisdiction. We are committed to working with you to resolve any privacy concerns fairly and transparently.</p>
       </div>
     </div>
 
   </main>
 </div>
 
-<footer>
+<!-- FOOTER -->
+<footer class="site-footer">
   <div class="footer-bottom">
-    <div class="footer-copy">© 2025 ExoraWorld. All rights reserved.</div>
-    <div class="footer-legal">
+    <p class="footer-copyright">© <span id="yr"></span> ExoraWorld. All rights reserved.</p>
+    <nav class="footer-links-row">
       <a href="terms.html">Terms</a>
-      <a href="privacy.html" class="active-page">Privacy</a>
-      <a href="refund.html">Refund</a>
-      <a href="cookies.html">Cookies</a>
-      <a href="../index.html">Home</a>
-    </div>
+      <a href="privacy.html" class="current">Privacy</a>
+      <a href="index.html">Home</a>
+    </nav>
   </div>
 </footer>
 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
-(function() {
-  if (window.matchMedia('(pointer: coarse)').matches) return;
-  const dot = document.getElementById('cursor-dot');
-  const ring = document.getElementById('cursor-ring');
-  let mx = -100, my = -100, rx = -100, ry = -100;
-  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
-  function anim() { rx+=(mx-rx)*.12; ry+=(my-ry)*.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(anim); }
-  anim();
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-  });
-  document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
-  document.addEventListener('mouseup', () => document.body.classList.remove('cursor-click'));
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Theme toggle
+(function(){
+  var root = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var OVR_KEY = 'exo_theme_ovr';
+  function autoTheme(){ var h=new Date().getHours(); return (h>=6&&h<19)?'light':'dark'; }
+  function saveOverride(t){ try{ sessionStorage.setItem(OVR_KEY,JSON.stringify({t:t,exp:Date.now()+3600000})); }catch(e){} }
+  function loadOverride(){ try{ var d=JSON.parse(sessionStorage.getItem(OVR_KEY)||'null'); if(d&&Date.now()<d.exp)return d.t; sessionStorage.removeItem(OVR_KEY); }catch(e){} return null; }
+  function applyTheme(t){ root.setAttribute('data-theme',t); toggle.setAttribute('aria-pressed',t==='dark'?'true':'false'); }
+  applyTheme(loadOverride()||autoTheme());
+  toggle.addEventListener('click',function(){ var next=root.getAttribute('data-theme')==='dark'?'light':'dark'; applyTheme(next); saveOverride(next); });
+  setInterval(function(){ var desired=loadOverride()||autoTheme(); if(root.getAttribute('data-theme')!==desired) applyTheme(desired); },60000);
 })();
 
-const bar = document.getElementById('scroll-progress');
-window.addEventListener('scroll', () => {
-  const s = document.documentElement;
-  bar.style.transform = `scaleX(${window.scrollY/(s.scrollHeight-s.clientHeight)})`;
-}, {passive:true});
+// Navbar shadow on scroll
+(function(){
+  var nav = document.getElementById('navbar');
+  function onScroll(){ nav.classList.toggle('scrolled',window.scrollY>20); }
+  onScroll();
+  window.addEventListener('scroll',onScroll,{passive:true});
+})();
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.06 });
-document.querySelectorAll('.legal-section').forEach(el => observer.observe(el));
+// Reveal sections
+(function(){
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  },{threshold:0.06});
+  document.querySelectorAll('.legal-section').forEach(function(el){ obs.observe(el); });
+})();
 
-const sections = document.querySelectorAll('.section-anchor');
-const tocItems = document.querySelectorAll('.toc-item');
-const scrollSpy = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      tocItems.forEach(t => t.classList.remove('active'));
-      const active = document.querySelector(`.toc-item[href="#${e.target.id}"]`);
-      if (active) active.classList.add('active');
-    }
-  });
-}, { rootMargin: '-20% 0px -70% 0px' });
-sections.forEach(s => scrollSpy.observe(s));
+// TOC scroll spy
+(function(){
+  var sections = document.querySelectorAll('.legal-section[id]');
+  var items = document.querySelectorAll('.toc-item');
+  var spy = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        items.forEach(function(t){ t.classList.remove('active'); });
+        var a = document.querySelector('.toc-item[href="#'+e.target.id+'"]');
+        if(a) a.classList.add('active');
+      }
+    });
+  },{rootMargin:'-20% 0px -70% 0px'});
+  sections.forEach(function(s){ spy.observe(s); });
+})();
 </script>
 </body>
 </html>
