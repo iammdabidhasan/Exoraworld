@@ -6,6 +6,7 @@
 <meta name="description" content="About ExoraWorld — One home for tools, games, news, gallery, and content. Meet the founder, discover our mission, and learn how the platform was built." />
 <meta name="theme-color" content="#E8A430" />
 <title>About — ExoraWorld</title>
+<!-- Honest about page — stats corrected, social placeholders marked, game count accurate -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -132,6 +133,7 @@ h1,h2,h3,h4,h5{font-family:var(--font-display);line-height:1.12;font-weight:700;
 .navbar-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;}
 .nav-logo{display:flex;align-items:center;gap:0.55rem;font-family:var(--font-display);font-weight:800;font-size:1.25rem;flex-shrink:0;}
 .logo-mark{width:32px;height:32px;border-radius:9px;background:var(--color-primary);display:flex;align-items:center;justify-content:center;color:var(--color-on-primary);font-size:1.1rem;font-weight:800;line-height:1;}
+.logo-mark .icon{width:18px;height:18px;}
 .nav-right{display:flex;align-items:center;gap:0.75rem;}
 .nav-back{
   display:inline-flex;align-items:center;gap:0.4rem;
@@ -515,11 +517,16 @@ h1,h2,h3,h4,h5{font-family:var(--font-display);line-height:1.12;font-weight:700;
 </head>
 <body>
 
+<!-- SVG sprite — mirrors index.html -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="icon-spark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L14.2 9.8 L22 12 L14.2 14.2 L12 22 L9.8 14.2 L2 12 L9.8 9.8 Z"/></symbol>
+</svg>
+
 <!-- NAVBAR -->
 <header class="navbar" id="navbar">
   <div class="container navbar-inner">
     <a href="../index.html" class="nav-logo" aria-label="ExoraWorld Home">
-      <div class="logo-mark">E</div>
+      <span class="logo-mark"><svg class="icon"><use href="#icon-spark"/></svg></span>
       ExoraWorld
     </a>
     <div class="nav-right">
@@ -545,7 +552,7 @@ h1,h2,h3,h4,h5{font-family:var(--font-display);line-height:1.12;font-weight:700;
         <span class="line-amber">everything</span> you<br>
         <span class="line-teal">love online.</span>
       </h1>
-      <p class="hero-lead reveal">ExoraWorld is an all-in-one independent digital platform built from Bangladesh — bringing together a visual gallery, live news, original browser games, a digital store, and fresh content, all in one place.</p>
+      <p class="hero-lead reveal">ExoraWorld is an all-in-one independent digital platform built from Bangladesh by a single developer — bringing together a visual gallery, live news, an original browser game, a digital store, and fresh content, all in one place. It's early stage and growing.</p>
       <div class="hero-ctas reveal">
         <a href="../index.html#store" class="btn btn-primary">
           <svg viewBox="0 0 24 24"><path d="M6 8h12l-1 13H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
@@ -571,25 +578,25 @@ h1,h2,h3,h4,h5{font-family:var(--font-display);line-height:1.12;font-weight:700;
   <div class="container">
     <div class="section-header">
       <div class="eyebrow reveal"><span class="eyebrow-dot"></span> By the Numbers</div>
-      <h2 class="reveal">ExoraWorld in numbers</h2>
-      <p class="reveal">A growing community, real products, and a platform built to last.</p>
+      <h2 class="reveal">The honest picture</h2>
+      <p class="reveal">No inflated metrics. Here's what's actually true about ExoraWorld right now.</p>
     </div>
     <div class="stats-row">
       <div class="stat-card reveal" style="--i:0">
-        <span class="stat-number" id="stat1">50,000+</span>
-        <span class="stat-label">Members Worldwide</span>
+        <span class="stat-number" id="stat1">1</span>
+        <span class="stat-label">Developer (Solo-Built)</span>
       </div>
       <div class="stat-card reveal" style="--i:1">
-        <span class="stat-number" id="stat2">120+</span>
-        <span class="stat-label">Games Featured</span>
+        <span class="stat-number" id="stat2">1 Live</span>
+        <span class="stat-label">Original Game (More in Development)</span>
       </div>
       <div class="stat-card reveal" style="--i:2">
-        <span class="stat-number" id="stat3">4.8 / 5</span>
-        <span class="stat-label">Average Rating</span>
+        <span class="stat-number" id="stat3">5</span>
+        <span class="stat-label">Platform Sections</span>
       </div>
       <div class="stat-card reveal" style="--i:3">
-        <span class="stat-number" id="stat4">80+</span>
-        <span class="stat-label">Countries Reached</span>
+        <span class="stat-number" id="stat4">$0</span>
+        <span class="stat-label">External Funding — Fully Independent</span>
       </div>
     </div>
   </div>
@@ -635,7 +642,7 @@ h1,h2,h3,h4,h5{font-family:var(--font-display);line-height:1.12;font-weight:700;
           </div>
           <div>
             <div class="mission-badge-label">Original Games</div>
-            <div class="mission-badge-sub">100% built in-house — VoidRunner X &amp; more</div>
+            <div class="mission-badge-sub">1 live game — VoidRunner X. More in development.</div>
           </div>
         </div>
         <div class="mission-badge">
@@ -703,7 +710,7 @@ h1,h2,h3,h4,h5{font-family:var(--font-display);line-height:1.12;font-weight:700;
         </div>
         <span class="platform-tag" style="background:rgba(99,102,241,0.12);color:#6366f1;">Games</span>
         <h3>Original Browser Games</h3>
-        <p>Every game on ExoraWorld is a 100% original creation — designed, coded, and published entirely in-house. Our flagship title, <strong>VoidRunner X</strong>, is a fast-paced browser-based experience built with pure web technology. No third-party game engines with licensing restrictions, no borrowed assets, and no copied mechanics. Just original work. More games are in development and ship regularly as part of our continuous release cycle.</p>
+        <p>Every game on ExoraWorld is an original creation — designed, coded, and published entirely in-house. Right now there is one live title: <strong>VoidRunner X</strong>, a fast-paced browser-based runner built with pure web technology and no third-party game engines. More games are actively in development. The honest status: one game is live, more are coming — and this page will be updated when they ship.</p>
         <a href="games.html" class="platform-link">
           Play Now
           <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -809,8 +816,8 @@ h1,h2,h3,h4,h5{font-family:var(--font-display);line-height:1.12;font-weight:700;
         <div class="value-icon">
           <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         </div>
-        <h3>Originality Always</h3>
-        <p>From our games and store products to our gallery photography and written content — we create or carefully source everything. We don't copy, we don't rebrand, and we're fully transparent about where every piece of content comes from.</p>
+        <h3>Transparency About Sources</h3>
+        <p>The games, store products, and written content are original ExoraWorld work. The gallery also includes images sourced from Unsplash, Pexels, and Pixabay under their free-use licenses — we're upfront about that. When something is made in-house, we say so. When it's sourced, we say that too.</p>
       </div>
       <div class="value-card reveal" style="--i:4">
         <div class="value-icon">
@@ -861,10 +868,10 @@ h1,h2,h3,h4,h5{font-family:var(--font-display);line-height:1.12;font-weight:700;
         </div>
       </div>
       <div class="timeline-item reveal">
-        <div class="timeline-year">Growth</div>
+        <div class="timeline-year">Growing</div>
         <div class="timeline-content">
-          <h4>Community crosses 50,000 members</h4>
-          <p>The ExoraWorld community grows to 50,000+ members across 80+ countries. The store expands with new templates and tools. Live news aggregation from BBC, IGN, and The Daily Star goes live, powered by open-source RSS feeds parsed via rss2json.com.</p>
+          <h4>Store, news, and real users arrive</h4>
+          <p>The store expands with new templates and tools. Live news aggregation from BBC, IGN, and The Daily Star goes live via rss2json.com. A real user base starts forming — smaller than marketing-speak would claim, but genuine. The community is early-stage and growing organically.</p>
         </div>
       </div>
       <div class="timeline-item reveal">
@@ -938,30 +945,30 @@ h1,h2,h3,h4,h5{font-family:var(--font-display);line-height:1.12;font-weight:700;
   <div class="container">
     <div class="section-header">
       <div class="eyebrow reveal"><span class="eyebrow-dot"></span> Community</div>
-      <h2 class="reveal">Join 50,000+ members across the world</h2>
-      <p class="reveal">ExoraWorld isn't just a platform — it's a community. Follow us, join the conversation, and stay updated on everything we're building.</p>
+      <h2 class="reveal">Join our growing community</h2>
+      <p class="reveal">ExoraWorld is still building its community. Social accounts are being set up — links will go live as each one launches. If you want to follow the journey, the best way right now is to sign up and reach out directly.</p>
     </div>
     <div class="social-row reveal">
-      <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook">
+      <span class="social-btn" style="opacity:0.45;cursor:default;" aria-label="Facebook — coming soon">
         <svg viewBox="0 0 24 24"><path d="M16 8h-2a2 2 0 0 0-2 2v10"/><path d="M9 13h5"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
-        Facebook
-      </a>
-      <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="YouTube">
+        Facebook <em style="font-size:0.72rem;font-weight:400;">(soon)</em>
+      </span>
+      <span class="social-btn" style="opacity:0.45;cursor:default;" aria-label="YouTube — coming soon">
         <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="4"/><polygon points="10 9 16 12 10 15" fill="currentColor" stroke="none"/></svg>
-        YouTube
-      </a>
-      <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Instagram">
+        YouTube <em style="font-size:0.72rem;font-weight:400;">(soon)</em>
+      </span>
+      <span class="social-btn" style="opacity:0.45;cursor:default;" aria-label="Instagram — coming soon">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        Instagram
-      </a>
-      <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Discord">
+        Instagram <em style="font-size:0.72rem;font-weight:400;">(soon)</em>
+      </span>
+      <span class="social-btn" style="opacity:0.45;cursor:default;" aria-label="Discord — coming soon">
         <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Discord
-      </a>
-      <a href="#" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Twitter / X">
+        Discord <em style="font-size:0.72rem;font-weight:400;">(soon)</em>
+      </span>
+      <span class="social-btn" style="opacity:0.45;cursor:default;" aria-label="Twitter / X — coming soon">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 3H22l-7.4 8.5L23 21h-6.9l-5.4-6.6L4.4 21H1.3l7.9-9-7.7-9H9l4.9 6.1L18.9 3z"/></svg>
-        Twitter / X
-      </a>
+        Twitter / X <em style="font-size:0.72rem;font-weight:400;">(soon)</em>
+      </span>
     </div>
   </div>
 </section>
