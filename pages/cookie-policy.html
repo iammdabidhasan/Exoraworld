@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="ExoraWorld Cookie Policy — How we use cookies, localStorage, sessionStorage, and tracking technologies. Manage your preferences." />
+<meta name="theme-color" content="#E8A430" />
+<title>Cookie Policy — ExoraWorld</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<script>
+(function(){
+  try {
+    var ovr = JSON.parse(sessionStorage.getItem('exo_theme_ovr')||'null');
+    var stored = (ovr && Date.now() < ovr.exp) ? ovr.t : null;
+    var h = new Date().getHours();
+    document.documentElement.setAttribute('data-theme', stored || ((h>=6&&h<19)?'light':'dark'));
+  } catch(e){}
+})();
+</script>
+
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  --color-bg: #F8F7F3;
+  --color-bg-alt: #F1ECE0;
+  --color-surface: #FFFFFF;
+  --color-text: #17171A;
+  --color-text-muted: #6B6864;
+  --color-border: #E4DFD2;
+  --color-primary: #E8A430;
+  --color-primary-hover: #D6952A;
+  --color-on-primary: #17171A;
+  --color-secondary: #12756B;
+  --color-secondary-hover: #0D5A52;
+  --color-coral: #DE5B4C;
+  --color-navbar-bg: rgba(248,247,243,0.82);
+  --shadow-color: 220 20% 10%;
+  --font-display: 'Bricolage Grotesque','Segoe UI',sans-serif;
+  --font-body: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --nav-height: 76px;
+  --container-width: 1200px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-full: 999px;
+  --shadow-sm: 0 1px 3px hsl(var(--shadow-color)/.08);
+  --shadow-md: 0 10px 30px hsl(var(--shadow-color)/.10);
+  --shadow-lg: 0 24px 48px hsl(var(--shadow-color)/.16);
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+[data-theme="dark"] {
+  --color-bg: #121214;
+  --color-bg-alt: #18181B;
+  --color-surface: #1D1D21;
+  --color-text: #F5F3EE;
+  --color-text-muted: #9E9B95;
+  --color-border: #2B2B30;
+  --color-primary: #F0AC42;
+  --color-primary-hover: #F5BE6B;
+  --color-on-primary: #17171A;
+  --color-secondary: #2DD4BF;
+  --color-secondary-hover: #5EEAD4;
+  --color-coral: #EC6B5C;
+  --color-navbar-bg: rgba(18,18,20,0.76);
+  --shadow-color: 0 0% 0%;
+  --shadow-sm: 0 1px 3px hsl(var(--shadow-color)/.35);
+  --shadow-md: 0 10px 30px hsl(var(--shadow-color)/.45);
+  --shadow-lg: 0 24px 48px hsl(var(--shadow-color)/.55);
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-height)+1.5rem);}
+body{font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background-color var(--transition-base),color var(--transition-base);overflow-x:hidden;word-break:break-word;overflow-wrap:break-word;}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;}
+ul,ol{list-style:none;}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.12;font-weight:700;letter-spacing:-0.02em;overflow-wrap:break-word;}
+:focus-visible{outline:2px solid var(--color-secondary);outline-offset:3px;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container{width:100%;max-width:var(--container-width);margin-inline:auto;padding-inline:clamp(1.25rem,4vw,2rem);}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-height);
+  display:flex;align-items:center;
+  background:var(--color-navbar-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;
+  transition:border-color var(--transition-base),box-shadow var(--transition-base);
+}
+.navbar.scrolled{border-color:var(--color-border);box-shadow:var(--shadow-sm);}
+.navbar-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.nav-logo{display:flex;align-items:center;gap:0.55rem;font-family:var(--font-display);font-weight:800;font-size:1.25rem;flex-shrink:0;}
+.logo-mark{width:32px;height:32px;border-radius:9px;background:var(--color-primary);display:flex;align-items:center;justify-content:center;color:var(--color-on-primary);}
+.logo-mark .icon{width:18px;height:18px;}
+.nav-right{display:flex;align-items:center;gap:0.75rem;}
+.nav-back{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  padding:0.5rem 1rem;border-radius:var(--radius-full);
+  border:1.5px solid var(--color-border);font-size:0.85rem;font-weight:600;
+  transition:border-color var(--transition-fast),color var(--transition-fast);
+}
+.nav-back:hover{border-color:var(--color-secondary);color:var(--color-secondary);}
+.nav-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.theme-toggle{
+  width:40px;height:40px;border-radius:50%;border:1.5px solid var(--color-border);
+  background:var(--color-surface);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--color-text);transition:transform var(--transition-fast),border-color var(--transition-fast);
+}
+.theme-toggle:hover{transform:rotate(-14deg);border-color:var(--color-primary);}
+.icon-sun,.icon-moon{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+[data-theme="light"] .icon-moon{display:none;}
+[data-theme="dark"] .icon-sun{display:none;}
+[data-theme="dark"] .icon-moon{display:block;}
+@media(max-width:400px){.nav-back-text{display:none;}}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.page-hero{
+  padding-top:calc(var(--nav-height) + clamp(3rem,7vw,5rem));
+  padding-bottom:clamp(2.5rem,5vw,4rem);
+  text-align:center;
+  border-bottom:1px solid var(--color-border);
+  background:var(--color-bg-alt);
+  position:relative;overflow:hidden;
+}
+.page-hero::before{
+  content:'';position:absolute;top:-10%;left:50%;transform:translateX(-50%);
+  width:700px;height:700px;pointer-events:none;
+  background:radial-gradient(circle,var(--color-primary) 0%,transparent 65%);
+  opacity:0.07;filter:blur(55px);
+}
+.page-hero::after{
+  content:'';position:absolute;bottom:-10%;right:8%;
+  width:350px;height:350px;pointer-events:none;
+  background:radial-gradient(circle,var(--color-secondary) 0%,transparent 65%);
+  opacity:0.06;filter:blur(45px);
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:0.45rem;
+  color:var(--color-secondary);font-weight:700;
+  font-size:0.78rem;letter-spacing:0.09em;text-transform:uppercase;margin-bottom:1rem;
+}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--color-primary);animation:pulse-dot 2s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.page-hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;margin-bottom:1rem;line-height:1.06;position:relative;z-index:1;}
+.page-hero h1 .accent{color:var(--color-primary);}
+.page-hero .lead{font-size:1.05rem;color:var(--color-text-muted);max-width:580px;margin:0 auto 2rem;line-height:1.75;position:relative;z-index:1;}
+.meta-row{
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+  gap:0.6rem 1.25rem;font-size:0.82rem;color:var(--color-text-muted);position:relative;z-index:1;
+}
+.meta-pill{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  padding:0.35rem 0.9rem;border-radius:var(--radius-full);
+  border:1.5px solid var(--color-border);background:var(--color-surface);
+  font-size:0.78rem;font-weight:500;
+}
+.meta-pill svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:0.6;}
+
+/* ============================================================
+   GLANCE CARDS (top summary)
+   ============================================================ */
+.glance-strip{
+  max-width:1100px;margin:0 auto;
+  padding:clamp(2rem,4vw,3rem) clamp(1.25rem,4vw,2rem) 0;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;
+}
+@media(max-width:780px){.glance-strip{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:400px){.glance-strip{grid-template-columns:1fr;}}
+.glance-card{
+  background:var(--color-surface);border:1.5px solid var(--color-border);
+  border-radius:var(--radius-md);padding:1.25rem 1rem;text-align:center;
+  transition:border-color var(--transition-fast),box-shadow var(--transition-fast);
+}
+.glance-card:hover{box-shadow:var(--shadow-md);}
+.glance-icon{
+  width:44px;height:44px;border-radius:var(--radius-sm);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 0.85rem;
+}
+.glance-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.glance-label{font-family:var(--font-display);font-size:0.9rem;font-weight:700;color:var(--color-text);margin-bottom:0.3rem;}
+.glance-desc{font-size:0.76rem;color:var(--color-text-muted);line-height:1.5;}
+
+/* ============================================================
+   MAIN LAYOUT — sidebar TOC + content
+   ============================================================ */
+.legal-wrap{
+  max-width:1100px;margin-inline:auto;
+  padding:clamp(2.5rem,5vw,4rem) clamp(1.25rem,4vw,2rem) clamp(4rem,8vw,7rem);
+  display:grid;grid-template-columns:200px 1fr;gap:clamp(2rem,5vw,4rem);align-items:start;
+}
+@media(max-width:860px){.legal-wrap{grid-template-columns:1fr;}}
+
+.toc-sidebar{position:sticky;top:calc(var(--nav-height)+1.5rem);max-height:calc(100vh - var(--nav-height) - 3rem);overflow-y:auto;}
+.toc-sidebar::-webkit-scrollbar{width:3px;}
+.toc-sidebar::-webkit-scrollbar-thumb{background:var(--color-border);border-radius:3px;}
+.toc-label{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:0.85rem;}
+.toc-list{display:flex;flex-direction:column;gap:1px;}
+.toc-item{
+  display:flex;align-items:center;gap:0.6rem;
+  padding:0.45rem 0.75rem;border-radius:var(--radius-sm);font-size:0.8rem;font-weight:500;
+  color:var(--color-text-muted);border-left:2px solid transparent;
+  transition:all var(--transition-fast);line-height:1.4;
+}
+.toc-item:hover{color:var(--color-text);background:var(--color-bg-alt);border-left-color:var(--color-primary);}
+.toc-item.active{color:var(--color-secondary);background:rgba(18,117,107,0.08);border-left-color:var(--color-secondary);}
+.toc-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:var(--color-border);transition:background var(--transition-fast);}
+.toc-item.active .toc-dot{background:var(--color-secondary);}
+@media(max-width:860px){.toc-sidebar{display:none;}}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.legal-content{min-width:0;}
+.legal-section{
+  margin-bottom:3.5rem;padding-bottom:3.5rem;
+  border-bottom:1px solid var(--color-border);
+  opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease;
+}
+.legal-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.legal-section.visible{opacity:1;transform:none;}
+.section-label{
+  display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;
+  font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--color-secondary);
+}
+.section-label::after{content:'';display:inline-block;width:32px;height:1.5px;background:var(--color-border);border-radius:1px;}
+.legal-section h2{font-size:clamp(1.2rem,2.5vw,1.55rem);font-weight:700;margin-bottom:1.1rem;color:var(--color-text);}
+.legal-section h3{font-size:1rem;font-weight:700;margin:1.5rem 0 0.65rem;color:var(--color-text);}
+.legal-section p{font-size:0.925rem;color:var(--color-text-muted);line-height:1.8;margin-bottom:0.85rem;}
+.legal-section p:last-child{margin-bottom:0;}
+.legal-section ul{margin:0.75rem 0 1rem;display:flex;flex-direction:column;gap:0.55rem;}
+.legal-section ul li{
+  font-size:0.9rem;color:var(--color-text-muted);line-height:1.75;
+  padding-left:1.4rem;position:relative;
+}
+.legal-section ul li::before{
+  content:'';position:absolute;left:0;top:0.62em;
+  width:6px;height:6px;border-radius:50%;background:var(--color-secondary);
+}
+.legal-section strong{color:var(--color-text);font-weight:600;}
+.legal-section a{color:var(--color-secondary);font-weight:500;}
+.legal-section a:hover{text-decoration:underline;}
+
+/* ============================================================
+   COOKIE CATEGORY CARDS
+   ============================================================ */
+.cookie-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));
+  gap:1rem;margin:1.5rem 0;
+}
+.cookie-card{
+  border:1.5px solid var(--color-border);border-radius:var(--radius-lg);
+  padding:1.5rem;overflow:hidden;position:relative;
+  transition:box-shadow var(--transition-fast),border-color var(--transition-fast),transform var(--transition-fast);
+  background:var(--color-surface);
+}
+.cookie-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  background:linear-gradient(90deg,var(--ck-a),var(--ck-b));
+}
+.cookie-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);}
+.cookie-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:0.75rem;margin-bottom:0.9rem;}
+.cookie-card-icon{
+  width:40px;height:40px;border-radius:var(--radius-sm);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.cookie-card-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.cookie-badge{
+  display:inline-block;padding:0.2rem 0.65rem;border-radius:var(--radius-full);
+  font-size:0.65rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;
+  flex-shrink:0;
+}
+.cookie-card h3{font-size:1rem;font-weight:700;color:var(--color-text);margin-bottom:0.45rem;}
+.cookie-card p{font-size:0.82rem;color:var(--color-text-muted);line-height:1.65;margin-bottom:0.9rem;}
+.cookie-examples{display:flex;flex-wrap:wrap;gap:0.35rem;}
+.example-tag{
+  padding:0.18rem 0.55rem;border-radius:var(--radius-full);
+  font-size:0.68rem;font-weight:600;
+  background:var(--color-bg-alt);color:var(--color-text-muted);
+  border:1px solid var(--color-border);
+}
+
+/* ============================================================
+   COOKIE TABLE
+   ============================================================ */
+.table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:1.25rem 0;border-radius:var(--radius-md);border:1.5px solid var(--color-border);}
+.cookie-table{width:100%;min-width:560px;border-collapse:collapse;font-size:0.84rem;}
+.cookie-table th{
+  text-align:left;font-family:var(--font-display);font-size:0.7rem;font-weight:700;
+  letter-spacing:0.07em;text-transform:uppercase;
+  padding:0.8rem 1rem;background:var(--color-bg-alt);color:var(--color-text-muted);
+  border-bottom:1.5px solid var(--color-border);white-space:nowrap;
+}
+.cookie-table td{
+  padding:0.9rem 1rem;border-bottom:1px solid var(--color-border);
+  color:var(--color-text-muted);line-height:1.6;vertical-align:top;
+}
+.cookie-table tr:last-child td{border-bottom:none;}
+.cookie-table tr:hover td{background:var(--color-bg-alt);}
+.cookie-table td:first-child{color:var(--color-text);font-weight:600;white-space:nowrap;}
+.cookie-table td:last-child{font-size:0.8rem;}
+.type-pill{
+  display:inline-block;padding:0.15rem 0.55rem;border-radius:var(--radius-full);
+  font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;
+  white-space:nowrap;
+}
+
+/* ============================================================
+   HOW TO MANAGE — step cards
+   ============================================================ */
+.browser-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));
+  gap:0.9rem;margin:1.25rem 0;
+}
+.browser-card{
+  background:var(--color-bg-alt);border:1.5px solid var(--color-border);
+  border-radius:var(--radius-md);padding:1.1rem;
+  display:flex;align-items:flex-start;gap:0.85rem;
+  transition:border-color var(--transition-fast);
+}
+.browser-card:hover{border-color:var(--color-primary);}
+.browser-num{
+  width:28px;height:28px;border-radius:var(--radius-sm);flex-shrink:0;
+  background:var(--color-primary);color:var(--color-on-primary);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:0.78rem;font-weight:800;
+}
+.browser-name{font-family:var(--font-display);font-size:0.88rem;font-weight:700;color:var(--color-text);margin-bottom:0.25rem;}
+.browser-path{font-size:0.75rem;color:var(--color-text-muted);line-height:1.5;}
+
+/* ============================================================
+   CALLOUTS
+   ============================================================ */
+.callout{
+  border-radius:var(--radius-md);padding:1.1rem 1.25rem;margin:1.25rem 0;
+  border:1.5px solid var(--color-border);background:var(--color-bg-alt);
+}
+.callout.amber{border-left:4px solid var(--color-primary);}
+.callout.teal{border-left:4px solid var(--color-secondary);}
+.callout.coral{border-left:4px solid var(--color-coral);}
+.callout p{font-size:0.875rem;margin:0;color:var(--color-text-muted);line-height:1.75;}
+.callout p+p{margin-top:0.65rem;}
+
+/* ============================================================
+   OPT-OUT ROW
+   ============================================================ */
+.optout-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));
+  gap:0.9rem;margin:1.25rem 0;
+}
+.optout-card{
+  background:var(--color-surface);border:1.5px solid var(--color-border);
+  border-radius:var(--radius-md);padding:1.1rem;
+  display:flex;align-items:flex-start;gap:0.85rem;
+  transition:border-color var(--transition-fast),box-shadow var(--transition-fast);
+}
+.optout-card:hover{border-color:var(--color-secondary);box-shadow:var(--shadow-sm);}
+.optout-icon{
+  width:34px;height:34px;border-radius:var(--radius-sm);flex-shrink:0;
+  background:rgba(18,117,107,0.1);
+  display:flex;align-items:center;justify-content:center;
+}
+.optout-icon svg{width:15px;height:15px;stroke:var(--color-secondary);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.optout-title{font-family:var(--font-display);font-size:0.88rem;font-weight:700;color:var(--color-text);margin-bottom:0.25rem;}
+.optout-desc{font-size:0.78rem;color:var(--color-text-muted);line-height:1.5;}
+.optout-link{font-size:0.75rem;color:var(--color-secondary);font-weight:600;margin-top:0.35rem;display:block;}
+.optout-link:hover{text-decoration:underline;}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer{border-top:1px solid var(--color-border);background:var(--color-bg-alt);padding:2rem clamp(1.25rem,4vw,2rem);}
+.footer-inner{max-width:var(--container-width);margin-inline:auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-copy{font-size:0.82rem;color:var(--color-text-muted);}
+.footer-links{display:flex;gap:1.25rem;flex-wrap:wrap;}
+.footer-links a{font-size:0.82rem;color:var(--color-text-muted);transition:color var(--transition-fast);}
+.footer-links a:hover{color:var(--color-secondary);}
+.footer-links a.current{color:var(--color-primary);font-weight:600;}
+
+/* Toast */
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--color-text);color:var(--color-bg);padding:0.75rem 1.4rem;border-radius:var(--radius-full);font-size:0.88rem;font-weight:600;box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:opacity 0.3s ease,transform 0.3s ease;z-index:9000;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:480px){
+  .page-hero h1{font-size:2rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- SVG Sprite -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="icon-spark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L14.2 9.8 L22 12 L14.2 14.2 L12 22 L9.8 14.2 L2 12 L9.8 9.8 Z"/></symbol>
+</svg>
+
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <div class="container navbar-inner">
+    <a href="../index.html" class="nav-logo" aria-label="ExoraWorld Home">
+      <div class="logo-mark"><svg class="icon"><use href="#icon-spark"/></svg></div>
+      ExoraWorld
+    </a>
+    <div class="nav-right">
+      <a href="../index.html" class="nav-back">
+        <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        <span class="nav-back-text">Home</span>
+      </a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" aria-pressed="false">
+        <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="eyebrow"><span class="eyebrow-dot"></span> Legal &amp; Privacy</div>
+    <h1>Cookie <span class="accent">Policy</span></h1>
+    <p class="lead">This page explains exactly what cookies and storage technologies ExoraWorld uses, why we use them, who places them, and how you can control or remove them.</p>
+    <div class="meta-row">
+      <span class="meta-pill">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Last updated: 2025
+      </span>
+      <span class="meta-pill">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Applies to all ExoraWorld pages
+      </span>
+      <span class="meta-pill">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
+        Bangladesh-based operator
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- AT-A-GLANCE STRIP -->
+<div class="glance-strip">
+  <div class="glance-card" style="border-top:3px solid var(--color-secondary);">
+    <div class="glance-icon" style="background:rgba(18,117,107,0.1);color:var(--color-secondary);">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
+    <div class="glance-label">Strictly Necessary</div>
+    <div class="glance-desc">Always on. Required for login, security, and core functionality.</div>
+  </div>
+  <div class="glance-card" style="border-top:3px solid var(--color-primary);">
+    <div class="glance-icon" style="background:rgba(232,164,48,0.1);color:var(--color-primary);">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+    </div>
+    <div class="glance-label">Functional</div>
+    <div class="glance-desc">Remembers your theme choice and gallery preferences.</div>
+  </div>
+  <div class="glance-card" style="border-top:3px solid #6366f1;">
+    <div class="glance-icon" style="background:rgba(99,102,241,0.1);color:#6366f1;">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    </div>
+    <div class="glance-label">Analytics</div>
+    <div class="glance-desc">Google Analytics tracks page visits and platform usage.</div>
+  </div>
+  <div class="glance-card" style="border-top:3px solid var(--color-coral);">
+    <div class="glance-icon" style="background:rgba(222,91,76,0.1);color:var(--color-coral);">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+    </div>
+    <div class="glance-label">Advertising</div>
+    <div class="glance-desc">AdSense &amp; ad network cookies that may serve personalized ads.</div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="legal-wrap">
+
+  <!-- TOC SIDEBAR -->
+  <aside class="toc-sidebar" aria-label="Table of contents">
+    <div class="toc-label">Contents</div>
+    <nav class="toc-list">
+      <a href="#s1" class="toc-item active"><span class="toc-dot"></span>What Are Cookies</a>
+      <a href="#s2" class="toc-item"><span class="toc-dot"></span>Cookie Categories</a>
+      <a href="#s3" class="toc-item"><span class="toc-dot"></span>Cookie Reference</a>
+      <a href="#s4" class="toc-item"><span class="toc-dot"></span>Browser Storage</a>
+      <a href="#s5" class="toc-item"><span class="toc-dot"></span>Third-Party Cookies</a>
+      <a href="#s6" class="toc-item"><span class="toc-dot"></span>Advertising</a>
+      <a href="#s7" class="toc-item"><span class="toc-dot"></span>Manage Cookies</a>
+      <a href="#s8" class="toc-item"><span class="toc-dot"></span>Opt-Out Options</a>
+      <a href="#s9" class="toc-item"><span class="toc-dot"></span>Your Rights</a>
+      <a href="#s10" class="toc-item"><span class="toc-dot"></span>Policy Updates</a>
+      <a href="#s11" class="toc-item"><span class="toc-dot"></span>Contact Us</a>
+    </nav>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="legal-content">
+
+    <!-- 1 -->
+    <div class="legal-section" id="s1">
+      <div class="section-label">01</div>
+      <h2>What Are Cookies?</h2>
+      <p>Cookies are small text files placed on your device by websites you visit. They serve many purposes: keeping you logged in, remembering your preferences, measuring how the site is used, and enabling advertising.</p>
+      <p>ExoraWorld uses standard browser cookies alongside two additional browser storage technologies — <strong>localStorage</strong> and <strong>sessionStorage</strong> — which work similarly to cookies but stay local to your browser and are never transmitted to a server with each request.</p>
+      <div class="callout teal">
+        <p><strong>Plain language:</strong> Cookies let us remember who you are between page loads (your login), what you prefer (dark mode), and what you've done (gallery favorites). Some are set by us directly; others are set by Google and advertising partners whose code runs on the page.</p>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="legal-section" id="s2">
+      <div class="section-label">02</div>
+      <h2>Cookie Categories</h2>
+      <p>ExoraWorld uses four categories of cookies and storage. Here's exactly what each one does and why it exists.</p>
+
+      <div class="cookie-grid">
+
+        <!-- Strictly Necessary -->
+        <div class="cookie-card" style="--ck-a:var(--color-secondary);--ck-b:#2DD4BF;">
+          <div class="cookie-card-head">
+            <div class="cookie-card-icon" style="background:rgba(18,117,107,0.1);color:var(--color-secondary);">
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <span class="cookie-badge" style="background:rgba(18,117,107,0.1);color:var(--color-secondary);">Always On</span>
+          </div>
+          <h3>Strictly Necessary</h3>
+          <p>Required for the platform to function. Cannot be disabled without breaking core features like signing in or staying logged in.</p>
+          <div class="cookie-examples">
+            <span class="example-tag">Firebase Auth token</span>
+            <span class="example-tag">Session state</span>
+            <span class="example-tag">Security tokens</span>
+          </div>
+        </div>
+
+        <!-- Functional -->
+        <div class="cookie-card" style="--ck-a:var(--color-primary);--ck-b:#F5BE6B;">
+          <div class="cookie-card-head">
+            <div class="cookie-card-icon" style="background:rgba(232,164,48,0.1);color:var(--color-primary);">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+            </div>
+            <span class="cookie-badge" style="background:rgba(232,164,48,0.1);color:var(--color-primary);">Preference</span>
+          </div>
+          <h3>Functional</h3>
+          <p>Remember your preferences across visits. Disabling these means your theme resets every session and gallery favorites won't persist.</p>
+          <div class="cookie-examples">
+            <span class="example-tag">Theme (light/dark)</span>
+            <span class="example-tag">Gallery favorites</span>
+            <span class="example-tag">exo_theme_ovr</span>
+          </div>
+        </div>
+
+        <!-- Analytics -->
+        <div class="cookie-card" style="--ck-a:#6366f1;--ck-b:#8B5CF6;">
+          <div class="cookie-card-head">
+            <div class="cookie-card-icon" style="background:rgba(99,102,241,0.1);color:#6366f1;">
+              <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+            <span class="cookie-badge" style="background:rgba(99,102,241,0.1);color:#6366f1;">Measurement</span>
+          </div>
+          <h3>Analytics</h3>
+          <p>Help us understand which parts of ExoraWorld are used most, how visitors navigate the site, and where we can improve.</p>
+          <div class="cookie-examples">
+            <span class="example-tag">Google Analytics</span>
+            <span class="example-tag">_ga / _gid</span>
+            <span class="example-tag">Session duration</span>
+          </div>
+        </div>
+
+        <!-- Advertising -->
+        <div class="cookie-card" style="--ck-a:var(--color-coral);--ck-b:#F08070;">
+          <div class="cookie-card-head">
+            <div class="cookie-card-icon" style="background:rgba(222,91,76,0.1);color:var(--color-coral);">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            </div>
+            <span class="cookie-badge" style="background:rgba(222,91,76,0.1);color:var(--color-coral);">Advertising</span>
+          </div>
+          <h3>Advertising</h3>
+          <p>Placed by Google AdSense and Meta Audience Network. Used to show relevant ads and measure ad performance. ExoraWorld does not control these directly.</p>
+          <div class="cookie-examples">
+            <span class="example-tag">Google AdSense</span>
+            <span class="example-tag">Meta Audience Network</span>
+            <span class="example-tag">Ad targeting</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="legal-section" id="s3">
+      <div class="section-label">03</div>
+      <h2>Cookie Reference Table</h2>
+      <p>The table below lists every significant cookie and storage key used on ExoraWorld, what it does, and how long it lasts.</p>
+
+      <div class="table-wrap">
+        <table class="cookie-table">
+          <thead>
+            <tr>
+              <th>Name / Key</th>
+              <th>Set By</th>
+              <th>Purpose</th>
+              <th>Type</th>
+              <th>Expires</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Firebase Auth token</td>
+              <td>Firebase (Google)</td>
+              <td>Keeps you signed in to your ExoraWorld account</td>
+              <td><span class="type-pill" style="background:rgba(18,117,107,0.1);color:var(--color-secondary);">Necessary</span></td>
+              <td>Session / auto-refresh</td>
+            </tr>
+            <tr>
+              <td>exo_theme_ovr</td>
+              <td>ExoraWorld</td>
+              <td>Stores your manual light/dark mode override for 1 hour</td>
+              <td><span class="type-pill" style="background:rgba(232,164,48,0.1);color:var(--color-primary);">Functional</span></td>
+              <td>1 hour (sessionStorage)</td>
+            </tr>
+            <tr>
+              <td>Gallery favorites</td>
+              <td>ExoraWorld</td>
+              <td>Saves favorited images locally for anonymous users. Merged into Firebase on sign-in.</td>
+              <td><span class="type-pill" style="background:rgba(232,164,48,0.1);color:var(--color-primary);">Functional</span></td>
+              <td>Until cleared (localStorage)</td>
+            </tr>
+            <tr>
+              <td>_ga</td>
+              <td>Google Analytics</td>
+              <td>Distinguishes unique users for analytics measurement</td>
+              <td><span class="type-pill" style="background:rgba(99,102,241,0.1);color:#6366f1;">Analytics</span></td>
+              <td>2 years</td>
+            </tr>
+            <tr>
+              <td>_gid</td>
+              <td>Google Analytics</td>
+              <td>Distinguishes users within a 24-hour window</td>
+              <td><span class="type-pill" style="background:rgba(99,102,241,0.1);color:#6366f1;">Analytics</span></td>
+              <td>24 hours</td>
+            </tr>
+            <tr>
+              <td>_gat</td>
+              <td>Google Analytics</td>
+              <td>Throttles request rate to Google Analytics</td>
+              <td><span class="type-pill" style="background:rgba(99,102,241,0.1);color:#6366f1;">Analytics</span></td>
+              <td>1 minute</td>
+            </tr>
+            <tr>
+              <td>IDE / DSID</td>
+              <td>Google AdSense</td>
+              <td>Used by Google to track conversions and serve targeted ads</td>
+              <td><span class="type-pill" style="background:rgba(222,91,76,0.1);color:var(--color-coral);">Advertising</span></td>
+              <td>Up to 390 days</td>
+            </tr>
+            <tr>
+              <td>_fbp</td>
+              <td>Meta Audience Network</td>
+              <td>Used by Meta to deliver advertisement products</td>
+              <td><span class="type-pill" style="background:rgba(222,91,76,0.1);color:var(--color-coral);">Advertising</span></td>
+              <td>90 days</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.65rem;">Third-party cookies (Google, Meta) may change independently. Refer to their own cookie documentation for the most current list.</p>
+    </div>
+
+    <!-- 4 -->
+    <div class="legal-section" id="s4">
+      <div class="section-label">04</div>
+      <h2>Browser Storage (localStorage &amp; sessionStorage)</h2>
+      <p>Alongside cookies, ExoraWorld uses two browser-native storage mechanisms. Unlike cookies, these are never sent to our server — they exist only in your browser.</p>
+      <h3>sessionStorage</h3>
+      <p>Used for one key: <strong>exo_theme_ovr</strong>. When you manually toggle the light/dark theme, your choice is saved here with a 1-hour expiry so it persists as you navigate across pages. When the session ends or the hour expires, ExoraWorld returns to automatically choosing the theme based on your local time (light 6am–7pm, dark otherwise).</p>
+      <h3>localStorage</h3>
+      <p>Used to store gallery favorites for users who are not signed in. This means you can heart images and they'll still be there when you come back — even without an account. When you sign in, this local data is merged into your Firebase account so nothing is lost.</p>
+      <div class="callout amber">
+        <p><strong>How to clear browser storage:</strong> Open your browser's DevTools (F12), go to the Application tab, then Storage → localStorage / sessionStorage, and select the ExoraWorld origin to delete entries individually or clear all. Alternatively, clearing your browser's site data from settings removes everything at once.</p>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="legal-section" id="s5">
+      <div class="section-label">05</div>
+      <h2>Third-Party Cookies &amp; Services</h2>
+      <p>ExoraWorld integrates third-party services that place their own cookies. We do not control these cookies and they are governed by each provider's own privacy and cookie policies.</p>
+      <ul>
+        <li><strong>Firebase (Google LLC):</strong> Powers account authentication and the gallery database. Sets authentication tokens and session cookies. Governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a>.</li>
+        <li><strong>Google Analytics:</strong> Tracks page visits, session duration, and navigation flows to help us improve the platform. Governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a>.</li>
+        <li><strong>Google AdSense:</strong> Serves display advertisements. Uses cookies and device identifiers to show relevant ads based on your browsing behavior across the web. Governed by <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">Google's Ads Policy</a>.</li>
+        <li><strong>Meta Audience Network:</strong> May serve ads on ExoraWorld. Sets cookies related to Meta's ad targeting systems. Governed by <a href="https://www.facebook.com/privacy/policy/" target="_blank" rel="noopener noreferrer">Meta's Privacy Policy</a>.</li>
+        <li><strong>rss2json.com:</strong> Processes our news RSS feed requests. Does not receive user-identifying data from ExoraWorld visitors and does not place cookies on visitor devices.</li>
+        <li><strong>Google Fonts:</strong> Fonts are loaded from Google's servers. Google may log the request (IP address, browser) per their standard infrastructure logging. No user-identifying cookies are set for this.</li>
+      </ul>
+      <div class="callout coral">
+        <p>Clicking a news article link or social media link takes you away from ExoraWorld. Once you are on a third-party site, their own cookie and privacy policies apply entirely. ExoraWorld has no visibility into or control over what those sites do.</p>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="legal-section" id="s6">
+      <div class="section-label">06</div>
+      <h2>Advertising &amp; Personalized Ads</h2>
+      <p>Advertising helps ExoraWorld stay free to use. We use Google AdSense and may use Meta Audience Network to display ads across the platform.</p>
+      <p>These networks may show you <strong>personalized ads</strong> — advertisements tailored to your interests based on your browsing history across many websites — or <strong>non-personalized ads</strong> that are based only on the page you're currently viewing, not your profile.</p>
+      <ul>
+        <li><strong>How personalization works:</strong> Google reads its own cookies (like IDE) to understand what topics interest you across the web, then matches those interests to advertisers bidding for ad space on ExoraWorld.</li>
+        <li><strong>What ExoraWorld shares:</strong> We share the page URL and contextual signals with ad networks. We do not share your name, email, or order history with advertisers.</li>
+        <li><strong>Opting out:</strong> You can turn off personalized ads entirely. Your options are in Section 8 below. If you opt out, you will still see ads — just not personalized ones.</li>
+      </ul>
+      <div class="callout teal">
+        <p>Opting out of personalized advertising does not mean you will see no ads on ExoraWorld. Non-personalized, contextual ads may still appear. These are based solely on what the current page is about, not on your browsing history.</p>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="legal-section" id="s7">
+      <div class="section-label">07</div>
+      <h2>How to Manage Cookies in Your Browser</h2>
+      <p>Every major browser lets you view, block, or delete cookies. Here's where to find the settings in the most common browsers. Note that blocking all cookies will break your ExoraWorld login.</p>
+
+      <div class="browser-grid">
+        <div class="browser-card">
+          <div class="browser-num">Ch</div>
+          <div>
+            <div class="browser-name">Chrome</div>
+            <div class="browser-path">Settings → Privacy and security → Cookies and other site data</div>
+          </div>
+        </div>
+        <div class="browser-card">
+          <div class="browser-num">Ff</div>
+          <div>
+            <div class="browser-name">Firefox</div>
+            <div class="browser-path">Settings → Privacy &amp; Security → Cookies and Site Data → Manage Data</div>
+          </div>
+        </div>
+        <div class="browser-card">
+          <div class="browser-num">Sa</div>
+          <div>
+            <div class="browser-name">Safari</div>
+            <div class="browser-path">Preferences → Privacy → Manage Website Data → Remove All</div>
+          </div>
+        </div>
+        <div class="browser-card">
+          <div class="browser-num">Ed</div>
+          <div>
+            <div class="browser-name">Edge</div>
+            <div class="browser-path">Settings → Cookies and site permissions → Cookies and site data</div>
+          </div>
+        </div>
+        <div class="browser-card">
+          <div class="browser-num">Br</div>
+          <div>
+            <div class="browser-name">Brave</div>
+            <div class="browser-path">Settings → Privacy and security → Cookies and other site data</div>
+          </div>
+        </div>
+        <div class="browser-card">
+          <div class="browser-num">Op</div>
+          <div>
+            <div class="browser-name">Opera</div>
+            <div class="browser-path">Settings → Advanced → Privacy &amp; security → Site settings → Cookies</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout amber">
+        <p><strong>What breaks if you block all cookies:</strong> Firebase Authentication cannot maintain your session, so you'll be signed out on every page load. Gallery favorites stored in localStorage are not affected by blocking cookies, but sign-in-based favorites in Firestore require an active session.</p>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="legal-section" id="s8">
+      <div class="section-label">08</div>
+      <h2>Opt-Out Options</h2>
+      <p>You have several ways to reduce or eliminate tracking and personalized advertising on ExoraWorld and across the web.</p>
+
+      <div class="optout-grid">
+        <div class="optout-card">
+          <div class="optout-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+          </div>
+          <div>
+            <div class="optout-title">Google Ad Settings</div>
+            <div class="optout-desc">Turn off personalized Google ads across all sites you visit.</div>
+            <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer" class="optout-link">adssettings.google.com ↗</a>
+          </div>
+        </div>
+        <div class="optout-card">
+          <div class="optout-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" y1="11" x2="23" y2="11"/></svg>
+          </div>
+          <div>
+            <div class="optout-title">NAI Opt-Out</div>
+            <div class="optout-desc">Opt out of member ad networks using the Network Advertising Initiative tool.</div>
+            <a href="https://optout.networkadvertising.org" target="_blank" rel="noopener noreferrer" class="optout-link">optout.networkadvertising.org ↗</a>
+          </div>
+        </div>
+        <div class="optout-card">
+          <div class="optout-icon">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div>
+            <div class="optout-title">Google Analytics Opt-Out</div>
+            <div class="optout-desc">Install the Google Analytics browser add-on to stop analytics tracking entirely.</div>
+            <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class="optout-link">tools.google.com/dlpage/gaoptout ↗</a>
+          </div>
+        </div>
+        <div class="optout-card">
+          <div class="optout-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+          </div>
+          <div>
+            <div class="optout-title">Your Browser Settings</div>
+            <div class="optout-desc">Block all third-party cookies directly in your browser. See Section 7 for browser-specific steps.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="legal-section" id="s9">
+      <div class="section-label">09</div>
+      <h2>Your Rights</h2>
+      <p>Depending on where you are located, you may have legal rights regarding how your data is collected and processed via cookies. These include:</p>
+      <ul>
+        <li><strong>Right to be Informed:</strong> This Cookie Policy exists to satisfy that right — you're reading it now.</li>
+        <li><strong>Right to Withdraw Consent:</strong> You can clear cookies and opt out of non-essential tracking at any time using the methods in Sections 7 and 8.</li>
+        <li><strong>Right to Access:</strong> Contact us to ask what data has been collected about you via cookies or analytics tracking.</li>
+        <li><strong>GDPR / UK GDPR (EEA &amp; UK users):</strong> You have enhanced rights under European data protection law, including the right to object to processing based on legitimate interests and the right to lodge a complaint with your local data protection authority.</li>
+        <li><strong>CCPA (California users):</strong> You have the right to opt out of the "sale" of personal information, which under CCPA may include sharing behavioral data with advertising networks. Use the opt-out links in Section 8.</li>
+      </ul>
+      <p>ExoraWorld is operated from Bangladesh. We honor the rights listed above to the extent applicable to our operation. Contact us at the details in Section 11 to exercise any of these rights.</p>
+    </div>
+
+    <!-- 10 -->
+    <div class="legal-section" id="s10">
+      <div class="section-label">10</div>
+      <h2>Policy Updates</h2>
+      <p>We may update this Cookie Policy when we add new features, integrate new third-party services, or when legal requirements change. When we do:</p>
+      <ul>
+        <li>The "Last updated" date at the top of this page will change.</li>
+        <li>If the changes are material — for example, we start using a new advertising network — we will note that prominently on this page for 30 days.</li>
+        <li>Continued use of ExoraWorld after an update constitutes acceptance of the revised Cookie Policy.</li>
+      </ul>
+      <p>Bookmark this page or check it periodically if you want to stay current on how ExoraWorld handles cookies.</p>
+    </div>
+
+    <!-- 11 -->
+    <div class="legal-section" id="s11">
+      <div class="section-label">11</div>
+      <h2>Contact Us</h2>
+      <p>If you have questions about this Cookie Policy, want to exercise a data right, or believe your cookie preferences have not been respected, reach out directly:</p>
+      <ul>
+        <li><strong>Email:</strong> <a href="mailto:theexoraworld@gmail.com">theexoraworld@gmail.com</a> — Use the subject line <strong>"Cookie Policy — [Your Question]"</strong> for fastest routing.</li>
+        <li><strong>Response time:</strong> Cookie and privacy questions are answered within 30 days. Urgent data breach concerns within 72 hours.</li>
+        <li><strong>Operator:</strong> ExoraWorld, operated independently from Bangladesh by MD Abid Hasan.</li>
+      </ul>
+      <div class="callout teal">
+        <p>We are a solo-operated platform and take privacy questions seriously. Every message is read by a real person — no automated form-letter replies.</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="footer-copy">© <span id="yr"></span> ExoraWorld. All rights reserved.</p>
+    <nav class="footer-links">
+      <a href="about.html">About</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="cookies.html" class="current">Cookies</a>
+      <a href="../index.html">Home</a>
+    </nav>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Theme toggle
+(function(){
+  var root = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var OVR_KEY = 'exo_theme_ovr';
+  function autoTheme(){ var h = new Date().getHours(); return (h >= 6 && h < 19) ? 'light' : 'dark'; }
+  function saveOverride(t){ try{ sessionStorage.setItem(OVR_KEY, JSON.stringify({t:t,exp:Date.now()+3600000})); }catch(e){} }
+  function loadOverride(){ try{ var d=JSON.parse(sessionStorage.getItem(OVR_KEY)||'null'); if(d&&Date.now()<d.exp)return d.t; sessionStorage.removeItem(OVR_KEY); }catch(e){} return null; }
+  function applyTheme(t){ root.setAttribute('data-theme', t); toggle.setAttribute('aria-pressed', t==='dark'?'true':'false'); }
+  applyTheme(loadOverride() || autoTheme());
+  toggle.addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next); saveOverride(next);
+  });
+  setInterval(function(){
+    var desired = loadOverride() || autoTheme();
+    if(root.getAttribute('data-theme') !== desired) applyTheme(desired);
+  }, 60000);
+})();
+
+// Navbar shadow on scroll
+(function(){
+  var nav = document.getElementById('navbar');
+  function onScroll(){ nav.classList.toggle('scrolled', window.scrollY > 20); }
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+})();
+
+// Scroll reveal for sections
+(function(){
+  if(!('IntersectionObserver' in window)){
+    document.querySelectorAll('.legal-section').forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, {threshold: 0.06});
+  document.querySelectorAll('.legal-section').forEach(function(el){ obs.observe(el); });
+})();
+
+// TOC scroll spy
+(function(){
+  var sections = document.querySelectorAll('.legal-section[id]');
+  var items = document.querySelectorAll('.toc-item');
+  if(!('IntersectionObserver' in window)) return;
+  var spy = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        items.forEach(function(t){ t.classList.remove('active'); });
+        var a = document.querySelector('.toc-item[href="#'+e.target.id+'"]');
+        if(a) a.classList.add('active');
+      }
+    });
+  }, {rootMargin: '-20% 0px -70% 0px'});
+  sections.forEach(function(s){ spy.observe(s); });
+})();
+</script>
+</body>
+</html>
