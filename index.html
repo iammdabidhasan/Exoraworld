@@ -10,6 +10,58 @@
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+<!-- Open Graph — controls how the page looks when shared on Facebook, WhatsApp, Discord, etc. -->
+<meta property="og:type"        content="website" />
+<meta property="og:url"         content="https://exoraworld.com/" />
+<meta property="og:title"       content="ExoraWorld — Your All-In-One Digital World" />
+<meta property="og:description" content="Tools, games, news, and a store — all in one bright, beautifully simple place. Join ExoraWorld free." />
+<meta property="og:image"       content="https://exoraworld.com/sources/og-image.png" />
+<meta property="og:site_name"   content="ExoraWorld" />
+
+<!-- Twitter / X card -->
+<meta name="twitter:card"        content="summary_large_image" />
+<meta name="twitter:site"        content="@Exoraworld" />
+<meta name="twitter:title"       content="ExoraWorld — Your All-In-One Digital World" />
+<meta name="twitter:description" content="Tools, games, news, and a store — all in one bright, beautifully simple place. Join free." />
+<meta name="twitter:image"       content="https://exoraworld.com/sources/og-image.png" />
+
+<!-- Canonical URL — prevents duplicate-content penalties in search -->
+<link rel="canonical" href="https://exoraworld.com/" />
+
+<!-- Structured data — helps Google show your site name, logo & social links in search results -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://exoraworld.com/#website",
+      "url": "https://exoraworld.com/",
+      "name": "ExoraWorld",
+      "description": "Tools, games, news, and a store — all in one digital world.",
+      "potentialAction": { "@type": "SearchAction", "target": "https://exoraworld.com/search?q={search_term_string}", "query-input": "required name=search_term_string" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://exoraworld.com/#organization",
+      "name": "ExoraWorld",
+      "url": "https://exoraworld.com/",
+      "logo": { "@type": "ImageObject", "url": "https://exoraworld.com/sources/og-image.png" },
+      "email": "theexoraworld@gmail.com",
+      "founder": { "@type": "Person", "name": "MD Abid Hasan" },
+      "sameAs": [
+        "https://facebook.com/exoraworld",
+        "https://x.com/Exoraworld",
+        "https://instagram.com/theexoraworld",
+        "https://discord.gg/f84dEvu2q",
+        "https://www.youtube.com/@ExoraWorld"
+      ]
+    }
+  ]
+}
+</script>
+
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23E8A430'/%3E%3Ccircle cx='12' cy='12' r='5' fill='%2317171A'/%3E%3C/svg%3E" />
 
 <!-- Fonts: Bricolage Grotesque (display/personality) + Inter (body/workhorse) -->
@@ -25,7 +77,9 @@
 
 <!-- Runs before paint: sets theme from time of day (matches initTheme logic exactly)
      so there is zero flash of the wrong colour on load. Also respects a manual
-     override stored in sessionStorage (set when user clicks the toggle). -->
+     override stored in sessionStorage (set when user clicks the toggle).
+     Also marks returning visitors so the intro loader is suppressed instantly,
+     before the browser paints a single frame. -->
 <script>
   (function () {
     try {
@@ -34,6 +88,16 @@
       var h = new Date().getHours();
       var timeTheme = (h >= 6 && h < 19) ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', stored || timeTheme);
+    } catch (e) {}
+
+    // Smart loader gate — hide the intro instantly for returning visitors so
+    // it never flickers on inter-page navigation. The flag lives in
+    // sessionStorage (cleared when the tab closes), so the animation plays
+    // once per browser session — a fresh tab or a new visit always gets it.
+    try {
+      if (sessionStorage.getItem('exo_intro_shown')) {
+        document.documentElement.classList.add('exo-no-intro');
+      }
     } catch (e) {}
   })();
 </script>
@@ -656,7 +720,7 @@
   }
   .exo-trigger:hover { transform: scale(1.08); }
   .exo-trigger .icon { width: 25px; height: 25px; }
-  .exo-trigger-pulse { position: absolute; inset: -5px; border-radius: 50%; border: 2px solid var(--color-primary); opacity: 0.5; animation: exo-pulse-ring 2.6s ease-out infinite; pointer-events: none; }
+  .exo-trigger-pulse { position: absolute; inset: -5px; border-radius: 50%; border: 2px solid var(--color-primary); opacity: 0.5; animation: exo-pulse-ring 2.6s ease-out infinite; pointer-events: none; display: none; }
   @keyframes exo-pulse-ring { 0% { transform: scale(0.9); opacity: 0.55; } 100% { transform: scale(1.45); opacity: 0; } }
 
   .exo-panel {
@@ -897,6 +961,9 @@
     transition: opacity 0.9s cubic-bezier(0.4,0,0.2,1), visibility 0.9s cubic-bezier(0.4,0,0.2,1);
   }
   #exo-loader.exo-done { opacity: 0; visibility: hidden; pointer-events: none; }
+  /* Returning visitor: loader is gone before the first paint — no flicker,
+     no scroll lock, zero cost. The class is set in the <head> script above. */
+  html.exo-no-intro #exo-loader { display: none !important; }
   #exo-loader::before {
     content: ''; position: absolute; top: 50%; left: 50%;
     width: 540px; height: 540px;
@@ -1076,6 +1143,199 @@
   /* Hide on very small screens where nav is already cramped */
   @media (max-width: 1260px) { .nav-clock { display: none !important; } }
   .nav-clock-sec { display: none; }
+
+  /* Early-access badge in hero */
+  .hero-beta-badge {
+    display: inline-block;
+    background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    color: var(--color-primary);
+    border: 1px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em;
+    padding: 0.2rem 0.65rem; vertical-align: middle;
+  }
+
+  /* Mobile nav — theme toggle row at the bottom of the panel */
+  .nav-theme-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.9rem var(--space-sm);
+    border-top: 1px solid var(--color-border);
+    margin-top: 0.75rem;
+    font-size: 0.875rem; font-weight: 500; color: var(--color-text-muted);
+  }
+
+  /* Newsletter inline success message */
+  .newsletter-success-msg {
+    display: flex; align-items: center; gap: 0.6rem;
+    color: var(--color-secondary); font-weight: 600; font-size: 0.9rem;
+    padding: 0.4rem 0;
+  }
+
+  /* ==========================================================================
+     CONSENT BANNER
+     GDPR-style privacy bar. Slides up from the bottom on first visit.
+     Fully theme-aware (light + dark). No external deps.
+     ========================================================================== */
+  #exo-consent {
+    position: fixed;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(calc(100% + 2.5rem));
+    width: calc(100% - 2rem);
+    max-width: 860px;
+    z-index: 9998;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.55s cubic-bezier(0.34, 1.4, 0.64, 1),
+                opacity   0.4s ease;
+  }
+  #exo-consent.exo-consent-visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #exo-consent.exo-consent-hiding {
+    transform: translateX(-50%) translateY(calc(100% + 2.5rem));
+    opacity: 0;
+    pointer-events: none;
+  }
+  .exo-consent-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg), 0 0 0 1px rgba(0,0,0,0.04);
+    padding: 1.4rem 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+  .exo-consent-main { flex: 1; min-width: 0; }
+  .exo-consent-head {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 0.45rem;
+  }
+  .exo-consent-icon { font-size: 1.3rem; line-height: 1; flex-shrink: 0; }
+  .exo-consent-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  .exo-consent-desc {
+    font-size: 0.845rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: 0.6rem;
+  }
+  .exo-consent-toggle {
+    background: none; border: none; cursor: pointer;
+    font-size: 0.79rem; font-weight: 600;
+    color: var(--color-secondary);
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    padding: 0; transition: color var(--transition-fast);
+  }
+  .exo-consent-toggle:hover { color: var(--color-secondary-hover); }
+  .exo-consent-arrow {
+    display: inline-block;
+    transition: transform 0.25s ease;
+    font-style: normal; line-height: 1;
+  }
+  .exo-consent-toggle[aria-expanded="true"] .exo-consent-arrow {
+    transform: rotate(180deg);
+  }
+  /* Smooth expand via CSS grid trick — no JS height calculations needed */
+  .exo-consent-details {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+  .exo-consent-details.open { grid-template-rows: 1fr; }
+  .exo-consent-details-inner { overflow: hidden; }
+  .exo-consent-row {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 1rem;
+    padding: 0.7rem 0;
+    border-top: 1px solid var(--color-border);
+    margin-top: 0.6rem;
+  }
+  .exo-consent-row-label {
+    font-size: 0.82rem; font-weight: 600;
+    color: var(--color-text); margin-bottom: 0.2rem;
+  }
+  .exo-consent-row-desc {
+    font-size: 0.77rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+  .exo-consent-badge {
+    flex-shrink: 0; font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 0.22rem 0.6rem; border-radius: var(--radius-full);
+    margin-top: 0.1rem;
+  }
+  .exo-consent-badge.always {
+    background: rgba(18,117,107,0.12); color: var(--color-secondary);
+    border: 1px solid rgba(18,117,107,0.25);
+  }
+  .exo-consent-badge.optional {
+    background: rgba(232,164,48,0.12); color: var(--color-primary);
+    border: 1px solid rgba(232,164,48,0.3);
+  }
+  .exo-consent-actions {
+    display: flex; flex-direction: column;
+    gap: 0.6rem; flex-shrink: 0; min-width: 152px;
+    justify-content: center; align-self: center;
+  }
+  .exo-consent-btn {
+    border: none; border-radius: var(--radius-md);
+    cursor: pointer; font-size: 0.855rem; font-weight: 700;
+    padding: 0.65rem 1rem; text-align: center;
+    transition: all var(--transition-fast); white-space: nowrap;
+  }
+  .exo-consent-btn-primary {
+    background: var(--color-primary); color: var(--color-on-primary);
+  }
+  .exo-consent-btn-primary:hover {
+    background: var(--color-primary-hover); transform: translateY(-1px);
+  }
+  .exo-consent-btn-secondary {
+    background: transparent; color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+  }
+  .exo-consent-btn-secondary:hover {
+    border-color: var(--color-text-muted); color: var(--color-text);
+  }
+  @media (max-width: 600px) {
+    #exo-consent { bottom: 0.75rem; width: calc(100% - 1.5rem); }
+    .exo-consent-card { flex-direction: column; gap: 1rem; padding: 1.2rem; }
+    .exo-consent-actions { flex-direction: row; min-width: unset; align-self: stretch; }
+    .exo-consent-btn { flex: 1; }
+  }
+
+  /* ==========================================================================
+     BOT WALL — full-screen block for confirmed automated access
+     ========================================================================== */
+  #exo-bot-wall {
+    display: none; position: fixed; inset: 0; z-index: 99999;
+    background: #0B0B0E; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 2rem;
+  }
+  #exo-bot-wall.active { display: flex; }
+  .exo-bot-icon { font-size: 4rem; margin-bottom: 1.25rem; }
+  .exo-bot-title {
+    font-family: var(--font-display); font-size: 1.7rem;
+    font-weight: 800; color: #E8A430; margin-bottom: 0.75rem;
+  }
+  .exo-bot-text {
+    font-size: 0.9rem; color: rgba(255,255,255,0.55);
+    max-width: 380px; line-height: 1.7;
+  }
 </style>
 </head>
 <body>
@@ -1143,6 +1403,60 @@
   </div>
 
   <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============================================================
+       PRIVACY CONSENT BANNER
+       Shows once per browser (localStorage). Consent-gates analytics.
+       "Necessary only" still runs security/device/anti-bot modules.
+       ============================================================ -->
+  <div id="exo-consent" role="dialog" aria-modal="false" aria-label="Privacy preferences">
+    <div class="exo-consent-card">
+      <div class="exo-consent-main">
+        <div class="exo-consent-head">
+          <span class="exo-consent-icon" aria-hidden="true">🍪</span>
+          <p class="exo-consent-title">We value your privacy</p>
+        </div>
+        <p class="exo-consent-desc">ExoraWorld uses cookies and similar technology to keep the site secure, understand how visitors use it, and improve your experience. You choose what we collect.</p>
+        <button class="exo-consent-toggle" id="exoConsentToggle" aria-expanded="false" aria-controls="exoConsentDetails">
+          Show details <i class="exo-consent-arrow" aria-hidden="true">▾</i>
+        </button>
+        <div class="exo-consent-details" id="exoConsentDetails">
+          <div class="exo-consent-details-inner">
+            <div class="exo-consent-row">
+              <div>
+                <p class="exo-consent-row-label">Necessary</p>
+                <p class="exo-consent-row-desc">Session security, anti-bot protection, and one-account-per-device enforcement. Required for the site to function. Cannot be disabled.</p>
+              </div>
+              <span class="exo-consent-badge always">Always on</span>
+            </div>
+            <div class="exo-consent-row">
+              <div>
+                <p class="exo-consent-row-label">Analytics &amp; Performance</p>
+                <p class="exo-consent-row-desc">Anonymised region detection, page views, scroll depth, and click patterns. Helps us understand what works and improve the experience.</p>
+              </div>
+              <span class="exo-consent-badge optional">Optional</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="exo-consent-actions">
+        <button class="exo-consent-btn exo-consent-btn-primary" id="exoConsentAll">Accept all</button>
+        <button class="exo-consent-btn exo-consent-btn-secondary" id="exoConsentNec">Necessary only</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bot wall — only shown when automated scraping is confirmed -->
+  <div id="exo-bot-wall" role="alert" aria-live="assertive">
+    <div class="exo-bot-icon" aria-hidden="true">🤖</div>
+    <p class="exo-bot-title">Automated access detected</p>
+    <p class="exo-bot-text">This site is for humans only. Automated scraping or bot access is not permitted. If you believe this is a mistake, please contact us.</p>
+  </div>
+
+  <!-- Honeypot — invisible to real users, filled by bots and gets flagged -->
+  <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;pointer-events:none;">
+    <input type="text" name="exo_hp_field" id="exoHoneypot" tabindex="-1" autocomplete="off" />
+  </div>
 
   <!-- Mobile nav backdrop overlay -->
   <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
@@ -1281,6 +1595,15 @@
       <a href="pages/help.html" class="nav-split-label">Help</a>
       <a href="#help" class="nav-split-arrow" aria-label="Jump to the Help section on this page"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
     </span>
+
+    <!-- Theme toggle — mobile users had no way to override the auto time-based theme -->
+    <div class="nav-theme-row">
+      <span>Appearance</span>
+      <button class="theme-toggle" id="themeToggleMobile" aria-label="Toggle dark and light theme" aria-pressed="false">
+        <svg class="icon icon-sun" aria-hidden="true"><use href="#icon-sun"/></svg>
+        <svg class="icon icon-moon" aria-hidden="true"><use href="#icon-moon"/></svg>
+      </button>
+    </div>
   </nav>
 
   <main id="main">
@@ -1297,7 +1620,7 @@
             <button class="btn btn-primary" data-auth-open="signup">Get Started Free</button>
             <a href="#games" class="btn btn-secondary">Explore Games</a>
           </div>
-          <p class="hero-proof"><strong>Warning:</strong> currently under development</p>
+          <p class="hero-proof"><span class="hero-beta-badge">⚡ Early Access</span> — new features ship every month. Your feedback shapes what comes next.</p>
         </div>
       </div>
       <a href="#store" class="scroll-indicator" aria-label="Scroll to explore">
@@ -1316,7 +1639,7 @@
 
         <div class="card-grid">
           <article class="card product-card reveal" style="--i:0">
-            <div class="card-media" role="img" aria-label="Aurora Hoodie product photo">
+            <div class="card-media" role="img" aria-label="Media Harvester product photo">
               <img src="sources/mediaharvester.png" alt="Aurora Hoodie" />
               <span class="badge badge-solid badge-corner">Bestseller</span>
             </div>
@@ -1331,7 +1654,7 @@
           </article>
 
           <article class="card product-card reveal" style="--i:1">
-            <div class="card-media" role="img" aria-label="Pulse Earbuds X2 product photo">
+            <div class="card-media" role="img" aria-label="Web Templates product photo">
               <img src="sources/webtemplates.png" alt="Pulse Earbuds X2" />
               <span class="badge badge-solid badge-corner">New</span>
             </div>
@@ -1346,7 +1669,7 @@
           </article>
 
           <article class="card product-card reveal" style="--i:2">
-            <div class="card-media" role="img" aria-label="Nova Backpack Pro product photo">
+            <div class="card-media" role="img" aria-label="Custom Code product photo">
               <img src="sources/customcode.png" alt="Nova Backpack Pro" />
             </div>
             <div class="card-body">
@@ -1404,8 +1727,8 @@
                 <span class="badge badge-tint">Fantasy RPG</span>
                 <span class="rating"><span class="star" aria-hidden="true">★</span> 4.9</span>
               </div>
-              <h3>Void Runnner x</h3>
-              <p class="card-desc">Run through the obsticles and use abilities to win.</p>
+              <h3>Void Runner X</h3>
+              <p class="card-desc">Run through the obstacles and use abilities to win.</p>
               <div class="card-foot">
                 <button class="btn btn-sm btn-primary" data-add-cart="Mystic Realms">
                   <svg class="icon" aria-hidden="true" style="width:14px;height:14px"><use href="#icon-play"/></svg> Play Now
@@ -1459,33 +1782,33 @@
               <span class="news-date">Jul 18, 2026</span>
               <h3>Winter Collection Drops This Friday</h3>
               <p class="card-desc">New hoodies, gear, and limited colorways land in the ExoraWorld Store — here's a first look.</p>
-              <a href="#news" class="news-link">Read More <svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+              <a href="pages/news.html" class="news-link">Read More <svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
             </div>
           </article>
 
           <article class="card reveal" style="--i:1">
             <div class="card-media" role="img" aria-label="Skyfall Arena Season 4 news thumbnail">
-              <img src="sources/skyfalls4.png" alt="Skyfall Arena Season 4" />
+              <img src="sources/skyfalls4.png" alt="Skyfall Arena Season 4" loading="lazy" />
             </div>
             <div class="card-body">
               <span class="badge badge-tint">Games</span>
               <span class="news-date">Jul 12, 2026</span>
               <h3>Skyfall Arena: Season 4 Is Live</h3>
               <p class="card-desc">A new map, new legends, and a reworked ranking system arrive today.</p>
-              <a href="#news" class="news-link">Read More <svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+              <a href="pages/news.html" class="news-link">Read More <svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
             </div>
           </article>
 
           <article class="card reveal" style="--i:2">
             <div class="card-media" role="img" aria-label="Community Spotlight news thumbnail">
-              <img src="sources/topcreators.png" alt="Community Spotlight" />
+              <img src="sources/topcreators.png" alt="Community Spotlight" loading="lazy" />
             </div>
             <div class="card-body">
               <span class="badge badge-tint">Community</span>
               <span class="news-date">Jul 05, 2026</span>
               <h3>Meet July's Top Creators</h3>
               <p class="card-desc">Five community creators who went above and beyond this month, celebrated.</p>
-              <a href="#news" class="news-link">Read More <svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+              <a href="pages/news.html" class="news-link">Read More <svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
             </div>
           </article>
         </div>
@@ -1728,12 +2051,8 @@
                   <div><h4>Email</h4><a href="mailto:theexoraworld@gmail.com">theexoraworld@gmail.com</a></div>
                 </div>
                 <div class="contact-info-item">
-                  <span class="icon-badge"><svg class="icon"><use href="#icon-phone"/></svg></span>
-                  <div><h4>Phone</h4><a href="tel:+15125550142">+1 (512) 555-0142</a></div>
-                </div>
-                <div class="contact-info-item">
-                  <span class="icon-badge"><svg class="icon"><use href="#icon-pin"/></svg></span>
-                  <div><h4>Office</h4><p>128 Innovation Way, Suite 400<br>Austin, TX 78701</p></div>
+                  <span class="icon-badge"><svg class="icon"><use href="#icon-discord"/></svg></span>
+                  <div><h4>Discord</h4><a href="https://discord.gg/f84dEvu2q" target="_blank" rel="noopener noreferrer">Join our server</a></div>
                 </div>
               </div>
               <h4 style="font-size:0.85rem; color:var(--color-text-muted); margin-bottom:0.75rem;">Follow ExoraWorld</h4>
@@ -1947,11 +2266,11 @@
       <span class="exo-header-avatar"><svg class="icon" aria-hidden="true"><use href="#icon-spark"/></svg></span>
       <div class="exo-header-info">
         <strong>Exo</strong>
-        <span class="exo-header-status"><span class="dot" aria-hidden="true"></span> Guide to ExoraWorld</span>
+        <span class="exo-header-status"><span class="dot" aria-hidden="true"></span> Chat · Order · Always on</span>
       </div>
       <button class="exo-close" id="exoClose" aria-label="Close chat"><svg class="icon"><use href="#icon-close"/></svg></button>
     </div>
-    <div class="exo-msgs" id="exoMsgs"></div>
+    <div class="exo-msgs" id="exoMsgs" aria-live="polite" aria-label="Chat messages"></div>
     <div class="exo-suggestions" id="exoSuggestions"></div>
     <div class="exo-input-row">
       <input type="text" id="exoInput" placeholder="Ask Exo anything…" autocomplete="off" />
@@ -1999,10 +2318,13 @@
         return null;
       }
 
-      // Apply and sync aria-pressed on the toggle button
+      // Apply and sync aria-pressed on both desktop and mobile toggles
       function applyTheme(t) {
         root.setAttribute('data-theme', t);
-        toggle.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+        var pressed = t === 'dark' ? 'true' : 'false';
+        toggle.setAttribute('aria-pressed', pressed);
+        var mt = document.getElementById('themeToggleMobile');
+        if (mt) mt.setAttribute('aria-pressed', pressed);
       }
 
       // Boot — respect override if user set one, otherwise use time
@@ -2029,6 +2351,16 @@
         applyTheme(next);
         saveOverride(next);
       });
+
+      // Mobile panel toggle — same logic, shared applyTheme keeps both in sync
+      var mobileToggle = document.getElementById('themeToggleMobile');
+      if (mobileToggle) {
+        mobileToggle.addEventListener('click', function () {
+          var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          applyTheme(next);
+          saveOverride(next);
+        });
+      }
     }
 
     // ---- Live clock in the navbar --------------------------------------------
@@ -2459,8 +2791,12 @@
       newsletterForm.addEventListener('submit', function (e) {
         e.preventDefault();
         if (!newsletterForm.checkValidity()) { newsletterForm.reportValidity(); return; }
-        showToast("You're subscribed! Watch your inbox.");
-        newsletterForm.reset();
+        // Replace form fields with inline success — much clearer than a toast for a form submit
+        newsletterForm.innerHTML =
+          '<p class="newsletter-success-msg">' +
+          '<svg style="width:1.1em;height:1.1em;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>' +
+          "You're in! We'll be in touch soon." +
+          '</p>';
       });
 
       document.querySelectorAll('[data-add-cart]').forEach(function (btn) {
@@ -2479,6 +2815,12 @@
     // ---- Gravity Spark Loader ----------------------------------------------------
     (function () {
       'use strict';
+
+      // Bail out immediately for returning visitors within the same session.
+      // The <head> script already hid the loader element via CSS before paint,
+      // so there is nothing to do here — no scroll lock, no timers, no DOM work.
+      if (document.documentElement.classList.contains('exo-no-intro')) return;
+
       var BRAND  = 'ExoraWorld';
       var COLORS = ['#E8A430','#F0AC42','#F5BE6B','#DE5B4C','#12756B','#2DD4BF'];
       var MSGS   = [
@@ -2564,6 +2906,13 @@
         // Use the shared scroll-lock manager so other open overlays keep scroll locked
         if (typeof window._updateBodyScroll === 'function') window._updateBodyScroll();
         else document.body.classList.remove('no-scroll');
+        // Stamp the session so every subsequent page visit within this tab
+        // skips the intro animation entirely (detected in the <head> script
+        // before the first paint, so there is zero flicker on return).
+        try { sessionStorage.setItem('exo_intro_shown', '1'); } catch (e) {}
+        // Signal other modules (e.g. consent banner) that the loader is done.
+        // Fired after the fade-out transition starts; listeners add their own offset.
+        try { window.dispatchEvent(new CustomEvent('exo:loader-done')); } catch (e) {}
       }
 
       var T0  = Date.now();
@@ -2597,6 +2946,649 @@
         initLoader();
     }());
 
+    // ==========================================================================
+    // ExoConsent — Privacy preference store
+    // Persists the visitor's choice in localStorage so the banner never
+    // re-appears. Fires a DOM event so other modules can react in real time.
+    // ==========================================================================
+    var ExoConsent = (function () {
+      'use strict';
+      var KEY  = 'exo_consent_v1';
+      var _pref = null;
+
+      function load() {
+        try { _pref = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+        return _pref;
+      }
+      function save(level) {
+        _pref = { level: level, ts: Date.now() };
+        try { localStorage.setItem(KEY, JSON.stringify(_pref)); } catch (e) {}
+        window.dispatchEvent(new CustomEvent('exo:consent', { detail: _pref }));
+      }
+      function level()  { return _pref ? _pref.level : null; }
+      function hasAll() { return level() === 'all'; }
+      function hasAny() { return _pref !== null; }
+
+      return { load: load, save: save, level: level, hasAll: hasAll, hasAny: hasAny };
+    }());
+
+    // ==========================================================================
+    // ExoDevice — Canvas + audio fingerprint → stable device ID
+    // Also enforces one-account-per-device: call linkAccount(uid) on sign-in.
+    // Exposed on window so exora-auth.js can call window.ExoDevice.linkAccount().
+    // ==========================================================================
+    var ExoDevice = (function () {
+      'use strict';
+      var _id = null;
+
+      function _djb2(str) {
+        var h = 5381;
+        for (var i = 0; i < str.length; i++) {
+          h = ((h << 5) + h) ^ str.charCodeAt(i);
+          h = h >>> 0;
+        }
+        return h.toString(36);
+      }
+
+      function _buildPrint() {
+        var parts = [
+          navigator.language || '',
+          (navigator.languages || []).join(','),
+          navigator.platform  || '',
+          screen.width + 'x' + screen.height + 'x' + screen.colorDepth,
+          new Date().getTimezoneOffset(),
+          navigator.hardwareConcurrency || 0,
+          navigator.maxTouchPoints      || 0,
+          (window.devicePixelRatio || 1).toFixed(2),
+          navigator.doNotTrack || '',
+          (navigator.plugins || []).length
+        ];
+
+        // Canvas fingerprint — rendering differences expose GPU/driver/OS
+        try {
+          var cv  = document.createElement('canvas');
+          cv.width = 220; cv.height = 44;
+          var ctx = cv.getContext('2d');
+          ctx.fillStyle   = '#E8A430';
+          ctx.fillRect(0, 0, 220, 44);
+          ctx.fillStyle   = '#12756B';
+          ctx.font        = 'bold 16px Inter, Arial';
+          ctx.fillText('ExoraWorld\u2728', 6, 28);
+          ctx.fillStyle   = 'rgba(222,91,76,0.7)';
+          ctx.font        = '11px serif';
+          ctx.fillText('\u00C4\u00D6\u00DC\u03A9', 140, 20);
+          parts.push(cv.toDataURL().slice(-90));
+        } catch (e) {}
+
+        // AudioContext fingerprint — tiny but cross-platform unique
+        try {
+          var ac  = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 44100 });
+          var osc = ac.createOscillator();
+          var anl = ac.createAnalyser();
+          var gn  = ac.createGain();
+          gn.gain.value = 0;
+          osc.connect(anl); anl.connect(gn); gn.connect(ac.destination);
+          osc.start(0);
+          var buf = new Float32Array(anl.frequencyBinCount);
+          anl.getFloatFrequencyData(buf);
+          parts.push(Array.prototype.slice.call(buf, 0, 6).map(function (v) { return v.toFixed(2); }).join(','));
+          osc.stop();
+          // ac.close() returns a Promise in modern browsers — suppress unhandled rejection
+          var closing = ac.close(); if (closing && closing.catch) closing.catch(function () {});
+        } catch (e) {}
+
+        return _djb2(parts.join('||'));
+      }
+
+      function getDeviceId() {
+        if (_id) return _id;
+        try {
+          _id = localStorage.getItem('exo_device_id');
+          if (!_id) {
+            _id = _buildPrint() + '-' + Date.now().toString(36);
+            localStorage.setItem('exo_device_id', _id);
+          }
+        } catch (e) {
+          _id = _buildPrint() + '-' + Math.random().toString(36).slice(2);
+        }
+        return _id;
+      }
+
+      // Call on user sign-in. Returns { ok:true } or { ok:false, blockedUid }
+      // so the auth module can warn the user that another account owns this device.
+      function linkAccount(uid) {
+        try {
+          var devId = getDeviceId();
+          var map   = JSON.parse(localStorage.getItem('exo_dev_acct') || '{}');
+          if (map[devId] && map[devId] !== uid) {
+            return { ok: false, blockedUid: map[devId] };
+          }
+          map[devId] = uid;
+          localStorage.setItem('exo_dev_acct', JSON.stringify(map));
+          return { ok: true };
+        } catch (e) { return { ok: true }; }
+      }
+
+      // Remove account link on sign-out
+      function unlinkAccount(uid) {
+        try {
+          var map = JSON.parse(localStorage.getItem('exo_dev_acct') || '{}');
+          var devId = getDeviceId();
+          if (map[devId] === uid) { delete map[devId]; }
+          localStorage.setItem('exo_dev_acct', JSON.stringify(map));
+        } catch (e) {}
+      }
+
+      return { getDeviceId: getDeviceId, linkAccount: linkAccount, unlinkAccount: unlinkAccount };
+    }());
+
+    // Make ExoDevice available to exora-auth.js and exo-assistant.js
+    window.ExoDevice = ExoDevice;
+
+    // ==========================================================================
+    // ExoGuard — Anti-scraping & bot detection (Necessary — always active)
+    // Checks: webdriver flag, headless Chrome signals, rate limiting, honeypot.
+    // Score ≥ 5 triggers the bot wall. All scores stored in sessionStorage.
+    // ==========================================================================
+    var ExoGuard = (function () {
+      'use strict';
+      var _score  = 0;
+      var _done   = false;
+      var _walled = false;  // prevent repeated wall() calls once already triggered
+
+      function _flag(reason, weight) {
+        _score += (weight || 1);
+        try {
+          var arr = JSON.parse(sessionStorage.getItem('exo_guard') || '[]');
+          arr.push({ r: reason, t: Date.now() });
+          sessionStorage.setItem('exo_guard', JSON.stringify(arr.slice(-30)));
+        } catch (e) {}
+        if (_score >= 5) _wall();
+      }
+
+      function _wall() {
+        if (_walled) return;
+        _walled = true;
+        var el = document.getElementById('exo-bot-wall');
+        if (el) el.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function _staticChecks() {
+        // Selenium / Puppeteer / Playwright inject this property
+        if (navigator.webdriver === true) { _flag('webdriver', 10); return; }
+
+        var ua = navigator.userAgent;
+
+        // Chrome without window.chrome object = headless Chrome
+        if (ua.indexOf('Chrome') > -1 && !window.chrome)
+          _flag('no-chrome-obj', 3);
+
+        // Zero plugins = strong headless indicator in Chrome
+        if (navigator.plugins && navigator.plugins.length === 0 && ua.indexOf('Chrome') > -1)
+          _flag('no-plugins', 2);
+
+        // Ghost screen = misconfigured headless
+        if (screen.width === 0 || screen.height === 0)
+          _flag('zero-screen', 5);
+
+        // Permissions API missing = older Phantomjs-style bots
+        if (!navigator.permissions)
+          _flag('no-permissions-api', 1);
+
+        // navigator.languages empty = some headless configs
+        if (!navigator.languages || navigator.languages.length === 0)
+          _flag('no-languages', 1);
+      }
+
+      // Sliding 5-minute window — max 150 loads per device before soft-block
+      function _rateCheck() {
+        try {
+          var bucket = Math.floor(Date.now() / 300000);
+          var key    = 'exo_rl_' + bucket;
+          var count  = parseInt(localStorage.getItem(key) || '0') + 1;
+          localStorage.setItem(key, String(count));
+          if (count > 150) _flag('rate-limit', 6);
+          // Purge buckets older than 30 min
+          try {
+            Object.keys(localStorage).forEach(function (k) {
+              if (k.slice(0, 7) === 'exo_rl_' && parseInt(k.slice(7)) < bucket - 6)
+                localStorage.removeItem(k);
+            });
+          } catch (e) {}
+        } catch (e) {}
+      }
+
+      function _honeypotCheck() {
+        var hp = document.getElementById('exoHoneypot');
+        if (hp && hp.value !== '') _flag('honeypot', 10);
+      }
+
+      function init() {
+        if (_done) return;
+        _done = true;
+        _staticChecks();
+        _rateCheck();
+        // Honeypot needs DOM
+        if (document.readyState === 'loading')
+          document.addEventListener('DOMContentLoaded', _honeypotCheck);
+        else
+          _honeypotCheck();
+      }
+
+      function isBot()   { return _score >= 5; }
+      function getScore(){ return _score; }
+
+      return { init: init, isBot: isBot, getScore: getScore };
+    }());
+
+    // ==========================================================================
+    // ExoGeo — IP-based region detection  (Analytics consent required)
+    // Fetches from ipapi.co and caches the result for 24 h in localStorage.
+    // ==========================================================================
+    var ExoGeo = (function () {
+      'use strict';
+      var _data    = null;
+      var _pending = false;
+
+      function load() {
+        if (_data) return Promise.resolve(_data);
+
+        // 24-hour cache
+        try {
+          var cached = JSON.parse(localStorage.getItem('exo_geo') || 'null');
+          if (cached && cached.ts && (Date.now() - cached.ts) < 86400000) {
+            _data = cached;
+            return Promise.resolve(_data);
+          }
+        } catch (e) {}
+
+        if (_pending) return Promise.resolve(null);
+        _pending = true;
+
+        // Abort if ipapi.co doesn't respond within 5 seconds
+        var controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+        var geoTimer = controller ? setTimeout(function () { controller.abort(); }, 5000) : null;
+
+        return fetch('https://ipapi.co/json/', controller ? { signal: controller.signal } : {})
+          .then(function (r) { clearTimeout(geoTimer); if (!r.ok) throw new Error('geo-' + r.status); return r.json(); })
+          .then(function (d) {
+            if (!d || d.error) throw new Error('geo-api-err'); // ipapi rate-limit / block response
+            _data = {
+              country:     d.country_name          || null,
+              countryCode: d.country_code          || null,
+              region:      d.region                || null,
+              city:        d.city                  || null,
+              timezone:    d.timezone              || null,
+              currency:    d.currency              || null,
+              callingCode: d.country_calling_code  || null,
+              latitude:    d.latitude              || null,
+              longitude:   d.longitude             || null,
+              ts: Date.now()
+            };
+            try { localStorage.setItem('exo_geo', JSON.stringify(_data)); } catch (e) {}
+            return _data;
+          })
+          .catch(function () { clearTimeout(geoTimer); return null; })
+          .then(function (v) { _pending = false; return v; });
+      }
+
+      function get() { return _data; }
+
+      return { load: load, get: get };
+    }());
+
+    // ==========================================================================
+    // ExoAnalytics — Session & behaviour tracker  (Analytics consent required)
+    // Tracks: page views, scroll milestones, section views, CTA clicks,
+    // outbound links, and session duration. Stored in localStorage (max 200
+    // sessions). Upserts by session ID so a refresh doesn't create a duplicate.
+    // ==========================================================================
+    var ExoAnalytics = (function () {
+      'use strict';
+      var _sid    = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+      var _start  = Date.now();
+      var _events = [];
+      var _active = false;
+
+      function _push(name, payload) {
+        _events.push({ n: name, p: payload, t: Math.round((Date.now() - _start) / 1000) });
+        // Cap in-memory array so long sessions don't accumulate unboundedly
+        if (_events.length > 100) _events = _events.slice(-100);
+        _flush();
+      }
+
+      function _flush() {
+        try {
+          var geo = ExoGeo.get();
+          var tz  = null;
+          try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (e) {}
+
+          var record = {
+            sid:      _sid,
+            page:     location.pathname + location.search,
+            referrer: document.referrer || null,
+            device:   ExoDevice.getDeviceId().slice(0, 14),  // partial — anonymised
+            country:  geo ? geo.countryCode : null,
+            region:   geo ? geo.region      : null,
+            city:     geo ? geo.city        : null,
+            tz:       tz,
+            duration: Math.round((Date.now() - _start) / 1000),
+            events:   _events.slice(-30),
+            ua:       navigator.userAgent.slice(0, 120),
+            ts:       Date.now()
+          };
+
+          var logs = [];
+          try { logs = JSON.parse(localStorage.getItem('exo_analytics') || '[]'); } catch (e) {}
+          var idx = -1;
+          for (var i = 0; i < logs.length; i++) { if (logs[i].sid === _sid) { idx = i; break; } }
+          if (idx > -1) logs[idx] = record; else logs.push(record);
+          if (logs.length > 200) logs = logs.slice(-200);
+          localStorage.setItem('exo_analytics', JSON.stringify(logs));
+        } catch (e) {}
+      }
+
+      function init() {
+        if (_active) return;
+        _active = true;
+
+        _push('page_view', { title: document.title.slice(0, 80) });
+
+        // Scroll depth milestones — fires once each at 25 / 50 / 75 / 100 %
+        var milestones = [25, 50, 75, 100];
+        window.addEventListener('scroll', function () {
+          var total = document.documentElement.scrollHeight - window.innerHeight;
+          if (total <= 0) return;
+          var pct = Math.round((window.scrollY / total) * 100);
+          while (milestones.length && pct >= milestones[0]) {
+            _push('scroll_depth', milestones.shift());
+          }
+        }, { passive: true });
+
+        // Section views via IntersectionObserver
+        if (window.IntersectionObserver) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                var label = e.target.id ||
+                            e.target.getAttribute('data-section') ||
+                            (e.target.querySelector('h2,h3') || {}).textContent || '';
+                _push('section_view', String(label).trim().slice(0, 50));
+              }
+            });
+          }, { threshold: 0.4 });
+          document.querySelectorAll('section[id], [data-section]').forEach(function (s) {
+            io.observe(s);
+          });
+        }
+
+        // CTA / button clicks
+        document.addEventListener('click', function (e) {
+          var btn = e.target.closest('a.btn, button.btn, [data-track]');
+          if (btn) {
+            _push('cta_click',
+              (btn.getAttribute('data-track') || btn.textContent || '').trim().slice(0, 50));
+          }
+        });
+
+        // Outbound link clicks
+        document.addEventListener('click', function (e) {
+          var a = e.target.closest('a[href]');
+          if (a && a.hostname && a.hostname !== location.hostname) {
+            _push('outbound', a.href.slice(0, 100));
+          }
+        });
+
+        // Session exit
+        window.addEventListener('beforeunload', function () {
+          _push('exit', Math.round((Date.now() - _start) / 1000));
+        });
+
+        // Periodic flush every 30 s
+        setInterval(_flush, 30000);
+      }
+
+      // Returns aggregated stats — used by the owner stats panel (Ctrl+Shift+E)
+      function getSummary() {
+        try {
+          var logs = JSON.parse(localStorage.getItem('exo_analytics') || '[]');
+          var countries = {}, pages = {}, totalDur = 0, events = {};
+          logs.forEach(function (l) {
+            if (l.country) countries[l.country] = (countries[l.country] || 0) + 1;
+            if (l.page)    pages[l.page]        = (pages[l.page]        || 0) + 1;
+            totalDur += (l.duration || 0);
+            (l.events || []).forEach(function (ev) {
+              events[ev.n] = (events[ev.n] || 0) + 1;
+            });
+          });
+          var sort = function (obj) {
+            return Object.keys(obj).map(function (k) { return [k, obj[k]]; })
+              .sort(function (a, b) { return b[1] - a[1]; }).slice(0, 8);
+          };
+          return {
+            sessions:    logs.length,
+            avgDuration: logs.length ? Math.round(totalDur / logs.length) : 0,
+            countries:   sort(countries),
+            pages:       sort(pages),
+            events:      sort(events),
+            raw:         logs.slice(-10)
+          };
+        } catch (e) { return null; }
+      }
+
+      return { init: init, getSummary: getSummary };
+    }());
+
+    // Make analytics accessible to other scripts
+    window.ExoAnalytics = ExoAnalytics;
+
+    // ==========================================================================
+    // ExoConsentUI — Banner interactions & consent-gated module activation
+    // ==========================================================================
+    var ExoConsentUI = (function () {
+      'use strict';
+      var _inited = false; // guard: init() must only wire up once
+
+      function _activate(level) {
+        ExoConsent.save(level);
+        // Dismiss banner with slide-down animation
+        var banner = document.getElementById('exo-consent');
+        if (banner) {
+          banner.classList.remove('exo-consent-visible');
+          banner.classList.add('exo-consent-hiding');
+          setTimeout(function () { banner.style.display = 'none'; }, 650);
+        }
+        // Analytics + geo run only on full consent
+        if (level === 'all') {
+          ExoGeo.load().then(function () { ExoAnalytics.init(); });
+        }
+      }
+
+      function _wireBanner() {
+        // Null-check every element before touching it — any missing element
+        // would otherwise throw a TypeError and silently kill the entire flow.
+        var banner  = document.getElementById('exo-consent');
+        var btnAll  = document.getElementById('exoConsentAll');
+        var btnNec  = document.getElementById('exoConsentNec');
+        var toggle  = document.getElementById('exoConsentToggle');
+        var details = document.getElementById('exoConsentDetails');
+        if (!banner || !btnAll || !btnNec || !toggle || !details) return;
+
+        banner.classList.add('exo-consent-visible');
+        btnAll.addEventListener('click', function () { _activate('all'); });
+        btnNec.addEventListener('click', function () { _activate('necessary'); });
+
+        toggle.addEventListener('click', function () {
+          var open = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', open ? 'false' : 'true');
+          details.classList.toggle('open', !open);
+        });
+      }
+
+      function init() {
+        if (_inited) return; // prevent duplicate timers / duplicate listener registration
+        _inited = true;
+
+        // Load stored preference
+        ExoConsent.load();
+
+        // Necessary modules — always start regardless of consent level
+        ExoGuard.init();
+        ExoDevice.getDeviceId(); // warm up fingerprint early
+
+        // Visitor already gave full consent in a previous visit → resume analytics
+        if (ExoConsent.hasAll()) {
+          ExoGeo.load().then(function () { ExoAnalytics.init(); });
+          return; // banner not needed
+        }
+
+        // Visitor already chose necessary-only → respect silently
+        if (ExoConsent.hasAny()) return;
+
+        // First ever visit. Banner must appear AFTER the intro loader is fully
+        // gone. Strategy:
+        //   - Return visits (loader suppressed): fixed 900 ms delay.
+        //   - First visits (loader plays): listen for the 'exo:loader-done' event
+        //     that dismissLoader() fires, then add an 850 ms offset so the banner
+        //     appears after the 0.9 s loader fade-out finishes. A 7 s safety
+        //     timeout fires if the event never arrives (e.g. slow page load or
+        //     JS error in loader code).
+        if (document.documentElement.classList.contains('exo-no-intro')) {
+          setTimeout(_wireBanner, 900);
+        } else {
+          var _shown = false;
+          var _safetyTimer = setTimeout(function () {
+            if (!_shown) { _shown = true; _wireBanner(); }
+          }, 7000);
+
+          window.addEventListener('exo:loader-done', function _onLoaderDone() {
+            window.removeEventListener('exo:loader-done', _onLoaderDone);
+            if (!_shown) {
+              clearTimeout(_safetyTimer);
+              _shown = true;
+              setTimeout(_wireBanner, 850); // wait for loader fade-out (0.9s transition)
+            }
+          });
+        }
+      }
+
+      return { init: init };
+    }());
+
+    // ==========================================================================
+    // Owner analytics panel — press Ctrl + Shift + E to open/close
+    // Floating stats card built from localStorage data. Fully escaped.
+    // ==========================================================================
+    (function () {
+      'use strict';
+
+      // Escape HTML so geo values / page paths can't inject markup
+      function _esc(str) {
+        return String(str || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function _fmt(arr) {
+        return arr.length
+          ? arr.map(function (r) { return '<b>' + _esc(r[0]) + '</b>&nbsp;' + r[1]; }).join(' &middot; ')
+          : '<span style="opacity:.4">none yet</span>';
+      }
+
+      document.addEventListener('keydown', function (e) {
+        if (!e.ctrlKey || !e.shiftKey || (e.key !== 'E' && e.key !== 'e')) return;
+        e.preventDefault();
+
+        var existing = document.getElementById('exo-stats-panel');
+        if (existing) { existing.remove(); return; }
+
+        var s   = ExoAnalytics.getSummary();
+        var geo = ExoGeo.get();
+        var hasAnalytics = ExoConsent.hasAll();
+
+        var panel = document.createElement('div');
+        panel.id = 'exo-stats-panel';
+        panel.setAttribute('role', 'dialog');
+        panel.setAttribute('aria-label', 'Analytics panel');
+        panel.style.cssText = [
+          'position:fixed;bottom:1.5rem;right:1.5rem;z-index:99997',
+          'background:var(--color-surface);border:1px solid var(--color-border)',
+          'border-radius:var(--radius-lg);box-shadow:var(--shadow-lg)',
+          'padding:1.4rem 1.6rem;max-width:480px;width:calc(100vw - 3rem)',
+          'font-size:0.82rem;line-height:1.7;color:var(--color-text)',
+          'font-family:var(--font-body);max-height:80vh;overflow-y:auto'
+        ].join(';');
+
+        var closeBtn = document.createElement('button');
+        closeBtn.setAttribute('aria-label', 'Close analytics panel');
+        closeBtn.style.cssText = 'background:none;border:none;cursor:pointer;font-size:1.1rem;opacity:.5;padding:0;line-height:1;flex-shrink:0';
+        closeBtn.textContent = '✕';
+        closeBtn.addEventListener('click', function () { panel.remove(); });
+
+        var noAnalyticsNote = !hasAnalytics
+          ? '<div style="margin:.6rem 0 .9rem;padding:.55rem .8rem;border-radius:8px;background:rgba(232,164,48,.1);border:1px solid rgba(232,164,48,.25);color:var(--color-primary);font-size:.78rem">'
+            + '⚠️ Analytics consent not given — session data unavailable. Only device &amp; security info shown.'
+            + '</div>'
+          : '';
+
+        var geoRow = hasAnalytics && geo
+          ? '<div style="margin-top:.6rem"><span style="opacity:.6">Current visitor geo:</span><br>'
+            + _esc(geo.city || '—') + (geo.region ? ', ' + _esc(geo.region) : '')
+            + ' · ' + _esc(geo.country || '—')
+            + (geo.currency ? ' (' + _esc(geo.currency) + ')' : '')
+            + (geo.timezone ? ' · ' + _esc(geo.timezone) : '')
+            + '</div>'
+          : '';
+
+        var analyticsRows = hasAnalytics && s
+          ? '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem .75rem;margin-top:.75rem">'
+            + '<div><span style="opacity:.6">Sessions</span><br><b>' + s.sessions + '</b></div>'
+            + '<div><span style="opacity:.6">Avg duration</span><br><b>' + s.avgDuration + 's</b></div>'
+            + '</div>'
+            + '<div style="margin-top:.65rem"><span style="opacity:.6">Top countries:</span><br>' + _fmt(s.countries) + '</div>'
+            + '<div style="margin-top:.4rem"><span style="opacity:.6">Top pages:</span><br>' + _fmt(s.pages) + '</div>'
+            + '<div style="margin-top:.4rem"><span style="opacity:.6">Top events:</span><br>' + _fmt(s.events) + '</div>'
+            + geoRow
+          : '';
+
+        panel.innerHTML = [
+          '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.3rem">',
+          '  <strong style="font-family:var(--font-display);font-size:.95rem">📊 ExoraWorld Analytics</strong>',
+          '</div>',
+          noAnalyticsNote,
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem .75rem">',
+          '  <div><span style="opacity:.6">Device ID</span><br><b style="font-size:.74rem;word-break:break-all">' + _esc(ExoDevice.getDeviceId().slice(0, 20)) + '…</b></div>',
+          '  <div><span style="opacity:.6">Bot score</span><br><b>' + ExoGuard.getScore() + ' / 5</b></div>',
+          '  <div><span style="opacity:.6">Consent level</span><br><b>' + _esc(ExoConsent.level() || 'none') + '</b></div>',
+          '  <div><span style="opacity:.6">Geo cached</span><br><b>' + (geo ? '✓ ' + _esc(geo.countryCode || '?') : '✗') + '</b></div>',
+          '</div>',
+          analyticsRows,
+          '<div style="margin-top:.9rem;opacity:.4;font-size:.71rem">Ctrl+Shift+E to close &middot; all data stored locally &middot; never sent to third parties</div>'
+        ].join('');
+
+        // Inject close button into header
+        var header = panel.querySelector('div');
+        if (header) header.appendChild(closeBtn);
+
+        document.body.appendChild(panel);
+      });
+    }());
+
+    // ---- Lazy image loading ------------------------------------------------------
+    // Adds loading="lazy" to every card, gallery, and content image that doesn't
+    // already have it. Hero images are intentionally excluded — they're above
+    // the fold and must load immediately.
+    function initImages() {
+      document.querySelectorAll(
+        '.card img, .gallery-item img, .founder-avatar-inner img, .about-grid img'
+      ).forEach(function (img) {
+        if (!img.hasAttribute('loading')) img.setAttribute('loading', 'lazy');
+      });
+    }
+
     // ---- Boot --------------------------------------------------------------------
     document.addEventListener('DOMContentLoaded', function () {
       initTheme();
@@ -2611,6 +3603,9 @@
       initFAQ();
       initForms();
       initYear();
+      initImages();
+      // Smart systems — order matters: guard first, then consent UI
+      ExoConsentUI.init();
     });
   </script>
 
