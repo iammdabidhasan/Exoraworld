@@ -407,6 +407,122 @@
   .hero-proof { font-size: 0.9rem; color: var(--color-text-muted); }
   .hero-proof strong { color: var(--color-text); }
 
+  /* ── Global Search Bar ─────────────────────────────────────────── */
+  .hero-search {
+    position: relative; width: 100%; max-width: 600px;
+    margin: 0 auto 2rem; z-index: 10;
+  }
+  .hero-search-bar {
+    display: flex; align-items: center;
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-full);
+    padding: 0.45rem 0.5rem 0.45rem 1.15rem;
+    gap: 0.5rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,.08);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .hero-search-bar:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(232,164,48,.14), 0 4px 24px rgba(0,0,0,.08);
+  }
+  .hero-search-ico {
+    width: 17px; height: 17px; flex-shrink: 0;
+    color: var(--color-text-muted); pointer-events: none;
+  }
+  .hero-search-input {
+    flex: 1; border: none; background: none;
+    font-family: var(--font-body); font-size: 0.93rem;
+    color: var(--color-text); outline: none;
+    padding: 0.28rem 0; min-width: 0;
+  }
+  .hero-search-input::placeholder { color: var(--color-text-muted); }
+  .hero-search-input::-webkit-search-decoration,
+  .hero-search-input::-webkit-search-cancel-button { display: none; }
+  .hero-search-clear {
+    background: none; border: none; cursor: pointer;
+    color: var(--color-text-muted); padding: 0.2rem 0.3rem;
+    border-radius: 50%; font-size: 0.8rem; line-height: 1;
+    transition: color var(--transition-fast);
+  }
+  .hero-search-clear:hover { color: var(--color-text); }
+  .hero-search-submit {
+    background: var(--color-primary); color: var(--color-on-primary);
+    border: none; border-radius: var(--radius-full);
+    padding: 0.52rem 1.15rem; font-size: 0.855rem; font-weight: 700;
+    cursor: pointer; flex-shrink: 0; white-space: nowrap;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+  }
+  .hero-search-submit:hover { background: var(--color-primary-hover); transform: translateY(-1px); }
+
+  /* Dropdown */
+  .hero-search-drop {
+    position: absolute; top: calc(100% + 0.55rem); left: 0; right: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 40px rgba(0,0,0,.13);
+    overflow: hidden; z-index: 9999;
+    max-height: 440px; overflow-y: auto;
+    display: none;
+  }
+  .hero-search-drop.open { display: block; }
+  .srch-group-label {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: .07em;
+    text-transform: uppercase; color: var(--color-text-muted);
+    padding: 0.7rem 1rem 0.25rem;
+  }
+  .srch-divider { height: 1px; background: var(--color-border); margin: 0.2rem 1rem; }
+  .srch-item {
+    display: flex; align-items: center; gap: 0.8rem;
+    padding: 0.65rem 1rem; cursor: pointer; width: 100%;
+    border: none; background: none; text-align: left;
+    transition: background var(--transition-fast);
+  }
+  .srch-item:hover, .srch-item.srch-focused { background: var(--color-bg-alt); }
+  .srch-icon {
+    width: 34px; height: 34px; border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0; background: var(--color-bg-alt);
+  }
+  .srch-text { flex: 1; min-width: 0; }
+  .srch-title {
+    display: block; font-size: 0.875rem; font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .srch-sub {
+    display: block; font-size: 0.775rem; color: var(--color-text-muted);
+    margin-top: .1rem;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .srch-tag {
+    font-size: .67rem; font-weight: 700; letter-spacing: .04em;
+    text-transform: uppercase; padding: .15rem .5rem;
+    border-radius: var(--radius-full); flex-shrink: 0;
+  }
+  .srch-tag-store   { background: rgba(232,164,48,.12); color: var(--color-primary); }
+  .srch-tag-game    { background: rgba(45,212,191,.12);  color: var(--color-secondary); }
+  .srch-tag-news    { background: rgba(222,91,76,.12);   color: #DE5B4C; }
+  .srch-tag-content { background: rgba(18,117,107,.12);  color: var(--color-secondary); }
+  .srch-tag-page    { background: rgba(128,128,128,.1);  color: var(--color-text-muted); }
+  .srch-match { color: var(--color-primary); font-weight: 700; background: rgba(232,164,48,.1); border-radius: 2px; }
+  .srch-empty {
+    padding: 1.75rem 1rem; text-align: center;
+    font-size: .875rem; color: var(--color-text-muted);
+  }
+  .srch-empty strong { display: block; color: var(--color-text); margin-bottom: .3rem; font-size: .95rem; }
+  .srch-footer {
+    padding: .55rem 1rem; border-top: 1px solid var(--color-border);
+    font-size: .71rem; color: var(--color-text-muted);
+    display: flex; justify-content: space-between;
+  }
+  @media (max-width: 600px) {
+    .hero-search { max-width: 100%; }
+    .hero-search-submit { padding: .5rem .75rem; font-size: .8rem; }
+    .srch-sub { display: none; }
+  }
+
   .scroll-indicator { position: relative; z-index: 1; display: block; width: fit-content; margin: 0 auto 1.5rem; flex-shrink: 0; }
   .scroll-indicator-shell { display: block; width: 24px; height: 38px; border: 2px solid var(--color-text-muted); border-radius: 14px; position: relative; }
   .scroll-indicator-shell::before {
@@ -1616,6 +1732,24 @@
           <span class="eyebrow"><span class="dot" aria-hidden="true"></span> Welcome to ExoraWorld</span>
           <h1>One <span class="accent">world.</span><br>Everything you need.</h1>
           <p class="lead">ExoraWorld brings together the tools you need, the games you love, the news and content you follow, and the store you shop from — all in one bright, beautifully simple place.</p>
+
+          <!-- Global Search -->
+          <div class="hero-search" role="search" aria-label="Search ExoraWorld">
+            <div class="hero-search-bar">
+              <svg class="hero-search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="search" id="heroSearchInput" class="hero-search-input"
+                     placeholder="Search games, products, news…"
+                     autocomplete="off" spellcheck="false"
+                     aria-label="Search ExoraWorld"
+                     aria-expanded="false"
+                     aria-haspopup="listbox"
+                     aria-controls="heroSearchDrop" />
+              <button class="hero-search-clear" id="heroSearchClear" aria-label="Clear search" hidden>✕</button>
+              <button class="hero-search-submit" id="heroSearchBtn" aria-label="Search">Search</button>
+            </div>
+            <div class="hero-search-drop" id="heroSearchDrop" role="listbox" aria-label="Search results"></div>
+          </div>
+
           <div class="hero-ctas">
             <button class="btn btn-primary" data-auth-open="signup">Get Started Free</button>
             <a href="#games" class="btn btn-secondary">Explore Games</a>
@@ -3577,7 +3711,235 @@
       });
     }());
 
-    // ---- Lazy image loading ------------------------------------------------------
+    // ---- Global Search -----------------------------------------------------------
+    function initSearch() {
+      var input    = document.getElementById('heroSearchInput');
+      var drop     = document.getElementById('heroSearchDrop');
+      var clearBtn = document.getElementById('heroSearchClear');
+      var submitBtn= document.getElementById('heroSearchBtn');
+      if (!input || !drop) return;
+
+      var INDEX   = [];   // flat array of all searchable items
+      var _items  = [];   // current result set (for keyboard nav)
+      var _focus  = -1;   // focused result index
+
+      // ── Build index from live DOM at call time ──────────────────────────────
+      function buildIndex() {
+        INDEX = [];
+
+        // Store products
+        document.querySelectorAll('#store [data-buy]').forEach(function(btn) {
+          var card = btn.closest('.card'); if (!card) return;
+          var name  = ((card.querySelector('h3')||{}).textContent||'').trim();
+          var desc  = ((card.querySelector('.card-desc')||{}).textContent||'').trim();
+          var price = ((card.querySelector('.price-local')||{}).textContent||'').trim();
+          if (!name) return;
+          INDEX.push({ type:'store', icon:'🛒', title:name, sub:price+(desc?' · '+desc.slice(0,55):''),
+            action:function(){ scrollTo('store'); } });
+        });
+
+        // Games
+        document.querySelectorAll('#games .card').forEach(function(card) {
+          var name  = ((card.querySelector('h3')||{}).textContent||'').trim();
+          var genre = ((card.querySelector('.badge')||{}).textContent||'').trim();
+          var desc  = ((card.querySelector('.card-desc')||{}).textContent||'').trim();
+          if (!name) return;
+          INDEX.push({ type:'game', icon:'🎮', title:name, sub:(genre?genre+' · ':'')+desc.slice(0,60),
+            action:function(){ scrollTo('games'); } });
+        });
+
+        // News
+        document.querySelectorAll('#news article, #news .card').forEach(function(card) {
+          var name  = ((card.querySelector('h3')||{}).textContent||'').trim();
+          var badge = ((card.querySelector('.badge')||{}).textContent||'').trim();
+          var date  = ((card.querySelector('.news-date')||{}).textContent||'').trim();
+          if (!name) return;
+          INDEX.push({ type:'news', icon:'📰', title:name, sub:(badge?badge+' · ':'')+date,
+            action:function(){ window.location.href='pages/news.html'; } });
+        });
+
+        // Content cards
+        document.querySelectorAll('#content .card').forEach(function(card) {
+          var name = ((card.querySelector('h3')||{}).textContent||'').trim();
+          var desc = ((card.querySelector('.card-desc,p')||{}).textContent||'').trim();
+          if (!name) return;
+          INDEX.push({ type:'content', icon:'📚', title:name, sub:desc.slice(0,70),
+            action:function(){ window.location.href='content/contents.html'; } });
+        });
+
+        // FAQ questions
+        document.querySelectorAll('#faq [data-question], #faq .faq-question, #faq summary, #faq .faq-q').forEach(function(el) {
+          var q = el.textContent.trim(); if (!q || q.length < 5) return;
+          INDEX.push({ type:'page', icon:'❓', title:q, sub:'FAQ',
+            action:function(){ scrollTo('faq'); } });
+        });
+
+        // Static pages always in index
+        var pages = [
+          { icon:'🛒', title:'Store',         sub:'Products, tools and digital goods',       id:'store' },
+          { icon:'🎮', title:'Games',          sub:'Free games from ExoraWorld',              id:'games' },
+          { icon:'📰', title:'News',           sub:'Latest updates and announcements',        href:'pages/news.html' },
+          { icon:'🖼️', title:'Gallery',        sub:'Community photos and events',             id:'gallery' },
+          { icon:'📚', title:'Content & Guides',sub:'Tutorials, tips and resources',         href:'content/contents.html' },
+          { icon:'👤', title:'About ExoraWorld',sub:'Our story, founder and mission',         id:'about' },
+          { icon:'❓', title:'Help & FAQ',     sub:'Common questions answered',               id:'faq' },
+          { icon:'📬', title:'Contact Us',     sub:'Get in touch with the ExoraWorld team',   id:'contact' },
+          { icon:'💳', title:'How to Pay',     sub:'bKash, Nagad, Airtm — payment guide',    id:'faq' },
+          { icon:'🔒', title:'Privacy Policy', sub:'How we collect and use your data',       href:'pages/privacy.html' },
+          { icon:'📋', title:'Terms of Service',sub:'Terms and conditions',                  href:'pages/terms.html' },
+          { icon:'💬', title:'Discord Server', sub:'Join the ExoraWorld community',          ext:'https://discord.gg/f84dEvu2q' },
+        ];
+        pages.forEach(function(p) {
+          var action;
+          if (p.id)   action = function(id){ return function(){ scrollTo(id); }; }(p.id);
+          else if (p.href) action = function(h){ return function(){ window.location.href=h; }; }(p.href);
+          else         action = function(u){ return function(){ window.open(u,'_blank','noopener'); }; }(p.ext);
+          INDEX.push({ type:'page', icon:p.icon, title:p.title, sub:p.sub, action:action });
+        });
+      }
+
+      function scrollTo(id) {
+        var el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior:'smooth' });
+        closeSearch();
+      }
+
+      // ── Scoring ─────────────────────────────────────────────────────────────
+      function scoreItem(item, q) {
+        var t = item.title.toLowerCase(), s = (item.sub||'').toLowerCase();
+        if (t === q) return 14;
+        if (t.startsWith(q)) return 11;
+        if (t.includes(q)) return 9;
+        if (s.includes(q)) return 5;
+        var words = q.split(/\s+/).filter(function(w){ return w.length > 1; });
+        if (!words.length) return 0;
+        var hits = words.filter(function(w){ return t.includes(w)||s.includes(w); }).length;
+        return hits ? hits * 2 : 0;
+      }
+
+      // ── HTML escaping + match highlighting ──────────────────────────────────
+      function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+      function highlight(text, q) {
+        var idx = text.toLowerCase().indexOf(q.toLowerCase());
+        if (idx === -1) return esc(text);
+        return esc(text.slice(0,idx))+'<mark class="srch-match">'+esc(text.slice(idx,idx+q.length))+'</mark>'+esc(text.slice(idx+q.length));
+      }
+
+      // ── Render results ───────────────────────────────────────────────────────
+      function render(items, q) {
+        _focus = -1; _items = items;
+        if (!items.length) {
+          drop.innerHTML = '<div class="srch-empty"><strong>No results for "'+esc(q)+'"</strong>Try a product, game title, or topic</div>';
+          openDrop(); return;
+        }
+
+        var TYPE_LABELS = { store:'Store', game:'Games', news:'News', content:'Content', page:'Pages' };
+        var TYPE_ORDER  = ['store','game','news','content','page'];
+        var html = '';
+        var globalIdx = 0;
+
+        TYPE_ORDER.forEach(function(type) {
+          var group = items.filter(function(i){ return i.type===type; });
+          if (!group.length) return;
+          if (html) html += '<div class="srch-divider"></div>';
+          html += '<div class="srch-group-label">'+TYPE_LABELS[type]+'</div>';
+          group.forEach(function(item) {
+            html +=
+              '<button class="srch-item" data-gi="'+globalIdx+'" role="option" aria-selected="false">' +
+              '<span class="srch-icon">'+item.icon+'</span>' +
+              '<span class="srch-text">' +
+                '<span class="srch-title">'+highlight(item.title,q)+'</span>' +
+                (item.sub ? '<span class="srch-sub">'+highlight(item.sub.slice(0,65),q)+'</span>' : '') +
+              '</span>' +
+              '<span class="srch-tag srch-tag-'+type+'">'+TYPE_LABELS[type].slice(0,-1)+'</span>' +
+            '</button>';
+            globalIdx++;
+          });
+        });
+
+        html += '<div class="srch-footer"><span>↑ ↓ navigate</span><span>↵ open &nbsp;·&nbsp; Esc close</span></div>';
+        drop.innerHTML = html;
+
+        drop.querySelectorAll('.srch-item').forEach(function(btn) {
+          var gi = parseInt(btn.getAttribute('data-gi'),10);
+          btn.addEventListener('mousedown', function(e) { e.preventDefault(); });
+          btn.addEventListener('click', function() { _items[gi].action(); closeSearch(); });
+        });
+
+        openDrop();
+        input.setAttribute('aria-expanded','true');
+      }
+
+      function openDrop()  { drop.classList.add('open'); }
+      function closeSearch() {
+        drop.classList.remove('open');
+        drop.innerHTML = '';
+        _focus = -1; _items = [];
+        input.setAttribute('aria-expanded','false');
+      }
+
+      // ── Search ───────────────────────────────────────────────────────────────
+      function runSearch(raw) {
+        var q = raw.trim().toLowerCase();
+        if (!q || q.length < 2) { closeSearch(); return; }
+
+        var scored = INDEX
+          .map(function(item){ return { item:item, s:scoreItem(item,q) }; })
+          .filter(function(r){ return r.s > 0; })
+          .sort(function(a,b){ return b.s-a.s; })
+          .slice(0,9)
+          .map(function(r){ return r.item; });
+
+        render(scored, q.trim());
+      }
+
+      // ── Keyboard navigation ──────────────────────────────────────────────────
+      input.addEventListener('keydown', function(e) {
+        var btns = drop.querySelectorAll('.srch-item');
+        if (e.key==='Escape')  { closeSearch(); input.blur(); return; }
+        if (!btns.length) return;
+        if (e.key==='ArrowDown') { e.preventDefault(); _focus = Math.min(_focus+1, btns.length-1); }
+        else if (e.key==='ArrowUp') { e.preventDefault(); _focus = Math.max(_focus-1, -1); }
+        else if (e.key==='Enter') {
+          e.preventDefault();
+          if (_focus>=0 && btns[_focus]) { btns[_focus].click(); return; }
+          if (_items.length) { _items[0].action(); closeSearch(); }
+          return;
+        } else { return; }
+        btns.forEach(function(b,i){
+          b.classList.toggle('srch-focused', i===_focus);
+          b.setAttribute('aria-selected', i===_focus?'true':'false');
+        });
+        if (_focus>=0) btns[_focus].scrollIntoView({block:'nearest'});
+      });
+
+      // ── Input events ─────────────────────────────────────────────────────────
+      input.addEventListener('input', function() {
+        var q = input.value;
+        clearBtn.hidden = !q;
+        runSearch(q);
+      });
+
+      input.addEventListener('focus', function() {
+        if (input.value.trim().length >= 2) runSearch(input.value);
+      });
+
+      clearBtn.addEventListener('click', function() {
+        input.value = ''; clearBtn.hidden = true; closeSearch(); input.focus();
+      });
+
+      submitBtn.addEventListener('click', function() {
+        var q = input.value.trim();
+        if (q.length >= 2) runSearch(q); else input.focus();
+      });
+
+      // Close on outside click
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.hero-search')) closeSearch();
+      });
+
+      buildIndex();
+    }
     // Adds loading="lazy" to every card, gallery, and content image that doesn't
     // already have it. Hero images are intentionally excluded — they're above
     // the fold and must load immediately.
@@ -3604,6 +3966,7 @@
       initForms();
       initYear();
       initImages();
+      initSearch();
       // Smart systems — order matters: guard first, then consent UI
       ExoConsentUI.init();
     });
