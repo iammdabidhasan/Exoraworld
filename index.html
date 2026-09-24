@@ -386,10 +386,51 @@
     opacity: 0.12; filter: blur(50px); pointer-events: none;
     transform: translateX(-50%) scale(1); animation: glow-breathe 10s ease-in-out infinite;
   }
-  @keyframes glow-breathe { 0%, 100% { opacity: 0.10; transform: translateX(-50%) scale(1); } 50% { opacity: 0.18; transform: translateX(-50%) scale(1.06); } }
+  /* Second ambient orb — teal accent, bottom-right, offset timing */
+  .hero::after {
+    content: ''; position: absolute; bottom: 8%; right: 8%; width: 500px; height: 500px;
+    background: radial-gradient(circle, var(--color-secondary) 0%, transparent 68%);
+    opacity: 0.08; filter: blur(65px); pointer-events: none;
+    animation: glow-breathe-b 13s ease-in-out infinite;
+  }
+  @keyframes glow-breathe   { 0%,100% { opacity:.10; transform:translateX(-50%) scale(1);    } 50% { opacity:.18; transform:translateX(-50%) scale(1.07); } }
+  @keyframes glow-breathe-b { 0%,100% { opacity:.06; transform:scale(.96);                   } 50% { opacity:.13; transform:scale(1.08);                  } }
   .hero-particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
-  .particle { position: absolute; border-radius: 50%; background: var(--color-primary); opacity: 0.4; animation: twinkle 6s ease-in-out infinite; }
-  @keyframes twinkle { 0%, 100% { opacity: 0.12; transform: scale(0.7); } 50% { opacity: 0.85; transform: scale(1.25); } }
+
+  /* Base particle — small ambient dot, timing driven by CSS custom props */
+  .particle {
+    position: absolute; border-radius: 50%; background: var(--color-primary);
+    animation: particle-float var(--dur,6s) ease-in-out var(--delay,0s) infinite;
+    opacity: 0;
+  }
+  /* Coloured + glowing variants — mirror the intro's spark palette */
+  .particle.p-amber { background:#E8A430; box-shadow:0 0 8px 2px rgba(232,164,48,.45); }
+  .particle.p-teal  { background:#2DD4BF; box-shadow:0 0 8px 2px rgba(45,212,191,.40); }
+  .particle.p-coral { background:#DE5B4C; box-shadow:0 0 6px 2px rgba(222,91,76,.35);  }
+
+  /* Vertical spark line — same concept as the intro's animated dashes */
+  .p-spark {
+    position: absolute; width: 1.5px; border-radius: 2px;
+    background: linear-gradient(to top, transparent, rgba(232,164,48,.75), transparent);
+    animation: spark-rise var(--dur,7s) ease-in-out var(--delay,0s) infinite;
+    opacity: 0;
+  }
+
+  @keyframes particle-float {
+    0%       { opacity:0; transform:translateY(14px) scale(.5); }
+    12%,80%  { opacity:1; }
+    100%     { opacity:0; transform:translateY(calc(-1 * var(--travel,70px))) scale(.55); }
+  }
+  @keyframes spark-rise {
+    0%   { opacity:0; transform:translateY(0)    scaleY(.4); }
+    15%  { opacity:.7; transform:translateY(-10px) scaleY(1);  }
+    80%  { opacity:.2; }
+    100% { opacity:0; transform:translateY(-110px) scaleY(.4); }
+  }
+  /* Soften in light theme */
+  [data-theme="light"] .hero::after           { opacity:.04; }
+  [data-theme="light"] .particle.p-amber      { box-shadow:0 0 5px 1px rgba(232,164,48,.22); }
+  [data-theme="light"] .particle.p-teal       { box-shadow:0 0 5px 1px rgba(45,212,191,.18);  }
 
   /* Centered hero: hero-inner grows to fill the space above the indicator
      and centers its own content inside that space (flex:1), so the
@@ -2676,18 +2717,53 @@
     function initHeroParticles() {
       var field = document.getElementById('heroParticles');
       if (!field) return;
-      var count = 24;
-      for (var i = 0; i < count; i++) {
+      field.innerHTML = '';
+
+      var rnd    = function (a, b) { return a + Math.random() * (b - a); };
+      var rndPct = function (a, b) { return rnd(a === undefined ? 0 : a, b === undefined ? 100 : b).toFixed(1) + '%'; };
+
+      // ── 20 small ambient dots (mix of neutral + coloured) ──────────────────
+      var dotVariants = ['', '', '', 'p-amber', 'p-teal', 'p-coral', '', 'p-amber'];
+      for (var i = 0; i < 20; i++) {
         var p = document.createElement('span');
-        p.className = 'particle';
-        p.style.left = (Math.random() * 100).toFixed(1) + '%';
-        p.style.top = (Math.random() * 100).toFixed(1) + '%';
-        var size = (Math.random() * 3 + 2).toFixed(1);
-        p.style.width = size + 'px';
+        p.className = 'particle ' + dotVariants[i % dotVariants.length];
+        p.style.left = rndPct();
+        p.style.top  = rndPct(8, 92);
+        var size = rnd(2, 4.5).toFixed(1);
+        p.style.width  = size + 'px';
         p.style.height = size + 'px';
-        p.style.animationDelay = (Math.random() * 6).toFixed(2) + 's';
-        p.style.animationDuration = (4 + Math.random() * 4).toFixed(2) + 's';
+        p.style.setProperty('--delay',  rnd(0, 9).toFixed(2) + 's');
+        p.style.setProperty('--dur',    rnd(5, 10).toFixed(2) + 's');
+        p.style.setProperty('--travel', rnd(45, 90).toFixed(0) + 'px');
         field.appendChild(p);
+      }
+
+      // ── 8 larger glowing particles — the "sparks" you can actually see ─────
+      var glowTypes = ['p-amber','p-teal','p-amber','p-coral','p-teal','p-amber','p-teal','p-amber'];
+      for (var j = 0; j < 8; j++) {
+        var gp = document.createElement('span');
+        gp.className = 'particle ' + glowTypes[j];
+        gp.style.left = rndPct(5, 90);
+        gp.style.top  = rndPct(12, 85);
+        var gsize = rnd(4.5, 8).toFixed(1);
+        gp.style.width  = gsize + 'px';
+        gp.style.height = gsize + 'px';
+        gp.style.setProperty('--delay',  rnd(0, 11).toFixed(2) + 's');
+        gp.style.setProperty('--dur',    rnd(7, 13).toFixed(2) + 's');
+        gp.style.setProperty('--travel', rnd(60, 115).toFixed(0) + 'px');
+        field.appendChild(gp);
+      }
+
+      // ── 6 vertical spark lines — same vibe as the intro's animated dashes ──
+      for (var k = 0; k < 6; k++) {
+        var sp = document.createElement('span');
+        sp.className = 'p-spark';
+        sp.style.left   = rndPct(4, 93);
+        sp.style.top    = rndPct(20, 78);
+        sp.style.height = rnd(16, 38).toFixed(0) + 'px';
+        sp.style.setProperty('--delay', rnd(0, 13).toFixed(2) + 's');
+        sp.style.setProperty('--dur',   rnd(6, 11).toFixed(2) + 's');
+        field.appendChild(sp);
       }
     }
 
@@ -3767,9 +3843,14 @@
             action:function(){ window.location.href='content/contents.html'; } });
         });
 
-        // FAQ questions
+        // FAQ questions — strip SVG child nodes so only text is indexed
         document.querySelectorAll('#faq [data-question], #faq .faq-question, #faq summary, #faq .faq-q').forEach(function(el) {
-          var q = el.textContent.trim(); if (!q || q.length < 5) return;
+          // Walk text nodes only — avoids pulling in SVG use-element content
+          var q = Array.prototype.slice.call(el.childNodes)
+            .filter(function(n){ return n.nodeType === 3; })   // text nodes only
+            .map(function(n){ return n.textContent; })
+            .join('').trim();
+          if (!q || q.length < 5) return;
           INDEX.push({ type:'page', icon:'❓', title:q, sub:'FAQ',
             action:function(){ scrollTo('faq'); } });
         });
@@ -3870,7 +3951,14 @@
         input.setAttribute('aria-expanded','true');
       }
 
-      function openDrop()  { drop.classList.add('open'); }
+      function openDrop() {
+        drop.classList.add('open');
+        // Clamp max-height so dropdown never gets clipped by .hero { overflow:hidden }
+        // Calculate actual space between input bottom and viewport bottom
+        var rect      = input.getBoundingClientRect();
+        var available = window.innerHeight - rect.bottom - 24; // 24px breathing room
+        drop.style.maxHeight = Math.min(440, Math.max(150, available)) + 'px';
+      }
       function closeSearch() {
         drop.classList.remove('open');
         drop.innerHTML = '';
